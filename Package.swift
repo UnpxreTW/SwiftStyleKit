@@ -5,22 +5,38 @@ import PackageDescription
 
 let package = Package(
     name: "SwiftStyleKit",
+    platforms: [
+        .macOS(.v12),
+    ],
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "SwiftStyleKit",
             targets: ["SwiftStyleKit"]
         ),
+        .plugin(
+            name: "SwiftStyleLint",
+            targets: ["SwiftStyleLint"]
+        ),
     ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
         .target(
             name: "SwiftStyleKit"
         ),
         .testTarget(
             name: "SwiftStyleKitTests",
             dependencies: ["SwiftStyleKit"]
+        ),
+        .binaryTarget(
+            name: "SwiftLintBinary",
+            url: "https://github.com/realm/SwiftLint/releases/download/0.63.2/SwiftLintBinary.artifactbundle.zip",
+            checksum: "12befab676fc972ffde2ec295d016d53c3a85f64aabd9c7fee0032d681e307e9"
+        ),
+        .plugin(
+            name: "SwiftStyleLint",
+            capability: .buildTool(),
+            dependencies: [
+                .target(name: "SwiftLintBinary"),
+            ]
         ),
     ],
     swiftLanguageModes: [.v6]
