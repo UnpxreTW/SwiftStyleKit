@@ -23,7 +23,7 @@ struct SwiftStyleLint: BuildToolPlugin {
         let cacheDir = pluginWorkDirectory.appendingPathComponent("Cache")
         let arguments: [String] = [
             "lint", "--quiet", "--force-exclude",
-            "--cache-path", cacheDir.path,
+            "--cache-path", cacheDir.path
         ] + swiftFiles.map(\.path)
         return [
             .prebuildCommand(
