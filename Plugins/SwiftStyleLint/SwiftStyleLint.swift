@@ -8,29 +8,29 @@ struct SwiftStyleLint: BuildToolPlugin {
     ) throws -> [Command] {
         guard let target = target as? SourceModuleTarget else { return [] }
         return try makeCommand(
-            executable: context.tool(named: "swiftlint").url,
-            swiftFiles: target.sourceFiles(withSuffix: "swift").map(\.url),
-            workDirectory: context.package.directoryURL,
-            pluginWorkDirectory: context.pluginWorkDirectoryURL
+            executable: context.tool(named: "swiftlint").path,
+            swiftFiles: target.sourceFiles(withSuffix: "swift").map(\.path),
+            workDirectory: context.package.directory,
+            pluginWorkDirectory: context.pluginWorkDirectory
         )
     }
 
     private func makeCommand(
-        executable: URL, swiftFiles: [URL],
-        workDirectory: URL, pluginWorkDirectory: URL
+        executable: Path, swiftFiles: [Path],
+        workDirectory: Path, pluginWorkDirectory: Path
     ) throws -> [Command] {
-        let outputDir = pluginWorkDirectory.appendingPathComponent("Output")
-        let cacheDir = pluginWorkDirectory.appendingPathComponent("Cache")
+        let outputDir = pluginWorkDirectory.appending("Output")
+        let cacheDir = pluginWorkDirectory.appending("Cache")
         let arguments: [String] = [
             "lint", "--quiet", "--force-exclude",
-            "--cache-path", cacheDir.path
-        ] + swiftFiles.map(\.path)
+            "--cache-path", cacheDir.string
+        ] + swiftFiles.map(\.string)
         return [
             .prebuildCommand(
                 displayName: "SwiftStyleLint",
                 executable: executable,
                 arguments: arguments,
-                environment: ["BUILD_WORKSPACE_DIRECTORY": workDirectory.path],
+                environment: ["BUILD_WORKSPACE_DIRECTORY": workDirectory.string],
                 outputFilesDirectory: outputDir
             )
         ]
@@ -45,12 +45,12 @@ extension SwiftStyleLint: XcodeBuildToolPlugin {
         context: XcodePluginContext, target: XcodeTarget
     ) throws -> [Command] {
         try makeCommand(
-            executable: context.tool(named: "swiftlint").url,
+            executable: context.tool(named: "swiftlint").path,
             swiftFiles: target.inputFiles
-                .filter { $0.url.pathExtension == "swift" }
-                .map(\.url),
-            workDirectory: context.xcodeProject.directoryURL,
-            pluginWorkDirectory: context.pluginWorkDirectoryURL
+                .filter { $0.path.extension == "swift" }
+                .map(\.path),
+            workDirectory: context.xcodeProject.directory,
+            pluginWorkDirectory: context.pluginWorkDirectory
         )
     }
 }
