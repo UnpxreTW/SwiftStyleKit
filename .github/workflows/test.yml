@@ -21,3 +21,6 @@ jobs:
 
       - name: Test
         run: swift test
+
+      - name: Lint Plugins/
+        run: .build/artifacts/swiftstylekit/SwiftLintBinary/SwiftLintBinary.artifactbundle/macos/swiftlint lint --strict --quiet Plugins/
