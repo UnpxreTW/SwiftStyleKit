@@ -25,13 +25,6 @@ let package = Package(
                 .plugin(name: "SwiftStyleLint"),
             ]
         ),
-        .testTarget(
-            name: "SwiftStyleKitTests",
-            dependencies: ["SwiftStyleKit"],
-            plugins: [
-                .plugin(name: "SwiftStyleLint"),
-            ]
-        ),
         .binaryTarget(
             name: "SwiftLintBinary",
             url: "https://github.com/realm/SwiftLint/releases/download/0.63.2/SwiftLintBinary.artifactbundle.zip",
