@@ -20,10 +20,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "SwiftStyleKit",
-            plugins: [
-                .plugin(name: "SwiftStyleLint"),
-            ]
+            name: "SwiftStyleKit"
         ),
         .binaryTarget(
             name: "SwiftLintBinary",

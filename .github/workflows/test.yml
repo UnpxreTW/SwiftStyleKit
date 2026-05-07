@@ -22,8 +22,9 @@ jobs:
       - name: Build
         run: swift build
 
-      - name: Test
-        run: swift test
+      # `swift test` 暫時拿掉：目前無 testTarget（commit 2bbb6a8 移除空 target、
+      # 等 Step 2 接 FormatRule 時重建）。CI Swift 6.1.2 對無 test target exit 1
+      # （本機 6.3 exit 0）、不能用。Step 2 重建 testTarget 後加回。
 
-      - name: Lint Plugins/
-        run: .build/artifacts/swiftstylekit/SwiftLintBinary/SwiftLintBinary.artifactbundle/macos/swiftlint lint --strict --quiet Plugins/
+      - name: Lint Sources/ and Plugins/
+        run: .build/artifacts/swiftstylekit/SwiftLintBinary/SwiftLintBinary.artifactbundle/macos/swiftlint lint --strict --quiet Sources/ Plugins/
