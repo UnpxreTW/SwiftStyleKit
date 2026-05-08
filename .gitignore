@@ -8,9 +8,10 @@ DerivedData/
 .netrc
 
 # L2 fixture build / Tuist generated artifacts
-Tests/Fixtures/*/.build/
-Tests/Fixtures/*/.swiftpm/
-Tests/Fixtures/*/Derived/
-Tests/Fixtures/*/*.xcodeproj/
-Tests/Fixtures/*/*.xcworkspace/
-Tests/Fixtures/*/Package.resolved
+Tests/Lint/.build/
+Tests/Lint/.swiftpm/
+Tests/Lint/Derived/
+Tests/Lint/*.xcodeproj/
+Tests/Lint/*.xcworkspace/
+Tests/Lint/Package.resolved
+Tests/Lint/out.log
