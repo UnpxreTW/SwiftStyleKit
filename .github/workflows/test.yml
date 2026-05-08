@@ -19,11 +19,15 @@ jobs:
         with:
           xcode-version: '26.3'
 
+      - name: Install tuist via mise
+        uses: jdx/mise-action@v2
+
       - name: Probe toolchain
         run: |
           ls /Applications | grep -i Xcode || true
           xcodebuild -version
           swift --version
+          tuist version
 
       - name: Build
         run: swift build
