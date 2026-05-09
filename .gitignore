@@ -6,3 +6,12 @@ DerivedData/
 .swiftpm/configuration/registries.json
 .swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
 .netrc
+
+# L2 fixture build / Tuist generated artifacts
+Tests/Lint/.build/
+Tests/Lint/.swiftpm/
+Tests/Lint/Derived/
+Tests/Lint/*.xcodeproj/
+Tests/Lint/*.xcworkspace/
+Tests/Lint/Package.resolved
+Tests/Lint/out.log

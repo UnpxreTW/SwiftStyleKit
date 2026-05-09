@@ -38,3 +38,62 @@ jobs:
 
       - name: Lint Sources/ and Plugins/
         run: .build/artifacts/swiftstylekit/SwiftLintBinary/SwiftLintBinary.artifactbundle/macos/swiftlint lint --strict --quiet Sources/ Plugins/
+
+      - name: Lint passing (SPM)
+        working-directory: Tests/Lint
+        env:
+          LINT_TARGET: Passing
+        run: swift build
+
+      - name: Lint failing (SPM)
+        working-directory: Tests/Lint
+        shell: bash
+        env:
+          LINT_TARGET: Failing
+        run: |
+          set +e
+          swift build 2>&1 | tee out.log
+          rc=$?
+          set -e
+          if [ "$rc" -eq 0 ]; then
+            echo "::error::failing target unexpectedly built clean"; exit 1
+          fi
+          grep -q "Force Cast Violation" out.log \
+            || { echo "::error::Force Cast Violation not emitted"; exit 1; }
+          echo "OK: failing rejected with expected violation"
+
+      - name: Tuist generate (Lint)
+        working-directory: Tests/Lint
+        run: |
+          tuist install
+          tuist generate --no-open
+
+      - name: Lint passing (Xcode)
+        working-directory: Tests/Lint
+        run: xcodebuild build -workspace Lint.xcworkspace -scheme Passing -destination 'platform=macOS'
+
+      - name: Lint warning (Xcode)
+        working-directory: Tests/Lint
+        shell: bash
+        run: |
+          set +e
+          xcodebuild build -workspace Lint.xcworkspace -scheme Warning -destination 'platform=macOS' 2>&1 | tee out.log
+          set -e
+          grep -q "Line Length Violation" out.log \
+            || { echo "::error::Line Length Violation not emitted (Xcode)"; exit 1; }
+          echo "OK: warning emitted as expected"
+
+      - name: Lint failing (Xcode)
+        working-directory: Tests/Lint
+        shell: bash
+        run: |
+          set +e
+          xcodebuild build -workspace Lint.xcworkspace -scheme Failing -destination 'platform=macOS' 2>&1 | tee out.log
+          rc=$?
+          set -e
+          if [ "$rc" -eq 0 ]; then
+            echo "::error::failing scheme unexpectedly built clean"; exit 1
+          fi
+          grep -q "Force Cast Violation" out.log \
+            || { echo "::error::Force Cast Violation not emitted (Xcode)"; exit 1; }
+          echo "OK: failing rejected with expected violation"
