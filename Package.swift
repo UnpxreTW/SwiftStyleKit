@@ -18,6 +18,9 @@ let package = Package(
             targets: ["SwiftStyleLint"]
         ),
     ],
+    dependencies: [
+        .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.61.1"),
+    ],
     targets: [
         .target(
             name: "SwiftStyleKit"
