@@ -17,6 +17,10 @@ let package = Package(
             name: "SwiftStyleLint",
             targets: ["SwiftStyleLint"]
         ),
+        .plugin(
+            name: "SwiftStyleFormat",
+            targets: ["SwiftStyleFormat"]
+        ),
     ],
     dependencies: [
         .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.61.1"),
@@ -35,6 +39,16 @@ let package = Package(
             capability: .buildTool(),
             dependencies: [
                 .target(name: "SwiftLintBinary"),
+            ]
+        ),
+        .plugin(
+            name: "SwiftStyleFormat",
+            capability: .command(
+                intent: .sourceCodeFormatting(),
+                permissions: [.writeToPackageDirectory(reason: "格式化原始碼")]
+            ),
+            dependencies: [
+                .product(name: "swiftformat", package: "SwiftFormat"),
             ]
         ),
     ]
