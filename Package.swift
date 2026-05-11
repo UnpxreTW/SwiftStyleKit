@@ -9,10 +9,6 @@ let package = Package(
         .macOS(.v12),
     ],
     products: [
-        .library(
-            name: "SwiftStyleKit",
-            targets: ["SwiftStyleKit"]
-        ),
         .plugin(
             name: "SwiftStyleLint",
             targets: ["SwiftStyleLint"]
@@ -26,9 +22,6 @@ let package = Package(
         .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.61.1"),
     ],
     targets: [
-        .target(
-            name: "SwiftStyleKit"
-        ),
         .binaryTarget(
             name: "SwiftLintBinary",
             url: "https://github.com/realm/SwiftLint/releases/download/0.63.2/SwiftLintBinary.artifactbundle.zip",
