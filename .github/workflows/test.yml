@@ -20,7 +20,7 @@ jobs:
           xcode-version: '26.3'
 
       - name: Install tuist via mise
-        uses: jdx/mise-action@v2
+        uses: jdx/mise-action@v4
 
       - name: Probe toolchain
         run: |
