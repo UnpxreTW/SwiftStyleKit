@@ -44,10 +44,11 @@ import XcodeProjectPlugin
 extension SwiftStyleFormat: XcodeCommandPlugin {
     func performCommand(context: XcodePluginContext, arguments: [String]) throws {
         let tool = try context.tool(named: "swiftformat")
+        let injected: [String] = ["--disable", "all", "--swiftversion", "6.2"] + FormatRule.allToCommand
         try runSwiftFormat(
             executable: tool.path,
             directory: context.xcodeProject.directory,
-            arguments: ["--disable", "all"] + arguments
+            arguments: injected + arguments
         )
     }
 }
