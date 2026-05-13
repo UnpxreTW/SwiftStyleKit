@@ -11,6 +11,9 @@ public enum FormatRule {
 
     /// 偏好在 protocol 宣告中使用 `AnyObject` 取代 `class`
     case anyObjectProtocol(rule: Flag)
+
+    /// 偏好使用 `@main` 取代 `@UIApplicationMain` 與 `@NSApplicationMain`
+    case applicationMain(rule: Flag)
 }
 
 public extension FormatRule {
@@ -61,7 +64,8 @@ public extension FormatRule {
     static var allRules: [Self] = [
         .acronyms(rule: .enable),
         .andOperator(rule: .enable),
-        .anyObjectProtocol(rule: .enable)
+        .anyObjectProtocol(rule: .enable),
+        .applicationMain(rule: .enable)
     ]
 
     /// 全部啟用規則展開成 swiftformat CLI 參數
