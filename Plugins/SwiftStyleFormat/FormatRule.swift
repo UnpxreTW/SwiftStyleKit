@@ -14,6 +14,9 @@ public enum FormatRule {
 
     /// 偏好使用 `@main` 取代 `@UIApplicationMain` 與 `@NSApplicationMain`
     case applicationMain(rule: Flag)
+
+    /// 偏好 `assertionFailure` 與 `preconditionFailure` 取代判斷為 `false` 的測試
+    case assertionFailures(rule: Flag)
 }
 
 public extension FormatRule {
@@ -65,7 +68,11 @@ public extension FormatRule {
         .acronyms(rule: .enable),
         .andOperator(rule: .enable),
         .anyObjectProtocol(rule: .enable),
-        .applicationMain(rule: .enable)
+        .applicationMain(rule: .enable),
+        // 不啟用：保留 `assert(false, ...)` / `precondition(false, ...)` 三段式句型作為
+        // 「為什麼這條路徑不該被走到」的註解體；維持 `assert(condition)` 與 `assert(false)`
+        // 同 entry point 的 API 心智模型統一
+        .assertionFailures(rule: .disable)
     ]
 
     /// 全部啟用規則展開成 swiftformat CLI 參數
