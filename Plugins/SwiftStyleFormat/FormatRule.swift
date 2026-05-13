@@ -8,6 +8,9 @@ public enum FormatRule {
 
     /// 偏好在 `if`、`guard`、`while` 條件式中使用逗號取代 `&&`
     case andOperator(rule: Flag)
+
+    /// 偏好在 protocol 宣告中使用 `AnyObject` 取代 `class`
+    case anyObjectProtocol(rule: Flag)
 }
 
 public extension FormatRule {
@@ -57,7 +60,8 @@ public extension FormatRule {
     /// 此 package 啟用的規則集合
     static var allRules: [Self] = [
         .acronyms(rule: .enable),
-        .andOperator(rule: .enable)
+        .andOperator(rule: .enable),
+        .anyObjectProtocol(rule: .enable)
     ]
 
     /// 全部啟用規則展開成 swiftformat CLI 參數
