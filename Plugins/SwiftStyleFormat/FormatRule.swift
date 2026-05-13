@@ -17,6 +17,9 @@ public enum FormatRule {
 
     /// 偏好 `assertionFailure` 與 `preconditionFailure` 取代判斷為 `false` 的測試
     case assertionFailures(rule: Flag)
+
+    /// 在 `import` 區塊後插入空白行
+    case blankLineAfterImports(rule: Flag)
 }
 
 public extension FormatRule {
@@ -72,7 +75,8 @@ public extension FormatRule {
         // 不啟用：保留 `assert(false, ...)` / `precondition(false, ...)` 三段式句型作為
         // 「為什麼這條路徑不該被走到」的註解體；維持 `assert(condition)` 與 `assert(false)`
         // 同 entry point 的 API 心智模型統一
-        .assertionFailures(rule: .disable)
+        .assertionFailures(rule: .disable),
+        .blankLineAfterImports(rule: .enable)
     ]
 
     /// 全部啟用規則展開成 swiftformat CLI 參數
