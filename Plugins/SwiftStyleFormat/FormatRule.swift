@@ -2,7 +2,9 @@
 ///
 /// 每個 case 對應 swiftformat 一條 rule，Mirror reflection 自動展開為 CLI 參數。
 public enum FormatRule {
-    // case 隨後續 PR 依 swiftformat Rules.md alphabetical 順序加入
+
+    /// 當設定的單字字首為大寫時轉換成全大寫，清單見 ``defaultAcronyms``
+    case acronyms(rule: Flag, String = FormatRule.defaultAcronyms)
 }
 
 public extension FormatRule {
@@ -50,7 +52,9 @@ private extension FormatRule {
 
 public extension FormatRule {
     /// 此 package 啟用的規則集合
-    static var allRules: [Self] = []
+    static var allRules: [Self] = [
+        .acronyms(rule: .enable)
+    ]
 
     /// 全部啟用規則展開成 swiftformat CLI 參數
     static var allToCommand: [String] { allRules.flatMap { $0.command } }
