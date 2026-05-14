@@ -27,8 +27,11 @@ private extension FormatRule {
             }
 
             if let ruleFlag = unwrapped as? Flag {
+                // .disable case 整個不展開：Xcode 入口已注入 `--disable all`、後面
+                // 再加 `--disable <name>` 是冗餘的 CLI 雜訊。改為 .disable 返空陣列、
+                // 只有 .enable 才 append `--enable <name>` 與後續 option 展開
+                guard case .enable = ruleFlag else { return [] }
                 command.append(contentsOf: ["--\(ruleFlag)", name])
-                guard case .enable = ruleFlag else { break }
                 continue
             }
 
