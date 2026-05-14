@@ -16,12 +16,17 @@ struct SwiftStyleFormat: CommandPlugin {
         }
 
         let tool = try context.tool(named: "swiftformat")
+        let injected: [String] = [
+            "--disable", "all",
+            "--swiftversion", "6.2",
+            "--symlinks", "follow"
+        ] + FormatRule.allToCommand
         for target in targets {
             guard let module = target as? SourceModuleTarget else { continue }
             try runSwiftFormat(
                 executable: tool.path,
                 directory: module.directory,
-                arguments: remaining
+                arguments: injected + remaining
             )
         }
     }
