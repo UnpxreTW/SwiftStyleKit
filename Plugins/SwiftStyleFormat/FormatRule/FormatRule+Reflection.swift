@@ -1,6 +1,6 @@
 public extension FormatRule {
     /// 將此 rule 展開為 swiftformat CLI 參數
-    var arguments: [String] { command }
+    var cliArguments: [String] { command }
 }
 
 private extension FormatRule {
