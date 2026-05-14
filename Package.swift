@@ -1,4 +1,4 @@
-// swift-tools-version: 5.9
+// swift-tools-version: 5.10
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -43,6 +43,15 @@ let package = Package(
             dependencies: [
                 .product(name: "swiftformat", package: "SwiftFormat"),
             ]
+        ),
+        .target(
+            name: "SwiftStyleFormatCore",
+            path: "Sources/SwiftStyleFormatCore"
+        ),
+        .testTarget(
+            name: "FormatRuleTests",
+            dependencies: ["SwiftStyleFormatCore"],
+            path: "Tests/FormatRuleTests"
         ),
     ]
 )
