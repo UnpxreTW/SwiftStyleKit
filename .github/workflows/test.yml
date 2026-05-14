@@ -37,6 +37,9 @@ jobs:
       - name: Test
         run: swift test
 
+      - name: SwiftStyleFormat --lint dogfooding
+        run: swift package plugin --allow-writing-to-package-directory format-source-code --lint
+
       - name: Lint Sources/ and Plugins/
         run: .build/artifacts/swiftstylekit/SwiftLintBinary/SwiftLintBinary.artifactbundle/macos/swiftlint lint --strict --quiet Sources/ Plugins/
 
