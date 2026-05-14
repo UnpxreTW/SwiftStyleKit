@@ -20,6 +20,9 @@ public enum FormatRule {
 
     /// 在 `import` 區塊後插入空白行
     case blankLineAfterImports(rule: Flag)
+
+    /// 在 `switch` 內每個 `case` 後插入空白行
+    case blankLineAfterSwitchCase(rule: Flag, BlankLineAfterSwitchCaseMode? = nil)
 }
 
 public extension FormatRule {
@@ -33,7 +36,11 @@ public extension FormatRule {
         // 「為什麼這條路徑不該被走到」的註解體；維持 `assert(condition)` 與 `assert(false)`
         // 同 entry point 的 API 心智模型統一
         .assertionFailures(rule: .disable),
-        .blankLineAfterImports(rule: .enable)
+        .blankLineAfterImports(rule: .enable),
+        // 不啟用：對齊switch case 緊鄰寫法在 Swift 社群屬主流、規則啟用會插入空行
+        // 改變 case 區塊密度；保留 case 在 enum 內形成「考慮
+        // 過且選擇關閉」的 in-tree 宣告，未來偏好改變只改 allRules 不需重新討論
+        .blankLineAfterSwitchCase(rule: .disable)
     ]
 
     /// 全部啟用規則展開成 swiftformat CLI 參數
