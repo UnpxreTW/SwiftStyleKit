@@ -46,12 +46,14 @@ let package = Package(
         ),
         .target(
             name: "SwiftStyleFormatCore",
-            path: "Sources/SwiftStyleFormatCore"
+            path: "Sources/SwiftStyleFormatCore",
+            plugins: [.plugin(name: "SwiftStyleLint")]
         ),
         .testTarget(
             name: "FormatRuleTests",
             dependencies: ["SwiftStyleFormatCore"],
-            path: "Tests/FormatRuleTests"
+            path: "Tests/FormatRuleTests",
+            plugins: [.plugin(name: "SwiftStyleLint")]
         ),
     ]
 )

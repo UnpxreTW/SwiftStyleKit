@@ -21,10 +21,15 @@ struct SwiftStyleLint: BuildToolPlugin {
     ) throws -> [Command] {
         let outputDir = pluginWorkDirectory.appending("Output")
         let cacheDir = pluginWorkDirectory.appending("Cache")
-        let arguments: [String] = [
+        var arguments: [String] = [
             "lint", "--quiet", "--force-exclude",
             "--cache-path", cacheDir.string
-        ] + swiftFiles.map(\.string)
+        ]
+        // 環境變數 SWIFTSTYLELINT_STRICT=1 時 lint 走 --strict、任何 warning 升 error
+        if ProcessInfo.processInfo.environment["SWIFTSTYLELINT_STRICT"] == "1" {
+            arguments.append("--strict")
+        }
+        arguments.append(contentsOf: swiftFiles.map(\.string))
         return [
             .prebuildCommand(
                 displayName: "SwiftStyleLint",
