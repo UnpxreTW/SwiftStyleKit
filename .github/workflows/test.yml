@@ -11,6 +11,8 @@ permissions:
 jobs:
   test:
     runs-on: macos-latest
+    env:
+      SWIFTSTYLELINT_STRICT: '1'
     steps:
       - uses: actions/checkout@v6
 
