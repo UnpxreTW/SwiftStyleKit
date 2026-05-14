@@ -1,0 +1,15 @@
+public extension FormatRule {
+
+    /// `blankLineAfterSwitchCase` 規則的空白行插入模式
+    ///
+    /// - note: rule 為 `.disable` 時此參數會被忽略（reflection chain 對 disable
+    ///   提前 break、不展開 mode）
+    enum BlankLineAfterSwitchCaseMode: String {
+
+        /// 只在 multi-line case 後插空白行（swiftformat 上游預設行為）
+        case multilineOnly = "multiline-only"
+
+        /// 在每個 case 後都插空白行
+        case always
+    }
+}
