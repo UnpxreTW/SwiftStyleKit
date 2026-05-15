@@ -1,10 +1,12 @@
 public extension FormatRule {
 
-    /// `blankLinesAtEndOfScope` 規則對 type 宣告結尾空白行的處理方式
+    /// `blankLinesAtEndOfScope` 與 `blankLinesAtStartOfScope` 規則對 type 宣告
+    /// 邊界空白行的處理方式
     ///
-    /// 對應 swiftformat 的 `type-blank-lines` option。此 option 由
-    /// `blankLinesAtEndOfScope` 擁有（列在它的 `options:`）；`blankLinesAroundMark`
-    /// 等規則的 `sharedOptions` 也會讀它，但不重複暴露。
+    /// 對應 swiftformat 的 `type-blank-lines` option。此 option 同時列在
+    /// `blankLinesAtEndOfScope` 與 `blankLinesAtStartOfScope` 的 `options:`、
+    /// 兩條 case 都暴露它；`blankLinesAroundMark` 等規則的 `sharedOptions` 也會
+    /// 讀它，但不重複暴露。
     enum TypeBlankLines: String, FormatRuleOption {
 
         /// 對應的 swiftformat CLI option flag 名稱

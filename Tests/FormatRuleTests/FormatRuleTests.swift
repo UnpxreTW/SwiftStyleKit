@@ -190,4 +190,43 @@ struct FormatRuleTests {
         let args = FormatRule.blankLinesAtEndOfScope(rule: .disable, mode: .insert).cliArguments
         #expect(args.isEmpty)
     }
+
+    @Test("blankLinesAtStartOfScope .disable 返空陣列")
+    func blankLinesAtStartOfScopeDisable() {
+        let args = FormatRule.blankLinesAtStartOfScope(rule: .disable).cliArguments
+        #expect(args.isEmpty)
+    }
+
+    @Test("blankLinesAtStartOfScope .enable（typeBlankLines 預設 .remove）展開 --enable + --typeBlankLines remove")
+    func blankLinesAtStartOfScopeEnableDefault() {
+        let args = FormatRule.blankLinesAtStartOfScope(rule: .enable).cliArguments
+        #expect(args == [
+            "--enable", "blankLinesAtStartOfScope",
+            "--typeBlankLines", "remove"
+        ])
+    }
+
+    @Test("blankLinesAtStartOfScope .enable typeBlankLines .insert 展開 --typeBlankLines insert")
+    func blankLinesAtStartOfScopeEnableInsert() {
+        let args = FormatRule.blankLinesAtStartOfScope(rule: .enable, mode: .insert).cliArguments
+        #expect(args == [
+            "--enable", "blankLinesAtStartOfScope",
+            "--typeBlankLines", "insert"
+        ])
+    }
+
+    @Test("blankLinesAtStartOfScope .enable typeBlankLines .preserve 展開 --typeBlankLines preserve")
+    func blankLinesAtStartOfScopeEnablePreserve() {
+        let args = FormatRule.blankLinesAtStartOfScope(rule: .enable, mode: .preserve).cliArguments
+        #expect(args == [
+            "--enable", "blankLinesAtStartOfScope",
+            "--typeBlankLines", "preserve"
+        ])
+    }
+
+    @Test("blankLinesAtStartOfScope .disable + typeBlankLines（option 被忽略）返空陣列")
+    func blankLinesAtStartOfScopeDisableWithOption() {
+        let args = FormatRule.blankLinesAtStartOfScope(rule: .disable, mode: .insert).cliArguments
+        #expect(args.isEmpty)
+    }
 }
