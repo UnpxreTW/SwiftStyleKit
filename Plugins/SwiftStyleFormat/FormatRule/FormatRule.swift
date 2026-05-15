@@ -23,6 +23,9 @@ public enum FormatRule {
 
     /// 在 `switch` 內每個 `case` 後插入空白行
     case blankLineAfterSwitchCase(rule: Flag, mode: BlankLineAfterSwitchCaseMode? = nil)
+
+    /// 在 `MARK:` 註解前後插入空白行
+    case blankLinesAroundMark(rule: Flag, lineAfterMarks: Toggle = .enable)
 }
 
 public extension FormatRule {
@@ -40,7 +43,8 @@ public extension FormatRule {
         // 不啟用：對齊主人 96.7% 既有 switch case 緊鄰寫法（三 repo 86 switch、
         // 648 case 無空行、僅 22 case 有空行）；保留 case 在 enum 內形成「考慮
         // 過且選擇關閉」的 in-tree 宣告，未來偏好改變只改 allRules 不需重新討論
-        .blankLineAfterSwitchCase(rule: .disable)
+        .blankLineAfterSwitchCase(rule: .disable),
+        .blankLinesAroundMark(rule: .enable)
     ]
 
     /// 全部啟用規則展開成 swiftformat CLI 參數
