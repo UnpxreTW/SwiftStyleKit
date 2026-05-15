@@ -22,7 +22,7 @@ public enum FormatRule {
     case blankLineAfterImports(rule: Flag)
 
     /// 在 `switch` 內每個 `case` 後插入空白行
-    case blankLineAfterSwitchCase(rule: Flag, BlankLineAfterSwitchCaseMode? = nil)
+    case blankLineAfterSwitchCase(rule: Flag, mode: BlankLineAfterSwitchCaseMode? = nil)
 }
 
 public extension FormatRule {
