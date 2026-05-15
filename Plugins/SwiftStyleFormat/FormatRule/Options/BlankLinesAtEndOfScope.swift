@@ -5,7 +5,10 @@ public extension FormatRule {
     /// 對應 swiftformat 的 `type-blank-lines` option。此 option 由
     /// `blankLinesAtEndOfScope` 擁有（列在它的 `options:`）；`blankLinesAroundMark`
     /// 等規則的 `sharedOptions` 也會讀它，但不重複暴露。
-    enum TypeBlankLines: String {
+    enum TypeBlankLines: String, FormatRuleOption {
+
+        /// 對應的 swiftformat CLI option flag 名稱
+        public static let flagName = "typeBlankLines"
 
         /// 移除 type 宣告結尾的空白行（swiftformat 上游預設）
         case remove
