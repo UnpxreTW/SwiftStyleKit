@@ -38,9 +38,10 @@ public enum FormatRule {
     ///
     /// 對應 swiftformat 全域 option `type-blank-lines`、不專屬單一規則——
     /// ``blankLinesAtEndOfScope(rule:)`` 讀它決定 type 宣告結尾的空白行行為
-    /// （見 swiftformat issue #1745）。無 ``Flag``：全域 option 無啟用開關、
-    /// 永遠展開成 `--typeBlankLines <值>`。
-    case typeBlankLines(mode: TypeBlankLines)
+    /// （見 swiftformat issue #1745）。無 ``Flag``：option 不是規則、swiftformat
+    /// 沒有 `--enable` / `--disable` 之分。`mode` 為 `nil` 時不展開、由 swiftformat
+    /// 取上游預設；給值才展開成 `--typeBlankLines <值>`。
+    case typeBlankLines(mode: TypeBlankLines? = nil)
 }
 
 public extension FormatRule {
@@ -61,8 +62,8 @@ public extension FormatRule {
         .blankLineAfterSwitchCase(rule: .disable),
         .blankLinesAroundMark(rule: .enable),
         .blankLinesAtEndOfScope(rule: .enable),
-        // 全域 option（無啟用開關、永遠展開）
-        .typeBlankLines(mode: .preserve)
+        // 全域 option：mode nil = 不覆寫、由 swiftformat 取上游預設
+        .typeBlankLines()
     ]
 
     /// 全部啟用規則展開成 swiftformat CLI 參數
