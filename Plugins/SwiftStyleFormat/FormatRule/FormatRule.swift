@@ -28,7 +28,10 @@ public enum FormatRule {
     case blankLinesAroundMark(rule: Flag, lineAfterMarks: Toggle = .enable)
 
     /// 移除 scope 結尾的空白行
-    case blankLinesAtEndOfScope(rule: Flag, mode: TypeBlankLines = .remove)
+    case blankLinesAtEndOfScope(rule: Flag)
+
+    /// 移除 scope 起始的空白行
+    case blankLinesAtStartOfScope(rule: Flag)
 }
 
 public extension FormatRule {
@@ -48,9 +51,20 @@ public extension FormatRule {
         // 過且選擇關閉」的 in-tree 宣告，未來偏好改變只改 allRules 不需重新討論
         .blankLineAfterSwitchCase(rule: .disable),
         .blankLinesAroundMark(rule: .enable),
-        .blankLinesAtEndOfScope(rule: .enable)
+        .blankLinesAtEndOfScope(rule: .enable),
+        .blankLinesAtStartOfScope(rule: .enable)
     ]
 
-    /// 全部啟用規則展開成 swiftformat CLI 參數
-    static var allToCommand: [String] { allRules.flatMap { $0.cliArguments } }
+    /// 全部啟用規則與全域 option 展開成 swiftformat CLI 參數
+    static var allToCommand: [String] {
+        allRules.flatMap { $0.cliArguments } + globalOptions.flatMap { $0.cliArguments }
+    }
+
+    // MARK: - 全域 option
+
+    /// swiftformat 全域 option 設定
+    ///
+    /// 不專屬任一規則的 option（見 ``GlobalOption``）。與 ``allRules`` 平行、
+    /// 一併由 ``allToCommand`` 展開。
+    static var globalOptions: [GlobalOption] = [.typeBlankLines(.preserve)]
 }

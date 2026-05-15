@@ -158,36 +158,21 @@ struct FormatRuleTests {
         #expect(args.isEmpty)
     }
 
-    @Test("blankLinesAtEndOfScope .enable（typeBlankLines 預設 .remove）展開 --enable + --typeBlankLines remove")
-    func blankLinesAtEndOfScopeEnableDefault() {
+    @Test("blankLinesAtEndOfScope .enable 展開 --enable blankLinesAtEndOfScope（type-blank-lines 已抽成全域 option）")
+    func blankLinesAtEndOfScopeEnable() {
         let args = FormatRule.blankLinesAtEndOfScope(rule: .enable).cliArguments
-        #expect(args == [
-            "--enable", "blankLinesAtEndOfScope",
-            "--typeBlankLines", "remove"
-        ])
+        #expect(args == ["--enable", "blankLinesAtEndOfScope"])
     }
 
-    @Test("blankLinesAtEndOfScope .enable typeBlankLines .insert 展開 --typeBlankLines insert")
-    func blankLinesAtEndOfScopeEnableInsert() {
-        let args = FormatRule.blankLinesAtEndOfScope(rule: .enable, mode: .insert).cliArguments
-        #expect(args == [
-            "--enable", "blankLinesAtEndOfScope",
-            "--typeBlankLines", "insert"
-        ])
-    }
-
-    @Test("blankLinesAtEndOfScope .enable typeBlankLines .preserve 展開 --typeBlankLines preserve")
-    func blankLinesAtEndOfScopeEnablePreserve() {
-        let args = FormatRule.blankLinesAtEndOfScope(rule: .enable, mode: .preserve).cliArguments
-        #expect(args == [
-            "--enable", "blankLinesAtEndOfScope",
-            "--typeBlankLines", "preserve"
-        ])
-    }
-
-    @Test("blankLinesAtEndOfScope .disable + typeBlankLines（option 被忽略）返空陣列")
-    func blankLinesAtEndOfScopeDisableWithOption() {
-        let args = FormatRule.blankLinesAtEndOfScope(rule: .disable, mode: .insert).cliArguments
+    @Test("blankLinesAtStartOfScope .disable 返空陣列")
+    func blankLinesAtStartOfScopeDisable() {
+        let args = FormatRule.blankLinesAtStartOfScope(rule: .disable).cliArguments
         #expect(args.isEmpty)
+    }
+
+    @Test("blankLinesAtStartOfScope .enable 展開 --enable blankLinesAtStartOfScope")
+    func blankLinesAtStartOfScopeEnable() {
+        let args = FormatRule.blankLinesAtStartOfScope(rule: .enable).cliArguments
+        #expect(args == ["--enable", "blankLinesAtStartOfScope"])
     }
 }
