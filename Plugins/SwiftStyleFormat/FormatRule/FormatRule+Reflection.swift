@@ -42,12 +42,19 @@ private extension FormatRule {
             case let value as String: value
             default: ""
             }
-            if let label, !label.isEmpty, label.first != "." {
-                command.append(contentsOf: ["--\(label)", option])
+            // option flag 名取得順序：型別自宣告（FormatRuleOption）> Swift label
+            // > case 名。讓 case 簽名的參數 label 可取人類可讀名（如 `mode:`），
+            // 與 swiftformat flag 名（如 `--blankLineAfterSwitchCase`）解耦
+            let flag: String
+            if let ruleOption = unwrapped as? any FormatRuleOption {
+                flag = type(of: ruleOption).flagName
+            } else if let label, !label.isEmpty, label.first != "." {
+                flag = label
             } else {
                 // unnamed associated value：用 case 名稱當 option key
-                command.append(contentsOf: ["--\(name)", option])
+                flag = name
             }
+            command.append(contentsOf: ["--\(flag)", option])
         }
         return command
     }
