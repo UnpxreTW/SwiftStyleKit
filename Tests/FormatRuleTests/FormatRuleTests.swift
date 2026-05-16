@@ -176,6 +176,18 @@ struct FormatRuleTests {
         #expect(args == ["--enable", "blankLinesAtStartOfScope"])
     }
 
+    @Test("blankLinesBetweenChainedFunctions .disable 返空陣列")
+    func blankLinesBetweenChainedFunctionsDisable() {
+        let args = FormatRule.blankLinesBetweenChainedFunctions(rule: .disable).cliArguments
+        #expect(args.isEmpty)
+    }
+
+    @Test("blankLinesBetweenChainedFunctions .enable 展開 --enable blankLinesBetweenChainedFunctions")
+    func blankLinesBetweenChainedFunctionsEnable() {
+        let args = FormatRule.blankLinesBetweenChainedFunctions(rule: .enable).cliArguments
+        #expect(args == ["--enable", "blankLinesBetweenChainedFunctions"])
+    }
+
     @Test("typeBlankLines mode .remove 展開 --typeBlankLines remove")
     func typeBlankLinesRemove() {
         let args = FormatRule.typeBlankLines(mode: .remove).cliArguments
