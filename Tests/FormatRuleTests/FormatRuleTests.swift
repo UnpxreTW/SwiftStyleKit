@@ -194,9 +194,15 @@ struct FormatRuleTests {
         #expect(args == ["--typeBlankLines", "preserve"])
     }
 
-    @Test("typeBlankLines（mode nil）不展開、返空陣列（由 swiftformat 取上游預設）")
-    func typeBlankLinesNil() {
+    @Test("typeBlankLines 預設（mode 省略 → .preserve）展開 --typeBlankLines preserve")
+    func typeBlankLinesDefault() {
         let args = FormatRule.typeBlankLines().cliArguments
+        #expect(args == ["--typeBlankLines", "preserve"])
+    }
+
+    @Test("typeBlankLines mode nil 不展開、返空陣列（由 swiftformat 取上游預設）")
+    func typeBlankLinesNil() {
+        let args = FormatRule.typeBlankLines(mode: nil).cliArguments
         #expect(args.isEmpty)
     }
 }

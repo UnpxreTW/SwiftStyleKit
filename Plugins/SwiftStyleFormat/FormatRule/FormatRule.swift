@@ -44,9 +44,9 @@ public enum FormatRule {
     /// 對應 swiftformat 全域 option `type-blank-lines`——``blankLinesAtStartOfScope(rule:)``
     /// 與 ``blankLinesAtEndOfScope(rule:)`` 共讀它（見 swiftformat issue #1745）。無
     /// ``Flag``：option 不是規則、swiftformat 沒有 `--enable` / `--disable` 之分。
-    /// `mode` 為 `nil` 時不展開、由 swiftformat 取上游預設；給值才展開成
-    /// `--typeBlankLines <值>`。
-    case typeBlankLines(mode: TypeBlankLines? = nil)
+    /// `mode` 預設 `.preserve`（SwiftStyleKit 選用值）、展開成 `--typeBlankLines preserve`；
+    /// 設為 `nil` 則不展開、由 swiftformat 取上游預設。
+    case typeBlankLines(mode: TypeBlankLines? = .preserve)
 }
 
 public extension FormatRule {
@@ -68,8 +68,8 @@ public extension FormatRule {
         .blankLinesAroundMark(rule: .enable),
         .blankLinesAtEndOfScope(rule: .enable),
         .blankLinesAtStartOfScope(rule: .enable),
-        // 全域 option（無啟用開關、永遠展開）
-        .typeBlankLines(mode: .preserve)
+        // 全域 option（無啟用開關、mode 預設 .preserve）
+        .typeBlankLines()
     ]
 
     /// 全部啟用規則展開成 swiftformat CLI 參數
