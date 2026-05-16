@@ -3,8 +3,7 @@ public extension FormatRule {
     /// ``FormatRule/blankLinesAtEndOfScope(rule:mode:)`` 對 type 宣告邊界空白行的處理方式
     ///
     /// 對應 swiftformat 的 `type-blank-lines` option。此 option 在 swiftformat
-    /// 跨規則共用——swiftformat 的 `blankLinesAtStartOfScope` 等規則也讀它（見
-    /// swiftformat issue #1745）；SwiftStyleKit 統一由
+    /// 跨規則共用（見 swiftformat issue #1745）；SwiftStyleKit 統一由
     /// ``FormatRule/blankLinesAtEndOfScope(rule:mode:)`` 的 `mode:` 暴露、其他
     /// 規則不重複帶。
     enum TypeBlankLines: String, FormatRuleOption {
