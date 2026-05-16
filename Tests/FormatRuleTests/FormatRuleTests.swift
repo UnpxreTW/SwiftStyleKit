@@ -200,6 +200,18 @@ struct FormatRuleTests {
         #expect(args == ["--enable", "blankLinesBetweenImports"])
     }
 
+    @Test("blankLinesBetweenScopes .disable 返空陣列")
+    func blankLinesBetweenScopesDisable() {
+        let args = FormatRule.blankLinesBetweenScopes(rule: .disable).cliArguments
+        #expect(args.isEmpty)
+    }
+
+    @Test("blankLinesBetweenScopes .enable 展開 --enable blankLinesBetweenScopes")
+    func blankLinesBetweenScopesEnable() {
+        let args = FormatRule.blankLinesBetweenScopes(rule: .enable).cliArguments
+        #expect(args == ["--enable", "blankLinesBetweenScopes"])
+    }
+
     @Test("typeBlankLines mode nil 不展開、返空陣列（由 swiftformat 取上游預設）")
     func typeBlankLinesNil() {
         let args = FormatRule.typeBlankLines(mode: nil).cliArguments

@@ -43,6 +43,9 @@ public enum FormatRule {
     /// 移除 import 陳述式之間的空白行
     case blankLinesBetweenImports(rule: Flag)
 
+    /// 在型別與函式宣告之間插入空白行
+    case blankLinesBetweenScopes(rule: Flag)
+
     // MARK: - 全域 option
 
     /// type 宣告邊界（開頭與結尾）的空白行政策
@@ -76,6 +79,7 @@ public extension FormatRule {
         .blankLinesAtStartOfScope(rule: .enable),
         .blankLinesBetweenChainedFunctions(rule: .enable),
         .blankLinesBetweenImports(rule: .enable),
+        .blankLinesBetweenScopes(rule: .enable),
         // 全域 option（無啟用開關、mode 預設 .preserve）
         .typeBlankLines()
     ]
