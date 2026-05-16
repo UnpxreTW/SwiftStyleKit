@@ -35,7 +35,7 @@ public enum FormatRule {
     /// 移除 scope 起始的空白行
     ///
     /// type 宣告開頭的空白行行為受 swiftformat `type-blank-lines` option 控制，
-    /// 該 option 由 ``blankLinesAtEndOfScope`` 的 `mode:` 統一暴露。
+    /// 該 option 由 ``blankLinesAtEndOfScope(rule:mode:)`` 的 `mode:` 統一暴露。
     case blankLinesAtStartOfScope(rule: Flag)
 }
 
