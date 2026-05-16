@@ -1,6 +1,8 @@
 import Testing
 import SwiftStyleFormatCore
 
+// 反射測試集合隨 FormatRule 規則數增長，不套用 type_body_length（檔尾 enable 收回）
+// swiftlint:disable type_body_length
 @Suite("FormatRule reflection")
 struct FormatRuleTests {
 
@@ -302,3 +304,4 @@ struct FormatRuleTests {
         #expect(args == ["--typeBlankLines", "preserve"])
     }
 }
+// swiftlint:enable type_body_length
