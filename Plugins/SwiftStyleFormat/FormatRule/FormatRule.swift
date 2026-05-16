@@ -46,6 +46,11 @@ public enum FormatRule {
     /// 在型別與函式宣告之間插入空白行
     case blankLinesBetweenScopes(rule: Flag)
 
+    /// 依選定風格擺放大括號
+    ///
+    /// `allman` 為 `.enable` 時開大括號換行（Allman）、`.disable` 時同行（K&R）。
+    case braces(rule: Flag, allman: Toggle = .disable)
+
     // MARK: - 全域 option
 
     /// type 宣告邊界（開頭與結尾）的空白行政策
@@ -80,6 +85,7 @@ public extension FormatRule {
         .blankLinesBetweenChainedFunctions(rule: .enable),
         .blankLinesBetweenImports(rule: .enable),
         .blankLinesBetweenScopes(rule: .enable),
+        .braces(rule: .enable),
         // 全域 option（無啟用開關、mode 預設 .preserve）
         .typeBlankLines()
     ]
