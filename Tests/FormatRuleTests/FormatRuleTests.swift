@@ -304,4 +304,5 @@ struct FormatRuleTests {
         #expect(args == ["--typeBlankLines", "preserve"])
     }
 }
+
 // swiftlint:enable type_body_length
