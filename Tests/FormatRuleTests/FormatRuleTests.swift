@@ -9,6 +9,12 @@ struct FormatRuleTests {
         #expect(!FormatRule.allRules.isEmpty)
     }
 
+    @Test("acronyms .disable 返空陣列（Xcode 入口已注入 --disable all、不出冗餘 args）")
+    func acronymsDisable() {
+        let args = FormatRule.acronyms(rule: .disable).cliArguments
+        #expect(args.isEmpty)
+    }
+
     @Test("acronyms .enable 展開 --enable acronyms 並帶 --acronyms 預設清單")
     func acronymsEnable() {
         let args = FormatRule.acronyms(rule: .enable).cliArguments
@@ -20,9 +26,9 @@ struct FormatRuleTests {
         #expect(args[3].contains("URL"))
     }
 
-    @Test("acronyms .disable 返空陣列（Xcode 入口已注入 --disable all、不出冗餘 args）")
-    func acronymsDisable() {
-        let args = FormatRule.acronyms(rule: .disable).cliArguments
+    @Test("andOperator .disable 返空陣列")
+    func andOperatorDisable() {
+        let args = FormatRule.andOperator(rule: .disable).cliArguments
         #expect(args.isEmpty)
     }
 
@@ -32,9 +38,9 @@ struct FormatRuleTests {
         #expect(args == ["--enable", "andOperator"])
     }
 
-    @Test("andOperator .disable 返空陣列")
-    func andOperatorDisable() {
-        let args = FormatRule.andOperator(rule: .disable).cliArguments
+    @Test("anyObjectProtocol .disable 返空陣列")
+    func anyObjectProtocolDisable() {
+        let args = FormatRule.anyObjectProtocol(rule: .disable).cliArguments
         #expect(args.isEmpty)
     }
 
@@ -44,9 +50,9 @@ struct FormatRuleTests {
         #expect(args == ["--enable", "anyObjectProtocol"])
     }
 
-    @Test("anyObjectProtocol .disable 返空陣列")
-    func anyObjectProtocolDisable() {
-        let args = FormatRule.anyObjectProtocol(rule: .disable).cliArguments
+    @Test("applicationMain .disable 返空陣列")
+    func applicationMainDisable() {
+        let args = FormatRule.applicationMain(rule: .disable).cliArguments
         #expect(args.isEmpty)
     }
 
@@ -56,9 +62,9 @@ struct FormatRuleTests {
         #expect(args == ["--enable", "applicationMain"])
     }
 
-    @Test("applicationMain .disable 返空陣列")
-    func applicationMainDisable() {
-        let args = FormatRule.applicationMain(rule: .disable).cliArguments
+    @Test("assertionFailures .disable 返空陣列")
+    func assertionFailuresDisable() {
+        let args = FormatRule.assertionFailures(rule: .disable).cliArguments
         #expect(args.isEmpty)
     }
 
@@ -68,9 +74,9 @@ struct FormatRuleTests {
         #expect(args == ["--enable", "assertionFailures"])
     }
 
-    @Test("assertionFailures .disable 返空陣列")
-    func assertionFailuresDisable() {
-        let args = FormatRule.assertionFailures(rule: .disable).cliArguments
+    @Test("blankLineAfterImports .disable 返空陣列")
+    func blankLineAfterImportsDisable() {
+        let args = FormatRule.blankLineAfterImports(rule: .disable).cliArguments
         #expect(args.isEmpty)
     }
 
@@ -78,12 +84,6 @@ struct FormatRuleTests {
     func blankLineAfterImportsEnable() {
         let args = FormatRule.blankLineAfterImports(rule: .enable).cliArguments
         #expect(args == ["--enable", "blankLineAfterImports"])
-    }
-
-    @Test("blankLineAfterImports .disable 返空陣列")
-    func blankLineAfterImportsDisable() {
-        let args = FormatRule.blankLineAfterImports(rule: .disable).cliArguments
-        #expect(args.isEmpty)
     }
 
     @Test("blankLineAfterSwitchCase .disable（無 mode）返空陣列")
@@ -128,6 +128,12 @@ struct FormatRuleTests {
         #expect(args.isEmpty)
     }
 
+    @Test("blankLinesAroundMark .disable + lineAfterMarks（option 被忽略）返空陣列")
+    func blankLinesAroundMarkDisableWithOption() {
+        let args = FormatRule.blankLinesAroundMark(rule: .disable, lineAfterMarks: .disable).cliArguments
+        #expect(args.isEmpty)
+    }
+
     @Test("blankLinesAroundMark .enable（lineAfterMarks 預設 .enable）展開 --enable + --lineAfterMarks true")
     func blankLinesAroundMarkEnableDefault() {
         let args = FormatRule.blankLinesAroundMark(rule: .enable).cliArguments
@@ -144,12 +150,6 @@ struct FormatRuleTests {
             "--enable", "blankLinesAroundMark",
             "--lineAfterMarks", "false"
         ])
-    }
-
-    @Test("blankLinesAroundMark .disable + lineAfterMarks（option 被忽略）返空陣列")
-    func blankLinesAroundMarkDisableWithOption() {
-        let args = FormatRule.blankLinesAroundMark(rule: .disable, lineAfterMarks: .disable).cliArguments
-        #expect(args.isEmpty)
     }
 
     @Test("blankLinesAtEndOfScope .disable 返空陣列")
@@ -188,6 +188,12 @@ struct FormatRuleTests {
         #expect(args == ["--enable", "blankLinesBetweenChainedFunctions"])
     }
 
+    @Test("typeBlankLines mode nil 不展開、返空陣列（由 swiftformat 取上游預設）")
+    func typeBlankLinesNil() {
+        let args = FormatRule.typeBlankLines(mode: nil).cliArguments
+        #expect(args.isEmpty)
+    }
+
     @Test("typeBlankLines mode .remove 展開 --typeBlankLines remove")
     func typeBlankLinesRemove() {
         let args = FormatRule.typeBlankLines(mode: .remove).cliArguments
@@ -210,11 +216,5 @@ struct FormatRuleTests {
     func typeBlankLinesDefault() {
         let args = FormatRule.typeBlankLines().cliArguments
         #expect(args == ["--typeBlankLines", "preserve"])
-    }
-
-    @Test("typeBlankLines mode nil 不展開、返空陣列（由 swiftformat 取上游預設）")
-    func typeBlankLinesNil() {
-        let args = FormatRule.typeBlankLines(mode: nil).cliArguments
-        #expect(args.isEmpty)
     }
 }
