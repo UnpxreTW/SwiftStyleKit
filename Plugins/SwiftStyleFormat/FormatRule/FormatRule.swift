@@ -28,6 +28,8 @@ public enum FormatRule {
     case blankLinesAroundMark(rule: Flag, lineAfterMarks: Toggle = .enable)
 
     /// 移除 scope 結尾的空白行
+    ///
+    /// `mode` 對 type 宣告邊界空白行的處理見 ``TypeBlankLines``。
     case blankLinesAtEndOfScope(rule: Flag, mode: TypeBlankLines = .preserve)
 }
 
