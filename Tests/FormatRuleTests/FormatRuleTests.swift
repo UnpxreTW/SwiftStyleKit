@@ -158,16 +158,25 @@ struct FormatRuleTests {
         #expect(args.isEmpty)
     }
 
-    @Test("blankLinesAtEndOfScope .enable（typeBlankLines 預設 .remove）展開 --enable + --typeBlankLines remove")
+    @Test("blankLinesAtEndOfScope .enable（mode 預設 .preserve）展開 --enable + --typeBlankLines preserve")
     func blankLinesAtEndOfScopeEnableDefault() {
         let args = FormatRule.blankLinesAtEndOfScope(rule: .enable).cliArguments
+        #expect(args == [
+            "--enable", "blankLinesAtEndOfScope",
+            "--typeBlankLines", "preserve"
+        ])
+    }
+
+    @Test("blankLinesAtEndOfScope .enable mode .remove 展開 --typeBlankLines remove")
+    func blankLinesAtEndOfScopeEnableRemove() {
+        let args = FormatRule.blankLinesAtEndOfScope(rule: .enable, mode: .remove).cliArguments
         #expect(args == [
             "--enable", "blankLinesAtEndOfScope",
             "--typeBlankLines", "remove"
         ])
     }
 
-    @Test("blankLinesAtEndOfScope .enable typeBlankLines .insert 展開 --typeBlankLines insert")
+    @Test("blankLinesAtEndOfScope .enable mode .insert 展開 --typeBlankLines insert")
     func blankLinesAtEndOfScopeEnableInsert() {
         let args = FormatRule.blankLinesAtEndOfScope(rule: .enable, mode: .insert).cliArguments
         #expect(args == [
@@ -176,17 +185,8 @@ struct FormatRuleTests {
         ])
     }
 
-    @Test("blankLinesAtEndOfScope .enable typeBlankLines .preserve 展開 --typeBlankLines preserve")
-    func blankLinesAtEndOfScopeEnablePreserve() {
-        let args = FormatRule.blankLinesAtEndOfScope(rule: .enable, mode: .preserve).cliArguments
-        #expect(args == [
-            "--enable", "blankLinesAtEndOfScope",
-            "--typeBlankLines", "preserve"
-        ])
-    }
-
-    @Test("blankLinesAtEndOfScope .disable + typeBlankLines（option 被忽略）返空陣列")
-    func blankLinesAtEndOfScopeDisableWithOption() {
+    @Test("blankLinesAtEndOfScope .disable + mode（mode 被忽略）返空陣列")
+    func blankLinesAtEndOfScopeDisableWithMode() {
         let args = FormatRule.blankLinesAtEndOfScope(rule: .disable, mode: .insert).cliArguments
         #expect(args.isEmpty)
     }
