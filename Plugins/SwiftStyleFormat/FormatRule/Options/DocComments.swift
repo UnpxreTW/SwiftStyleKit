@@ -1,6 +1,6 @@
 public extension FormatRule {
 
-    /// `docComments` 規則的 doc comment 正規化範圍
+    /// ``FormatRule/docComments(rule:mode:)`` 規則的 doc comment 正規化範圍
     ///
     /// 對應 swiftformat 的 `doc-comments` option。
     enum DocCommentsMode: String, FormatRuleOption {
