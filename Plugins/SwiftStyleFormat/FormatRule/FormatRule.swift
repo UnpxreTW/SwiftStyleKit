@@ -71,6 +71,9 @@ public enum FormatRule {
     /// `mode` 為 `.beforeDeclarations` 雙向正規化、`.preserve` 只升級不降級。
     case docComments(rule: Flag, mode: DocCommentsMode = .beforeDeclarations)
 
+    /// doc comment 移到宣告的修飾詞 / attribute 之前
+    case docCommentsBeforeModifiers(rule: Flag)
+
     // MARK: - 全域 option
 
     /// type 宣告邊界（開頭與結尾）的空白行政策
@@ -111,6 +114,7 @@ public extension FormatRule {
         .consecutiveSpaces(rule: .enable),
         .consistentSwitchCaseSpacing(rule: .enable),
         .docComments(rule: .enable),
+        .docCommentsBeforeModifiers(rule: .enable),
         // 全域 option（無啟用開關、mode 預設 .preserve）
         .typeBlankLines()
     ]
