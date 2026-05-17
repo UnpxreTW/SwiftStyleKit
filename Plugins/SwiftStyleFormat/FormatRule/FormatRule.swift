@@ -66,6 +66,11 @@ public enum FormatRule {
     /// 讓 `switch` 內各 case 的間距一致
     case consistentSwitchCaseSpacing(rule: Flag)
 
+    /// API 宣告用 doc comment（`///`）、其他用一般註解（`//`）
+    ///
+    /// `mode` 為 `.beforeDeclarations` 雙向正規化、`.preserve` 只升級不降級。
+    case docComments(rule: Flag, mode: DocCommentsMode = .beforeDeclarations)
+
     // MARK: - 全域 option
 
     /// type 宣告邊界（開頭與結尾）的空白行政策
@@ -105,6 +110,7 @@ public extension FormatRule {
         .consecutiveBlankLines(rule: .enable),
         .consecutiveSpaces(rule: .enable),
         .consistentSwitchCaseSpacing(rule: .enable),
+        .docComments(rule: .enable),
         // 全域 option（無啟用開關、mode 預設 .preserve）
         .typeBlankLines()
     ]
