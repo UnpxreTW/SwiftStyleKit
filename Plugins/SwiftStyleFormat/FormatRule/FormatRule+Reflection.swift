@@ -45,14 +45,13 @@ private extension FormatRule {
             // option flag 名取得順序：型別自宣告（FormatRuleOption）> Swift label
             // > case 名。讓 case 簽名的參數 label 可取人類可讀名（如 `mode:`），
             // 與 swiftformat flag 名（如 `--blankLineAfterSwitchCase`）解耦
-            let flag: String
-            if let ruleOption = unwrapped as? any FormatRuleOption {
-                flag = type(of: ruleOption).flagName
+            let flag: String = if let ruleOption = unwrapped as? any FormatRuleOption {
+                type(of: ruleOption).flagName
             } else if let label, !label.isEmpty, label.first != "." {
-                flag = label
+                label
             } else {
                 // unnamed associated value：用 case 名稱當 option key
-                flag = name
+                name
             }
             command.append(contentsOf: ["--\(flag)", option])
         }
