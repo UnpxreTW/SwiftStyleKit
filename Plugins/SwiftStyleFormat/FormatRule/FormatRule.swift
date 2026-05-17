@@ -77,6 +77,11 @@ public enum FormatRule {
     /// 移除重複的 import 陳述式
     case duplicateImports(rule: Flag)
 
+    /// `else` / `catch` / `repeat`-`while` 關鍵字依風格擺位
+    ///
+    /// `elsePosition` 管 `else` / `catch`、`guardElse` 管 `guard` 的 `else`。
+    case elseOnSameLine(rule: Flag, elsePosition: ElsePosition = .sameLine, guardElse: GuardElsePosition = .nextLine)
+
     // MARK: - 全域 option
 
     /// type 宣告邊界（開頭與結尾）的空白行政策
@@ -119,6 +124,7 @@ public extension FormatRule {
         .docComments(rule: .enable),
         .docCommentsBeforeModifiers(rule: .enable),
         .duplicateImports(rule: .enable),
+        .elseOnSameLine(rule: .enable),
         // 全域 option（無啟用開關、mode 預設 .preserve）
         .typeBlankLines()
     ]
