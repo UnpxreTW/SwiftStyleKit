@@ -85,6 +85,9 @@ public enum FormatRule {
     /// 移除空大括號內的空白
     case emptyBraces(rule: Flag, mode: EmptyBracesSpacing = .noSpace)
 
+    /// 移除空的、不宣告 protocol 一致性的 extension
+    case emptyExtensions(rule: Flag)
+
     // MARK: - 全域 option
 
     /// type 宣告邊界（開頭與結尾）的空白行政策
@@ -129,6 +132,7 @@ public extension FormatRule {
         .duplicateImports(rule: .enable),
         .elseOnSameLine(rule: .enable),
         .emptyBraces(rule: .enable),
+        .emptyExtensions(rule: .enable),
         // 全域 option（無啟用開關、mode 預設 .preserve）
         .typeBlankLines()
     ]
