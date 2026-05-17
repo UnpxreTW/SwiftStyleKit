@@ -63,6 +63,9 @@ public enum FormatRule {
     /// 連續多個空格收成一個
     case consecutiveSpaces(rule: Flag)
 
+    /// 讓 `switch` 內各 case 的間距一致
+    case consistentSwitchCaseSpacing(rule: Flag)
+
     // MARK: - 全域 option
 
     /// type 宣告邊界（開頭與結尾）的空白行政策
@@ -101,6 +104,7 @@ public extension FormatRule {
         .conditionalAssignment(rule: .enable),
         .consecutiveBlankLines(rule: .enable),
         .consecutiveSpaces(rule: .enable),
+        .consistentSwitchCaseSpacing(rule: .enable),
         // 全域 option（無啟用開關、mode 預設 .preserve）
         .typeBlankLines()
     ]
