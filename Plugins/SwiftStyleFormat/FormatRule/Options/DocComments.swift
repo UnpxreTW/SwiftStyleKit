@@ -1,9 +1,9 @@
-public extension FormatRule {
+extension FormatRule {
 
     /// ``FormatRule/docComments(rule:mode:)`` 規則的 doc comment 正規化範圍
     ///
     /// 對應 swiftformat 的 `doc-comments` option。
-    enum DocCommentsMode: String, FormatRuleOption {
+    public enum DocCommentsMode: String, FormatRuleOption {
 
         /// 對應的 swiftformat CLI option flag 名稱
         public static let flagName = "docComments"

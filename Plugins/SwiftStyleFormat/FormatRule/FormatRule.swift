@@ -93,6 +93,11 @@ public enum FormatRule {
     /// `mode` 為 `.always` 連 `final class` 也轉、`.structsOnly` 只轉 `struct`。
     case enumNamespaces(rule: Flag, mode: EnumNamespacesMode = .always)
 
+    /// 設定 extension 的存取控制修飾詞擺位
+    ///
+    /// `mode` 為 `.onExtension` 放在 `extension` 上、`.onDeclarations` 下放到成員。
+    case extensionAccessControl(rule: Flag, mode: ExtensionACLPlacement = .onDeclarations)
+
     // MARK: - 全域 option
 
     /// type 宣告邊界（開頭與結尾）的空白行政策
@@ -105,9 +110,9 @@ public enum FormatRule {
     case typeBlankLines(mode: TypeBlankLines? = .preserve)
 }
 
-public extension FormatRule {
+extension FormatRule {
     /// 此 package 啟用的規則集合
-    static var allRules: [Self] = [
+    public static var allRules: [Self] = [
         .acronyms(rule: .enable),
         .andOperator(rule: .enable),
         .anyObjectProtocol(rule: .enable),
@@ -139,10 +144,11 @@ public extension FormatRule {
         .emptyBraces(rule: .enable),
         .emptyExtensions(rule: .enable),
         .enumNamespaces(rule: .enable),
+        .extensionAccessControl(rule: .enable),
         // 全域 option（無啟用開關、mode 預設 .preserve）
         .typeBlankLines()
     ]
 
     /// 全部啟用規則展開成 swiftformat CLI 參數
-    static var allToCommand: [String] { allRules.flatMap { $0.cliArguments } }
+    public static var allToCommand: [String] { allRules.flatMap { $0.cliArguments } }
 }

@@ -1,9 +1,9 @@
-public extension FormatRule {
+extension FormatRule {
 
     /// `conditionalAssignment` 規則的套用範圍
     ///
     /// 對應 swiftformat 的 `conditional-assignment` option。
-    enum ConditionalAssignmentMode: String, FormatRuleOption {
+    public enum ConditionalAssignmentMode: String, FormatRuleOption {
 
         /// 對應的 swiftformat CLI option flag 名稱
         public static let flagName = "conditionalAssignment"

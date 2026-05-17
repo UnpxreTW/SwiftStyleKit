@@ -1,10 +1,10 @@
-public extension FormatRule {
+extension FormatRule {
 
     /// `blankLineAfterSwitchCase` 規則的空白行插入模式
     ///
     /// - note: rule 為 `.disable` 時此參數會被忽略（reflection chain 對 disable
     ///   提前 break、不展開 mode）
-    enum BlankLineAfterSwitchCaseMode: String, FormatRuleOption {
+    public enum BlankLineAfterSwitchCaseMode: String, FormatRuleOption {
 
         /// 對應的 swiftformat CLI option flag 名稱
         public static let flagName = "blankLineAfterSwitchCase"
