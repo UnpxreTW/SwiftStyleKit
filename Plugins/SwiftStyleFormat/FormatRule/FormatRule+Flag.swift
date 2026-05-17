@@ -1,7 +1,7 @@
-public extension FormatRule {
+extension FormatRule {
 
     /// 定義用於啟用指令與否的參數型態
-    enum Flag: String {
+    public enum Flag: String {
 
         /// 規則啟用
         case enable

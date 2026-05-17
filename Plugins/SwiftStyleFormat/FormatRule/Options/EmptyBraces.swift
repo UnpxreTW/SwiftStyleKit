@@ -1,9 +1,9 @@
-public extension FormatRule {
+extension FormatRule {
 
     /// ``FormatRule/emptyBraces(rule:mode:)`` 對空大括號的處理方式
     ///
     /// 對應 swiftformat 的 `empty-braces` option。
-    enum EmptyBracesSpacing: String, FormatRuleOption {
+    public enum EmptyBracesSpacing: String, FormatRuleOption {
 
         /// 對應的 swiftformat CLI option flag 名稱
         public static let flagName = "emptyBraces"

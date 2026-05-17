@@ -1,19 +1,19 @@
-public extension FormatRule {
+extension FormatRule {
     /// 將此 rule 展開為 swiftformat CLI 參數
-    var cliArguments: [String] { command }
+    public var cliArguments: [String] { command }
 }
 
-private extension FormatRule {
+extension FormatRule {
     /// 取得當前 case 的反射節點（label + value）
-    var currentCase: (label: String?, value: Any) {
+    fileprivate var currentCase: (label: String?, value: Any) {
         Mirror(reflecting: self).children.first!
     }
 
     /// 當前 case 的名稱
-    var name: String { currentCase.label! }
+    fileprivate var name: String { currentCase.label! }
 
     /// 反射展開出 CLI 參數
-    var command: [String] {
+    fileprivate var command: [String] {
         var command: [String] = []
         for (label, raw) in Mirror(reflecting: currentCase.value).children {
             // Optional unwrap：nil 跳過、some 取 inner value（讓 case 簽名可帶 Optional option）
