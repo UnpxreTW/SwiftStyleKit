@@ -57,6 +57,9 @@ public enum FormatRule {
     /// lvalue 的賦值也改。Swift 5.9+ 才有此語法、低於 5.9 規則自動 no-op。
     case conditionalAssignment(rule: Flag, mode: ConditionalAssignmentMode = .always)
 
+    /// 連續多個空白行收成一個
+    case consecutiveBlankLines(rule: Flag)
+
     // MARK: - 全域 option
 
     /// type 宣告邊界（開頭與結尾）的空白行政策
@@ -93,6 +96,7 @@ public extension FormatRule {
         .blankLinesBetweenScopes(rule: .enable),
         .braces(rule: .enable),
         .conditionalAssignment(rule: .enable),
+        .consecutiveBlankLines(rule: .enable),
         // 全域 option（無啟用開關、mode 預設 .preserve）
         .typeBlankLines()
     ]
