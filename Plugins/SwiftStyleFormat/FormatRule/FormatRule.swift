@@ -74,6 +74,9 @@ public enum FormatRule {
     /// doc comment 移到宣告的修飾詞 / attribute 之前
     case docCommentsBeforeModifiers(rule: Flag)
 
+    /// 移除重複的 import 陳述式
+    case duplicateImports(rule: Flag)
+
     // MARK: - 全域 option
 
     /// type 宣告邊界（開頭與結尾）的空白行政策
@@ -115,6 +118,7 @@ public extension FormatRule {
         .consistentSwitchCaseSpacing(rule: .enable),
         .docComments(rule: .enable),
         .docCommentsBeforeModifiers(rule: .enable),
+        .duplicateImports(rule: .enable),
         // 全域 option（無啟用開關、mode 預設 .preserve）
         .typeBlankLines()
     ]
