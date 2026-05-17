@@ -88,6 +88,11 @@ public enum FormatRule {
     /// 移除空的、不宣告 protocol 一致性的 extension
     case emptyExtensions(rule: Flag)
 
+    /// 只裝靜態成員的型別轉成 `enum` 命名空間
+    ///
+    /// `mode` 為 `.always` 連 `final class` 也轉、`.structsOnly` 只轉 `struct`。
+    case enumNamespaces(rule: Flag, mode: EnumNamespacesMode = .always)
+
     // MARK: - 全域 option
 
     /// type 宣告邊界（開頭與結尾）的空白行政策
@@ -133,6 +138,7 @@ public extension FormatRule {
         .elseOnSameLine(rule: .enable),
         .emptyBraces(rule: .enable),
         .emptyExtensions(rule: .enable),
+        .enumNamespaces(rule: .enable),
         // 全域 option（無啟用開關、mode 預設 .preserve）
         .typeBlankLines()
     ]
