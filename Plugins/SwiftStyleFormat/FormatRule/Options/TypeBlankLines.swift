@@ -1,10 +1,10 @@
-public extension FormatRule {
+extension FormatRule {
 
     /// ``FormatRule/typeBlankLines(mode:)`` 全域 option 的值型別——type 宣告邊界
     /// 空白行的處理方式
     ///
     /// 對應 swiftformat 的 `type-blank-lines` option。
-    enum TypeBlankLines: String, FormatRuleOption {
+    public enum TypeBlankLines: String, FormatRuleOption {
 
         /// 對應的 swiftformat CLI option flag 名稱
         public static let flagName = "typeBlankLines"

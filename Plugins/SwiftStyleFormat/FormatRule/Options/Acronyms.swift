@@ -1,4 +1,4 @@
-public extension FormatRule {
+extension FormatRule {
 
     /// `acronyms` 規則的預設縮寫清單
     ///
@@ -10,7 +10,7 @@ public extension FormatRule {
     /// - microkernel 機制：`DMA`, `MMU`, `TLB`, `IRQ`, `ISR`, `MMIO`, `IO`, `IPC`, `ABI`, `EL`, `ELF`, `VM`
     /// - ARM / 韌體：`ARM`, `UEFI`, `BIOS`
     /// - 工具：`CLI`, `DSL`
-    static let defaultAcronyms: String = [
+    public static let defaultAcronyms: String = [
         "ID", "URL", "UUID",
         "API", "HTTP", "HTTPS", "JSON", "IP",
         "CPU", "GPU", "RAM",

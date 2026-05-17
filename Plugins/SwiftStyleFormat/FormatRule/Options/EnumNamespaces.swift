@@ -1,9 +1,9 @@
-public extension FormatRule {
+extension FormatRule {
 
     /// ``FormatRule/enumNamespaces(rule:mode:)`` 轉換命名空間型別的範圍
     ///
     /// 對應 swiftformat 的 `enum-namespaces` option。
-    enum EnumNamespacesMode: String, FormatRuleOption {
+    public enum EnumNamespacesMode: String, FormatRuleOption {
 
         /// 對應的 swiftformat CLI option flag 名稱
         public static let flagName = "enumNamespaces"
