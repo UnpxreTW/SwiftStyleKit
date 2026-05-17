@@ -93,6 +93,11 @@ public enum FormatRule {
     /// `mode` 為 `.always` 連 `final class` 也轉、`.structsOnly` 只轉 `struct`。
     case enumNamespaces(rule: Flag, mode: EnumNamespacesMode = .always)
 
+    /// 把 SwiftUI `EnvironmentValues` 定義改寫成使用 `@Entry` macro
+    ///
+    /// `@Entry` macro 需 Swift 6.0+（Xcode 16）、低於 6.0 規則自動 no-op。
+    case environmentEntry(rule: Flag)
+
     /// 設定 extension 的存取控制修飾詞擺位
     ///
     /// `mode` 為 `.onExtension` 放在 `extension` 上、`.onDeclarations` 下放到成員。
@@ -144,6 +149,7 @@ extension FormatRule {
         .emptyBraces(rule: .enable),
         .emptyExtensions(rule: .enable),
         .enumNamespaces(rule: .enable),
+        .environmentEntry(rule: .enable),
         .extensionAccessControl(rule: .enable),
         // 全域 option（無啟用開關、mode 預設 .preserve）
         .typeBlankLines()
