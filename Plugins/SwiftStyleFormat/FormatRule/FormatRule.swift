@@ -82,6 +82,9 @@ public enum FormatRule {
     /// `elsePosition` 管 `else` / `catch`、`guardElse` 管 `guard` 的 `else`。
     case elseOnSameLine(rule: Flag, elsePosition: ElsePosition = .sameLine, guardElse: GuardElsePosition = .nextLine)
 
+    /// 移除空大括號內的空白
+    case emptyBraces(rule: Flag, mode: EmptyBracesSpacing = .noSpace)
+
     // MARK: - 全域 option
 
     /// type 宣告邊界（開頭與結尾）的空白行政策
@@ -125,6 +128,7 @@ public extension FormatRule {
         .docCommentsBeforeModifiers(rule: .enable),
         .duplicateImports(rule: .enable),
         .elseOnSameLine(rule: .enable),
+        .emptyBraces(rule: .enable),
         // 全域 option（無啟用開關、mode 預設 .preserve）
         .typeBlankLines()
     ]
