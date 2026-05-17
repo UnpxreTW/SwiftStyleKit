@@ -1,5 +1,5 @@
-import Testing
 import SwiftStyleFormatCore
+import Testing
 
 @Suite("assertionFailures")
 struct AssertionFailuresTests {
