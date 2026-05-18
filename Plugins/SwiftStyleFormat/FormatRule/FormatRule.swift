@@ -129,6 +129,9 @@ public enum FormatRule {
     /// 認得自訂型別；`nil` 則只處理內建型別。角括號 extension 語法需 Swift 5.7+。
     case genericExtensions(rule: Flag, genericTypes: String? = nil)
 
+    /// 確保 header 註解裡的檔名與實際檔名相符
+    case headerFileName(rule: Flag)
+
     // MARK: - 全域 option
 
     /// type 宣告邊界（開頭與結尾）的空白行政策
@@ -179,6 +182,7 @@ extension FormatRule {
         .extensionAccessControl(rule: .enable),
         .fileMacro(rule: .enable),
         .genericExtensions(rule: .enable),
+        .headerFileName(rule: .enable),
         // 全域 option（無啟用開關、mode 預設 .preserve）
         .typeBlankLines()
     ]
