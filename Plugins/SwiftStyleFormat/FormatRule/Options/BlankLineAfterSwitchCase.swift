@@ -1,3 +1,11 @@
+//
+// SwiftStyleFormatCore
+//
+// Copyright (c) 2026 Unpxre (GitHub: UnpxreTW)
+// Licensed under the MIT License. See LICENSE for details.
+//
+// SPDX-License-Identifier: MIT
+
 extension FormatRule {
 
     /// `blankLineAfterSwitchCase` 規則的空白行插入模式

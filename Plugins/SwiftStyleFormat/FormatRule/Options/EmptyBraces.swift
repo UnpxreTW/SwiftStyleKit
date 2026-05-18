@@ -1,3 +1,11 @@
+//
+// SwiftStyleFormatCore
+//
+// Copyright (c) 2026 Unpxre (GitHub: UnpxreTW)
+// Licensed under the MIT License. See LICENSE for details.
+//
+// SPDX-License-Identifier: MIT
+
 extension FormatRule {
 
     /// ``FormatRule/emptyBraces(rule:mode:)`` 對空大括號的處理方式

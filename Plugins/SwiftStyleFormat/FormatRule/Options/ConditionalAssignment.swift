@@ -1,3 +1,11 @@
+//
+// SwiftStyleFormatCore
+//
+// Copyright (c) 2026 Unpxre (GitHub: UnpxreTW)
+// Licensed under the MIT License. See LICENSE for details.
+//
+// SPDX-License-Identifier: MIT
+
 extension FormatRule {
 
     /// `conditionalAssignment` 規則的套用範圍

@@ -1,3 +1,11 @@
+//
+// SwiftStyleFormatCore
+//
+// Copyright (c) 2026 Unpxre (GitHub: UnpxreTW)
+// Licensed under the MIT License. See LICENSE for details.
+//
+// SPDX-License-Identifier: MIT
+
 import Foundation
 
 /// 檔案標頭組裝
