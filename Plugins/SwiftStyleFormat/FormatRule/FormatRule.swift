@@ -103,6 +103,12 @@ public enum FormatRule {
     /// `mode` 為 `.onExtension` 放在 `extension` 上、`.onDeclarations` 下放到成員。
     case extensionAccessControl(rule: Flag, mode: ExtensionACLPlacement = .onDeclarations)
 
+    /// 套用統一的檔案標頭
+    ///
+    /// `header` 為標頭內容（`strip` / `ignore` / 模板文字），`dateFormat`、`timeZone`
+    /// 供模板日期 token 使用。此規則不在 `allRules`——標頭內容隨專案而異、由 plugin 執行期組裝。
+    case fileHeader(rule: Flag, header: String, dateFormat: String, timeZone: String)
+
     // MARK: - 全域 option
 
     /// type 宣告邊界（開頭與結尾）的空白行政策
