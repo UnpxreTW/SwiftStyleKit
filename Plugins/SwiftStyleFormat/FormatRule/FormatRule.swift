@@ -132,6 +132,12 @@ public enum FormatRule {
     /// 確保 header 註解裡的檔名與實際檔名相符
     case headerFileName(rule: Flag)
 
+    /// 把行內 `await` 移到表達式開頭
+    ///
+    /// `asyncCapturing` 為帶 async `@autoclosure` 參數的函式清單、其呼叫點的 `await`
+    /// 不外搬；`nil` 表無此類函式。需 Swift 5.5+。
+    case hoistAwait(rule: Flag, asyncCapturing: String? = nil)
+
     // MARK: - 全域 option
 
     /// type 宣告邊界（開頭與結尾）的空白行政策
@@ -183,6 +189,7 @@ extension FormatRule {
         .fileMacro(rule: .enable),
         .genericExtensions(rule: .enable),
         .headerFileName(rule: .enable),
+        .hoistAwait(rule: .enable),
         // 全域 option（無啟用開關、mode 預設 .preserve）
         .typeBlankLines()
     ]
