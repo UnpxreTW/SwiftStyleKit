@@ -16,25 +16,25 @@ struct SwiftStyleFormat: CommandPlugin {
         }
 
         let tool = try context.tool(named: "swiftformat")
-        let injected: [String] = [
-            "--disable", "all",
-            "--swiftversion", "6.2",
-            "--symlinks", "follow"
-        ] + FormatRule.allToCommand
         for target in targets {
             guard let module = target as? SourceModuleTarget else { continue }
+            let injected: [String] = [
+                "--disable", "all",
+                "--swiftversion", "6.2",
+                "--symlinks", "follow"
+            ] + FormatRule.allToCommand(with: module.name)
             try runSwiftFormat(
                 executable: tool.path,
-                directory: module.directory,
+                paths: [module.directory.string],
                 arguments: injected + remaining
             )
         }
     }
 
-    private func runSwiftFormat(executable: Path, directory: Path, arguments: [String]) throws {
+    private func runSwiftFormat(executable: Path, paths: [String], arguments: [String]) throws {
         let process = Process()
         process.executableURL = URL(fileURLWithPath: executable.string)
-        process.arguments = [directory.string] + arguments
+        process.arguments = paths + arguments
         try process.run()
         process.waitUntilExit()
         if process.terminationStatus != 0 {
@@ -49,12 +49,21 @@ import XcodeProjectPlugin
 extension SwiftStyleFormat: XcodeCommandPlugin {
     func performCommand(context: XcodePluginContext, arguments: [String]) throws {
         let tool = try context.tool(named: "swiftformat")
-        let injected: [String] = ["--disable", "all", "--swiftversion", "6.2"] + FormatRule.allToCommand
-        try runSwiftFormat(
-            executable: tool.path,
-            directory: context.xcodeProject.directory,
-            arguments: injected + arguments
-        )
+        for target in context.xcodeProject.targets {
+            let swiftFiles = target.inputFiles
+                .filter { $0.path.extension == "swift" }
+                .map { $0.path.string }
+            guard !swiftFiles.isEmpty else { continue }
+            let injected: [String] = [
+                "--disable", "all",
+                "--swiftversion", "6.2"
+            ] + FormatRule.allToCommand(with: target.displayName)
+            try runSwiftFormat(
+                executable: tool.path,
+                paths: swiftFiles,
+                arguments: injected + arguments
+            )
+        }
     }
 }
 #endif

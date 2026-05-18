@@ -1,3 +1,5 @@
+import Foundation
+
 /// 格式規則
 ///
 /// 每個 case 對應 swiftformat 一條 rule，Mirror reflection 自動展開為 CLI 參數。
@@ -156,5 +158,11 @@ extension FormatRule {
     ]
 
     /// 全部啟用規則展開成 swiftformat CLI 參數
-    public static var allToCommand: [String] { allRules.flatMap { $0.cliArguments } }
+    ///
+    /// `targetName` 替換規則參數中的 `{target}` 佔位符（供檔案標頭等帶 target 名稱的設定使用）。
+    public static func allToCommand(with targetName: String) -> [String] {
+        allRules
+            .flatMap { $0.cliArguments }
+            .map { $0.replacingOccurrences(of: "{target}", with: targetName) }
+    }
 }
