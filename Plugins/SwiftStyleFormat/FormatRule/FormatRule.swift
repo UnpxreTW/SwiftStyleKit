@@ -123,6 +123,12 @@ public enum FormatRule {
     /// Swift 6 時自動 no-op；`#filePath` 不受影響。
     case fileMacro(rule: Flag, mode: FileMacro = .fileID)
 
+    /// 用角括號泛型語法改寫型別約束式 extension
+    ///
+    /// `genericTypes` 為分號分隔的自訂泛型型別清單（如 `"LinkedList<Element>"`）、讓規則
+    /// 認得自訂型別；`nil` 則只處理內建型別。角括號 extension 語法需 Swift 5.7+。
+    case genericExtensions(rule: Flag, genericTypes: String? = nil)
+
     // MARK: - 全域 option
 
     /// type 宣告邊界（開頭與結尾）的空白行政策
@@ -172,6 +178,7 @@ extension FormatRule {
         .environmentEntry(rule: .enable),
         .extensionAccessControl(rule: .enable),
         .fileMacro(rule: .enable),
+        .genericExtensions(rule: .enable),
         // 全域 option（無啟用開關、mode 預設 .preserve）
         .typeBlankLines()
     ]
