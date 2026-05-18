@@ -1,3 +1,11 @@
+//
+// SwiftStyleFormatCore
+//
+// Copyright (c) 2026 Unpxre (GitHub: UnpxreTW)
+// Licensed under the MIT License. See LICENSE for details.
+//
+// SPDX-License-Identifier: MIT
+
 /// swiftformat 規則的「附帶選項」型別
 ///
 /// case 的 option associated value 型別 conform 此 protocol 後，reflection chain

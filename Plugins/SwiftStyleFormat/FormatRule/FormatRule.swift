@@ -1,3 +1,11 @@
+//
+// SwiftStyleFormatCore
+//
+// Copyright (c) 2026 Unpxre (GitHub: UnpxreTW)
+// Licensed under the MIT License. See LICENSE for details.
+//
+// SPDX-License-Identifier: MIT
+
 /// 格式規則
 ///
 /// 每個 case 對應 swiftformat 一條 rule，Mirror reflection 自動展開為 CLI 參數。
