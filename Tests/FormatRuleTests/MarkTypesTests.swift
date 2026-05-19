@@ -17,14 +17,15 @@ struct MarkTypesTests {
 		#expect(FormatRule.markTypes(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("markTypes .enable 預設值展開（types never / extensions always / 自訂 extensionMark）")
+	@Test("markTypes .enable 預設值展開（types/extensions always、自訂 extensionMark/groupedExtension）")
 	func markTypesEnableDefault() {
 		let args = FormatRule.markTypes(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "markTypes",
-			"--markTypes", "never",
+			"--markTypes", "always",
 			"--markExtensions", "always",
-			"--extensionMark", "MARK: - + %c"
+			"--extensionMark", "MARK: - + %c",
+			"--groupedExtension", "MARK: - + %c"
 		])
 	}
 
