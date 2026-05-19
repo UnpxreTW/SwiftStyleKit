@@ -166,6 +166,11 @@ public enum FormatRule {
 		indentStrings: Toggle = .enable
 	)
 
+	/// 替未實作的 `required init(coder:)` 加 `@available(*, unavailable)`
+	///
+	/// `initCoderNil` 為 `.enable` 時把 unavailable `init?(coder:)` 的 `fatalError` 換成 `nil`。
+	case initCoderUnavailable(rule: Flag, initCoderNil: Toggle = .disable)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
@@ -225,6 +230,7 @@ extension FormatRule {
 		// 開發者在自己的編輯器設定；需要較寬縮排才能看清層級的人可自行
 		// 調整，不必改動檔案、也不影響他人
 		.indent(rule: .enable),
+		.initCoderUnavailable(rule: .enable),
 		// 全域 option（無啟用開關、mode 預設 .preserve）
 		.typeBlankLines()
 	]
