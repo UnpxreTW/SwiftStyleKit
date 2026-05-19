@@ -174,6 +174,9 @@ public enum FormatRule {
 	/// 把行首的分隔符移到上一行行尾
 	case leadingDelimiters(rule: Flag)
 
+	/// 確保檔案結尾有換行
+	case linebreakAtEndOfFile(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
@@ -235,6 +238,7 @@ extension FormatRule {
 		.indent(rule: .enable),
 		.initCoderUnavailable(rule: .enable),
 		.leadingDelimiters(rule: .enable),
+		.linebreakAtEndOfFile(rule: .enable),
 		// 全域 option（無啟用開關、mode 預設 .preserve）
 		.typeBlankLines()
 	]
