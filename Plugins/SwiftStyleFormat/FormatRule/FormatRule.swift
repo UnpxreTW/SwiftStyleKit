@@ -207,6 +207,9 @@ public enum FormatRule {
 	/// 測試中用 `throws` 取代 `try!`
 	case noForceTryInTests(rule: Flag)
 
+	/// 測試中用 `#require` / `XCTUnwrap` 取代強制解包
+	case noForceUnwrapInTests(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
