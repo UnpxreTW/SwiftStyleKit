@@ -177,6 +177,11 @@ public enum FormatRule {
 	/// 確保檔案結尾有換行
 	case linebreakAtEndOfFile(rule: Flag)
 
+	/// 把所有換行字元統一成指定的型式
+	///
+	/// `mode` 選 `.lf`（Unix）、`.crlf`（Windows）或 `.cr`。
+	case linebreaks(rule: Flag, mode: Linebreak = .lf)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
@@ -239,6 +244,7 @@ extension FormatRule {
 		.initCoderUnavailable(rule: .enable),
 		.leadingDelimiters(rule: .enable),
 		.linebreakAtEndOfFile(rule: .enable),
+		.linebreaks(rule: .enable),
 		// 全域 option（無啟用開關、mode 預設 .preserve）
 		.typeBlankLines()
 	]
