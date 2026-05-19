@@ -196,6 +196,11 @@ public enum FormatRule {
 		groupedExtension: String? = "MARK: - + %c"
 	)
 
+	/// 成員修飾詞依一致順序排列
+	///
+	/// `modifierOrder` 為逗號分隔的修飾詞偏好順序清單；`nil` 用 swiftformat 內建預設順序。
+	case modifierOrder(rule: Flag, modifierOrder: String? = nil)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
