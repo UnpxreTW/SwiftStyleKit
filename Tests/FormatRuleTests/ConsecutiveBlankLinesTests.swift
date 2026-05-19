@@ -12,15 +12,15 @@ import Testing
 @Suite("consecutiveBlankLines")
 struct ConsecutiveBlankLinesTests {
 
-    @Test("consecutiveBlankLines .disable 返空陣列")
-    func consecutiveBlankLinesDisable() {
-        let args = FormatRule.consecutiveBlankLines(rule: .disable).cliArguments
-        #expect(args.isEmpty)
-    }
+	@Test("consecutiveBlankLines .disable 返空陣列")
+	func consecutiveBlankLinesDisable() {
+		let args = FormatRule.consecutiveBlankLines(rule: .disable).cliArguments
+		#expect(args.isEmpty)
+	}
 
-    @Test("consecutiveBlankLines .enable 展開 --enable consecutiveBlankLines")
-    func consecutiveBlankLinesEnable() {
-        let args = FormatRule.consecutiveBlankLines(rule: .enable).cliArguments
-        #expect(args == ["--enable", "consecutiveBlankLines"])
-    }
+	@Test("consecutiveBlankLines .enable 展開 --enable consecutiveBlankLines")
+	func consecutiveBlankLinesEnable() {
+		let args = FormatRule.consecutiveBlankLines(rule: .enable).cliArguments
+		#expect(args == ["--enable", "consecutiveBlankLines"])
+	}
 }

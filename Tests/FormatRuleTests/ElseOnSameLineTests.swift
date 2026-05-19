@@ -12,45 +12,45 @@ import Testing
 @Suite("elseOnSameLine")
 struct ElseOnSameLineTests {
 
-    @Test("elseOnSameLine .disable 返空陣列")
-    func elseOnSameLineDisable() {
-        let args = FormatRule.elseOnSameLine(rule: .disable).cliArguments
-        #expect(args.isEmpty)
-    }
+	@Test("elseOnSameLine .disable 返空陣列")
+	func elseOnSameLineDisable() {
+		let args = FormatRule.elseOnSameLine(rule: .disable).cliArguments
+		#expect(args.isEmpty)
+	}
 
-    @Test("elseOnSameLine .disable + options（被忽略）返空陣列")
-    func elseOnSameLineDisableWithOptions() {
-        let args = FormatRule.elseOnSameLine(rule: .disable, elsePosition: .nextLine, guardElse: .auto).cliArguments
-        #expect(args.isEmpty)
-    }
+	@Test("elseOnSameLine .disable + options（被忽略）返空陣列")
+	func elseOnSameLineDisableWithOptions() {
+		let args = FormatRule.elseOnSameLine(rule: .disable, elsePosition: .nextLine, guardElse: .auto).cliArguments
+		#expect(args.isEmpty)
+	}
 
-    @Test("elseOnSameLine .enable（option 預設）展開 --enable + --elsePosition same-line + --guardElse next-line")
-    func elseOnSameLineEnableDefault() {
-        let args = FormatRule.elseOnSameLine(rule: .enable).cliArguments
-        #expect(args == [
-            "--enable", "elseOnSameLine",
-            "--elsePosition", "same-line",
-            "--guardElse", "next-line"
-        ])
-    }
+	@Test("elseOnSameLine .enable（option 預設）展開 --enable + --elsePosition same-line + --guardElse next-line")
+	func elseOnSameLineEnableDefault() {
+		let args = FormatRule.elseOnSameLine(rule: .enable).cliArguments
+		#expect(args == [
+			"--enable", "elseOnSameLine",
+			"--elsePosition", "same-line",
+			"--guardElse", "next-line"
+		])
+	}
 
-    @Test("elseOnSameLine .enable elsePosition .nextLine 展開 --elsePosition next-line")
-    func elseOnSameLineEnableElsePositionNextLine() {
-        let args = FormatRule.elseOnSameLine(rule: .enable, elsePosition: .nextLine).cliArguments
-        #expect(args == [
-            "--enable", "elseOnSameLine",
-            "--elsePosition", "next-line",
-            "--guardElse", "next-line"
-        ])
-    }
+	@Test("elseOnSameLine .enable elsePosition .nextLine 展開 --elsePosition next-line")
+	func elseOnSameLineEnableElsePositionNextLine() {
+		let args = FormatRule.elseOnSameLine(rule: .enable, elsePosition: .nextLine).cliArguments
+		#expect(args == [
+			"--enable", "elseOnSameLine",
+			"--elsePosition", "next-line",
+			"--guardElse", "next-line"
+		])
+	}
 
-    @Test("elseOnSameLine .enable guardElse .sameLine 展開 --guardElse same-line")
-    func elseOnSameLineEnableGuardElseSameLine() {
-        let args = FormatRule.elseOnSameLine(rule: .enable, guardElse: .sameLine).cliArguments
-        #expect(args == [
-            "--enable", "elseOnSameLine",
-            "--elsePosition", "same-line",
-            "--guardElse", "same-line"
-        ])
-    }
+	@Test("elseOnSameLine .enable guardElse .sameLine 展開 --guardElse same-line")
+	func elseOnSameLineEnableGuardElseSameLine() {
+		let args = FormatRule.elseOnSameLine(rule: .enable, guardElse: .sameLine).cliArguments
+		#expect(args == [
+			"--enable", "elseOnSameLine",
+			"--elsePosition", "same-line",
+			"--guardElse", "same-line"
+		])
+	}
 }
