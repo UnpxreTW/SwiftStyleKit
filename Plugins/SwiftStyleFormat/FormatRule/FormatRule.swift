@@ -171,6 +171,9 @@ public enum FormatRule {
 	/// `initCoderNil` 為 `.enable` 時把 unavailable `init?(coder:)` 的 `fatalError` 換成 `nil`。
 	case initCoderUnavailable(rule: Flag, initCoderNil: Toggle = .disable)
 
+	/// 把行首的分隔符移到上一行行尾
+	case leadingDelimiters(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
@@ -231,6 +234,7 @@ extension FormatRule {
 		// 調整，不必改動檔案、也不影響他人
 		.indent(rule: .enable),
 		.initCoderUnavailable(rule: .enable),
+		.leadingDelimiters(rule: .enable),
 		// 全域 option（無啟用開關、mode 預設 .preserve）
 		.typeBlankLines()
 	]
