@@ -204,6 +204,9 @@ public enum FormatRule {
 	/// 確保所有修飾詞與宣告關鍵字在同一行
 	case modifiersOnSameLine(rule: Flag)
 
+	/// 測試中用 `throws` 取代 `try!`
+	case noForceTryInTests(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
