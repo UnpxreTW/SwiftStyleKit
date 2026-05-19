@@ -138,6 +138,11 @@ public enum FormatRule {
     /// 不外搬；`nil` 表無此類函式。需 Swift 5.5+。
     case hoistAwait(rule: Flag, asyncCapturing: String? = nil)
 
+    /// 重新擺放 pattern 裡的 `let` / `var` binding
+    ///
+    /// `mode` 為 `.hoist` 把 `let` 一次提到 pattern 最前、`.inline` 讓每個 binding 各自帶 `let`。
+    case hoistPatternLet(rule: Flag, mode: PatternLet = .hoist)
+
     // MARK: - 全域 option
 
     /// type 宣告邊界（開頭與結尾）的空白行政策
@@ -190,6 +195,7 @@ extension FormatRule {
         .genericExtensions(rule: .enable),
         .headerFileName(rule: .enable),
         .hoistAwait(rule: .enable),
+        .hoistPatternLet(rule: .enable),
         // 全域 option（無啟用開關、mode 預設 .preserve）
         .typeBlankLines()
     ]
