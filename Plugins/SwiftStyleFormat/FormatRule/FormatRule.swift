@@ -143,6 +143,12 @@ public enum FormatRule {
     /// `mode` 為 `.hoist` 把 `let` 一次提到 pattern 最前、`.inline` 讓每個 binding 各自帶 `let`。
     case hoistPatternLet(rule: Flag, mode: PatternLet = .hoist)
 
+    /// 把行內 `try` 移到表達式開頭
+    ///
+    /// `throwCapturing` 為帶 throwing `@autoclosure` 參數的函式清單、其呼叫點的 `try`
+    /// 不外搬；`nil` 表無此類函式。
+    case hoistTry(rule: Flag, throwCapturing: String? = nil)
+
     // MARK: - 全域 option
 
     /// type 宣告邊界（開頭與結尾）的空白行政策
@@ -196,6 +202,7 @@ extension FormatRule {
         .headerFileName(rule: .enable),
         .hoistAwait(rule: .enable),
         .hoistPatternLet(rule: .enable),
+        .hoistTry(rule: .enable),
         // 全域 option（無啟用開關、mode 預設 .preserve）
         .typeBlankLines()
     ]
