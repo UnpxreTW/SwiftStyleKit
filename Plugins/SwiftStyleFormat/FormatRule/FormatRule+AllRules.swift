@@ -59,6 +59,7 @@ extension FormatRule {
 		.linebreaks(rule: .enable),
 		.markTypes(rule: .enable),
 		.modifierOrder(rule: .enable),
+		.modifiersOnSameLine(rule: .enable),
 		// 全域 option（無啟用開關、mode 預設 .preserve）
 		.typeBlankLines()
 	]
