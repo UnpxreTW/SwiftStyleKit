@@ -19,6 +19,6 @@
 /// 規則名或參數 label 推導。
 public protocol FormatRuleOption {
 
-    /// 對應的 swiftformat CLI option flag 名稱（不含 `--` 前綴）
-    static var flagName: String { get }
+	/// 對應的 swiftformat CLI option flag 名稱（不含 `--` 前綴）
+	static var flagName: String { get }
 }
