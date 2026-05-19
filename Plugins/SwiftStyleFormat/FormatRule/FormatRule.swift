@@ -227,6 +227,11 @@ public enum FormatRule {
 		exponentCase: LetterCase = .lowercase
 	)
 
+	/// 用 opaque 泛型參數（`some Protocol`）取代有約束的泛型參數
+	///
+	/// `someAny` 為 `.enable` 時把無約束的泛型參數也轉成 `some Any`。需 Swift 5.7+。
+	case opaqueGenericParameters(rule: Flag, someAny: Toggle = .enable)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
