@@ -210,6 +210,23 @@ public enum FormatRule {
 	/// 測試中用 `#require` / `XCTUnwrap` 取代強制解包
 	case noForceUnwrapInTests(rule: Flag)
 
+	/// 數字字面值依型別一致分組、並統一 hex / 指數字母大小寫
+	///
+	/// 四個 `*Grouping` 為「群組大小,套用門檻」（或 `none` / `ignore`、`nil` 用上游預設）；
+	/// `fractionGrouping` / `exponentGrouping` 控制小數、指數位數是否分組；`hexLiteralCase`
+	/// / `exponentCase` 控制 hex 字母與指數 `e` 的大小寫。
+	case numberFormatting(
+		rule: Flag,
+		decimalGrouping: String? = "3,5",
+		binaryGrouping: String? = "4,4",
+		octalGrouping: String? = "4,4",
+		hexGrouping: String? = "4,4",
+		fractionGrouping: Toggle = .enable,
+		exponentGrouping: Toggle = .disable,
+		hexLiteralCase: LetterCase = .uppercase,
+		exponentCase: LetterCase = .lowercase
+	)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
