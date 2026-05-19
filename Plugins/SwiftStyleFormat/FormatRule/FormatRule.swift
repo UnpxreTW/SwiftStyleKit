@@ -182,6 +182,20 @@ public enum FormatRule {
 	/// `mode` 選 `.lf`（Unix）、`.crlf`（Windows）或 `.cr`。
 	case linebreaks(rule: Flag, mode: Linebreak = .lf)
 
+	/// 在 top-level 型別與 extension 前加 `MARK:` 註解
+	///
+	/// `markTypes` / `markExtensions` 各自控制型別、extension 的標記時機；`typeMark`
+	/// / `extensionMark` / `groupedExtension` 為對應的 MARK 模板（`nil` 用 swiftformat
+	/// 預設）。
+	case markTypes(
+		rule: Flag,
+		markTypes: MarkMode = .never,
+		typeMark: String? = nil,
+		markExtensions: MarkMode = .always,
+		extensionMark: String? = "MARK: - + %c",
+		groupedExtension: String? = nil
+	)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
@@ -245,6 +259,7 @@ extension FormatRule {
 		.leadingDelimiters(rule: .enable),
 		.linebreakAtEndOfFile(rule: .enable),
 		.linebreaks(rule: .enable),
+		.markTypes(rule: .enable),
 		// 全域 option（無啟用開關、mode 預設 .preserve）
 		.typeBlankLines()
 	]
