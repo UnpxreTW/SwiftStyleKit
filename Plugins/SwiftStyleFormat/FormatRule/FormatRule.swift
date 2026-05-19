@@ -182,6 +182,20 @@ public enum FormatRule {
 	/// `mode` 選 `.lf`（Unix）、`.crlf`（Windows）或 `.cr`。
 	case linebreaks(rule: Flag, mode: Linebreak = .lf)
 
+	/// 在 top-level 型別與 extension 前加 `MARK:` 註解
+	///
+	/// `markTypes` / `markExtensions` 各自控制型別、extension 的標記時機；`typeMark`
+	/// / `extensionMark` / `groupedExtension` 為對應的 MARK 模板（`nil` 用 swiftformat
+	/// 預設）。
+	case markTypes(
+		rule: Flag,
+		markTypes: MarkMode = .always,
+		typeMark: String? = nil,
+		markExtensions: MarkMode = .always,
+		extensionMark: String? = "MARK: - + %c",
+		groupedExtension: String? = "MARK: - + %c"
+	)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
@@ -192,63 +206,4 @@ public enum FormatRule {
 	/// `mode` 預設 `.preserve`（SwiftStyleKit 選用值）、展開成 `--typeBlankLines preserve`；
 	/// 設為 `nil` 則不展開、由 swiftformat 取上游預設。
 	case typeBlankLines(mode: TypeBlankLines? = .preserve)
-}
-
-extension FormatRule {
-	/// 此 package 啟用的規則集合
-	public static var allRules: [Self] = [
-		.acronyms(rule: .enable),
-		.andOperator(rule: .enable),
-		.anyObjectProtocol(rule: .enable),
-		.applicationMain(rule: .enable),
-		// 不啟用：保留 `assert(false, ...)` / `precondition(false, ...)` 三段式句型作為
-		// 「為什麼這條路徑不該被走到」的註解體；維持 `assert(condition)` 與 `assert(false)`
-		// 同 entry point 的 API 心智模型統一
-		.assertionFailures(rule: .disable),
-		.blankLineAfterImports(rule: .enable),
-		// 不啟用：對齊主人 96.7% 既有 switch case 緊鄰寫法（三 repo 86 switch、
-		// 648 case 無空行、僅 22 case 有空行）；保留 case 在 enum 內形成「考慮
-		// 過且選擇關閉」的 in-tree 宣告，未來偏好改變只改 allRules 不需重新討論
-		.blankLineAfterSwitchCase(rule: .disable),
-		.blankLinesAroundMark(rule: .enable),
-		.blankLinesAtEndOfScope(rule: .enable),
-		.blankLinesAtStartOfScope(rule: .enable),
-		.blankLinesBetweenChainedFunctions(rule: .enable),
-		.blankLinesBetweenImports(rule: .enable),
-		.blankLinesBetweenScopes(rule: .enable),
-		.braces(rule: .enable),
-		.conditionalAssignment(rule: .enable),
-		.consecutiveBlankLines(rule: .enable),
-		.consecutiveSpaces(rule: .enable),
-		.consistentSwitchCaseSpacing(rule: .enable),
-		.docComments(rule: .enable),
-		.docCommentsBeforeModifiers(rule: .enable),
-		.duplicateImports(rule: .enable),
-		.elseOnSameLine(rule: .enable),
-		.emptyBraces(rule: .enable),
-		.emptyExtensions(rule: .enable),
-		.enumNamespaces(rule: .enable),
-		.environmentEntry(rule: .enable),
-		.extensionAccessControl(rule: .enable),
-		.fileMacro(rule: .enable),
-		.genericExtensions(rule: .enable),
-		.headerFileName(rule: .enable),
-		.hoistAwait(rule: .enable),
-		.hoistPatternLet(rule: .enable),
-		.hoistTry(rule: .enable),
-		// indent: .tab——縮排的視覺寬度交給讀者決定，對視力需求不同的
-		// 人友善。tab 在語意上就是「一層縮排」，實際顯示幾欄寬由每位
-		// 開發者在自己的編輯器設定；需要較寬縮排才能看清層級的人可自行
-		// 調整，不必改動檔案、也不影響他人
-		.indent(rule: .enable),
-		.initCoderUnavailable(rule: .enable),
-		.leadingDelimiters(rule: .enable),
-		.linebreakAtEndOfFile(rule: .enable),
-		.linebreaks(rule: .enable),
-		// 全域 option（無啟用開關、mode 預設 .preserve）
-		.typeBlankLines()
-	]
-
-	/// 全部啟用規則展開成 swiftformat CLI 參數
-	public static var allToCommand: [String] { allRules.flatMap { $0.cliArguments } }
 }
