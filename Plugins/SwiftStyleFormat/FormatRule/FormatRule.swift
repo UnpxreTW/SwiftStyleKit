@@ -232,6 +232,11 @@ public enum FormatRule {
 	/// `someAny` 為 `.enable` 時把無約束的泛型參數也轉成 `some Any`。需 Swift 5.7+。
 	case opaqueGenericParameters(rule: Flag, someAny: Toggle = .enable)
 
+	/// 偏好 `count(where:)` 取代 `filter(_:).count`
+	///
+	/// `count(where:)` 需 Swift 6.0+、低於版本規則自動 no-op。
+	case preferCountWhere(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
