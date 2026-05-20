@@ -279,6 +279,11 @@ public enum FormatRule {
 	/// 移除 extension 內成員上與 extension ACL 重複的存取控制修飾詞
 	case redundantExtensionACL(rule: Flag)
 
+	/// 當 `fileprivate` 與 `private` 等價時、改用 `private`
+	///
+	/// Swift 4+ 的 `private` 對同檔同型別 extension 已可見、需 Swift 4+。
+	case redundantFileprivate(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
