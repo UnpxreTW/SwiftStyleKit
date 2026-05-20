@@ -267,6 +267,9 @@ public enum FormatRule {
 	/// 移除多餘的、立即呼叫的單敘述 closure（`let x = { Foo() }()` → `let x = Foo()`）
 	case redundantClosure(rule: Flag)
 
+	/// 移除 SwiftUI result builder 中多餘的 `else { EmptyView() }` 分支
+	case redundantEmptyView(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
