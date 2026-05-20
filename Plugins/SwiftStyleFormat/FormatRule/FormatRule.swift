@@ -252,6 +252,12 @@ public enum FormatRule {
 	/// 需 Swift 5.2+（key path as function）、低於版本規則自動 no-op。
 	case preferKeyPath(rule: Flag)
 
+	/// 移除不含 `await` 的函式宣告中多餘的 `async` 關鍵字
+	///
+	/// `mode` 為 `.testsOnly` 只動測試函式、`.always` 連一般函式也動（可能讓 call site
+	/// 的 `await` 觸發 warning）。
+	case redundantAsync(rule: Flag, mode: RedundantAsyncMode = .testsOnly)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策

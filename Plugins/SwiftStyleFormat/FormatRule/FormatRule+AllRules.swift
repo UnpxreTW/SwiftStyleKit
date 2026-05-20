@@ -67,6 +67,7 @@ extension FormatRule {
 		.preferCountWhere(rule: .enable),
 		.preferForLoop(rule: .enable),
 		.preferKeyPath(rule: .enable),
+		.redundantAsync(rule: .enable),
 		// 全域 option（無啟用開關、mode 預設 .preserve）
 		.typeBlankLines()
 	]
