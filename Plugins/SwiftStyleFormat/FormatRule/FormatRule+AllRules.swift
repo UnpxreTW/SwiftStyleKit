@@ -66,10 +66,11 @@ extension FormatRule {
 		.opaqueGenericParameters(rule: .enable),
 		.preferCountWhere(rule: .enable),
 		.preferForLoop(rule: .enable),
+		.preferKeyPath(rule: .enable),
 		// 全域 option（無啟用開關、mode 預設 .preserve）
 		.typeBlankLines()
 	]
 
 	/// 全部啟用規則展開成 swiftformat CLI 參數
-	public static var allToCommand: [String] { allRules.flatMap { $0.cliArguments } }
+	public static var allToCommand: [String] { allRules.flatMap(\.cliArguments) }
 }
