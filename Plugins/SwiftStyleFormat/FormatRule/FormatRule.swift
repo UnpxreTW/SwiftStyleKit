@@ -312,6 +312,9 @@ public enum FormatRule {
 	/// `if let foo = foo` → `if let foo`、`guard let self = self else` → `guard let self else`。
 	case redundantOptionalBinding(rule: Flag)
 
+	/// 移除冗餘的括號（`if (foo)`、`queue.async() { ... }`、`({ ... })()` 等）
+	case redundantParens(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
