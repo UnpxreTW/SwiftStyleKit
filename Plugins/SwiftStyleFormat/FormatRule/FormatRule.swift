@@ -287,6 +287,11 @@ public enum FormatRule {
 	/// 移除唯讀 computed property 中多餘的 `get { }` 包裝
 	case redundantGet(rule: Flag)
 
+	/// 移除不必要的 `.init(...)` 呼叫（`String.init("x")` → `String("x")`）
+	///
+	/// 內部對「`< Swift 6.4` 的 trailing closure 接在陣列字面值後」邊角自動保留 `.init`。
+	case redundantInit(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
