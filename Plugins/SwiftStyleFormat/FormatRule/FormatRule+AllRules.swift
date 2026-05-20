@@ -80,7 +80,10 @@ extension FormatRule {
 		.redundantFileprivate(rule: .enable),
 		.redundantGet(rule: .enable),
 		.redundantInit(rule: .enable),
-		.redundantInternal(rule: .enable),
+		// 不啟用：訪問控制的顯式性是團隊風格偏好——`internal` 顯式寫出來
+		// 可作為 API 邊界文件、保留 SwiftStyleKit 下游選擇空間，case 在 enum
+		// 內形成「考慮過且選擇關閉」的 in-tree 宣告
+		.redundantInternal(rule: .disable),
 		// 全域 option（無啟用開關、mode 預設 .preserve）
 		.typeBlankLines()
 	]
