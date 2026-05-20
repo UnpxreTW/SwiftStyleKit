@@ -284,6 +284,9 @@ public enum FormatRule {
 	/// Swift 4+ 的 `private` 對同檔同型別 extension 已可見、需 Swift 4+。
 	case redundantFileprivate(rule: Flag)
 
+	/// 移除唯讀 computed property 中多餘的 `get { }` 包裝
+	case redundantGet(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
