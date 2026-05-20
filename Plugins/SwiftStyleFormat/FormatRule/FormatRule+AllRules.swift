@@ -75,6 +75,7 @@ extension FormatRule {
 		// 規則啟用會把這種寫法收回單行
 		.redundantClosure(rule: .disable),
 		.redundantEmptyView(rule: .enable),
+		.redundantEquatable(rule: .enable),
 		// 全域 option（無啟用開關、mode 預設 .preserve）
 		.typeBlankLines()
 	]
