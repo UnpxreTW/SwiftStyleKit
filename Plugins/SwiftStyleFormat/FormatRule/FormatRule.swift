@@ -247,6 +247,11 @@ public enum FormatRule {
 		singleLineForEach: ForEachConversion = .ignore
 	)
 
+	/// 把 `map { $0.foo }` 等簡單 closure 改成 keyPath 寫法 `map(\.foo)`
+	///
+	/// 需 Swift 5.2+（key path as function）、低於版本規則自動 no-op。
+	case preferKeyPath(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
