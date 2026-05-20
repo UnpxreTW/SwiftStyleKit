@@ -13,15 +13,15 @@ extension FormatRule {
 
 extension FormatRule {
 	/// 取得當前 case 的反射節點（label + value）
-	fileprivate var currentCase: (label: String?, value: Any) {
+	private var currentCase: (label: String?, value: Any) {
 		Mirror(reflecting: self).children.first!
 	}
 
 	/// 當前 case 的名稱
-	fileprivate var name: String { currentCase.label! }
+	private var name: String { currentCase.label! }
 
 	/// 反射展開出 CLI 參數
-	fileprivate var command: [String] {
+	private var command: [String] {
 		var command: [String] = []
 		for (label, raw) in Mirror(reflecting: currentCase.value).children {
 			// Optional unwrap：nil 跳過、some 取 inner value（讓 case 簽名可帶 Optional option）

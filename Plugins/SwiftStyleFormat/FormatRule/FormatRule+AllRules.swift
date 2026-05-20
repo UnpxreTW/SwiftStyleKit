@@ -77,6 +77,7 @@ extension FormatRule {
 		.redundantEmptyView(rule: .enable),
 		.redundantEquatable(rule: .enable),
 		.redundantExtensionACL(rule: .enable),
+		.redundantFileprivate(rule: .enable),
 		// 全域 option（無啟用開關、mode 預設 .preserve）
 		.typeBlankLines()
 	]
