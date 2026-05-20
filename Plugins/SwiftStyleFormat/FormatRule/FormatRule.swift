@@ -301,6 +301,9 @@ public enum FormatRule {
 	/// 移除 `catch` 子句中冗餘的 `let error`（`catch let error` → `catch`）
 	case redundantLetError(rule: Flag)
 
+	/// Optional `var` 的 `= nil` 預設值移除或插入（僅作用於 `var`、不影響非 nil 初始化）
+	case redundantNilInit(rule: Flag, mode: NilInitMode = .remove)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策

@@ -86,6 +86,7 @@ extension FormatRule {
 		.redundantInternal(rule: .disable),
 		.redundantLet(rule: .enable),
 		.redundantLetError(rule: .enable),
+		.redundantNilInit(rule: .enable),
 		// 全域 option（無啟用開關、mode 預設 .preserve）
 		.typeBlankLines()
 	]
