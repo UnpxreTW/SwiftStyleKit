@@ -276,6 +276,9 @@ public enum FormatRule {
 	/// macro 等同於手寫 `==`；`nil` 表無自訂 macro。
 	case redundantEquatable(rule: Flag, equatableMacro: String? = nil)
 
+	/// 移除 extension 內成員上與 extension ACL 重複的存取控制修飾詞
+	case redundantExtensionACL(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
