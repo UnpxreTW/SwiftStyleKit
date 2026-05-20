@@ -70,6 +70,10 @@ extension FormatRule {
 		.redundantAsync(rule: .enable),
 		.redundantBackticks(rule: .enable),
 		.redundantBreak(rule: .enable),
+		// 不啟用：保留 `{ ... }()` 立即呼叫 closure 作為宣告斷行手段——
+		// 當初始化呼叫很長時，包進 closure 讓 body 多行斷開比單行宣告美觀；
+		// 規則啟用會把這種寫法收回單行
+		.redundantClosure(rule: .disable),
 		// 全域 option（無啟用開關、mode 預設 .preserve）
 		.typeBlankLines()
 	]
