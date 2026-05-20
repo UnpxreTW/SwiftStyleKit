@@ -292,6 +292,9 @@ public enum FormatRule {
 	/// 內部對「`< Swift 6.4` 的 trailing closure 接在陣列字面值後」邊角自動保留 `.init`。
 	case redundantInit(rule: Flag)
 
+	/// 移除冗餘的 `internal` access control（Swift 預設層級即是 internal）
+	case redundantInternal(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
