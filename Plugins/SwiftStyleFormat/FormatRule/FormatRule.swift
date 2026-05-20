@@ -298,6 +298,9 @@ public enum FormatRule {
 	/// 移除忽略變數中冗餘的 `let`/`var`（`let _ = foo()` → `_ = foo()`）
 	case redundantLet(rule: Flag)
 
+	/// 移除 `catch` 子句中冗餘的 `let error`（`catch let error` → `catch`）
+	case redundantLetError(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策

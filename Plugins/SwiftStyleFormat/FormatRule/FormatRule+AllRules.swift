@@ -85,6 +85,7 @@ extension FormatRule {
 		// 內形成「考慮過且選擇關閉」的 in-tree 宣告
 		.redundantInternal(rule: .disable),
 		.redundantLet(rule: .enable),
+		.redundantLetError(rule: .enable),
 		// 全域 option（無啟用開關、mode 預設 .preserve）
 		.typeBlankLines()
 	]
