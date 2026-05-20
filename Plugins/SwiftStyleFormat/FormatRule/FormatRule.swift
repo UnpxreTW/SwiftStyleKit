@@ -295,6 +295,9 @@ public enum FormatRule {
 	/// 移除冗餘的 `internal` access control（Swift 預設層級即是 internal）
 	case redundantInternal(rule: Flag)
 
+	/// 移除忽略變數中冗餘的 `let`/`var`（`let _ = foo()` → `_ = foo()`）
+	case redundantLet(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
