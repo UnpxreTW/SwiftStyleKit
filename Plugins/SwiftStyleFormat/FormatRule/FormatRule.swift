@@ -237,6 +237,16 @@ public enum FormatRule {
 	/// `count(where:)` 需 Swift 6.0+、低於版本規則自動 no-op。
 	case preferCountWhere(rule: Flag)
 
+	/// 把函式式 `forEach` 呼叫轉成 `for` 迴圈
+	///
+	/// `anonymousForEach` 為 `.ignore` 時保留匿名 forEach（用 `$0` 的形式）、
+	/// `singleLineForEach` 為 `.ignore` 時保留單行 forEach。
+	case preferForLoop(
+		rule: Flag,
+		anonymousForEach: ForEachConversion = .ignore,
+		singleLineForEach: ForEachConversion = .ignore
+	)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
