@@ -261,6 +261,9 @@ public enum FormatRule {
 	/// 移除識別字外多餘的 backticks
 	case redundantBackticks(rule: Flag)
 
+	/// 移除 switch case 裡多餘的 `break`
+	case redundantBreak(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
