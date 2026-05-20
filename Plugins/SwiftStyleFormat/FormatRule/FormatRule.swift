@@ -307,6 +307,11 @@ public enum FormatRule {
 	/// 移除冗餘的 `@objc` 標註（已有 `@IBOutlet`/`@IBAction`/`@NSManaged` 等隱含 `@objc` 的標註時）
 	case redundantObjc(rule: Flag)
 
+	/// 移除 optional binding 中冗餘的同名 identifier（Swift 5.7+、SE-0345）
+	///
+	/// `if let foo = foo` → `if let foo`、`guard let self = self else` → `guard let self else`。
+	case redundantOptionalBinding(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
