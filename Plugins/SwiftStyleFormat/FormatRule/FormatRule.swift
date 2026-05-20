@@ -258,6 +258,9 @@ public enum FormatRule {
 	/// 的 `await` 觸發 warning）。
 	case redundantAsync(rule: Flag, mode: RedundantAsyncMode = .testsOnly)
 
+	/// 移除識別字外多餘的 backticks
+	case redundantBackticks(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
