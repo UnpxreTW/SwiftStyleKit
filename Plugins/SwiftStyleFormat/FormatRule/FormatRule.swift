@@ -270,6 +270,12 @@ public enum FormatRule {
 	/// 移除 SwiftUI result builder 中多餘的 `else { EmptyView() }` 分支
 	case redundantEmptyView(rule: Flag)
 
+	/// 移除手寫的 `Equatable` 實作（當編譯器自動合成版本等價時）
+	///
+	/// `equatableMacro` 為 `"@MacroName,ModuleName"` 格式，告訴規則某個自訂 Equatable
+	/// macro 等同於手寫 `==`；`nil` 表無自訂 macro。
+	case redundantEquatable(rule: Flag, equatableMacro: String? = nil)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
