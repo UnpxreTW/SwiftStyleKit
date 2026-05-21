@@ -444,6 +444,9 @@ public enum FormatRule {
 	/// 移除 `@IBOutlet weak var` 冗餘的 `weak`（Apple WWDC 2015 建議；名稱以 `delegate`/`datasource` 結尾不動）
 	case strongOutlets(rule: Flag)
 
+	/// 移除 `guard let \`self\` = self` 冗餘 backticks（Swift 4.2+ gate、低於版本自動 no-op）
+	case strongifiedSelf(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
