@@ -352,6 +352,13 @@ public enum FormatRule {
 	/// swiftformat 上游預設為 `.inferLocalsOnly`。
 	case redundantType(rule: Flag, mode: RedundantTypeMode = .explicit)
 
+	/// 簡化冗餘的 typed throws（Swift 6.0+、SE-0413）
+	///
+	/// `throws(Never)` → 移除（字面寫法等同 non-throwing）；`throws(any Error)` → `throws`。
+	/// 規則只動字面 `Never`、不會碰泛型參數 `throws(E)` instantiation 為 `Never` 的情境
+	/// （那是 SE-0413 取代 `rethrows` 的設計核心）。
+	case redundantTypedThrows(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
