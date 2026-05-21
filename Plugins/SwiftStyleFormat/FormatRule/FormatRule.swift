@@ -365,6 +365,12 @@ public enum FormatRule {
 	/// 不受影響。
 	case redundantVoidReturnType(rule: Flag, closureVoid: ClosureVoidReturn = .remove)
 
+	/// 移除分號
+	///
+	/// 行尾分號（`let x = 5;`）兩種 `mode` 都會移除；差別在同行兩 statement 的處理：
+	/// `.never`（簽名預設）拆成兩行、`.inline`（swiftformat 上游預設）保留分號隔離。
+	case semicolons(rule: Flag, mode: SemicolonsMode = .never)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
