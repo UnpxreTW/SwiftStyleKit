@@ -331,6 +331,15 @@ public enum FormatRule {
 	/// Swift 5.9+ if / switch expression（SE-0380、配合 ``conditionalAssignment(rule:mode:)`` 規則）。
 	case redundantReturn(rule: Flag)
 
+	/// 插入 / 移除顯式 `self.` 的策略（含 `@autoclosure` 函式白名單）
+	///
+	/// - `mode`：策略（`.remove` / `.insert` / `.initOnly`）。`init-only` 僅在 `init` 內保留或補上
+	///   `self.`、其他位置依語境移除。closure capture / 參數同名等 Swift 編譯必要的 `self.` 規則
+	///   不會動到。
+	/// - `selfRequired`：以逗號分隔的「需要 self」函式名清單、供帶 `@autoclosure` 參數的函式使用
+	///   （如 Nimble `expect()`、swiftformat 內建已排除）。
+	case redundantSelf(rule: Flag, mode: SelfMode = .initOnly, selfRequired: String? = nil)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
