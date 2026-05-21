@@ -105,6 +105,7 @@ extension FormatRule {
 		.spaceAroundBraces(rule: .enable),
 		.spaceAroundBrackets(rule: .enable),
 		.spaceAroundComments(rule: .enable),
+		.spaceAroundGenerics(rule: .enable),
 		// 全域 option（無啟用開關、mode 預設 .preserve）
 		.typeBlankLines()
 	]

@@ -404,6 +404,9 @@ public enum FormatRule {
 	/// 註解周圍補空白（行內 `// comment` 前補 space、`/* ... */` 區塊註解前後補 space）
 	case spaceAroundComments(rule: Flag)
 
+	/// 移除泛型角括號 `<>` 前的空白（`Foo <Bar>` → `Foo<Bar>`）
+	case spaceAroundGenerics(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
