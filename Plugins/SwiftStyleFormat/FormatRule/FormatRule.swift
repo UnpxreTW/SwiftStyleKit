@@ -368,8 +368,8 @@ public enum FormatRule {
 	/// 移除分號
 	///
 	/// 行尾分號（`let x = 5;`）兩種 `mode` 都會移除；差別在同行兩 statement 的處理：
-	/// `.never` 拆成兩行、`.inline`（簽名 / swiftformat 上游預設）保留分號隔離。
-	case semicolons(rule: Flag, mode: SemicolonsMode = .inline)
+	/// `.never`（簽名預設）拆成兩行、`.inline`（swiftformat 上游預設）保留分號隔離。
+	case semicolons(rule: Flag, mode: SemicolonsMode = .never)
 
 	// MARK: - 全域 option
 
