@@ -325,6 +325,12 @@ public enum FormatRule {
 	/// 移除 `String` enum case 與 case 名同名的冗餘 raw value（`case bar = "bar"` → `case bar`）
 	case redundantRawValues(rule: Flag)
 
+	/// 移除可省略的 `return` 關鍵字
+	///
+	/// 涵蓋：單行 closure、Swift 5.1+ 單一表達式 computed property / function（SE-0255）、
+	/// Swift 5.9+ if / switch expression（SE-0380、配合 ``conditionalAssignment(rule:mode:)`` 規則）。
+	case redundantReturn(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
