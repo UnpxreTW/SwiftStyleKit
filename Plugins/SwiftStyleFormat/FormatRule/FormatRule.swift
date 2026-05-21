@@ -381,6 +381,12 @@ public enum FormatRule {
 	/// 把它當真的標註、token range 計算失敗（debug build 觸發 fatal assert）。
 	case sortDeclarations(rule: Flag)
 
+	/// 對 import 語句字母排序、`#if` 區塊內各自排序
+	///
+	/// `mode` 預設 `.testableFirst`（`@testable` import 集中排前面、各組內部字母排序）；
+	/// swiftformat 上游預設為 `.alpha`。
+	case sortImports(rule: Flag, mode: ImportGrouping = .testableFirst)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
