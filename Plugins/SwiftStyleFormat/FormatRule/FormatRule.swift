@@ -322,6 +322,9 @@ public enum FormatRule {
 	/// 閉包參數（`(_, _) in ...`）不受影響。
 	case redundantPattern(rule: Flag)
 
+	/// 移除 `String` enum case 與 case 名同名的冗餘 raw value（`case bar = "bar"` → `case bar`）
+	case redundantRawValues(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
