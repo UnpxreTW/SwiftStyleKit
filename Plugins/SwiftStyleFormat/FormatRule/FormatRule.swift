@@ -432,6 +432,9 @@ public enum FormatRule {
 	/// 移除方括號內側空白（`[ 1, 2, 3 ]` → `[1, 2, 3]`、下一個 token 為 comment 時不動）
 	case spaceInsideBrackets(rule: Flag)
 
+	/// 註解標記後補空白（`//x` → `// x`、`///x` → `/// x`、`/*x*/` → `/* x */`、保留 `// ===` 等格式化結構）
+	case spaceInsideComments(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
