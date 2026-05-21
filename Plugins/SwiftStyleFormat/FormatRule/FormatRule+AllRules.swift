@@ -112,6 +112,7 @@ extension FormatRule {
 		.spaceInsideBrackets(rule: .enable),
 		.spaceInsideComments(rule: .enable),
 		.spaceInsideGenerics(rule: .enable),
+		.spaceInsideParens(rule: .enable),
 		// 全域 option（無啟用開關、mode 預設 .preserve）
 		.typeBlankLines()
 	]
