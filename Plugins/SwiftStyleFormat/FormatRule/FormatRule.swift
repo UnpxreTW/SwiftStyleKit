@@ -423,6 +423,9 @@ public enum FormatRule {
 		noSpaceOperators: [String]? = nil
 	)
 
+	/// 正規化括號 `()` 周圍空白（`init (foo)` → `init(foo)`、`switch(x){` → `switch (x) {`）
+	case spaceAroundParens(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
