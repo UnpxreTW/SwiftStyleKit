@@ -395,6 +395,9 @@ public enum FormatRule {
 	/// 對 protocol composition typealias 字母排序（`Foo & Bar & Baaz` → `Baaz & Bar & Foo`）
 	case sortTypealiases(rule: Flag)
 
+	/// 正規化大括號周圍空格（trailing closure 前補 space、paren 與 brace 間冗餘 space 移除）
+	case spaceAroundBraces(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
