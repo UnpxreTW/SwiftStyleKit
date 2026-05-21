@@ -359,6 +359,12 @@ public enum FormatRule {
 	/// （那是 SE-0413 取代 `rethrows` 的設計核心）。
 	case redundantTypedThrows(rule: Flag)
 
+	/// 移除冗餘的 `-> Void` 回傳型別
+	///
+	/// `closureVoid` 控制 closure literal `{ () -> Void in ... }` 的處理；typealias / 函式型別宣告
+	/// 不受影響。
+	case redundantVoidReturnType(rule: Flag, closureVoid: ClosureVoidReturn = .remove)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
