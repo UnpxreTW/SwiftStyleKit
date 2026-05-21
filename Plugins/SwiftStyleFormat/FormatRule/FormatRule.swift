@@ -407,6 +407,22 @@ public enum FormatRule {
 	/// 移除泛型角括號 `<>` 前的空白（`Foo <Bar>` → `Foo<Bar>`）
 	case spaceAroundGenerics(rule: Flag)
 
+	/// 正規化 operator / type delimiter 周圍空白（4 個 option 控不同位置）
+	///
+	/// - `operatorFunc` 簽名預設 `.remove`：operator function 宣告 `func ==(` 緊貼
+	/// - `ranges` 簽名預設 `.insert`：range operator `a ..< b` 兩側留空（與一般 binary
+	///   operator 寫法一致；上游預設亦同）
+	/// - `typeDelimiter` 簽名預設 `.spaceAfter`：型別冒號 `foo: Int`（Swift 標準）
+	/// - `noSpaceOperators` 簽名預設 `nil`：fork 端可填白名單字串陣列指定哪些
+	///   operator 永遠不加空白；空陣列 `[]` 與 `nil` 等效（皆不展開該 flag）
+	case spaceAroundOperators(
+		rule: Flag,
+		operatorFunc: OperatorSpacing = .remove,
+		ranges: OperatorSpacing = .insert,
+		typeDelimiter: DelimiterSpacing = .spaceAfter,
+		noSpaceOperators: [String]? = nil
+	)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
