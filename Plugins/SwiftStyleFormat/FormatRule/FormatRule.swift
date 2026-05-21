@@ -441,6 +441,9 @@ public enum FormatRule {
 	/// 移除圓括號 `()` 內側空白（`( a, b )` → `(a, b)`、下一個 token 為 comment 時不動）
 	case spaceInsideParens(rule: Flag)
 
+	/// 移除 `@IBOutlet weak var` 冗餘的 `weak`（Apple WWDC 2015 建議；名稱以 `delegate`/`datasource` 結尾不動）
+	case strongOutlets(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
