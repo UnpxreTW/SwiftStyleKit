@@ -346,6 +346,12 @@ public enum FormatRule {
 	/// 單純 remove、無 option。
 	case redundantStaticSelf(rule: Flag)
 
+	/// 移除冗餘的型別標註（含 Swift 5.9+ if/switch expression、SE-0380）
+	///
+	/// `mode` 預設 `.explicit`（strong-typing 派、保留型別標註、右側 `Type(...)` 改 `.init(...)`）。
+	/// swiftformat 上游預設為 `.inferLocalsOnly`。
+	case redundantType(rule: Flag, mode: RedundantTypeMode = .explicit)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
