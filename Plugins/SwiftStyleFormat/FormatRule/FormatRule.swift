@@ -340,6 +340,12 @@ public enum FormatRule {
 	///   （如 Nimble `expect()`、swiftformat 內建已排除）。
 	case redundantSelf(rule: Flag, mode: SelfMode = .initOnly, selfRequired: String? = nil)
 
+	/// 移除 static / class context 中冗餘的 `Self.`（`[Self.active]` → `[active]`）
+	///
+	/// 配對 ``redundantSelf(rule:mode:selfRequired:)``——`redundantStaticSelf` 管 static `Self.`、
+	/// 單純 remove、無 option。
+	case redundantStaticSelf(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策

@@ -94,6 +94,7 @@ extension FormatRule {
 		.redundantRawValues(rule: .enable),
 		.redundantReturn(rule: .enable),
 		.redundantSelf(rule: .enable),
+		.redundantStaticSelf(rule: .enable),
 		// 全域 option（無啟用開關、mode 預設 .preserve）
 		.typeBlankLines()
 	]
