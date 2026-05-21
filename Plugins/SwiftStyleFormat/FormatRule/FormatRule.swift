@@ -438,6 +438,9 @@ public enum FormatRule {
 	/// 移除泛型角括號 `<>` 內側空白（`Foo< Bar, Baz >` → `Foo<Bar, Baz>`）
 	case spaceInsideGenerics(rule: Flag)
 
+	/// 移除圓括號 `()` 內側空白（`( a, b )` → `(a, b)`、下一個 token 為 comment 時不動）
+	case spaceInsideParens(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
