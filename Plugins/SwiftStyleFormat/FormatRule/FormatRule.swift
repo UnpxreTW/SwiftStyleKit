@@ -429,6 +429,9 @@ public enum FormatRule {
 	/// single-line 大括號內部兩端補空白（`{return x}` → `{ return x }`、空 `{}` 與巢狀不動）
 	case spaceInsideBraces(rule: Flag)
 
+	/// 移除方括號內側空白（`[ 1, 2, 3 ]` → `[1, 2, 3]`、下一個 token 為 comment 時不動）
+	case spaceInsideBrackets(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
