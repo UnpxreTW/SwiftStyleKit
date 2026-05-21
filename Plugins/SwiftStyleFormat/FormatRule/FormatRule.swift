@@ -435,6 +435,9 @@ public enum FormatRule {
 	/// 註解標記後補空白（`//x` → `// x`、`///x` → `/// x`、`/*x*/` → `/* x */`、保留 `// ===` 等格式化結構）
 	case spaceInsideComments(rule: Flag)
 
+	/// 移除泛型角括號 `<>` 內側空白（`Foo< Bar, Baz >` → `Foo<Bar, Baz>`）
+	case spaceInsideGenerics(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
