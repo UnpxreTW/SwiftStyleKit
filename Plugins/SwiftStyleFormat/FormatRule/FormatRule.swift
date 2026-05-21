@@ -6,6 +6,11 @@
 //
 // SPDX-License-Identifier: MIT
 
+// swiftlint:disable file_length
+// 原因：FormatRule case 隨 逐條對應 swiftformat 規則（總計 107 條）、case 必須宣告在
+// main enum body（Swift 語言限制、不能拆 extension），預期最終 ~500-600 行；
+// file_length 預設 400 在這場景對品質沒指引意義
+
 /// 格式規則
 ///
 /// 每個 case 對應 swiftformat 一條 rule，Mirror reflection 自動展開為 CLI 參數。
@@ -386,6 +391,9 @@ public enum FormatRule {
 	/// `mode` 預設 `.testableFirst`（`@testable` import 集中排前面、各組內部字母排序）；
 	/// swiftformat 上游預設為 `.alpha`。
 	case sortImports(rule: Flag, mode: ImportGrouping = .testableFirst)
+
+	/// 對 protocol composition typealias 字母排序（`Foo & Bar & Baaz` → `Baaz & Bar & Foo`）
+	case sortTypealiases(rule: Flag)
 
 	// MARK: - 全域 option
 

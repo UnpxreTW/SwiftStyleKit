@@ -101,6 +101,7 @@ extension FormatRule {
 		.semicolons(rule: .enable),
 		.sortDeclarations(rule: .enable),
 		.sortImports(rule: .enable),
+		.sortTypealiases(rule: .enable),
 		// 全域 option（無啟用開關、mode 預設 .preserve）
 		.typeBlankLines()
 	]
