@@ -371,6 +371,16 @@ public enum FormatRule {
 	/// `.never`（簽名預設）拆成兩行、`.inline`（swiftformat 上游預設）保留分號隔離。
 	case semicolons(rule: Flag, mode: SemicolonsMode = .never)
 
+	/// 對帶有 sort 標註的宣告排序（marker-based opt-in）
+	///
+	/// swiftformat 用 `isCommentBody.contains` 比對 comment 字串、找尋形如 `(規則名):sort`
+	/// 的標註。兩種觸發方式：(1) 標註放在宣告前、對整個 body 排序；(2) 用 `(規則名):sort:begin`
+	/// 與 `(規則名):sort:end` 包住範圍。實際 marker 字串請見 swiftformat Rules.md。
+	///
+	/// 註：本 doc 刻意不寫 marker 字面字串、避免 swiftformat 在自己的 source 上掃到 doc 內容
+	/// 把它當真的標註、token range 計算失敗（debug build 觸發 fatal assert）。
+	case sortDeclarations(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
