@@ -43,6 +43,20 @@ extension FormatRule {
 				continue
 			}
 
+			// 列表型 option（[String]）：空陣列視為「不覆寫」、與 nil 等效不展開；
+			// 非空時逗號相連展成單一字串（swiftformat 預期 `--flag a,b,c` 格式）
+			if let listValue = unwrapped as? [String] {
+				guard !listValue.isEmpty else { continue }
+				let joined = listValue.joined(separator: ",")
+				let flag: String = if let label, !label.isEmpty, label.first != "." {
+					label
+				} else {
+					name
+				}
+				command.append(contentsOf: ["--\(flag)", joined])
+				continue
+			}
+
 			let option: String = switch unwrapped {
 			case let value as any RawRepresentable<String>: value.rawValue
 			case let value as Bool: value ? "true" : "false"
