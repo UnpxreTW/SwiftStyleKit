@@ -398,6 +398,9 @@ public enum FormatRule {
 	/// 正規化大括號周圍空格（trailing closure 前補 space、paren 與 brace 間冗餘 space 移除）
 	case spaceAroundBraces(rule: Flag)
 
+	/// 正規化方括號 `[]` 周圍空格（type casting 前補 space、subscript 前冗餘 space 移除）
+	case spaceAroundBrackets(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
