@@ -99,6 +99,7 @@ extension FormatRule {
 		.redundantTypedThrows(rule: .enable),
 		.redundantVoidReturnType(rule: .enable),
 		.semicolons(rule: .enable),
+		.sortDeclarations(rule: .enable),
 		// 全域 option（無啟用開關、mode 預設 .preserve）
 		.typeBlankLines()
 	]
