@@ -315,6 +315,13 @@ public enum FormatRule {
 	/// 移除冗餘的括號（`if (foo)`、`queue.async() { ... }`、`({ ... })()` 等）
 	case redundantParens(rule: Flag)
 
+	/// 移除 pattern matching 中冗餘的 `_` 參數語法
+	///
+	/// `if case .foo(_, _) = bar` → `if case .foo = bar`、`let (_, _) = bar` → `let _ = bar`。
+	/// 規則只動「`(_, _)` 後緊跟 `:`（switch case）或 `=`（pattern assignment）」的情境、
+	/// 閉包參數（`(_, _) in ...`）不受影響。
+	case redundantPattern(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策

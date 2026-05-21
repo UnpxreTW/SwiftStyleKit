@@ -90,6 +90,7 @@ extension FormatRule {
 		.redundantObjc(rule: .enable),
 		.redundantOptionalBinding(rule: .enable),
 		.redundantParens(rule: .enable),
+		.redundantPattern(rule: .enable),
 		// 全域 option（無啟用開關、mode 預設 .preserve）
 		.typeBlankLines()
 	]
