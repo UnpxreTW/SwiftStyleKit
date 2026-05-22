@@ -498,6 +498,13 @@ public enum FormatRule {
 	/// `Array<T>` / `Dictionary<K, V>` 永遠 sugar、無例外。
 	case typeSugar(rule: Flag, mode: OptionalsMode = .preserveStructInits)
 
+	/// 把未使用的 function / closure argument 名改成 `_`
+	///
+	/// `mode` 簽名預設 `.closureOnly`：只動 closure 內未使用的 args；function declaration
+	/// 不動（適合「signature 是 API contract」的場景，保留 `func foo(bar: Int)` 即使
+	/// 內部沒用 `bar` 也不改寫）。上游預設為 `.all`。
+	case unusedArguments(rule: Flag, mode: ArgumentStrippingMode = .closureOnly)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
