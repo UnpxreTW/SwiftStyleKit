@@ -12,13 +12,13 @@ import Testing
 @Suite("todos")
 struct TodosTests {
 
-	@Test("todos .disable 返空陣列")
-	func todosDisable() {
+	@Test
+	func `todos .disable 返空陣列`() {
 		#expect(FormatRule.todos(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("todos .enable 展開 --enable todos")
-	func todosEnable() {
+	@Test
+	func `todos .enable 展開 --enable todos`() {
 		let args = FormatRule.todos(rule: .enable).cliArguments
 		#expect(args == ["--enable", "todos"])
 	}
