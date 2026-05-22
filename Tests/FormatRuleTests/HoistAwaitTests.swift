@@ -12,20 +12,20 @@ import Testing
 @Suite("hoistAwait")
 struct HoistAwaitTests {
 
-	@Test("hoistAwait .disable 返空陣列")
-	func hoistAwaitDisable() {
+	@Test
+	func `hoistAwait .disable 返空陣列`() {
 		let args = FormatRule.hoistAwait(rule: .disable, asyncCapturing: "foo").cliArguments
 		#expect(args.isEmpty)
 	}
 
-	@Test("hoistAwait .enable（asyncCapturing 預設 nil）只展開 --enable")
-	func hoistAwaitEnableDefault() {
+	@Test
+	func `hoistAwait .enable（asyncCapturing 預設 nil）只展開 --enable`() {
 		let args = FormatRule.hoistAwait(rule: .enable).cliArguments
 		#expect(args == ["--enable", "hoistAwait"])
 	}
 
-	@Test("hoistAwait .enable asyncCapturing 有值展開 --asyncCapturing")
-	func hoistAwaitEnableWithCapturing() {
+	@Test
+	func `hoistAwait .enable asyncCapturing 有值展開 --asyncCapturing`() {
 		let args = FormatRule.hoistAwait(rule: .enable, asyncCapturing: "withChecked").cliArguments
 		#expect(args == [
 			"--enable", "hoistAwait",

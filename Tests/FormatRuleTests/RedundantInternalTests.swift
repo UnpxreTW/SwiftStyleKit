@@ -12,13 +12,13 @@ import Testing
 @Suite("redundantInternal")
 struct RedundantInternalTests {
 
-	@Test("redundantInternal .disable 返空陣列")
-	func redundantInternalDisable() {
+	@Test
+	func `redundantInternal .disable 返空陣列`() {
 		#expect(FormatRule.redundantInternal(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("redundantInternal .enable 展開 --enable redundantInternal")
-	func redundantInternalEnable() {
+	@Test
+	func `redundantInternal .enable 展開 --enable redundantInternal`() {
 		let args = FormatRule.redundantInternal(rule: .enable).cliArguments
 		#expect(args == ["--enable", "redundantInternal"])
 	}

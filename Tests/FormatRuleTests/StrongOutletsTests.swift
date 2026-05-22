@@ -12,13 +12,13 @@ import Testing
 @Suite("strongOutlets")
 struct StrongOutletsTests {
 
-	@Test("strongOutlets .disable 返空陣列")
-	func strongOutletsDisable() {
+	@Test
+	func `strongOutlets .disable 返空陣列`() {
 		#expect(FormatRule.strongOutlets(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("strongOutlets .enable 展開 --enable strongOutlets")
-	func strongOutletsEnable() {
+	@Test
+	func `strongOutlets .enable 展開 --enable strongOutlets`() {
 		let args = FormatRule.strongOutlets(rule: .enable).cliArguments
 		#expect(args == ["--enable", "strongOutlets"])
 	}

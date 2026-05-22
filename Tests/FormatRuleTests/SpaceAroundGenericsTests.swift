@@ -12,13 +12,13 @@ import Testing
 @Suite("spaceAroundGenerics")
 struct SpaceAroundGenericsTests {
 
-	@Test("spaceAroundGenerics .disable 返空陣列")
-	func spaceAroundGenericsDisable() {
+	@Test
+	func `spaceAroundGenerics .disable 返空陣列`() {
 		#expect(FormatRule.spaceAroundGenerics(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("spaceAroundGenerics .enable 展開 --enable spaceAroundGenerics")
-	func spaceAroundGenericsEnable() {
+	@Test
+	func `spaceAroundGenerics .enable 展開 --enable spaceAroundGenerics`() {
 		let args = FormatRule.spaceAroundGenerics(rule: .enable).cliArguments
 		#expect(args == ["--enable", "spaceAroundGenerics"])
 	}

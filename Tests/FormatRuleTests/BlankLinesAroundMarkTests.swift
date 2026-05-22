@@ -12,20 +12,20 @@ import Testing
 @Suite("blankLinesAroundMark")
 struct BlankLinesAroundMarkTests {
 
-	@Test("blankLinesAroundMark .disable 返空陣列")
-	func blankLinesAroundMarkDisable() {
+	@Test
+	func `blankLinesAroundMark .disable 返空陣列`() {
 		let args = FormatRule.blankLinesAroundMark(rule: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
-	@Test("blankLinesAroundMark .disable + lineAfterMarks（option 被忽略）返空陣列")
-	func blankLinesAroundMarkDisableWithOption() {
+	@Test
+	func `blankLinesAroundMark .disable + lineAfterMarks（option 被忽略）返空陣列`() {
 		let args = FormatRule.blankLinesAroundMark(rule: .disable, lineAfterMarks: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
-	@Test("blankLinesAroundMark .enable（lineAfterMarks 預設 .enable）展開 --enable + --lineAfterMarks true")
-	func blankLinesAroundMarkEnableDefault() {
+	@Test
+	func `blankLinesAroundMark .enable（lineAfterMarks 預設 .enable）展開 --enable + --lineAfterMarks true`() {
 		let args = FormatRule.blankLinesAroundMark(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "blankLinesAroundMark",
@@ -33,8 +33,8 @@ struct BlankLinesAroundMarkTests {
 		])
 	}
 
-	@Test("blankLinesAroundMark .enable lineAfterMarks .disable 展開 --lineAfterMarks false")
-	func blankLinesAroundMarkEnableLineAfterMarksDisable() {
+	@Test
+	func `blankLinesAroundMark .enable lineAfterMarks .disable 展開 --lineAfterMarks false`() {
 		let args = FormatRule.blankLinesAroundMark(rule: .enable, lineAfterMarks: .disable).cliArguments
 		#expect(args == [
 			"--enable", "blankLinesAroundMark",

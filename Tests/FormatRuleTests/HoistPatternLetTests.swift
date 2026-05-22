@@ -12,14 +12,14 @@ import Testing
 @Suite("hoistPatternLet")
 struct HoistPatternLetTests {
 
-	@Test("hoistPatternLet .disable 返空陣列")
-	func hoistPatternLetDisable() {
+	@Test
+	func `hoistPatternLet .disable 返空陣列`() {
 		let args = FormatRule.hoistPatternLet(rule: .disable, mode: .inline).cliArguments
 		#expect(args.isEmpty)
 	}
 
-	@Test("hoistPatternLet .enable（mode 預設 .hoist）展開 --enable + --patternLet hoist")
-	func hoistPatternLetEnableDefault() {
+	@Test
+	func `hoistPatternLet .enable（mode 預設 .hoist）展開 --enable + --patternLet hoist`() {
 		let args = FormatRule.hoistPatternLet(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "hoistPatternLet",
@@ -27,8 +27,8 @@ struct HoistPatternLetTests {
 		])
 	}
 
-	@Test("hoistPatternLet .enable mode .inline 展開 --patternLet inline")
-	func hoistPatternLetEnableInline() {
+	@Test
+	func `hoistPatternLet .enable mode .inline 展開 --patternLet inline`() {
 		let args = FormatRule.hoistPatternLet(rule: .enable, mode: .inline).cliArguments
 		#expect(args == [
 			"--enable", "hoistPatternLet",

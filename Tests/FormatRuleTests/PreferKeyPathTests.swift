@@ -12,13 +12,13 @@ import Testing
 @Suite("preferKeyPath")
 struct PreferKeyPathTests {
 
-	@Test("preferKeyPath .disable 返空陣列")
-	func preferKeyPathDisable() {
+	@Test
+	func `preferKeyPath .disable 返空陣列`() {
 		#expect(FormatRule.preferKeyPath(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("preferKeyPath .enable 展開 --enable preferKeyPath")
-	func preferKeyPathEnable() {
+	@Test
+	func `preferKeyPath .enable 展開 --enable preferKeyPath`() {
 		let args = FormatRule.preferKeyPath(rule: .enable).cliArguments
 		#expect(args == ["--enable", "preferKeyPath"])
 	}

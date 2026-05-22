@@ -12,8 +12,8 @@ import Testing
 @Suite("fileHeader")
 struct FileHeaderTests {
 
-	@Test("fileHeader .disable 返空陣列")
-	func fileHeaderDisable() {
+	@Test
+	func `fileHeader .disable 返空陣列`() {
 		let args = FormatRule.fileHeader(
 			rule: .disable,
 			header: "ignore",
@@ -23,8 +23,8 @@ struct FileHeaderTests {
 		#expect(args.isEmpty)
 	}
 
-	@Test("fileHeader .enable 展開 --enable + header / dateFormat / timeZone")
-	func fileHeaderEnable() {
+	@Test
+	func `fileHeader .enable 展開 --enable + header / dateFormat / timeZone`() {
 		let args = FormatRule.fileHeader(
 			rule: .enable,
 			header: "// {file}",

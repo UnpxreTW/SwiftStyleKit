@@ -12,13 +12,13 @@ import Testing
 @Suite("redundantOptionalBinding")
 struct RedundantOptionalBindingTests {
 
-	@Test("redundantOptionalBinding .disable 返空陣列")
-	func redundantOptionalBindingDisable() {
+	@Test
+	func `redundantOptionalBinding .disable 返空陣列`() {
 		#expect(FormatRule.redundantOptionalBinding(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("redundantOptionalBinding .enable 展開 --enable redundantOptionalBinding")
-	func redundantOptionalBindingEnable() {
+	@Test
+	func `redundantOptionalBinding .enable 展開 --enable redundantOptionalBinding`() {
 		let args = FormatRule.redundantOptionalBinding(rule: .enable).cliArguments
 		#expect(args == ["--enable", "redundantOptionalBinding"])
 	}

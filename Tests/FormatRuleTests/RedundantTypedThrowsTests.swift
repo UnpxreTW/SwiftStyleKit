@@ -12,13 +12,13 @@ import Testing
 @Suite("redundantTypedThrows")
 struct RedundantTypedThrowsTests {
 
-	@Test("redundantTypedThrows .disable 返空陣列")
-	func redundantTypedThrowsDisable() {
+	@Test
+	func `redundantTypedThrows .disable 返空陣列`() {
 		#expect(FormatRule.redundantTypedThrows(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("redundantTypedThrows .enable 展開 --enable redundantTypedThrows")
-	func redundantTypedThrowsEnable() {
+	@Test
+	func `redundantTypedThrows .enable 展開 --enable redundantTypedThrows`() {
 		let args = FormatRule.redundantTypedThrows(rule: .enable).cliArguments
 		#expect(args == ["--enable", "redundantTypedThrows"])
 	}

@@ -12,14 +12,14 @@ import Testing
 @Suite("blankLinesBetweenChainedFunctions")
 struct BlankLinesBetweenChainedFunctionsTests {
 
-	@Test("blankLinesBetweenChainedFunctions .disable 返空陣列")
-	func blankLinesBetweenChainedFunctionsDisable() {
+	@Test
+	func `blankLinesBetweenChainedFunctions .disable 返空陣列`() {
 		let args = FormatRule.blankLinesBetweenChainedFunctions(rule: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
-	@Test("blankLinesBetweenChainedFunctions .enable 展開 --enable blankLinesBetweenChainedFunctions")
-	func blankLinesBetweenChainedFunctionsEnable() {
+	@Test
+	func `blankLinesBetweenChainedFunctions .enable 展開 --enable blankLinesBetweenChainedFunctions`() {
 		let args = FormatRule.blankLinesBetweenChainedFunctions(rule: .enable).cliArguments
 		#expect(args == ["--enable", "blankLinesBetweenChainedFunctions"])
 	}

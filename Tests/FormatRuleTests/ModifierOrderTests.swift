@@ -12,20 +12,20 @@ import Testing
 @Suite("modifierOrder")
 struct ModifierOrderTests {
 
-	@Test("modifierOrder .disable 返空陣列")
-	func modifierOrderDisable() {
+	@Test
+	func `modifierOrder .disable 返空陣列`() {
 		let args = FormatRule.modifierOrder(rule: .disable, modifierOrder: "public,static").cliArguments
 		#expect(args.isEmpty)
 	}
 
-	@Test("modifierOrder .enable（modifierOrder 預設 nil）只展開 --enable")
-	func modifierOrderEnableDefault() {
+	@Test
+	func `modifierOrder .enable（modifierOrder 預設 nil）只展開 --enable`() {
 		let args = FormatRule.modifierOrder(rule: .enable).cliArguments
 		#expect(args == ["--enable", "modifierOrder"])
 	}
 
-	@Test("modifierOrder .enable modifierOrder 有值展開 --modifierOrder")
-	func modifierOrderEnableWithList() {
+	@Test
+	func `modifierOrder .enable modifierOrder 有值展開 --modifierOrder`() {
 		let args = FormatRule.modifierOrder(rule: .enable, modifierOrder: "public,static").cliArguments
 		#expect(args == [
 			"--enable", "modifierOrder",

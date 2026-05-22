@@ -12,13 +12,13 @@ import Testing
 @Suite("redundantParens")
 struct RedundantParensTests {
 
-	@Test("redundantParens .disable 返空陣列")
-	func redundantParensDisable() {
+	@Test
+	func `redundantParens .disable 返空陣列`() {
 		#expect(FormatRule.redundantParens(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("redundantParens .enable 展開 --enable redundantParens")
-	func redundantParensEnable() {
+	@Test
+	func `redundantParens .enable 展開 --enable redundantParens`() {
 		let args = FormatRule.redundantParens(rule: .enable).cliArguments
 		#expect(args == ["--enable", "redundantParens"])
 	}

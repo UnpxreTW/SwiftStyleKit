@@ -12,13 +12,13 @@ import Testing
 @Suite("spaceInsideBrackets")
 struct SpaceInsideBracketsTests {
 
-	@Test("spaceInsideBrackets .disable 返空陣列")
-	func spaceInsideBracketsDisable() {
+	@Test
+	func `spaceInsideBrackets .disable 返空陣列`() {
 		#expect(FormatRule.spaceInsideBrackets(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("spaceInsideBrackets .enable 展開 --enable spaceInsideBrackets")
-	func spaceInsideBracketsEnable() {
+	@Test
+	func `spaceInsideBrackets .enable 展開 --enable spaceInsideBrackets`() {
 		let args = FormatRule.spaceInsideBrackets(rule: .enable).cliArguments
 		#expect(args == ["--enable", "spaceInsideBrackets"])
 	}

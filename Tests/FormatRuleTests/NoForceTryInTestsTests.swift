@@ -12,13 +12,13 @@ import Testing
 @Suite("noForceTryInTests")
 struct NoForceTryInTestsTests {
 
-	@Test("noForceTryInTests .disable 返空陣列")
-	func noForceTryInTestsDisable() {
+	@Test
+	func `noForceTryInTests .disable 返空陣列`() {
 		#expect(FormatRule.noForceTryInTests(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("noForceTryInTests .enable 展開 --enable noForceTryInTests")
-	func noForceTryInTestsEnable() {
+	@Test
+	func `noForceTryInTests .enable 展開 --enable noForceTryInTests`() {
 		let args = FormatRule.noForceTryInTests(rule: .enable).cliArguments
 		#expect(args == ["--enable", "noForceTryInTests"])
 	}

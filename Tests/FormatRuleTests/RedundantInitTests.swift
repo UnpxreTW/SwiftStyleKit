@@ -12,13 +12,13 @@ import Testing
 @Suite("redundantInit")
 struct RedundantInitTests {
 
-	@Test("redundantInit .disable 返空陣列")
-	func redundantInitDisable() {
+	@Test
+	func `redundantInit .disable 返空陣列`() {
 		#expect(FormatRule.redundantInit(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("redundantInit .enable 展開 --enable redundantInit")
-	func redundantInitEnable() {
+	@Test
+	func `redundantInit .enable 展開 --enable redundantInit`() {
 		let args = FormatRule.redundantInit(rule: .enable).cliArguments
 		#expect(args == ["--enable", "redundantInit"])
 	}

@@ -12,13 +12,13 @@ import Testing
 @Suite("indent")
 struct IndentTests {
 
-	@Test("indent .disable 返空陣列")
-	func indentDisable() {
+	@Test
+	func `indent .disable 返空陣列`() {
 		#expect(FormatRule.indent(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("indent .enable 預設值展開（tab / outdent / indentStrings）")
-	func indentEnableDefault() {
+	@Test
+	func `indent .enable 預設值展開（tab / outdent / indentStrings）`() {
 		let args = FormatRule.indent(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "indent",
@@ -31,8 +31,8 @@ struct IndentTests {
 		])
 	}
 
-	@Test("indent .spaces 與 tabWidth 展開")
-	func indentSpacesWithTabWidth() {
+	@Test
+	func `indent .spaces 與 tabWidth 展開`() {
 		let args = FormatRule.indent(rule: .enable, indent: .spaces(2), tabWidth: 4).cliArguments
 		#expect(args == [
 			"--enable", "indent",

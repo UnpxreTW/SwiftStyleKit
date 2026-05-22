@@ -12,14 +12,14 @@ import Testing
 @Suite("redundantVoidReturnType")
 struct RedundantVoidReturnTypeTests {
 
-	@Test("redundantVoidReturnType .disable 返空陣列")
-	func redundantVoidReturnTypeDisable() {
+	@Test
+	func `redundantVoidReturnType .disable 返空陣列`() {
 		let args = FormatRule.redundantVoidReturnType(rule: .disable, closureVoid: .remove).cliArguments
 		#expect(args.isEmpty)
 	}
 
-	@Test("redundantVoidReturnType .enable（預設 closureVoid .remove）展開 --enable + --closurevoid remove")
-	func redundantVoidReturnTypeEnableDefault() {
+	@Test
+	func `redundantVoidReturnType .enable（預設 closureVoid .remove）展開 --enable + --closurevoid remove`() {
 		let args = FormatRule.redundantVoidReturnType(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "redundantVoidReturnType",
@@ -27,8 +27,8 @@ struct RedundantVoidReturnTypeTests {
 		])
 	}
 
-	@Test("redundantVoidReturnType .enable closureVoid .preserve 展開 --closurevoid preserve")
-	func redundantVoidReturnTypeEnablePreserve() {
+	@Test
+	func `redundantVoidReturnType .enable closureVoid .preserve 展開 --closurevoid preserve`() {
 		let args = FormatRule.redundantVoidReturnType(rule: .enable, closureVoid: .preserve).cliArguments
 		#expect(args == [
 			"--enable", "redundantVoidReturnType",

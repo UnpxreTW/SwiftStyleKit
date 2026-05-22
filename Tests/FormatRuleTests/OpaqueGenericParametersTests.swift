@@ -12,14 +12,14 @@ import Testing
 @Suite("opaqueGenericParameters")
 struct OpaqueGenericParametersTests {
 
-	@Test("opaqueGenericParameters .disable 返空陣列")
-	func opaqueGenericParametersDisable() {
+	@Test
+	func `opaqueGenericParameters .disable 返空陣列`() {
 		let args = FormatRule.opaqueGenericParameters(rule: .disable, someAny: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
-	@Test("opaqueGenericParameters .enable（someAny 預設 .enable）展開 --enable + --someAny true")
-	func opaqueGenericParametersEnableDefault() {
+	@Test
+	func `opaqueGenericParameters .enable（someAny 預設 .enable）展開 --enable + --someAny true`() {
 		let args = FormatRule.opaqueGenericParameters(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "opaqueGenericParameters",
@@ -27,8 +27,8 @@ struct OpaqueGenericParametersTests {
 		])
 	}
 
-	@Test("opaqueGenericParameters .enable someAny .disable 展開 --someAny false")
-	func opaqueGenericParametersEnableSomeAnyDisable() {
+	@Test
+	func `opaqueGenericParameters .enable someAny .disable 展開 --someAny false`() {
 		let args = FormatRule.opaqueGenericParameters(rule: .enable, someAny: .disable).cliArguments
 		#expect(args == [
 			"--enable", "opaqueGenericParameters",

@@ -12,13 +12,13 @@ import Testing
 @Suite("redundantBackticks")
 struct RedundantBackticksTests {
 
-	@Test("redundantBackticks .disable 返空陣列")
-	func redundantBackticksDisable() {
+	@Test
+	func `redundantBackticks .disable 返空陣列`() {
 		#expect(FormatRule.redundantBackticks(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("redundantBackticks .enable 展開 --enable redundantBackticks")
-	func redundantBackticksEnable() {
+	@Test
+	func `redundantBackticks .enable 展開 --enable redundantBackticks`() {
 		let args = FormatRule.redundantBackticks(rule: .enable).cliArguments
 		#expect(args == ["--enable", "redundantBackticks"])
 	}

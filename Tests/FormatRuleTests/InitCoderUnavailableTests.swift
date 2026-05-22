@@ -12,14 +12,14 @@ import Testing
 @Suite("initCoderUnavailable")
 struct InitCoderUnavailableTests {
 
-	@Test("initCoderUnavailable .disable 返空陣列")
-	func initCoderUnavailableDisable() {
+	@Test
+	func `initCoderUnavailable .disable 返空陣列`() {
 		let args = FormatRule.initCoderUnavailable(rule: .disable, initCoderNil: .enable).cliArguments
 		#expect(args.isEmpty)
 	}
 
-	@Test("initCoderUnavailable .enable（initCoderNil 預設 .disable）展開 --enable + --initCoderNil false")
-	func initCoderUnavailableEnableDefault() {
+	@Test
+	func `initCoderUnavailable .enable（initCoderNil 預設 .disable）展開 --enable + --initCoderNil false`() {
 		let args = FormatRule.initCoderUnavailable(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "initCoderUnavailable",
@@ -27,8 +27,8 @@ struct InitCoderUnavailableTests {
 		])
 	}
 
-	@Test("initCoderUnavailable .enable initCoderNil .enable 展開 --initCoderNil true")
-	func initCoderUnavailableEnableNil() {
+	@Test
+	func `initCoderUnavailable .enable initCoderNil .enable 展開 --initCoderNil true`() {
 		let args = FormatRule.initCoderUnavailable(rule: .enable, initCoderNil: .enable).cliArguments
 		#expect(args == [
 			"--enable", "initCoderUnavailable",

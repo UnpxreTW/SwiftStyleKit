@@ -12,8 +12,8 @@ import Testing
 @Suite("FormatRule")
 struct FormatRuleTests {
 
-	@Test("allRules 不為空、enum 有 case 註冊")
-	func allRulesNotEmpty() {
+	@Test
+	func `allRules 不為空、enum 有 case 註冊`() {
 		#expect(!FormatRule.allRules.isEmpty)
 	}
 }

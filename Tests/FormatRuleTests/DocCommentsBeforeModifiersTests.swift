@@ -12,14 +12,14 @@ import Testing
 @Suite("docCommentsBeforeModifiers")
 struct DocCommentsBeforeModifiersTests {
 
-	@Test("docCommentsBeforeModifiers .disable 返空陣列")
-	func docCommentsBeforeModifiersDisable() {
+	@Test
+	func `docCommentsBeforeModifiers .disable 返空陣列`() {
 		let args = FormatRule.docCommentsBeforeModifiers(rule: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
-	@Test("docCommentsBeforeModifiers .enable 展開 --enable docCommentsBeforeModifiers")
-	func docCommentsBeforeModifiersEnable() {
+	@Test
+	func `docCommentsBeforeModifiers .enable 展開 --enable docCommentsBeforeModifiers`() {
 		let args = FormatRule.docCommentsBeforeModifiers(rule: .enable).cliArguments
 		#expect(args == ["--enable", "docCommentsBeforeModifiers"])
 	}
