@@ -18,15 +18,15 @@ struct TrailingCommasTests {
 	}
 
 	@Test
-	func `trailingCommas .enable 簽名預設展開 --trailingCommas collections-only`() {
+	func `trailingCommas .enable 簽名預設展開 --trailingCommas never`() {
 		let args = FormatRule.trailingCommas(rule: .enable).cliArguments
-		#expect(args == ["--enable", "trailingCommas", "--trailingCommas", "collections-only"])
+		#expect(args == ["--enable", "trailingCommas", "--trailingCommas", "never"])
 	}
 
 	@Test
-	func `trailingCommas .enable mode .never 展開 --trailingCommas never`() {
-		let args = FormatRule.trailingCommas(rule: .enable, mode: .never).cliArguments
-		#expect(args == ["--enable", "trailingCommas", "--trailingCommas", "never"])
+	func `trailingCommas .enable mode .collectionsOnly 展開 --trailingCommas collections-only`() {
+		let args = FormatRule.trailingCommas(rule: .enable, mode: .collectionsOnly).cliArguments
+		#expect(args == ["--enable", "trailingCommas", "--trailingCommas", "collections-only"])
 	}
 
 	@Test

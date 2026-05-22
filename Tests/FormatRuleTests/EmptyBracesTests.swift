@@ -29,7 +29,7 @@ struct EmptyBracesTests {
 		let args = FormatRule.emptyBraces(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "emptyBraces",
-			"--emptyBraces", "no-space",
+			"--emptyBraces", "no-space"
 		])
 	}
 
@@ -38,7 +38,7 @@ struct EmptyBracesTests {
 		let args = FormatRule.emptyBraces(rule: .enable, mode: .spaced).cliArguments
 		#expect(args == [
 			"--enable", "emptyBraces",
-			"--emptyBraces", "spaced",
+			"--emptyBraces", "spaced"
 		])
 	}
 
@@ -47,7 +47,7 @@ struct EmptyBracesTests {
 		let args = FormatRule.emptyBraces(rule: .enable, mode: .linebreak).cliArguments
 		#expect(args == [
 			"--enable", "emptyBraces",
-			"--emptyBraces", "linebreak",
+			"--emptyBraces", "linebreak"
 		])
 	}
 }

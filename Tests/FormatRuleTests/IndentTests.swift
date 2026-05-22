@@ -27,7 +27,7 @@ struct IndentTests {
 			"--indentCase", "false",
 			"--ifdef", "outdent",
 			"--xcodeIndentation", "false",
-			"--indentStrings", "true",
+			"--indentStrings", "true"
 		])
 	}
 
@@ -42,7 +42,7 @@ struct IndentTests {
 			"--indentCase", "false",
 			"--ifdef", "outdent",
 			"--xcodeIndentation", "false",
-			"--indentStrings", "true",
+			"--indentStrings", "true"
 		])
 	}
 }

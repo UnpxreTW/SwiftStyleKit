@@ -23,7 +23,7 @@ struct RedundantVoidReturnTypeTests {
 		let args = FormatRule.redundantVoidReturnType(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "redundantVoidReturnType",
-			"--closurevoid", "remove",
+			"--closurevoid", "remove"
 		])
 	}
 
@@ -32,7 +32,7 @@ struct RedundantVoidReturnTypeTests {
 		let args = FormatRule.redundantVoidReturnType(rule: .enable, closureVoid: .preserve).cliArguments
 		#expect(args == [
 			"--enable", "redundantVoidReturnType",
-			"--closurevoid", "preserve",
+			"--closurevoid", "preserve"
 		])
 	}
 }

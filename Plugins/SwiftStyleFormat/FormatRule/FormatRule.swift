@@ -479,10 +479,10 @@ public enum FormatRule {
 
 	/// multi-line 列表加/移除 trailing comma
 	///
-	/// `mode` 簽名預設 `.collectionsOnly`：只在 collection literal `[]` 內加
-	/// trailing comma、function call/decl/generic params 不動。對齊預設啟用
-	/// swiftlint `trailing_comma` 規則的 fork。上游預設為 `.always`。
-	case trailingCommas(rule: Flag, mode: TrailingCommas = .collectionsOnly)
+	/// `mode` 簽名預設 `.never`：移除所有 trailing comma。對齊 swiftlint
+	/// `trailing_comma` 規則預設行為（mandatory_comma: false → 要求無 trailing
+	/// comma）+ 主人歷史 codebase 99% 風格。上游預設為 `.always`。
+	case trailingCommas(rule: Flag, mode: TrailingCommas = .never)
 
 	// MARK: - 全域 option
 

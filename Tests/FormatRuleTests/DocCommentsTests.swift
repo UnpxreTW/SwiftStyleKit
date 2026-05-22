@@ -29,7 +29,7 @@ struct DocCommentsTests {
 		let args = FormatRule.docComments(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "docComments",
-			"--docComments", "before-declarations",
+			"--docComments", "before-declarations"
 		])
 	}
 
@@ -38,7 +38,7 @@ struct DocCommentsTests {
 		let args = FormatRule.docComments(rule: .enable, mode: .preserve).cliArguments
 		#expect(args == [
 			"--enable", "docComments",
-			"--docComments", "preserve",
+			"--docComments", "preserve"
 		])
 	}
 }

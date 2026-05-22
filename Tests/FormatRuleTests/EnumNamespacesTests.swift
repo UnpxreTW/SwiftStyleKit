@@ -29,7 +29,7 @@ struct EnumNamespacesTests {
 		let args = FormatRule.enumNamespaces(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "enumNamespaces",
-			"--enumNamespaces", "always",
+			"--enumNamespaces", "always"
 		])
 	}
 
@@ -38,7 +38,7 @@ struct EnumNamespacesTests {
 		let args = FormatRule.enumNamespaces(rule: .enable, mode: .structsOnly).cliArguments
 		#expect(args == [
 			"--enable", "enumNamespaces",
-			"--enumNamespaces", "structs-only",
+			"--enumNamespaces", "structs-only"
 		])
 	}
 }

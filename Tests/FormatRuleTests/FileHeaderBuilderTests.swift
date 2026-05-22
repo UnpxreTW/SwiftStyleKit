@@ -108,7 +108,7 @@ struct FileHeaderBuilderTests {
 			"Copyright (c) {created.year} Unpxre (GitHub: UnpxreTW)",
 			"Licensed under the MIT License. See LICENSE for details.",
 			"",
-			"SPDX-License-Identifier: MIT",
+			"SPDX-License-Identifier: MIT"
 		].joined(separator: #"\n"#))
 	}
 
@@ -120,7 +120,7 @@ struct FileHeaderBuilderTests {
 			"App",
 			"",
 			"Copyright (c) {created.year} Someone",
-			"See LICENSE for details.",
+			"See LICENSE for details."
 		].joined(separator: #"\n"#))
 	}
 
@@ -132,7 +132,7 @@ struct FileHeaderBuilderTests {
 			"App",
 			"",
 			"Copyright (c) {created.year}",
-			"",
+			""
 		].joined(separator: #"\n"#))
 	}
 }

@@ -23,7 +23,7 @@ struct SwiftTestingTestCaseNamesTests {
 		#expect(args == [
 			"--enable", "swiftTestingTestCaseNames",
 			"--testCaseNameFormat", "raw-identifiers",
-			"--suiteNameFormat", "preserve",
+			"--suiteNameFormat", "preserve"
 		])
 	}
 
@@ -36,7 +36,7 @@ struct SwiftTestingTestCaseNamesTests {
 		#expect(args == [
 			"--enable", "swiftTestingTestCaseNames",
 			"--testCaseNameFormat", "raw-identifiers",
-			"--suiteNameFormat", "raw-identifiers",
+			"--suiteNameFormat", "raw-identifiers"
 		])
 	}
 
@@ -50,7 +50,7 @@ struct SwiftTestingTestCaseNamesTests {
 		#expect(args == [
 			"--enable", "swiftTestingTestCaseNames",
 			"--testCaseNameFormat", "standard-identifiers",
-			"--suiteNameFormat", "standard-identifiers",
+			"--suiteNameFormat", "standard-identifiers"
 		])
 	}
 }

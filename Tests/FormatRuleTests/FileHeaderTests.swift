@@ -35,7 +35,7 @@ struct FileHeaderTests {
 			"--enable", "fileHeader",
 			"--header", "// {file}",
 			"--dateFormat", "iso",
-			"--timeZone", "utc",
+			"--timeZone", "utc"
 		])
 	}
 }

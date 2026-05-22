@@ -31,7 +31,7 @@ struct TrailingClosuresTests {
 		).cliArguments
 		#expect(args == [
 			"--enable", "trailingClosures",
-			"--trailingClosures", "withAnimation,UIView.animate",
+			"--trailingClosures", "withAnimation,UIView.animate"
 		])
 	}
 
@@ -43,7 +43,7 @@ struct TrailingClosuresTests {
 		).cliArguments
 		#expect(args == [
 			"--enable", "trailingClosures",
-			"--neverTrailing", "customExpect",
+			"--neverTrailing", "customExpect"
 		])
 	}
 

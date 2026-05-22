@@ -22,7 +22,7 @@ struct LinebreaksTests {
 		let args = FormatRule.linebreaks(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "linebreaks",
-			"--linebreaks", "lf",
+			"--linebreaks", "lf"
 		])
 	}
 
@@ -31,7 +31,7 @@ struct LinebreaksTests {
 		let args = FormatRule.linebreaks(rule: .enable, mode: .crlf).cliArguments
 		#expect(args == [
 			"--enable", "linebreaks",
-			"--linebreaks", "crlf",
+			"--linebreaks", "crlf"
 		])
 	}
 }

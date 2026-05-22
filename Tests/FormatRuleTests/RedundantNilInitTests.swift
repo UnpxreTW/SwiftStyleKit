@@ -23,7 +23,7 @@ struct RedundantNilInitTests {
 		let args = FormatRule.redundantNilInit(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "redundantNilInit",
-			"--nilinit", "remove",
+			"--nilinit", "remove"
 		])
 	}
 
@@ -32,7 +32,7 @@ struct RedundantNilInitTests {
 		let args = FormatRule.redundantNilInit(rule: .enable, mode: .insert).cliArguments
 		#expect(args == [
 			"--enable", "redundantNilInit",
-			"--nilinit", "insert",
+			"--nilinit", "insert"
 		])
 	}
 }

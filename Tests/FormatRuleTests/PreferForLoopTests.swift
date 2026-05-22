@@ -28,7 +28,7 @@ struct PreferForLoopTests {
 		#expect(args == [
 			"--enable", "preferForLoop",
 			"--anonymousForEach", "ignore",
-			"--singleLineForEach", "ignore",
+			"--singleLineForEach", "ignore"
 		])
 	}
 
@@ -42,7 +42,7 @@ struct PreferForLoopTests {
 		#expect(args == [
 			"--enable", "preferForLoop",
 			"--anonymousForEach", "convert",
-			"--singleLineForEach", "convert",
+			"--singleLineForEach", "convert"
 		])
 	}
 }

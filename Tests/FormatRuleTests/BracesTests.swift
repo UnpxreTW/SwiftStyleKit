@@ -29,7 +29,7 @@ struct BracesTests {
 		let args = FormatRule.braces(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "braces",
-			"--allman", "false",
+			"--allman", "false"
 		])
 	}
 
@@ -38,7 +38,7 @@ struct BracesTests {
 		let args = FormatRule.braces(rule: .enable, allman: .enable).cliArguments
 		#expect(args == [
 			"--enable", "braces",
-			"--allman", "true",
+			"--allman", "true"
 		])
 	}
 }

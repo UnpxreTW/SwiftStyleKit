@@ -29,7 +29,7 @@ struct HoistAwaitTests {
 		let args = FormatRule.hoistAwait(rule: .enable, asyncCapturing: "withChecked").cliArguments
 		#expect(args == [
 			"--enable", "hoistAwait",
-			"--asyncCapturing", "withChecked",
+			"--asyncCapturing", "withChecked"
 		])
 	}
 }

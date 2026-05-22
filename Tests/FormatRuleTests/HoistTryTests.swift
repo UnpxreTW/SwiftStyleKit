@@ -29,7 +29,7 @@ struct HoistTryTests {
 		let args = FormatRule.hoistTry(rule: .enable, throwCapturing: "expect").cliArguments
 		#expect(args == [
 			"--enable", "hoistTry",
-			"--throwCapturing", "expect",
+			"--throwCapturing", "expect"
 		])
 	}
 }

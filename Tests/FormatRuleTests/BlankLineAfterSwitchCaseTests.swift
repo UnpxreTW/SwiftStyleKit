@@ -29,7 +29,7 @@ struct BlankLineAfterSwitchCaseTests {
 		let args = FormatRule.blankLineAfterSwitchCase(rule: .enable, mode: .multilineOnly).cliArguments
 		#expect(args == [
 			"--enable", "blankLineAfterSwitchCase",
-			"--blankLineAfterSwitchCase", "multiline-only",
+			"--blankLineAfterSwitchCase", "multiline-only"
 		])
 	}
 
@@ -38,7 +38,7 @@ struct BlankLineAfterSwitchCaseTests {
 		let args = FormatRule.blankLineAfterSwitchCase(rule: .enable, mode: .always).cliArguments
 		#expect(args == [
 			"--enable", "blankLineAfterSwitchCase",
-			"--blankLineAfterSwitchCase", "always",
+			"--blankLineAfterSwitchCase", "always"
 		])
 	}
 

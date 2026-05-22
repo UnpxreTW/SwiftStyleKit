@@ -24,7 +24,9 @@ extension FormatRule {
 		case always
 
 		/// 只在 collection literal `[]` 內加 trailing comma、function call/decl/
-		/// generic params 不動。對齊預設啟用 swiftlint `trailing_comma` 規則的 fork
+		/// generic params 不動。注意：swiftlint 預設啟用 `trailing_comma` 且
+		/// `mandatory_comma: false`、要求**無** trailing comma；此 mode 與 swiftlint
+		/// 預設衝突，fork 啟用此 mode 須同步調整 swiftlint config
 		case collectionsOnly = "collections-only"
 
 		/// multi-element 列表才加 trailing comma；單元素列表豁免、不加

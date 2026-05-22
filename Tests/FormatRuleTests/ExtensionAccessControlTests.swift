@@ -29,7 +29,7 @@ struct ExtensionAccessControlTests {
 		let args = FormatRule.extensionAccessControl(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "extensionAccessControl",
-			"--extensionAcl", "on-declarations",
+			"--extensionAcl", "on-declarations"
 		])
 	}
 
@@ -38,7 +38,7 @@ struct ExtensionAccessControlTests {
 		let args = FormatRule.extensionAccessControl(rule: .enable, mode: .onExtension).cliArguments
 		#expect(args == [
 			"--enable", "extensionAccessControl",
-			"--extensionAcl", "on-extension",
+			"--extensionAcl", "on-extension"
 		])
 	}
 }
