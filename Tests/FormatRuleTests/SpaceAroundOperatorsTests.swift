@@ -12,13 +12,13 @@ import Testing
 @Suite("spaceAroundOperators")
 struct SpaceAroundOperatorsTests {
 
-	@Test("spaceAroundOperators .disable 返空陣列")
-	func spaceAroundOperatorsDisable() {
+	@Test
+	func `spaceAroundOperators .disable 返空陣列`() {
 		#expect(FormatRule.spaceAroundOperators(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("spaceAroundOperators .enable 簽名預設展開 4 個 option（noSpaceOperators nil 不展開）")
-	func spaceAroundOperatorsEnableDefault() {
+	@Test
+	func `spaceAroundOperators .enable 簽名預設展開 4 個 option（noSpaceOperators nil 不展開）`() {
 		let args = FormatRule.spaceAroundOperators(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "spaceAroundOperators",
@@ -28,8 +28,8 @@ struct SpaceAroundOperatorsTests {
 		])
 	}
 
-	@Test("spaceAroundOperators .enable + noSpaceOperators 空陣列等同 nil 不展開")
-	func spaceAroundOperatorsEmptyNoSpaceOperators() {
+	@Test
+	func `spaceAroundOperators .enable + noSpaceOperators 空陣列等同 nil 不展開`() {
 		let args = FormatRule.spaceAroundOperators(
 			rule: .enable,
 			noSpaceOperators: []
@@ -42,8 +42,8 @@ struct SpaceAroundOperatorsTests {
 		])
 	}
 
-	@Test("spaceAroundOperators .enable + noSpaceOperators 有值展開逗號相連")
-	func spaceAroundOperatorsWithNoSpaceOperators() {
+	@Test
+	func `spaceAroundOperators .enable + noSpaceOperators 有值展開逗號相連`() {
 		let args = FormatRule.spaceAroundOperators(
 			rule: .enable,
 			noSpaceOperators: ["..<", "..."]
@@ -57,8 +57,8 @@ struct SpaceAroundOperatorsTests {
 		])
 	}
 
-	@Test("spaceAroundOperators .enable + 改 ranges 與 typeDelimiter")
-	func spaceAroundOperatorsCustomModes() {
+	@Test
+	func `spaceAroundOperators .enable + 改 ranges 與 typeDelimiter`() {
 		let args = FormatRule.spaceAroundOperators(
 			rule: .enable,
 			operatorFunc: .insert,

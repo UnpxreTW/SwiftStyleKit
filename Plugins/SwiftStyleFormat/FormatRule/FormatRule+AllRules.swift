@@ -115,6 +115,7 @@ extension FormatRule {
 		.spaceInsideParens(rule: .enable),
 		.strongOutlets(rule: .enable),
 		.strongifiedSelf(rule: .enable),
+		.swiftTestingTestCaseNames(rule: .enable),
 		// 全域 option（無啟用開關、mode 預設 .preserve）
 		.typeBlankLines()
 	]

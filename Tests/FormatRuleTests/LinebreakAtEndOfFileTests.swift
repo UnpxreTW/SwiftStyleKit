@@ -12,13 +12,13 @@ import Testing
 @Suite("linebreakAtEndOfFile")
 struct LinebreakAtEndOfFileTests {
 
-	@Test("linebreakAtEndOfFile .disable 返空陣列")
-	func linebreakAtEndOfFileDisable() {
+	@Test
+	func `linebreakAtEndOfFile .disable 返空陣列`() {
 		#expect(FormatRule.linebreakAtEndOfFile(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("linebreakAtEndOfFile .enable 展開 --enable linebreakAtEndOfFile")
-	func linebreakAtEndOfFileEnable() {
+	@Test
+	func `linebreakAtEndOfFile .enable 展開 --enable linebreakAtEndOfFile`() {
 		let args = FormatRule.linebreakAtEndOfFile(rule: .enable).cliArguments
 		#expect(args == ["--enable", "linebreakAtEndOfFile"])
 	}

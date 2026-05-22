@@ -12,13 +12,13 @@ import Testing
 @Suite("redundantReturn")
 struct RedundantReturnTests {
 
-	@Test("redundantReturn .disable 返空陣列")
-	func redundantReturnDisable() {
+	@Test
+	func `redundantReturn .disable 返空陣列`() {
 		#expect(FormatRule.redundantReturn(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("redundantReturn .enable 展開 --enable redundantReturn")
-	func redundantReturnEnable() {
+	@Test
+	func `redundantReturn .enable 展開 --enable redundantReturn`() {
 		let args = FormatRule.redundantReturn(rule: .enable).cliArguments
 		#expect(args == ["--enable", "redundantReturn"])
 	}

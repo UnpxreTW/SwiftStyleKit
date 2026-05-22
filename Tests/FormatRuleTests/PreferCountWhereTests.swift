@@ -12,13 +12,13 @@ import Testing
 @Suite("preferCountWhere")
 struct PreferCountWhereTests {
 
-	@Test("preferCountWhere .disable 返空陣列")
-	func preferCountWhereDisable() {
+	@Test
+	func `preferCountWhere .disable 返空陣列`() {
 		#expect(FormatRule.preferCountWhere(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("preferCountWhere .enable 展開 --enable preferCountWhere")
-	func preferCountWhereEnable() {
+	@Test
+	func `preferCountWhere .enable 展開 --enable preferCountWhere`() {
 		let args = FormatRule.preferCountWhere(rule: .enable).cliArguments
 		#expect(args == ["--enable", "preferCountWhere"])
 	}

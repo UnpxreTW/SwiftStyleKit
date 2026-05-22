@@ -12,14 +12,14 @@ import Testing
 @Suite("blankLinesAtStartOfScope")
 struct BlankLinesAtStartOfScopeTests {
 
-	@Test("blankLinesAtStartOfScope .disable 返空陣列")
-	func blankLinesAtStartOfScopeDisable() {
+	@Test
+	func `blankLinesAtStartOfScope .disable 返空陣列`() {
 		let args = FormatRule.blankLinesAtStartOfScope(rule: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
-	@Test("blankLinesAtStartOfScope .enable 展開 --enable blankLinesAtStartOfScope")
-	func blankLinesAtStartOfScopeEnable() {
+	@Test
+	func `blankLinesAtStartOfScope .enable 展開 --enable blankLinesAtStartOfScope`() {
 		let args = FormatRule.blankLinesAtStartOfScope(rule: .enable).cliArguments
 		#expect(args == ["--enable", "blankLinesAtStartOfScope"])
 	}

@@ -12,13 +12,13 @@ import Testing
 @Suite("redundantStaticSelf")
 struct RedundantStaticSelfTests {
 
-	@Test("redundantStaticSelf .disable 返空陣列")
-	func redundantStaticSelfDisable() {
+	@Test
+	func `redundantStaticSelf .disable 返空陣列`() {
 		#expect(FormatRule.redundantStaticSelf(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("redundantStaticSelf .enable 展開 --enable redundantStaticSelf")
-	func redundantStaticSelfEnable() {
+	@Test
+	func `redundantStaticSelf .enable 展開 --enable redundantStaticSelf`() {
 		let args = FormatRule.redundantStaticSelf(rule: .enable).cliArguments
 		#expect(args == ["--enable", "redundantStaticSelf"])
 	}

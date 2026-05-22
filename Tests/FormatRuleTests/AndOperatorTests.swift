@@ -12,14 +12,14 @@ import Testing
 @Suite("andOperator")
 struct AndOperatorTests {
 
-	@Test("andOperator .disable 返空陣列")
-	func andOperatorDisable() {
+	@Test
+	func `andOperator .disable 返空陣列`() {
 		let args = FormatRule.andOperator(rule: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
-	@Test("andOperator .enable 展開 --enable andOperator")
-	func andOperatorEnable() {
+	@Test
+	func `andOperator .enable 展開 --enable andOperator`() {
 		let args = FormatRule.andOperator(rule: .enable).cliArguments
 		#expect(args == ["--enable", "andOperator"])
 	}

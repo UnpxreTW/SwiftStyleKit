@@ -12,13 +12,13 @@ import Testing
 @Suite("sortTypealiases")
 struct SortTypealiasesTests {
 
-	@Test("sortTypealiases .disable 返空陣列")
-	func sortTypealiasesDisable() {
+	@Test
+	func `sortTypealiases .disable 返空陣列`() {
 		#expect(FormatRule.sortTypealiases(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("sortTypealiases .enable 展開 --enable sortTypealiases")
-	func sortTypealiasesEnable() {
+	@Test
+	func `sortTypealiases .enable 展開 --enable sortTypealiases`() {
 		let args = FormatRule.sortTypealiases(rule: .enable).cliArguments
 		#expect(args == ["--enable", "sortTypealiases"])
 	}

@@ -12,14 +12,14 @@ import Testing
 @Suite("duplicateImports")
 struct DuplicateImportsTests {
 
-	@Test("duplicateImports .disable 返空陣列")
-	func duplicateImportsDisable() {
+	@Test
+	func `duplicateImports .disable 返空陣列`() {
 		let args = FormatRule.duplicateImports(rule: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
-	@Test("duplicateImports .enable 展開 --enable duplicateImports")
-	func duplicateImportsEnable() {
+	@Test
+	func `duplicateImports .enable 展開 --enable duplicateImports`() {
 		let args = FormatRule.duplicateImports(rule: .enable).cliArguments
 		#expect(args == ["--enable", "duplicateImports"])
 	}

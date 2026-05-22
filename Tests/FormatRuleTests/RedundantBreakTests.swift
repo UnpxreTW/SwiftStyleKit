@@ -12,13 +12,13 @@ import Testing
 @Suite("redundantBreak")
 struct RedundantBreakTests {
 
-	@Test("redundantBreak .disable 返空陣列")
-	func redundantBreakDisable() {
+	@Test
+	func `redundantBreak .disable 返空陣列`() {
 		#expect(FormatRule.redundantBreak(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("redundantBreak .enable 展開 --enable redundantBreak")
-	func redundantBreakEnable() {
+	@Test
+	func `redundantBreak .enable 展開 --enable redundantBreak`() {
 		let args = FormatRule.redundantBreak(rule: .enable).cliArguments
 		#expect(args == ["--enable", "redundantBreak"])
 	}

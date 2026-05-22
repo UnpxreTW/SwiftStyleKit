@@ -447,6 +447,18 @@ public enum FormatRule {
 	/// 移除 `guard let \`self\` = self` 冗餘 backticks（Swift 4.2+ gate、低於版本自動 no-op）
 	case strongifiedSelf(rule: Flag)
 
+	/// 格式化 Swift Testing `@Test` / `@Suite` 名稱
+	///
+	/// - `testCaseNameFormat` 簽名預設 `.rawIdentifiers`：把 `@Test("中文描述")` 字串提升到
+	///   function 名本體（轉成 backtick 包覆的 raw identifier）、移除 `@Test` 描述參數
+	/// - `suiteNameFormat` 簽名預設 `.preserve`：不動既有 `@Suite("…")` struct/class/actor/enum 名
+	/// - Swift 6.2+ gate（規則內部處理；`.rawIdentifiers` 模式對低版本自動 no-op，`.standardIdentifiers` 模式無版本限制）
+	case swiftTestingTestCaseNames(
+		rule: Flag,
+		testCaseNameFormat: SwiftTestingNameFormat = .rawIdentifiers,
+		suiteNameFormat: SwiftTestingNameFormat = .preserve
+	)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策

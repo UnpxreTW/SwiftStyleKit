@@ -12,20 +12,20 @@ import Testing
 @Suite("braces")
 struct BracesTests {
 
-	@Test("braces .disable 返空陣列")
-	func bracesDisable() {
+	@Test
+	func `braces .disable 返空陣列`() {
 		let args = FormatRule.braces(rule: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
-	@Test("braces .disable + allman（option 被忽略）返空陣列")
-	func bracesDisableWithOption() {
+	@Test
+	func `braces .disable + allman（option 被忽略）返空陣列`() {
 		let args = FormatRule.braces(rule: .disable, allman: .enable).cliArguments
 		#expect(args.isEmpty)
 	}
 
-	@Test("braces .enable（allman 預設 .disable）展開 --enable + --allman false")
-	func bracesEnableDefault() {
+	@Test
+	func `braces .enable（allman 預設 .disable）展開 --enable + --allman false`() {
 		let args = FormatRule.braces(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "braces",
@@ -33,8 +33,8 @@ struct BracesTests {
 		])
 	}
 
-	@Test("braces .enable allman .enable 展開 --allman true")
-	func bracesEnableAllman() {
+	@Test
+	func `braces .enable allman .enable 展開 --allman true`() {
 		let args = FormatRule.braces(rule: .enable, allman: .enable).cliArguments
 		#expect(args == [
 			"--enable", "braces",

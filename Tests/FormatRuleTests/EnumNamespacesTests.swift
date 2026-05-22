@@ -12,20 +12,20 @@ import Testing
 @Suite("enumNamespaces")
 struct EnumNamespacesTests {
 
-	@Test("enumNamespaces .disable 返空陣列")
-	func enumNamespacesDisable() {
+	@Test
+	func `enumNamespaces .disable 返空陣列`() {
 		let args = FormatRule.enumNamespaces(rule: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
-	@Test("enumNamespaces .disable + mode（option 被忽略）返空陣列")
-	func enumNamespacesDisableWithMode() {
+	@Test
+	func `enumNamespaces .disable + mode（option 被忽略）返空陣列`() {
 		let args = FormatRule.enumNamespaces(rule: .disable, mode: .structsOnly).cliArguments
 		#expect(args.isEmpty)
 	}
 
-	@Test("enumNamespaces .enable（mode 預設 .always）展開 --enable + --enumNamespaces always")
-	func enumNamespacesEnableDefault() {
+	@Test
+	func `enumNamespaces .enable（mode 預設 .always）展開 --enable + --enumNamespaces always`() {
 		let args = FormatRule.enumNamespaces(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "enumNamespaces",
@@ -33,8 +33,8 @@ struct EnumNamespacesTests {
 		])
 	}
 
-	@Test("enumNamespaces .enable mode .structsOnly 展開 --enumNamespaces structs-only")
-	func enumNamespacesEnableStructsOnly() {
+	@Test
+	func `enumNamespaces .enable mode .structsOnly 展開 --enumNamespaces structs-only`() {
 		let args = FormatRule.enumNamespaces(rule: .enable, mode: .structsOnly).cliArguments
 		#expect(args == [
 			"--enable", "enumNamespaces",

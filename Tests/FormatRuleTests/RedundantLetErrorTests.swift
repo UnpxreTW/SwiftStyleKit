@@ -12,13 +12,13 @@ import Testing
 @Suite("redundantLetError")
 struct RedundantLetErrorTests {
 
-	@Test("redundantLetError .disable 返空陣列")
-	func redundantLetErrorDisable() {
+	@Test
+	func `redundantLetError .disable 返空陣列`() {
 		#expect(FormatRule.redundantLetError(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("redundantLetError .enable 展開 --enable redundantLetError")
-	func redundantLetErrorEnable() {
+	@Test
+	func `redundantLetError .enable 展開 --enable redundantLetError`() {
 		let args = FormatRule.redundantLetError(rule: .enable).cliArguments
 		#expect(args == ["--enable", "redundantLetError"])
 	}

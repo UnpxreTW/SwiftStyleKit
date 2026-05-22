@@ -12,13 +12,13 @@ import Testing
 @Suite("redundantExtensionACL")
 struct RedundantExtensionACLTests {
 
-	@Test("redundantExtensionACL .disable 返空陣列")
-	func redundantExtensionACLDisable() {
+	@Test
+	func `redundantExtensionACL .disable 返空陣列`() {
 		#expect(FormatRule.redundantExtensionACL(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("redundantExtensionACL .enable 展開 --enable redundantExtensionACL")
-	func redundantExtensionACLEnable() {
+	@Test
+	func `redundantExtensionACL .enable 展開 --enable redundantExtensionACL`() {
 		let args = FormatRule.redundantExtensionACL(rule: .enable).cliArguments
 		#expect(args == ["--enable", "redundantExtensionACL"])
 	}

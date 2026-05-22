@@ -12,14 +12,14 @@ import Testing
 @Suite("fileMacro")
 struct FileMacroTests {
 
-	@Test("fileMacro .disable 返空陣列")
-	func fileMacroDisable() {
+	@Test
+	func `fileMacro .disable 返空陣列`() {
 		let args = FormatRule.fileMacro(rule: .disable, mode: .file).cliArguments
 		#expect(args.isEmpty)
 	}
 
-	@Test("fileMacro .enable（mode 預設 .fileID）展開 --enable + --fileMacro #fileID")
-	func fileMacroEnableDefault() {
+	@Test
+	func `fileMacro .enable（mode 預設 .fileID）展開 --enable + --fileMacro #fileID`() {
 		let args = FormatRule.fileMacro(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "fileMacro",
@@ -27,8 +27,8 @@ struct FileMacroTests {
 		])
 	}
 
-	@Test("fileMacro .enable mode .file 展開 --fileMacro #file")
-	func fileMacroEnableFile() {
+	@Test
+	func `fileMacro .enable mode .file 展開 --fileMacro #file`() {
 		let args = FormatRule.fileMacro(rule: .enable, mode: .file).cliArguments
 		#expect(args == [
 			"--enable", "fileMacro",

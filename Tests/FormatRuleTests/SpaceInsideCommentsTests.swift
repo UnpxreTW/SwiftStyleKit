@@ -12,13 +12,13 @@ import Testing
 @Suite("spaceInsideComments")
 struct SpaceInsideCommentsTests {
 
-	@Test("spaceInsideComments .disable 返空陣列")
-	func spaceInsideCommentsDisable() {
+	@Test
+	func `spaceInsideComments .disable 返空陣列`() {
 		#expect(FormatRule.spaceInsideComments(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("spaceInsideComments .enable 展開 --enable spaceInsideComments")
-	func spaceInsideCommentsEnable() {
+	@Test
+	func `spaceInsideComments .enable 展開 --enable spaceInsideComments`() {
 		let args = FormatRule.spaceInsideComments(rule: .enable).cliArguments
 		#expect(args == ["--enable", "spaceInsideComments"])
 	}

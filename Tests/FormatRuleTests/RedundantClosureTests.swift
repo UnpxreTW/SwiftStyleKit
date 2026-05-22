@@ -12,13 +12,13 @@ import Testing
 @Suite("redundantClosure")
 struct RedundantClosureTests {
 
-	@Test("redundantClosure .disable 返空陣列")
-	func redundantClosureDisable() {
+	@Test
+	func `redundantClosure .disable 返空陣列`() {
 		#expect(FormatRule.redundantClosure(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("redundantClosure .enable 展開 --enable redundantClosure")
-	func redundantClosureEnable() {
+	@Test
+	func `redundantClosure .enable 展開 --enable redundantClosure`() {
 		let args = FormatRule.redundantClosure(rule: .enable).cliArguments
 		#expect(args == ["--enable", "redundantClosure"])
 	}
