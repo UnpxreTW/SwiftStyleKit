@@ -119,6 +119,7 @@ extension FormatRule {
 		.todos(rule: .enable),
 		.trailingClosures(rule: .enable),
 		.trailingCommas(rule: .enable),
+		.trailingSpace(rule: .enable),
 		// 全域 option（無啟用開關、mode 預設 .preserve）
 		.typeBlankLines()
 	]

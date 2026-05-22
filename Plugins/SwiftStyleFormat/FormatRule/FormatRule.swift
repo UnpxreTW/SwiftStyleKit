@@ -484,6 +484,13 @@ public enum FormatRule {
 	/// comma）+ SwiftStyleKit歷史 codebase 99% 風格。上游預設為 `.always`。
 	case trailingCommas(rule: Flag, mode: TrailingCommas = .never)
 
+	/// 清行尾空白（含純空白行的縮排）
+	///
+	/// `mode` 簽名預設 `.always`：上游預設、清行尾空白 + 清純空白行的縮排。
+	/// 設 `.nonblankLines` 改為只清非空白行尾空白、保留純空白行縮排（適合
+	/// 「按 Enter 後光標自動縮排」這類編輯器體驗）。
+	case trailingSpace(rule: Flag, mode: TrimWhitespace = .always)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
