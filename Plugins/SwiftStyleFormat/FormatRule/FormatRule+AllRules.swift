@@ -123,6 +123,7 @@ extension FormatRule {
 		.typeSugar(rule: .enable),
 		.unusedArguments(rule: .enable),
 		.void(rule: .enable),
+		.wrap(rule: .enable),
 		// 全域 option（無啟用開關、mode 預設 .preserve）
 		.typeBlankLines()
 	]
