@@ -491,6 +491,13 @@ public enum FormatRule {
 	/// 「按 Enter 後光標自動縮排」這類編輯器體驗）。
 	case trailingSpace(rule: Flag, mode: TrimWhitespace = .always)
 
+	/// `Optional<T>` / `Array<T>` / `Dictionary<K, V>` → `T?` / `[T]` / `[K: V]` sugar 轉換
+	///
+	/// `mode` 簽名預設 `.preserveStructInits`：上游預設、保留 struct stored property
+	/// 位置的 `Optional<T>`（防 memberwise init 默認值意外變化 footgun）；其他位置仍 sugar。
+	/// `Array<T>` / `Dictionary<K, V>` 永遠 sugar、無例外。
+	case typeSugar(rule: Flag, mode: OptionalsMode = .preserveStructInits)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
