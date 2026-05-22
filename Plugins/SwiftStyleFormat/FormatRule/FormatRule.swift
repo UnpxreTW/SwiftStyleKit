@@ -505,6 +505,12 @@ public enum FormatRule {
 	/// 內部沒用 `bar` 也不改寫）。上游預設為 `.all`。
 	case unusedArguments(rule: Flag, mode: ArgumentStrippingMode = .closureOnly)
 
+	/// 規範 `Void` / `()` 用法：type 位置用 `Void`、value 位置用 `()`
+	///
+	/// `mode` 簽名預設 `.void`：對齊 Swift 社群標準與上游預設（`() -> Void`）。
+	/// 設 `.tuple` 改為 type 位置寫 `()`（`() -> ()`）。value 位置 (`Void()` → `()`) 無例外。
+	case void(rule: Flag, mode: VoidType = .void)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
