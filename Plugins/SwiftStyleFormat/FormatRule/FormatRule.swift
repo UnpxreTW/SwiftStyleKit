@@ -463,6 +463,20 @@ public enum FormatRule {
 	/// 規範 `TODO:` / `MARK:` / `FIXME:` 註解格式（大寫 + 冒號；`TODOfoo` 無 space 後綴視為自訂 tag、不動）
 	case todos(rule: Flag)
 
+	/// 把 `foo(execute: { ... })` 轉成 trailing closure 寫法 `foo { ... }`
+	///
+	/// 規則內建 `async` / `asyncAfter` / `sync` / `autoreleasepool` 永遠轉 trailing；
+	/// `performBatchUpdates` / `expect`（Nimble）永遠保留括號內 closure。
+	///
+	/// - `trailingClosures` 簽名預設 `nil`：fork 自訂額外 always-trailing 函式名單
+	///   （`nil` 與 `[]` 等效不展開該 flag）
+	/// - `neverTrailing` 簽名預設 `nil`：fork 自訂額外 never-trailing 函式名單
+	case trailingClosures(
+		rule: Flag,
+		trailingClosures: [String]? = nil,
+		neverTrailing: [String]? = nil
+	)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
