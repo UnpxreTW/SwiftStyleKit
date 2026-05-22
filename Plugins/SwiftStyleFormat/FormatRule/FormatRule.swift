@@ -557,6 +557,28 @@ public enum FormatRule {
 		allowPartialWrapping: Toggle = .enable
 	)
 
+	/// 規範 `@attribute` 擺位——換到上一行或同行
+	///
+	/// 6 個 `AttributeMode` option 簽名預設全部 `.prevLine`（B 方案、上游 `.preserve`）——
+	/// 強調 attribute 存在感、對齊主人 `@Test` / SwiftUI `@State` / Concurrency `@MainActor` 慣例。
+	/// - `funcAttributes`：function 上的 @attribute
+	/// - `typeAttributes`：type 宣告上的 @attribute
+	/// - `varAttributes`：var 上的 @attribute（總控、stored / computed 沒設時 fallback 用此值）
+	/// - `storedVarAttributes`：stored property 細分 override
+	/// - `computedVarAttributes`：computed property 細分 override
+	/// - `complexAttributes`：帶參數的 @attribute（如 `@available(iOS 15, *)`）
+	/// - `nonComplexAttributes` 簽名預設 `nil`：fork 自訂哪些 attribute 強制當 simple；`nil`/`[]` 等效不展開
+	case wrapAttributes(
+		rule: Flag,
+		funcAttributes: AttributeMode = .prevLine,
+		typeAttributes: AttributeMode = .prevLine,
+		varAttributes: AttributeMode = .prevLine,
+		storedVarAttributes: AttributeMode = .prevLine,
+		computedVarAttributes: AttributeMode = .prevLine,
+		complexAttributes: AttributeMode = .prevLine,
+		nonComplexAttributes: [String]? = nil
+	)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
