@@ -23,7 +23,7 @@ struct OpaqueGenericParametersTests {
 		let args = FormatRule.opaqueGenericParameters(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "opaqueGenericParameters",
-			"--someAny", "true"
+			"--someAny", "true",
 		])
 	}
 
@@ -32,7 +32,7 @@ struct OpaqueGenericParametersTests {
 		let args = FormatRule.opaqueGenericParameters(rule: .enable, someAny: .disable).cliArguments
 		#expect(args == [
 			"--enable", "opaqueGenericParameters",
-			"--someAny", "false"
+			"--someAny", "false",
 		])
 	}
 }

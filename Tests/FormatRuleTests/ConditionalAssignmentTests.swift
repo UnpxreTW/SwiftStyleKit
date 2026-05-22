@@ -29,7 +29,7 @@ struct ConditionalAssignmentTests {
 		let args = FormatRule.conditionalAssignment(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "conditionalAssignment",
-			"--conditionalAssignment", "always"
+			"--conditionalAssignment", "always",
 		])
 	}
 
@@ -38,7 +38,7 @@ struct ConditionalAssignmentTests {
 		let args = FormatRule.conditionalAssignment(rule: .enable, mode: .afterProperty).cliArguments
 		#expect(args == [
 			"--enable", "conditionalAssignment",
-			"--conditionalAssignment", "after-property"
+			"--conditionalAssignment", "after-property",
 		])
 	}
 }

@@ -23,7 +23,7 @@ struct FileMacroTests {
 		let args = FormatRule.fileMacro(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "fileMacro",
-			"--fileMacro", "#fileID"
+			"--fileMacro", "#fileID",
 		])
 	}
 
@@ -32,7 +32,7 @@ struct FileMacroTests {
 		let args = FormatRule.fileMacro(rule: .enable, mode: .file).cliArguments
 		#expect(args == [
 			"--enable", "fileMacro",
-			"--fileMacro", "#file"
+			"--fileMacro", "#file",
 		])
 	}
 }

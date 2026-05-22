@@ -29,7 +29,7 @@ struct NumberFormattingTests {
 			"--fractionGrouping", "true",
 			"--exponentGrouping", "false",
 			"--hexLiteralCase", "uppercase",
-			"--exponentCase", "lowercase"
+			"--exponentCase", "lowercase",
 		])
 	}
 

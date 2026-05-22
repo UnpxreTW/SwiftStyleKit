@@ -23,7 +23,7 @@ struct SortImportsTests {
 		let args = FormatRule.sortImports(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "sortImports",
-			"--importgrouping", "testable-first"
+			"--importgrouping", "testable-first",
 		])
 	}
 
@@ -32,7 +32,7 @@ struct SortImportsTests {
 		let args = FormatRule.sortImports(rule: .enable, mode: .alpha).cliArguments
 		#expect(args == [
 			"--enable", "sortImports",
-			"--importgrouping", "alpha"
+			"--importgrouping", "alpha",
 		])
 	}
 
@@ -41,7 +41,7 @@ struct SortImportsTests {
 		let args = FormatRule.sortImports(rule: .enable, mode: .testableLast).cliArguments
 		#expect(args == [
 			"--enable", "sortImports",
-			"--importgrouping", "testable-last"
+			"--importgrouping", "testable-last",
 		])
 	}
 
@@ -50,7 +50,7 @@ struct SortImportsTests {
 		let args = FormatRule.sortImports(rule: .enable, mode: .length).cliArguments
 		#expect(args == [
 			"--enable", "sortImports",
-			"--importgrouping", "length"
+			"--importgrouping", "length",
 		])
 	}
 }

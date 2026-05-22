@@ -29,7 +29,7 @@ struct GenericExtensionsTests {
 		let args = FormatRule.genericExtensions(rule: .enable, genericTypes: "LinkedList<Element>").cliArguments
 		#expect(args == [
 			"--enable", "genericExtensions",
-			"--genericTypes", "LinkedList<Element>"
+			"--genericTypes", "LinkedList<Element>",
 		])
 	}
 }

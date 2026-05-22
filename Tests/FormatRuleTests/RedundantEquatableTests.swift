@@ -29,7 +29,7 @@ struct RedundantEquatableTests {
 		let args = FormatRule.redundantEquatable(rule: .enable, equatableMacro: "@Equatable,EquatableMacroLib").cliArguments
 		#expect(args == [
 			"--enable", "redundantEquatable",
-			"--equatableMacro", "@Equatable,EquatableMacroLib"
+			"--equatableMacro", "@Equatable,EquatableMacroLib",
 		])
 	}
 }

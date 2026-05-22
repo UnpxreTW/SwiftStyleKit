@@ -23,7 +23,7 @@ struct SemicolonsTests {
 		let args = FormatRule.semicolons(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "semicolons",
-			"--semicolons", "never"
+			"--semicolons", "never",
 		])
 	}
 
@@ -32,7 +32,7 @@ struct SemicolonsTests {
 		let args = FormatRule.semicolons(rule: .enable, mode: .inline).cliArguments
 		#expect(args == [
 			"--enable", "semicolons",
-			"--semicolons", "inline"
+			"--semicolons", "inline",
 		])
 	}
 }

@@ -30,7 +30,7 @@ struct ElseOnSameLineTests {
 		#expect(args == [
 			"--enable", "elseOnSameLine",
 			"--elsePosition", "same-line",
-			"--guardElse", "next-line"
+			"--guardElse", "next-line",
 		])
 	}
 
@@ -40,7 +40,7 @@ struct ElseOnSameLineTests {
 		#expect(args == [
 			"--enable", "elseOnSameLine",
 			"--elsePosition", "next-line",
-			"--guardElse", "next-line"
+			"--guardElse", "next-line",
 		])
 	}
 
@@ -50,7 +50,7 @@ struct ElseOnSameLineTests {
 		#expect(args == [
 			"--enable", "elseOnSameLine",
 			"--elsePosition", "same-line",
-			"--guardElse", "same-line"
+			"--guardElse", "same-line",
 		])
 	}
 }

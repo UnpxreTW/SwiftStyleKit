@@ -23,7 +23,7 @@ struct InitCoderUnavailableTests {
 		let args = FormatRule.initCoderUnavailable(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "initCoderUnavailable",
-			"--initCoderNil", "false"
+			"--initCoderNil", "false",
 		])
 	}
 
@@ -32,7 +32,7 @@ struct InitCoderUnavailableTests {
 		let args = FormatRule.initCoderUnavailable(rule: .enable, initCoderNil: .enable).cliArguments
 		#expect(args == [
 			"--enable", "initCoderUnavailable",
-			"--initCoderNil", "true"
+			"--initCoderNil", "true",
 		])
 	}
 }

@@ -23,7 +23,7 @@ struct HoistPatternLetTests {
 		let args = FormatRule.hoistPatternLet(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "hoistPatternLet",
-			"--patternLet", "hoist"
+			"--patternLet", "hoist",
 		])
 	}
 
@@ -32,7 +32,7 @@ struct HoistPatternLetTests {
 		let args = FormatRule.hoistPatternLet(rule: .enable, mode: .inline).cliArguments
 		#expect(args == [
 			"--enable", "hoistPatternLet",
-			"--patternLet", "inline"
+			"--patternLet", "inline",
 		])
 	}
 }

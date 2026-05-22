@@ -25,7 +25,7 @@ struct MarkTypesTests {
 			"--markTypes", "always",
 			"--markExtensions", "always",
 			"--extensionMark", "MARK: - + %c",
-			"--groupedExtension", "MARK: - + %c"
+			"--groupedExtension", "MARK: - + %c",
 		])
 	}
 
@@ -45,7 +45,7 @@ struct MarkTypesTests {
 			"--typeMark", "MARK: - %t",
 			"--markExtensions", "if-not-empty",
 			"--extensionMark", "MARK: %c",
-			"--groupedExtension", "MARK: %c"
+			"--groupedExtension", "MARK: %c",
 		])
 	}
 }

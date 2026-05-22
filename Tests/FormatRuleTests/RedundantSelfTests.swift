@@ -23,7 +23,7 @@ struct RedundantSelfTests {
 		let args = FormatRule.redundantSelf(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "redundantSelf",
-			"--self", "init-only"
+			"--self", "init-only",
 		])
 	}
 
@@ -32,7 +32,7 @@ struct RedundantSelfTests {
 		let args = FormatRule.redundantSelf(rule: .enable, mode: .remove).cliArguments
 		#expect(args == [
 			"--enable", "redundantSelf",
-			"--self", "remove"
+			"--self", "remove",
 		])
 	}
 
@@ -41,7 +41,7 @@ struct RedundantSelfTests {
 		let args = FormatRule.redundantSelf(rule: .enable, mode: .insert).cliArguments
 		#expect(args == [
 			"--enable", "redundantSelf",
-			"--self", "insert"
+			"--self", "insert",
 		])
 	}
 
@@ -55,7 +55,7 @@ struct RedundantSelfTests {
 		#expect(args == [
 			"--enable", "redundantSelf",
 			"--self", "init-only",
-			"--selfRequired", "expect,require"
+			"--selfRequired", "expect,require",
 		])
 	}
 }

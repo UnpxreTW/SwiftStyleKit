@@ -23,7 +23,7 @@ struct RedundantAsyncTests {
 		let args = FormatRule.redundantAsync(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "redundantAsync",
-			"--redundantAsync", "tests-only"
+			"--redundantAsync", "tests-only",
 		])
 	}
 
@@ -32,7 +32,7 @@ struct RedundantAsyncTests {
 		let args = FormatRule.redundantAsync(rule: .enable, mode: .always).cliArguments
 		#expect(args == [
 			"--enable", "redundantAsync",
-			"--redundantAsync", "always"
+			"--redundantAsync", "always",
 		])
 	}
 }

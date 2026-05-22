@@ -29,7 +29,7 @@ struct ModifierOrderTests {
 		let args = FormatRule.modifierOrder(rule: .enable, modifierOrder: "public,static").cliArguments
 		#expect(args == [
 			"--enable", "modifierOrder",
-			"--modifierOrder", "public,static"
+			"--modifierOrder", "public,static",
 		])
 	}
 }

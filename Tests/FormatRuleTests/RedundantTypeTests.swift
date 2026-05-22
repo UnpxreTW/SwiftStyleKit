@@ -23,7 +23,7 @@ struct RedundantTypeTests {
 		let args = FormatRule.redundantType(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "redundantType",
-			"--redundantType", "explicit"
+			"--redundantType", "explicit",
 		])
 	}
 
@@ -32,7 +32,7 @@ struct RedundantTypeTests {
 		let args = FormatRule.redundantType(rule: .enable, mode: .inferred).cliArguments
 		#expect(args == [
 			"--enable", "redundantType",
-			"--redundantType", "inferred"
+			"--redundantType", "inferred",
 		])
 	}
 
@@ -41,7 +41,7 @@ struct RedundantTypeTests {
 		let args = FormatRule.redundantType(rule: .enable, mode: .inferLocalsOnly).cliArguments
 		#expect(args == [
 			"--enable", "redundantType",
-			"--redundantType", "infer-locals-only"
+			"--redundantType", "infer-locals-only",
 		])
 	}
 }

@@ -26,6 +26,6 @@ extension FormatRule {
 		"DMA", "MMU", "TLB", "IRQ", "ISR", "MMIO", "IO",
 		"IPC", "ABI", "EL", "ELF", "VM",
 		"ARM", "UEFI", "BIOS",
-		"CLI", "DSL"
+		"CLI", "DSL",
 	].joined(separator: ",")
 }

@@ -24,7 +24,7 @@ struct SpaceAroundOperatorsTests {
 			"--enable", "spaceAroundOperators",
 			"--operatorFunc", "no-space",
 			"--ranges", "spaced",
-			"--typeDelimiter", "space-after"
+			"--typeDelimiter", "space-after",
 		])
 	}
 
@@ -38,7 +38,7 @@ struct SpaceAroundOperatorsTests {
 			"--enable", "spaceAroundOperators",
 			"--operatorFunc", "no-space",
 			"--ranges", "spaced",
-			"--typeDelimiter", "space-after"
+			"--typeDelimiter", "space-after",
 		])
 	}
 
@@ -53,7 +53,7 @@ struct SpaceAroundOperatorsTests {
 			"--operatorFunc", "no-space",
 			"--ranges", "spaced",
 			"--typeDelimiter", "space-after",
-			"--noSpaceOperators", "..<,..."
+			"--noSpaceOperators", "..<,...",
 		])
 	}
 
@@ -69,7 +69,7 @@ struct SpaceAroundOperatorsTests {
 			"--enable", "spaceAroundOperators",
 			"--operatorFunc", "spaced",
 			"--ranges", "no-space",
-			"--typeDelimiter", "spaced"
+			"--typeDelimiter", "spaced",
 		])
 	}
 }

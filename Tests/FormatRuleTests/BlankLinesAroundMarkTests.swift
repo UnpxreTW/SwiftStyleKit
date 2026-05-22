@@ -29,7 +29,7 @@ struct BlankLinesAroundMarkTests {
 		let args = FormatRule.blankLinesAroundMark(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "blankLinesAroundMark",
-			"--lineAfterMarks", "true"
+			"--lineAfterMarks", "true",
 		])
 	}
 
@@ -38,7 +38,7 @@ struct BlankLinesAroundMarkTests {
 		let args = FormatRule.blankLinesAroundMark(rule: .enable, lineAfterMarks: .disable).cliArguments
 		#expect(args == [
 			"--enable", "blankLinesAroundMark",
-			"--lineAfterMarks", "false"
+			"--lineAfterMarks", "false",
 		])
 	}
 }
