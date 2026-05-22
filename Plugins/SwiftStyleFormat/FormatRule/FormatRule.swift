@@ -477,6 +477,13 @@ public enum FormatRule {
 		neverTrailing: [String]? = nil
 	)
 
+	/// multi-line 列表加/移除 trailing comma
+	///
+	/// `mode` 簽名預設 `.never`：移除所有 trailing comma。對齊 swiftlint
+	/// `trailing_comma` 規則預設行為（mandatory_comma: false → 要求無 trailing
+	/// comma）+ SwiftStyleKit歷史 codebase 99% 風格。上游預設為 `.always`。
+	case trailingCommas(rule: Flag, mode: TrailingCommas = .never)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
