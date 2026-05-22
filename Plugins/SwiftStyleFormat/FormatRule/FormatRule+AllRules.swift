@@ -124,8 +124,10 @@ extension FormatRule {
 		.unusedArguments(rule: .enable),
 		.void(rule: .enable),
 		.wrap(rule: .enable),
+		.wrapArguments(rule: .enable),
 		// 全域 option（無啟用開關、mode 預設 .preserve）
-		.typeBlankLines()
+		.typeBlankLines(),
+		.wrapStringInterpolation()
 	]
 
 	/// 全部啟用規則展開成 swiftformat CLI 參數
