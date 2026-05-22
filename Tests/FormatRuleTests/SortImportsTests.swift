@@ -12,14 +12,14 @@ import Testing
 @Suite("sortImports")
 struct SortImportsTests {
 
-	@Test("sortImports .disable 返空陣列")
-	func sortImportsDisable() {
+	@Test
+	func `sortImports .disable 返空陣列`() {
 		let args = FormatRule.sortImports(rule: .disable, mode: .alpha).cliArguments
 		#expect(args.isEmpty)
 	}
 
-	@Test("sortImports .enable（預設 .testableFirst）展開 --enable + --importgrouping testable-first")
-	func sortImportsEnableDefault() {
+	@Test
+	func `sortImports .enable（預設 .testableFirst）展開 --enable + --importgrouping testable-first`() {
 		let args = FormatRule.sortImports(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "sortImports",
@@ -27,8 +27,8 @@ struct SortImportsTests {
 		])
 	}
 
-	@Test("sortImports .enable mode .alpha 展開 --importgrouping alpha")
-	func sortImportsEnableAlpha() {
+	@Test
+	func `sortImports .enable mode .alpha 展開 --importgrouping alpha`() {
 		let args = FormatRule.sortImports(rule: .enable, mode: .alpha).cliArguments
 		#expect(args == [
 			"--enable", "sortImports",
@@ -36,8 +36,8 @@ struct SortImportsTests {
 		])
 	}
 
-	@Test("sortImports .enable mode .testableLast 展開 --importgrouping testable-last")
-	func sortImportsEnableTestableLast() {
+	@Test
+	func `sortImports .enable mode .testableLast 展開 --importgrouping testable-last`() {
 		let args = FormatRule.sortImports(rule: .enable, mode: .testableLast).cliArguments
 		#expect(args == [
 			"--enable", "sortImports",
@@ -45,8 +45,8 @@ struct SortImportsTests {
 		])
 	}
 
-	@Test("sortImports .enable mode .length 展開 --importgrouping length")
-	func sortImportsEnableLength() {
+	@Test
+	func `sortImports .enable mode .length 展開 --importgrouping length`() {
 		let args = FormatRule.sortImports(rule: .enable, mode: .length).cliArguments
 		#expect(args == [
 			"--enable", "sortImports",

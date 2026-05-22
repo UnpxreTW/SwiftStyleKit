@@ -12,14 +12,14 @@ import Testing
 @Suite("redundantAsync")
 struct RedundantAsyncTests {
 
-	@Test("redundantAsync .disable 返空陣列")
-	func redundantAsyncDisable() {
+	@Test
+	func `redundantAsync .disable 返空陣列`() {
 		let args = FormatRule.redundantAsync(rule: .disable, mode: .always).cliArguments
 		#expect(args.isEmpty)
 	}
 
-	@Test("redundantAsync .enable（mode 預設 .testsOnly）展開 --enable + --redundantAsync tests-only")
-	func redundantAsyncEnableDefault() {
+	@Test
+	func `redundantAsync .enable（mode 預設 .testsOnly）展開 --enable + --redundantAsync tests-only`() {
 		let args = FormatRule.redundantAsync(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "redundantAsync",
@@ -27,8 +27,8 @@ struct RedundantAsyncTests {
 		])
 	}
 
-	@Test("redundantAsync .enable mode .always 展開 --redundantAsync always")
-	func redundantAsyncEnableAlways() {
+	@Test
+	func `redundantAsync .enable mode .always 展開 --redundantAsync always`() {
 		let args = FormatRule.redundantAsync(rule: .enable, mode: .always).cliArguments
 		#expect(args == [
 			"--enable", "redundantAsync",

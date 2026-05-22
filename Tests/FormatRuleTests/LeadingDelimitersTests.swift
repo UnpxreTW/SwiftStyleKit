@@ -12,13 +12,13 @@ import Testing
 @Suite("leadingDelimiters")
 struct LeadingDelimitersTests {
 
-	@Test("leadingDelimiters .disable 返空陣列")
-	func leadingDelimitersDisable() {
+	@Test
+	func `leadingDelimiters .disable 返空陣列`() {
 		#expect(FormatRule.leadingDelimiters(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("leadingDelimiters .enable 展開 --enable leadingDelimiters")
-	func leadingDelimitersEnable() {
+	@Test
+	func `leadingDelimiters .enable 展開 --enable leadingDelimiters`() {
 		#expect(FormatRule.leadingDelimiters(rule: .enable).cliArguments == ["--enable", "leadingDelimiters"])
 	}
 }

@@ -12,20 +12,20 @@ import Testing
 @Suite("blankLineAfterSwitchCase")
 struct BlankLineAfterSwitchCaseTests {
 
-	@Test("blankLineAfterSwitchCase .disable（無 mode）返空陣列")
-	func blankLineAfterSwitchCaseDisableNoMode() {
+	@Test
+	func `blankLineAfterSwitchCase .disable（無 mode）返空陣列`() {
 		let args = FormatRule.blankLineAfterSwitchCase(rule: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
-	@Test("blankLineAfterSwitchCase .disable + mode（mode 被忽略）返空陣列")
-	func blankLineAfterSwitchCaseDisableWithMode() {
+	@Test
+	func `blankLineAfterSwitchCase .disable + mode（mode 被忽略）返空陣列`() {
 		let args = FormatRule.blankLineAfterSwitchCase(rule: .disable, mode: .always).cliArguments
 		#expect(args.isEmpty)
 	}
 
-	@Test("blankLineAfterSwitchCase .enable mode .multilineOnly 展開 --enable + flag multiline-only")
-	func blankLineAfterSwitchCaseEnableMultilineOnly() {
+	@Test
+	func `blankLineAfterSwitchCase .enable mode .multilineOnly 展開 --enable + flag multiline-only`() {
 		let args = FormatRule.blankLineAfterSwitchCase(rule: .enable, mode: .multilineOnly).cliArguments
 		#expect(args == [
 			"--enable", "blankLineAfterSwitchCase",
@@ -33,8 +33,8 @@ struct BlankLineAfterSwitchCaseTests {
 		])
 	}
 
-	@Test("blankLineAfterSwitchCase .enable mode .always 展開 --enable + flag always")
-	func blankLineAfterSwitchCaseEnableAlways() {
+	@Test
+	func `blankLineAfterSwitchCase .enable mode .always 展開 --enable + flag always`() {
 		let args = FormatRule.blankLineAfterSwitchCase(rule: .enable, mode: .always).cliArguments
 		#expect(args == [
 			"--enable", "blankLineAfterSwitchCase",
@@ -42,8 +42,8 @@ struct BlankLineAfterSwitchCaseTests {
 		])
 	}
 
-	@Test("blankLineAfterSwitchCase .enable（mode nil 跳過、swiftformat 取上游預設）只展開 --enable")
-	func blankLineAfterSwitchCaseEnableNoMode() {
+	@Test
+	func `blankLineAfterSwitchCase .enable（mode nil 跳過、swiftformat 取上游預設）只展開 --enable`() {
 		let args = FormatRule.blankLineAfterSwitchCase(rule: .enable).cliArguments
 		#expect(args == ["--enable", "blankLineAfterSwitchCase"])
 	}

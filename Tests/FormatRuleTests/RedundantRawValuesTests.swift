@@ -12,13 +12,13 @@ import Testing
 @Suite("redundantRawValues")
 struct RedundantRawValuesTests {
 
-	@Test("redundantRawValues .disable 返空陣列")
-	func redundantRawValuesDisable() {
+	@Test
+	func `redundantRawValues .disable 返空陣列`() {
 		#expect(FormatRule.redundantRawValues(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("redundantRawValues .enable 展開 --enable redundantRawValues")
-	func redundantRawValuesEnable() {
+	@Test
+	func `redundantRawValues .enable 展開 --enable redundantRawValues`() {
 		let args = FormatRule.redundantRawValues(rule: .enable).cliArguments
 		#expect(args == ["--enable", "redundantRawValues"])
 	}

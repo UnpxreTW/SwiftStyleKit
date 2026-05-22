@@ -12,14 +12,14 @@ import Testing
 @Suite("emptyExtensions")
 struct EmptyExtensionsTests {
 
-	@Test("emptyExtensions .disable 返空陣列")
-	func emptyExtensionsDisable() {
+	@Test
+	func `emptyExtensions .disable 返空陣列`() {
 		let args = FormatRule.emptyExtensions(rule: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
-	@Test("emptyExtensions .enable 展開 --enable emptyExtensions")
-	func emptyExtensionsEnable() {
+	@Test
+	func `emptyExtensions .enable 展開 --enable emptyExtensions`() {
 		let args = FormatRule.emptyExtensions(rule: .enable).cliArguments
 		#expect(args == ["--enable", "emptyExtensions"])
 	}

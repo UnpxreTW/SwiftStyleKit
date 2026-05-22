@@ -12,13 +12,13 @@ import Testing
 @Suite("modifiersOnSameLine")
 struct ModifiersOnSameLineTests {
 
-	@Test("modifiersOnSameLine .disable 返空陣列")
-	func modifiersOnSameLineDisable() {
+	@Test
+	func `modifiersOnSameLine .disable 返空陣列`() {
 		#expect(FormatRule.modifiersOnSameLine(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("modifiersOnSameLine .enable 展開 --enable modifiersOnSameLine")
-	func modifiersOnSameLineEnable() {
+	@Test
+	func `modifiersOnSameLine .enable 展開 --enable modifiersOnSameLine`() {
 		let args = FormatRule.modifiersOnSameLine(rule: .enable).cliArguments
 		#expect(args == ["--enable", "modifiersOnSameLine"])
 	}

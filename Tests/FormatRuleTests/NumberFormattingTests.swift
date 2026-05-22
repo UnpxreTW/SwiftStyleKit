@@ -12,13 +12,13 @@ import Testing
 @Suite("numberFormatting")
 struct NumberFormattingTests {
 
-	@Test("numberFormatting .disable 返空陣列")
-	func numberFormattingDisable() {
+	@Test
+	func `numberFormatting .disable 返空陣列`() {
 		#expect(FormatRule.numberFormatting(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("numberFormatting .enable 預設值展開全部 8 個 option")
-	func numberFormattingEnableDefault() {
+	@Test
+	func `numberFormatting .enable 預設值展開全部 8 個 option`() {
 		let args = FormatRule.numberFormatting(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "numberFormatting",
@@ -33,8 +33,8 @@ struct NumberFormattingTests {
 		])
 	}
 
-	@Test("numberFormatting grouping 設 nil 則不展開該 flag")
-	func numberFormattingNilGrouping() {
+	@Test
+	func `numberFormatting grouping 設 nil 則不展開該 flag`() {
 		let args = FormatRule.numberFormatting(rule: .enable, decimalGrouping: nil).cliArguments
 		#expect(!args.contains("--decimalGrouping"))
 		#expect(args.contains("--binaryGrouping"))

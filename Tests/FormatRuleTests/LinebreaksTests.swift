@@ -12,13 +12,13 @@ import Testing
 @Suite("linebreaks")
 struct LinebreaksTests {
 
-	@Test("linebreaks .disable 返空陣列")
-	func linebreaksDisable() {
+	@Test
+	func `linebreaks .disable 返空陣列`() {
 		#expect(FormatRule.linebreaks(rule: .disable, mode: .crlf).cliArguments.isEmpty)
 	}
 
-	@Test("linebreaks .enable（mode 預設 .lf）展開 --enable + --linebreaks lf")
-	func linebreaksEnableDefault() {
+	@Test
+	func `linebreaks .enable（mode 預設 .lf）展開 --enable + --linebreaks lf`() {
 		let args = FormatRule.linebreaks(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "linebreaks",
@@ -26,8 +26,8 @@ struct LinebreaksTests {
 		])
 	}
 
-	@Test("linebreaks .enable mode .crlf 展開 --linebreaks crlf")
-	func linebreaksEnableCRLF() {
+	@Test
+	func `linebreaks .enable mode .crlf 展開 --linebreaks crlf`() {
 		let args = FormatRule.linebreaks(rule: .enable, mode: .crlf).cliArguments
 		#expect(args == [
 			"--enable", "linebreaks",

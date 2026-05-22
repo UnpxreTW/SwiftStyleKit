@@ -12,13 +12,13 @@ import Testing
 @Suite("strongifiedSelf")
 struct StrongifiedSelfTests {
 
-	@Test("strongifiedSelf .disable 返空陣列")
-	func strongifiedSelfDisable() {
+	@Test
+	func `strongifiedSelf .disable 返空陣列`() {
 		#expect(FormatRule.strongifiedSelf(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("strongifiedSelf .enable 展開 --enable strongifiedSelf")
-	func strongifiedSelfEnable() {
+	@Test
+	func `strongifiedSelf .enable 展開 --enable strongifiedSelf`() {
 		let args = FormatRule.strongifiedSelf(rule: .enable).cliArguments
 		#expect(args == ["--enable", "strongifiedSelf"])
 	}

@@ -12,20 +12,20 @@ import Testing
 @Suite("elseOnSameLine")
 struct ElseOnSameLineTests {
 
-	@Test("elseOnSameLine .disable 返空陣列")
-	func elseOnSameLineDisable() {
+	@Test
+	func `elseOnSameLine .disable 返空陣列`() {
 		let args = FormatRule.elseOnSameLine(rule: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
-	@Test("elseOnSameLine .disable + options（被忽略）返空陣列")
-	func elseOnSameLineDisableWithOptions() {
+	@Test
+	func `elseOnSameLine .disable + options（被忽略）返空陣列`() {
 		let args = FormatRule.elseOnSameLine(rule: .disable, elsePosition: .nextLine, guardElse: .auto).cliArguments
 		#expect(args.isEmpty)
 	}
 
-	@Test("elseOnSameLine .enable（option 預設）展開 --enable + --elsePosition same-line + --guardElse next-line")
-	func elseOnSameLineEnableDefault() {
+	@Test
+	func `elseOnSameLine .enable（option 預設）展開 --enable + --elsePosition same-line + --guardElse next-line`() {
 		let args = FormatRule.elseOnSameLine(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "elseOnSameLine",
@@ -34,8 +34,8 @@ struct ElseOnSameLineTests {
 		])
 	}
 
-	@Test("elseOnSameLine .enable elsePosition .nextLine 展開 --elsePosition next-line")
-	func elseOnSameLineEnableElsePositionNextLine() {
+	@Test
+	func `elseOnSameLine .enable elsePosition .nextLine 展開 --elsePosition next-line`() {
 		let args = FormatRule.elseOnSameLine(rule: .enable, elsePosition: .nextLine).cliArguments
 		#expect(args == [
 			"--enable", "elseOnSameLine",
@@ -44,8 +44,8 @@ struct ElseOnSameLineTests {
 		])
 	}
 
-	@Test("elseOnSameLine .enable guardElse .sameLine 展開 --guardElse same-line")
-	func elseOnSameLineEnableGuardElseSameLine() {
+	@Test
+	func `elseOnSameLine .enable guardElse .sameLine 展開 --guardElse same-line`() {
 		let args = FormatRule.elseOnSameLine(rule: .enable, guardElse: .sameLine).cliArguments
 		#expect(args == [
 			"--enable", "elseOnSameLine",

@@ -12,20 +12,20 @@ import Testing
 @Suite("docComments")
 struct DocCommentsTests {
 
-	@Test("docComments .disable 返空陣列")
-	func docCommentsDisable() {
+	@Test
+	func `docComments .disable 返空陣列`() {
 		let args = FormatRule.docComments(rule: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
-	@Test("docComments .disable + mode（option 被忽略）返空陣列")
-	func docCommentsDisableWithMode() {
+	@Test
+	func `docComments .disable + mode（option 被忽略）返空陣列`() {
 		let args = FormatRule.docComments(rule: .disable, mode: .preserve).cliArguments
 		#expect(args.isEmpty)
 	}
 
-	@Test("docComments .enable（mode 預設 .beforeDeclarations）展開 --enable + --docComments before-declarations")
-	func docCommentsEnableDefault() {
+	@Test
+	func `docComments .enable（mode 預設 .beforeDeclarations）展開 --enable + --docComments before-declarations`() {
 		let args = FormatRule.docComments(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "docComments",
@@ -33,8 +33,8 @@ struct DocCommentsTests {
 		])
 	}
 
-	@Test("docComments .enable mode .preserve 展開 --docComments preserve")
-	func docCommentsEnablePreserve() {
+	@Test
+	func `docComments .enable mode .preserve 展開 --docComments preserve`() {
 		let args = FormatRule.docComments(rule: .enable, mode: .preserve).cliArguments
 		#expect(args == [
 			"--enable", "docComments",

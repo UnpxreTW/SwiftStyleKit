@@ -12,14 +12,14 @@ import Testing
 @Suite("blankLineAfterImports")
 struct BlankLineAfterImportsTests {
 
-	@Test("blankLineAfterImports .disable 返空陣列")
-	func blankLineAfterImportsDisable() {
+	@Test
+	func `blankLineAfterImports .disable 返空陣列`() {
 		let args = FormatRule.blankLineAfterImports(rule: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
-	@Test("blankLineAfterImports .enable 展開 --enable blankLineAfterImports")
-	func blankLineAfterImportsEnable() {
+	@Test
+	func `blankLineAfterImports .enable 展開 --enable blankLineAfterImports`() {
 		let args = FormatRule.blankLineAfterImports(rule: .enable).cliArguments
 		#expect(args == ["--enable", "blankLineAfterImports"])
 	}

@@ -12,13 +12,13 @@ import Testing
 @Suite("headerFileName")
 struct HeaderFileNameTests {
 
-	@Test("headerFileName .disable 返空陣列")
-	func headerFileNameDisable() {
+	@Test
+	func `headerFileName .disable 返空陣列`() {
 		#expect(FormatRule.headerFileName(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("headerFileName .enable 展開 --enable headerFileName")
-	func headerFileNameEnable() {
+	@Test
+	func `headerFileName .enable 展開 --enable headerFileName`() {
 		#expect(FormatRule.headerFileName(rule: .enable).cliArguments == ["--enable", "headerFileName"])
 	}
 }

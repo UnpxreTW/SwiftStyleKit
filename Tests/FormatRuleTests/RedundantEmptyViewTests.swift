@@ -12,13 +12,13 @@ import Testing
 @Suite("redundantEmptyView")
 struct RedundantEmptyViewTests {
 
-	@Test("redundantEmptyView .disable 返空陣列")
-	func redundantEmptyViewDisable() {
+	@Test
+	func `redundantEmptyView .disable 返空陣列`() {
 		#expect(FormatRule.redundantEmptyView(rule: .disable).cliArguments.isEmpty)
 	}
 
-	@Test("redundantEmptyView .enable 展開 --enable redundantEmptyView")
-	func redundantEmptyViewEnable() {
+	@Test
+	func `redundantEmptyView .enable 展開 --enable redundantEmptyView`() {
 		let args = FormatRule.redundantEmptyView(rule: .enable).cliArguments
 		#expect(args == ["--enable", "redundantEmptyView"])
 	}

@@ -12,14 +12,14 @@ import Testing
 @Suite("acronyms")
 struct AcronymsTests {
 
-	@Test("acronyms .disable 返空陣列（Xcode 入口已注入 --disable all、不出冗餘 args）")
-	func acronymsDisable() {
+	@Test
+	func `acronyms .disable 返空陣列（Xcode 入口已注入 --disable all、不出冗餘 args）`() {
 		let args = FormatRule.acronyms(rule: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
-	@Test("acronyms .enable 展開 --enable acronyms 並帶 --acronyms 預設清單")
-	func acronymsEnable() {
+	@Test
+	func `acronyms .enable 展開 --enable acronyms 並帶 --acronyms 預設清單`() {
 		let args = FormatRule.acronyms(rule: .enable).cliArguments
 		#expect(args.count == 4)
 		#expect(args[0] == "--enable")
