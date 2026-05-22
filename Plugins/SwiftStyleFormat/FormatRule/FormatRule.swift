@@ -519,14 +519,42 @@ public enum FormatRule {
 	/// - `assetLiterals` 簽名預設 `.actualWidth`（B 方案、上游 `.visualWidth`）：按 source code
 	///   實際字數計算 `#colorLiteral` / `#imageLiteral` token 寬度；不在 Xcode 內編輯 source 時更準
 	/// - `wrapTernary` 簽名預設 `.default`：三元運算式 `?` / `:` 放下一行開頭
-	/// - `wrapStringInterpolation` 簽名預設 `.default`：超寬時可斷字串 `\(...)` 內插值
+	///
+	/// 注意 `wrap-string-interpolation` 屬全域 option（同時被 `wrap` 與 `wrapArguments` own）、
+	/// 已抽出至列舉底部獨立 case ``wrapStringInterpolation(mode:)``。
 	case wrap(
 		rule: Flag,
 		maxWidth: Int = 120,
 		noWrapOperators: [String]? = nil,
 		assetLiterals: AssetLiteralWidth = .actualWidth,
-		wrapTernary: TernaryOperatorWrapMode = .default,
-		wrapStringInterpolation: StringInterpolationWrapMode = .default
+		wrapTernary: TernaryOperatorWrapMode = .default
+	)
+
+	/// 對齊 multi-line wrap 過的 function arguments / collection elements
+	///
+	/// 11 個 own option 中 10 個暴露於此 case（`wrap-string-interpolation` 屬全域、抽出至底部）：
+	/// - `wrapArguments` 簽名預設 `.preserve`：function call argument 換行模式
+	/// - `wrapParameters` 簽名預設 `.preserve`：function declaration parameter 換行模式
+	/// - `wrapCollections` 簽名預設 `.preserve`：collection literal element 換行模式
+	/// - `wrapConditions` 簽名預設 `.preserve`：conditional expression 換行模式
+	/// - `wrapTypeAliases` 簽名預設 `.preserve`：typealias 換行模式
+	/// - `wrapEffects` 簽名預設 `.preserve`：function effects（`throws` / `async`）換行
+	/// - `wrapReturnType` 簽名預設 `.preserve`：function return type 換行
+	/// - `closingParen` 簽名預設 `.balanced`：closing `)` 擺位（上游預設）
+	/// - `callSiteParen` 簽名預設 `.balanced`：call-site closing `)` 擺位（B 方案、與 `closingParen` 一致）
+	/// - `allowPartialWrapping` 簽名預設 `.enable`：允許 partial argument wrapping（上游預設）
+	case wrapArguments(
+		rule: Flag,
+		wrapArguments: WrapMode = .preserve,
+		wrapParameters: WrapMode = .preserve,
+		wrapCollections: WrapMode = .preserve,
+		wrapConditions: WrapMode = .preserve,
+		wrapTypeAliases: WrapMode = .preserve,
+		wrapEffects: WrapEffects = .preserve,
+		wrapReturnType: WrapEffects = .preserve,
+		closingParen: ParenPlacement = .balanced,
+		callSiteParen: ParenPlacement = .balanced,
+		allowPartialWrapping: Toggle = .enable
 	)
 
 	// MARK: - 全域 option
@@ -539,4 +567,14 @@ public enum FormatRule {
 	/// `mode` 預設 `.preserve`（SwiftStyleKit 選用值）、展開成 `--typeBlankLines preserve`；
 	/// 設為 `nil` 則不展開、由 swiftformat 取上游預設。
 	case typeBlankLines(mode: TypeBlankLines? = .preserve)
+
+	/// 字串 `\(...)` 內插值的換行政策
+	///
+	// swiftlint:disable:next line_length
+	/// 對應 swiftformat 全域 option `wrap-string-interpolation`——同時被 ``wrap(rule:maxWidth:noWrapOperators:assetLiterals:wrapTernary:)``
+	// swiftlint:disable:next line_length
+	/// 與 ``wrapArguments(rule:wrapArguments:wrapParameters:wrapCollections:wrapConditions:wrapTypeAliases:wrapEffects:wrapReturnType:closingParen:callSiteParen:allowPartialWrapping:)``
+	/// 兩規則 own。無 ``Flag``——option 不是規則。`mode` 簽名預設 `.default`（與上游一致）、
+	/// 展開成 `--wrapStringInterpolation default`；設為 `nil` 則不展開、由 swiftformat 取上游預設。
+	case wrapStringInterpolation(mode: StringInterpolationWrapMode? = .default)
 }

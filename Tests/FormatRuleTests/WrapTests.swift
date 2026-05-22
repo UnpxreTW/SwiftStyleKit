@@ -18,14 +18,13 @@ struct WrapTests {
 	}
 
 	@Test
-	func `wrap .enable 簽名預設展開 5 option`() {
+	func `wrap .enable 簽名預設展開 4 option（wrapStringInterpolation 已抽出至全域）`() {
 		let args = FormatRule.wrap(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "wrap",
 			"--maxWidth", "120",
 			"--assetLiterals", "actual-width",
-			"--wrapTernary", "default",
-			"--wrapStringInterpolation", "default"
+			"--wrapTernary", "default"
 		])
 	}
 
@@ -36,8 +35,7 @@ struct WrapTests {
 			"--enable", "wrap",
 			"--maxWidth", "100",
 			"--assetLiterals", "actual-width",
-			"--wrapTernary", "default",
-			"--wrapStringInterpolation", "default"
+			"--wrapTernary", "default"
 		])
 	}
 
@@ -52,8 +50,7 @@ struct WrapTests {
 			"--maxWidth", "120",
 			"--noWrapOperators", ".,?.",
 			"--assetLiterals", "actual-width",
-			"--wrapTernary", "default",
-			"--wrapStringInterpolation", "default"
+			"--wrapTernary", "default"
 		])
 	}
 
@@ -64,8 +61,7 @@ struct WrapTests {
 			"--enable", "wrap",
 			"--maxWidth", "120",
 			"--assetLiterals", "actual-width",
-			"--wrapTernary", "default",
-			"--wrapStringInterpolation", "default"
+			"--wrapTernary", "default"
 		])
 	}
 
@@ -76,8 +72,7 @@ struct WrapTests {
 			"--enable", "wrap",
 			"--maxWidth", "120",
 			"--assetLiterals", "visual-width",
-			"--wrapTernary", "default",
-			"--wrapStringInterpolation", "default"
+			"--wrapTernary", "default"
 		])
 	}
 
@@ -88,20 +83,7 @@ struct WrapTests {
 			"--enable", "wrap",
 			"--maxWidth", "120",
 			"--assetLiterals", "actual-width",
-			"--wrapTernary", "before-operators",
-			"--wrapStringInterpolation", "default"
-		])
-	}
-
-	@Test
-	func `wrap .enable wrapStringInterpolation .preserve 展開`() {
-		let args = FormatRule.wrap(rule: .enable, wrapStringInterpolation: .preserve).cliArguments
-		#expect(args == [
-			"--enable", "wrap",
-			"--maxWidth", "120",
-			"--assetLiterals", "actual-width",
-			"--wrapTernary", "default",
-			"--wrapStringInterpolation", "preserve"
+			"--wrapTernary", "before-operators"
 		])
 	}
 }
