@@ -459,6 +459,10 @@ public enum FormatRule {
 		suiteNameFormat: SwiftTestingNameFormat = .preserve
 	)
 
+	// swiftlint:disable:next todo
+	/// 規範 `TODO:` / `MARK:` / `FIXME:` 註解格式（大寫 + 冒號；`TODOfoo` 無 space 後綴視為自訂 tag、不動）
+	case todos(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
