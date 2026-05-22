@@ -511,6 +511,24 @@ public enum FormatRule {
 	/// 設 `.tuple` 改為 type 位置寫 `()`（`() -> ()`）。value 位置 (`Void()` → `()`) 無例外。
 	case void(rule: Flag, mode: VoidType = .void)
 
+	/// 行寬超過 `maxWidth` 時自動換行
+	///
+	/// - `maxWidth` 簽名預設 `120`：常見折衷值（100 緊湊、140 寬鬆）；設 `0` 等同 disable
+	/// - `noWrapOperators` 簽名預設 `nil`：fork 自訂不換行的 operator 列表（如 `[".", "?."]`
+	///   保護方法鏈不被拆）；`nil` 與 `[]` 等效不展開
+	/// - `assetLiterals` 簽名預設 `.actualWidth`（B 方案、上游 `.visualWidth`）：按 source code
+	///   實際字數計算 `#colorLiteral` / `#imageLiteral` token 寬度；不在 Xcode 內編輯 source 時更準
+	/// - `wrapTernary` 簽名預設 `.default`：三元運算式 `?` / `:` 放下一行開頭
+	/// - `wrapStringInterpolation` 簽名預設 `.default`：超寬時可斷字串 `\(...)` 內插值
+	case wrap(
+		rule: Flag,
+		maxWidth: Int = 120,
+		noWrapOperators: [String]? = nil,
+		assetLiterals: AssetLiteralWidth = .actualWidth,
+		wrapTernary: TernaryOperatorWrapMode = .default,
+		wrapStringInterpolation: StringInterpolationWrapMode = .default
+	)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
