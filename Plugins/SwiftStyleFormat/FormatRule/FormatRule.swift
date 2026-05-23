@@ -588,6 +588,9 @@ public enum FormatRule {
 	/// multi-line 條件式（`if`/`guard`/`while`）的 opening brace `{` 換到單獨一行
 	case wrapMultilineStatementBraces(rule: Flag)
 
+	/// 把 single-line property body 拆成多行（`var bar: String { "bar" }` → 多行寫法）
+	case wrapPropertyBodies(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
