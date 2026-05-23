@@ -585,6 +585,9 @@ public enum FormatRule {
 	/// 把 single-line `for` / `while` loop body 拆成多行（`for x in arr { print(x) }` → 多行寫法）
 	case wrapLoopBodies(rule: Flag)
 
+	/// multi-line 條件式（`if`/`guard`/`while`）的 opening brace `{` 換到單獨一行
+	case wrapMultilineStatementBraces(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
