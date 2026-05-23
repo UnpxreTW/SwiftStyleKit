@@ -129,6 +129,11 @@ extension FormatRule {
 		.wrapFunctionBodies(rule: .enable),
 		.wrapLoopBodies(rule: .enable),
 		.wrapMultilineStatementBraces(rule: .enable),
+		// 不啟用：single-line computed property（`var id: Int { rawValue }`、SwiftUI
+		// `var body: some View { ... }`）是 Swift 5.9+ 推薦慣例、社群主流寫法；
+		// 規則強制拆多行會把簡潔 view modifier 弄冗長、跟 implicit return 趨勢反向；
+		// case 留在 enum 內形成「考慮過且選擇關閉」的 in-tree 宣告
+		.wrapPropertyBodies(rule: .disable),
 		// 全域 option（無啟用開關、mode 預設 .preserve）
 		.typeBlankLines(),
 		.wrapStringInterpolation()
