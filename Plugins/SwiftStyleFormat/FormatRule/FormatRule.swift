@@ -579,6 +579,9 @@ public enum FormatRule {
 		nonComplexAttributes: [String]? = nil
 	)
 
+	/// 把 single-line function / init / subscript body 拆成多行（`func foo() { print("bar") }` → 多行寫法）
+	case wrapFunctionBodies(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
