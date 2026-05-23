@@ -127,6 +127,7 @@ extension FormatRule {
 		.wrapArguments(rule: .enable),
 		.wrapAttributes(rule: .enable),
 		.wrapFunctionBodies(rule: .enable),
+		.wrapLoopBodies(rule: .enable),
 		// 全域 option（無啟用開關、mode 預設 .preserve）
 		.typeBlankLines(),
 		.wrapStringInterpolation()

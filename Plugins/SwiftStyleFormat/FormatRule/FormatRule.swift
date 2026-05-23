@@ -582,6 +582,9 @@ public enum FormatRule {
 	/// 把 single-line function / init / subscript body 拆成多行（`func foo() { print("bar") }` → 多行寫法）
 	case wrapFunctionBodies(rule: Flag)
 
+	/// 把 single-line `for` / `while` loop body 拆成多行（`for x in arr { print(x) }` → 多行寫法）
+	case wrapLoopBodies(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
