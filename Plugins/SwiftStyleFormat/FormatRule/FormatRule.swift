@@ -325,6 +325,9 @@ public enum FormatRule {
 	///   external label ≠ internal label、struct 有多個 init（compiler 不會合成）
 	case redundantMemberwiseInit(rule: Flag, mode: PreferSynthesizedInitMode = .never)
 
+	/// 移除被 internal/private type 包住的冗餘 `public` 訪問控制（`public let` 在 internal struct 內）
+	case redundantPublic(rule: Flag)
+
 	/// Optional `var` 的 `= nil` 預設值移除或插入（僅作用於 `var`、不影響非 nil 初始化）
 	case redundantNilInit(rule: Flag, mode: NilInitMode = .remove)
 

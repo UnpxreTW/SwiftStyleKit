@@ -92,6 +92,10 @@ extension FormatRule {
 		.redundantOptionalBinding(rule: .enable),
 		.redundantParens(rule: .enable),
 		.redundantPattern(rule: .enable),
+		// 不啟用：訪問控制的顯式性是團隊風格偏好——即使被 internal type 包住、
+		// 明確標 `public` 仍可作為「未來可能上升為 API 邊界」的文件；同
+		// `redundantInternal` 同調（顯式性 > 簡潔）、保留 fork 選擇空間
+		.redundantPublic(rule: .disable),
 		.redundantRawValues(rule: .enable),
 		.redundantReturn(rule: .enable),
 		.redundantSelf(rule: .enable),
