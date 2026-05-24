@@ -102,6 +102,7 @@ extension FormatRule {
 		.redundantSendable(rule: .enable),
 		.redundantStaticSelf(rule: .enable),
 		.redundantSwiftTestingSuite(rule: .enable),
+		.redundantThrows(rule: .enable),
 		.redundantType(rule: .enable),
 		.redundantTypedThrows(rule: .enable),
 		.redundantVoidReturnType(rule: .enable),
