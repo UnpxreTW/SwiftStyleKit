@@ -306,6 +306,13 @@ public enum FormatRule {
 	/// 移除 `catch` 子句中冗餘的 `let error`（`catch let error` → `catch`）
 	case redundantLetError(rule: Flag)
 
+	/// 移除可被自動合成的手寫 memberwise init（Swift 6.4+ gate）
+	///
+	/// `mode` 簽名預設 `.never`（與上游一致）：保守、只移除明顯冗餘的 init。
+	/// 設 `.always` 對所有 internal struct 把 private property 改 internal、讓 synthesized init 取代。
+	/// 設 `.conformances(["View", "ViewModifier"])` 只對 conform 指定 SwiftUI protocol 的 struct 做。
+	case redundantMemberwiseInit(rule: Flag, mode: PreferSynthesizedInitMode = .never)
+
 	/// Optional `var` 的 `= nil` 預設值移除或插入（僅作用於 `var`、不影響非 nil 初始化）
 	case redundantNilInit(rule: Flag, mode: NilInitMode = .remove)
 
