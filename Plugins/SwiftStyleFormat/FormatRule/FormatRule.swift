@@ -306,6 +306,25 @@ public enum FormatRule {
 	/// 移除 `catch` 子句中冗餘的 `let error`（`catch let error` → `catch`）
 	case redundantLetError(rule: Flag)
 
+	/// 移除可被自動合成的手寫 memberwise init
+	///
+	/// `mode` 簽名預設 `.never`（與上游一致）：保守、只移除明顯冗餘的 init。
+	/// 設 `.always` 對所有 internal struct 把 private property 改 internal、讓 synthesized init 取代。
+	/// 設 `.conformances(["View", "ViewModifier"])` 只對 conform 指定 SwiftUI protocol 的 struct 做。
+	///
+	/// 規則無整體 swift-version gate；< Swift 6.4 對「含 result builder attribute 的 non-generic
+	/// struct」自動跳過避免合成 init runtime crash（[swiftlang #86272](https://github.com/swiftlang/swift/pull/86272)），其他情境照常處理。
+	///
+	/// **權限控制行為（保守、不偷改 API 邊界）**：
+	/// - `public` / `package` init **永遠不動**（合成 init 不會升 public）
+	/// - 整體判定「手寫 init 訪問控制 == 假設拿掉後合成 init 訪問控制」**完全相同**才移除
+	/// - `.always` / `.conformances` 唯一主動改寫：把 `private` stored property 改 `internal`、
+	///   讓合成 init 維持 `.internal`——這是 mode 明確設計、非隱式變更
+	/// - 以下情境保留手寫 init：failable init（`init?` / `init!`）、帶 attribute
+	///   （`@inlinable` / `@usableFromInline`）、有 doc comment、parameter 帶 default value、
+	///   external label ≠ internal label、struct 有多個 init（compiler 不會合成）
+	case redundantMemberwiseInit(rule: Flag, mode: PreferSynthesizedInitMode = .never)
+
 	/// Optional `var` 的 `= nil` 預設值移除或插入（僅作用於 `var`、不影響非 nil 初始化）
 	case redundantNilInit(rule: Flag, mode: NilInitMode = .remove)
 

@@ -86,6 +86,7 @@ extension FormatRule {
 		.redundantInternal(rule: .disable),
 		.redundantLet(rule: .enable),
 		.redundantLetError(rule: .enable),
+		.redundantMemberwiseInit(rule: .enable),
 		.redundantNilInit(rule: .enable),
 		.redundantObjc(rule: .enable),
 		.redundantOptionalBinding(rule: .enable),
