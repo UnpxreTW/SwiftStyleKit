@@ -591,6 +591,12 @@ public enum FormatRule {
 	/// 把 single-line property body 拆成多行（`var bar: String { "bar" }` → 多行寫法）
 	case wrapPropertyBodies(rule: Flag)
 
+	/// 把超過 `--max-width` 的 single-line `//` comment 自動拆成多行
+	///
+	/// 透過 sharedOptions 讀 `wrap` 規則的 `maxWidth`（SwiftStyleKit 設 120）。DocC inline
+	/// code span ` `` ` 內的 token 不會被拆斷。
+	case wrapSingleLineComments(rule: Flag)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
@@ -604,8 +610,8 @@ public enum FormatRule {
 
 	/// 字串 `\(...)` 內插值的換行政策
 	///
-	// swiftlint:disable:next line_length
-	/// 對應 swiftformat 全域 option `wrap-string-interpolation`——同時被 ``wrap(rule:maxWidth:noWrapOperators:assetLiterals:wrapTernary:)``
+	/// 對應 swiftformat 全域 option `wrap-string-interpolation`——同時被
+	/// ``wrap(rule:maxWidth:noWrapOperators:assetLiterals:wrapTernary:)``
 	// swiftlint:disable:next line_length
 	/// 與 ``wrapArguments(rule:wrapArguments:wrapParameters:wrapCollections:wrapConditions:wrapTypeAliases:wrapEffects:wrapReturnType:closingParen:callSiteParen:allowPartialWrapping:)``
 	/// 兩規則 own。無 ``Flag``——option 不是規則。`mode` 簽名預設 `.default`（與上游一致）、
