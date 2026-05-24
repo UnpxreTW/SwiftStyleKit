@@ -105,6 +105,7 @@ extension FormatRule {
 		.redundantThrows(rule: .enable),
 		.redundantType(rule: .enable),
 		.redundantTypedThrows(rule: .enable),
+		.redundantVariable(rule: .enable),
 		.redundantVoidReturnType(rule: .enable),
 		.semicolons(rule: .enable),
 		.sortDeclarations(rule: .enable),
