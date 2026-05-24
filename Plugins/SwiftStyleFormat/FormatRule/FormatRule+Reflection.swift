@@ -58,6 +58,10 @@ extension FormatRule {
 			}
 
 			let option: String = switch unwrapped {
+			// FormatRuleOption 優先：含「帶 associated value 的 enum」（如
+			// PreferSynthesizedInitMode）需自訂 cliValue；String RawRepresentable
+			// enum 由 default extension 取 rawValue
+			case let value as any FormatRuleOption: value.cliValue
 			case let value as any RawRepresentable<String>: value.rawValue
 			case let value as Bool: value ? "true" : "false"
 			case let value as Int: "\(value)"

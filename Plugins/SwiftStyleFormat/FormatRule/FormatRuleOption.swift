@@ -17,8 +17,15 @@
 /// （`acronyms`、`blankLineAfterSwitchCase`），部分另取名（`blankLinesAroundMark`
 /// 的 option flag 為 `--lineaftermarks`）。flag 名因此必須由型別明確宣告、不可從
 /// 規則名或參數 label 推導。
+///
+/// `cliValue` 由 default extension 對 String RawRepresentable 自動取 `rawValue`；
+/// 帶 associated value 的 enum（如 ``FormatRule/PreferSynthesizedInitMode``）需於
+/// 自身型別實作 `cliValue`。default extension 見 ``FormatRuleOption+RawValue``。
 public protocol FormatRuleOption {
 
 	/// 對應的 swiftformat CLI option flag 名稱（不含 `--` 前綴）
 	static var flagName: String { get }
+
+	/// option 值轉成 swiftformat CLI 所接受的字串
+	var cliValue: String { get }
 }
