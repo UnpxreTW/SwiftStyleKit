@@ -344,6 +344,11 @@ public enum FormatRule {
 	/// 設 `.always` 對所有函式都移除（可能讓既有 call site 的 `try` 變 warning）。
 	case redundantThrows(rule: Flag, redundantThrows: RedundantEffectMode = .testsOnly)
 
+	/// 簡化「立 var、立刻 return」這種冗餘 pattern（`let foo = Foo(); return foo` → `return Foo()`）
+	///
+	/// 取代上游已 deprecated 的 `redundantProperty` 規則。
+	case redundantVariable(rule: Flag)
+
 	/// Optional `var` 的 `= nil` 預設值移除或插入（僅作用於 `var`、不影響非 nil 初始化）
 	case redundantNilInit(rule: Flag, mode: NilInitMode = .remove)
 
