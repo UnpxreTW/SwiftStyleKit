@@ -328,6 +328,11 @@ public enum FormatRule {
 	/// 移除被 internal/private type 包住的冗餘 `public` 訪問控制（`public let` 在 internal struct 內）
 	case redundantPublic(rule: Flag)
 
+	/// 移除 non-public struct/enum 內冗餘的 `Sendable` conformance（編譯器已自動合成）
+	///
+	/// public type 因 API contract 不可省、規則只動 non-public。對齊 Swift 5.5+ 自動 Sendable 合成行為。
+	case redundantSendable(rule: Flag)
+
 	/// Optional `var` 的 `= nil` 預設值移除或插入（僅作用於 `var`、不影響非 nil 初始化）
 	case redundantNilInit(rule: Flag, mode: NilInitMode = .remove)
 

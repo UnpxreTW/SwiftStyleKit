@@ -99,6 +99,7 @@ extension FormatRule {
 		.redundantRawValues(rule: .enable),
 		.redundantReturn(rule: .enable),
 		.redundantSelf(rule: .enable),
+		.redundantSendable(rule: .enable),
 		.redundantStaticSelf(rule: .enable),
 		.redundantType(rule: .enable),
 		.redundantTypedThrows(rule: .enable),
