@@ -261,7 +261,7 @@ public enum FormatRule {
 	///
 	/// `mode` 為 `.testsOnly` 只動測試函式、`.always` 連一般函式也動（可能讓 call site
 	/// 的 `await` 觸發 warning）。
-	case redundantAsync(rule: Flag, mode: RedundantAsyncMode = .testsOnly)
+	case redundantAsync(rule: Flag, redundantAsync: RedundantEffectMode = .testsOnly)
 
 	/// 移除識別字外多餘的 backticks
 	case redundantBackticks(rule: Flag)
@@ -337,6 +337,12 @@ public enum FormatRule {
 	///
 	/// 帶參數的 `@Suite(.serialized)` / `@Suite("description")` 不動。
 	case redundantSwiftTestingSuite(rule: Flag)
+
+	/// 移除 function declaration 中冗餘的 `throws`（body 內不 throw）
+	///
+	/// `redundantThrows` 簽名預設 `.testsOnly`（與上游一致）：只動測試函式。
+	/// 設 `.always` 對所有函式都移除（可能讓既有 call site 的 `try` 變 warning）。
+	case redundantThrows(rule: Flag, redundantThrows: RedundantEffectMode = .testsOnly)
 
 	/// Optional `var` 的 `= nil` 預設值移除或插入（僅作用於 `var`、不影響非 nil 初始化）
 	case redundantNilInit(rule: Flag, mode: NilInitMode = .remove)
