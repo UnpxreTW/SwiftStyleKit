@@ -333,6 +333,11 @@ public enum FormatRule {
 	/// public type 因 API contract 不可省、規則只動 non-public。對齊 Swift 5.5+ 自動 Sendable 合成行為。
 	case redundantSendable(rule: Flag)
 
+	/// 移除無參數的 `@Suite` / `@Suite()` attribute（含 `@Test` 的 struct 自動視為 suite）
+	///
+	/// 帶參數的 `@Suite(.serialized)` / `@Suite("description")` 不動。
+	case redundantSwiftTestingSuite(rule: Flag)
+
 	/// Optional `var` 的 `= nil` 預設值移除或插入（僅作用於 `var`、不影響非 nil 初始化）
 	case redundantNilInit(rule: Flag, mode: NilInitMode = .remove)
 
