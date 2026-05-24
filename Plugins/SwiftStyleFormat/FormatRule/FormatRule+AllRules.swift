@@ -134,6 +134,7 @@ extension FormatRule {
 		// 規則強制拆多行會把簡潔 view modifier 弄冗長、跟 implicit return 趨勢反向；
 		// case 留在 enum 內形成「考慮過且選擇關閉」的 in-tree 宣告
 		.wrapPropertyBodies(rule: .disable),
+		.wrapSingleLineComments(rule: .enable),
 		// 全域 option（無啟用開關、mode 預設 .preserve）
 		.typeBlankLines(),
 		.wrapStringInterpolation()
