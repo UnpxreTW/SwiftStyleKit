@@ -597,6 +597,12 @@ public enum FormatRule {
 	/// code span ` `` ` 內的 token 不會被拆斷。
 	case wrapSingleLineComments(rule: Flag)
 
+	/// 把 yoda condition（常數在左側）翻成自然順序（`5 == foo` → `foo == 5`）
+	///
+	/// `mode` 簽名預設 `.always`（與上游一致）：翻所有 yoda condition；設 `.literalsOnly`
+	/// 改為只翻字面值放左側的情形。
+	case yodaConditions(rule: Flag, mode: YodaMode = .always)
+
 	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策

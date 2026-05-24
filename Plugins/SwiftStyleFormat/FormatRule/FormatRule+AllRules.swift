@@ -135,6 +135,7 @@ extension FormatRule {
 		// case 留在 enum 內形成「考慮過且選擇關閉」的 in-tree 宣告
 		.wrapPropertyBodies(rule: .disable),
 		.wrapSingleLineComments(rule: .enable),
+		.yodaConditions(rule: .enable),
 		// 全域 option（無啟用開關、mode 預設 .preserve）
 		.typeBlankLines(),
 		.wrapStringInterpolation()
