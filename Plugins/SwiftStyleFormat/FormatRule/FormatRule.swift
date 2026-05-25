@@ -65,6 +65,11 @@ public enum FormatRule {
 	/// 在型別與函式宣告之間插入空白行
 	case blankLinesBetweenScopes(rule: Flag)
 
+	/// 把 block comment `/* */` 轉成連續 single-line（DocC `/**` 轉成 `///`、一般轉成 `//`）
+	///
+	/// 規則無 own option；內部自動分辨 DocC 跟一般 block comment、轉成對應 single-line 形式。
+	case blockComments(rule: Flag)
+
 	/// 依選定風格擺放大括號
 	///
 	/// `allman` 為 `.enable` 時開大括號換行（Allman）、`.disable` 時同行（K&R）。
