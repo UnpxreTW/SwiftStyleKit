@@ -258,6 +258,41 @@ public enum FormatRule {
 		exponentCase: LetterCase = .lowercase
 	)
 
+	/// 對 class/struct/enum/actor/extension body 內的宣告整體重新組織排序
+	///
+	/// swiftformat 最複雜的規則之一、21 個 option：
+	/// - `organizationMode`：依 visibility（預設）或 type 為主軸組織
+	/// - `visibilityOrder` / `typeOrder`：自訂順序（[String]? = nil 用上游 mode-aware 預設）
+	/// - `*Threshold` / `mark*Threshold`：觸發 organize / MARK 註解的最小行數（`nil` 用上游預設）
+	/// - `markCategories` / `groupBlankLines`：MARK 插入與群組空行（`Toggle`）
+	/// - `categoryMark` / `typeMarks` / `visibilityMarks`：MARK 模板字串（`nil` 用上游預設）
+	/// - `beforeMarks` / `lifecycleMethods` / `organizeTypes`：String 列表（`nil` / `[]` 等效不展開）
+	/// - `sortSwiftUIProperties` / `typeBodyMarks`：SwiftUI property 排序、type body 既有 MARK 處理
+	case organizeDeclarations(
+		rule: Flag,
+		organizationMode: DeclarationOrganizationMode = .visibility,
+		visibilityOrder: [String]? = nil,
+		typeOrder: [String]? = nil,
+		visibilityMarks: String? = nil,
+		typeMarks: String? = nil,
+		categoryMark: String? = nil,
+		markCategories: Toggle = .enable,
+		beforeMarks: [String]? = nil,
+		lifecycleMethods: [String]? = nil,
+		organizeTypes: [String]? = nil,
+		classThreshold: Int? = nil,
+		structThreshold: Int? = nil,
+		enumThreshold: Int? = nil,
+		extensionThreshold: Int? = nil,
+		markClassThreshold: Int? = nil,
+		markStructThreshold: Int? = nil,
+		markEnumThreshold: Int? = nil,
+		markExtensionThreshold: Int? = nil,
+		sortSwiftUIProperties: SwiftUIPropertiesSortMode = .none,
+		typeBodyMarks: TypeBodyMarks = .preserve,
+		groupBlankLines: Toggle = .enable
+	)
+
 	/// 用 opaque 泛型參數（`some Protocol`）取代有約束的泛型參數
 	///
 	/// `someAny` 為 `.enable` 時把無約束的泛型參數也轉成 `some Any`。需 Swift 5.7+。
