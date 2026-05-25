@@ -187,6 +187,13 @@ public enum FormatRule {
 	/// `initCoderNil` 為 `.enable` 時把 unavailable `init?(coder:)` 的 `fatalError` 換成 `nil`。
 	case initCoderUnavailable(rule: Flag, initCoderNil: Toggle = .disable)
 
+	/// 把 `foo.count == 0` 改寫成 `foo.isEmpty`、`foo.count > 0` 改寫成 `!foo.isEmpty`
+	///
+	/// **Footgun**：規則只看 `.count` token pattern、不知 type 是否有 `isEmpty` property。
+	/// 對自訂 type 暴露 `.count` 但無 `.isEmpty` 改寫後編譯 fail。標準 `Collection`
+	/// 安全；上游因此 disabled by default。
+	case isEmpty(rule: Flag)
+
 	/// 把行首的分隔符移到上一行行尾
 	case leadingDelimiters(rule: Flag)
 
