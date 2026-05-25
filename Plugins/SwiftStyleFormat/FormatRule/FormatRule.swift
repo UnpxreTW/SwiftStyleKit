@@ -238,6 +238,9 @@ public enum FormatRule {
 	/// 測試中用 `#require` / `XCTUnwrap` 取代強制解包
 	case noForceUnwrapInTests(rule: Flag)
 
+	/// 把測試內 `guard ... else { XCTFail/return }` pattern 改寫成 `try XCTUnwrap` / `try #require`
+	case noGuardInTests(rule: Flag)
+
 	/// 數字字面值依型別一致分組、並統一 hex / 指數字母大小寫
 	///
 	/// 四個 `*Grouping` 為「群組大小,套用門檻」（或 `none` / `ignore`、`nil` 用上游預設）；
