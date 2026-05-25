@@ -106,6 +106,11 @@ extension FormatRule {
 		.redundantType(rule: .enable),
 		.redundantTypedThrows(rule: .enable),
 		.redundantVariable(rule: .enable),
+		// 不啟用：SwiftUI `@ViewBuilder` 標註顯式性是團隊風格偏好——即使 body 自動帶
+		// ViewBuilder、helper computed property 內部已用 VStack 包住、明確標
+		// `@ViewBuilder` 仍可作為「這是 view-building scope」的文件提示；同
+		// `redundantInternal` / `redundantPublic` 同調（顯式性 > 簡潔）、保留 fork 選擇空間
+		.redundantViewBuilder(rule: .disable),
 		.redundantVoidReturnType(rule: .enable),
 		.semicolons(rule: .enable),
 		.sortDeclarations(rule: .enable),
