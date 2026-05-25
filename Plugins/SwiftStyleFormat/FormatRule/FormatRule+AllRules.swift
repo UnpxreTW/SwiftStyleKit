@@ -67,6 +67,9 @@ extension FormatRule {
 		.markTypes(rule: .enable),
 		.modifierOrder(rule: .enable),
 		.modifiersOnSameLine(rule: .enable),
+		// 不啟用：Opt-in 規則、且 borrowing/consuming 是 explicit performance 意圖文件、
+		// 同 redundantInternal/redundantPublic/redundantViewBuilder 同調（顯式性 > 簡潔）
+		.noExplicitOwnership(rule: .disable),
 		.noForceTryInTests(rule: .enable),
 		.noForceUnwrapInTests(rule: .enable),
 		.numberFormatting(rule: .enable),
