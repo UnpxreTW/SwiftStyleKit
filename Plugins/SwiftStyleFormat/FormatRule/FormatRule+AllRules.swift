@@ -72,6 +72,7 @@ extension FormatRule {
 		.noExplicitOwnership(rule: .disable),
 		.noForceTryInTests(rule: .enable),
 		.noForceUnwrapInTests(rule: .enable),
+		.noGuardInTests(rule: .enable),
 		.numberFormatting(rule: .enable),
 		.opaqueGenericParameters(rule: .enable),
 		.preferCountWhere(rule: .enable),
