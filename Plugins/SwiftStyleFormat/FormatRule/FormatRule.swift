@@ -227,6 +227,11 @@ public enum FormatRule {
 	/// 確保所有修飾詞與宣告關鍵字在同一行
 	case modifiersOnSameLine(rule: Flag)
 
+	/// 移除 Swift 5.9+ 的 `borrowing` / `consuming` 顯式 ownership modifier
+	///
+	/// 退回 Swift 預設 ownership 規則（compiler 自動決定）。適用「不在意 ownership 細節」場景。
+	case noExplicitOwnership(rule: Flag)
+
 	/// 測試中用 `throws` 取代 `try!`
 	case noForceTryInTests(rule: Flag)
 
