@@ -349,6 +349,11 @@ public enum FormatRule {
 	/// 取代上游已 deprecated 的 `redundantProperty` 規則。
 	case redundantVariable(rule: Flag)
 
+	/// 移除冗餘的 `@ViewBuilder` attribute（如 `body`、或內部已用 VStack 包住的 helper computed property）
+	///
+	/// 保留：返多個 top-level views 的 computed property（確實需要 ViewBuilder）。
+	case redundantViewBuilder(rule: Flag)
+
 	/// Optional `var` 的 `= nil` 預設值移除或插入（僅作用於 `var`、不影響非 nil 初始化）
 	case redundantNilInit(rule: Flag, mode: NilInitMode = .remove)
 
