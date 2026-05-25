@@ -58,6 +58,9 @@ extension FormatRule {
 		// 調整，不必改動檔案、也不影響他人
 		.indent(rule: .enable),
 		.initCoderUnavailable(rule: .enable),
+		// 不啟用：Opt-in 規則、且有 footgun——規則只看 .count token 不知 type 是否
+		// 實作 isEmpty，對自訂 type 暴露 .count 但無 .isEmpty 改寫後編譯 fail
+		.isEmpty(rule: .disable),
 		.leadingDelimiters(rule: .enable),
 		.linebreakAtEndOfFile(rule: .enable),
 		.linebreaks(rule: .enable),
