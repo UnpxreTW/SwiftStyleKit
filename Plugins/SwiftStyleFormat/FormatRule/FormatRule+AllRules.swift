@@ -113,6 +113,7 @@ extension FormatRule {
 		.redundantViewBuilder(rule: .disable),
 		.redundantVoidReturnType(rule: .enable),
 		.semicolons(rule: .enable),
+		.simplifyGenericConstraints(rule: .enable),
 		.sortDeclarations(rule: .enable),
 		.sortImports(rule: .enable),
 		.sortTypealiases(rule: .enable),
