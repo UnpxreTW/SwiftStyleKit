@@ -22,6 +22,9 @@ extension FormatRule {
 		// 648 case 無空行、僅 22 case 有空行）；保留 case 在 enum 內形成「考慮
 		// 過且選擇關閉」的 in-tree 宣告，未來偏好改變只改 allRules 不需重新討論
 		.blankLineAfterSwitchCase(rule: .disable),
+		// 不啟用：Opt-in 規則、依「sweep 範圍確立」策略 allRules 傾向 .disable。
+		// case 留在 enum 內形成「考慮過且選擇關閉」的 in-tree 宣告、fork 可改
+		.blankLinesAfterGuardStatements(rule: .disable),
 		.blankLinesAroundMark(rule: .enable),
 		.blankLinesAtEndOfScope(rule: .enable),
 		.blankLinesAtStartOfScope(rule: .enable),
