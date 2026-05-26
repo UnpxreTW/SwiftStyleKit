@@ -163,6 +163,10 @@ extension FormatRule {
 		.trailingSpace(rule: .enable),
 		.typeSugar(rule: .enable),
 		.unusedArguments(rule: .enable),
+		// 不啟用：規則只看 static reference、對 @objc selector / KVC value(forKey:) /
+		// Mirror reflection 等 dynamic dispatch 無感、可能誤刪；fork 用戶若有
+		// reflection-heavy 寫法應自訂 preserveDecls 名單後再啟用
+		.unusedPrivateDeclarations(rule: .disable),
 		.void(rule: .enable),
 		.wrap(rule: .enable),
 		.wrapArguments(rule: .enable),
