@@ -83,6 +83,7 @@ extension FormatRule {
 		.preferFinalClasses(rule: .enable),
 		.preferForLoop(rule: .enable),
 		.preferKeyPath(rule: .enable),
+		.preferSwiftStringAPI(rule: .enable),
 		.redundantAsync(rule: .enable),
 		.redundantBackticks(rule: .enable),
 		.redundantBreak(rule: .enable),
