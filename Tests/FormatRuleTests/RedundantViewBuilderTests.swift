@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("redundantViewBuilder")
-struct RedundantViewBuilderTests {
+private struct RedundantViewBuilderTests {
 
 	@Test
-	func `redundantViewBuilder .disable 返空陣列`() {
+	private func `redundantViewBuilder .disable 返空陣列`() {
 		#expect(FormatRule.redundantViewBuilder(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `redundantViewBuilder .enable 展開 --enable redundantViewBuilder`() {
+	private func `redundantViewBuilder .enable 展開 --enable redundantViewBuilder`() {
 		let args = FormatRule.redundantViewBuilder(rule: .enable).cliArguments
 		#expect(args == ["--enable", "redundantViewBuilder"])
 	}

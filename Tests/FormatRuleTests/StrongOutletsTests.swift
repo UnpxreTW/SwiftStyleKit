@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("strongOutlets")
-struct StrongOutletsTests {
+private struct StrongOutletsTests {
 
 	@Test
-	func `strongOutlets .disable 返空陣列`() {
+	private func `strongOutlets .disable 返空陣列`() {
 		#expect(FormatRule.strongOutlets(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `strongOutlets .enable 展開 --enable strongOutlets`() {
+	private func `strongOutlets .enable 展開 --enable strongOutlets`() {
 		let args = FormatRule.strongOutlets(rule: .enable).cliArguments
 		#expect(args == ["--enable", "strongOutlets"])
 	}

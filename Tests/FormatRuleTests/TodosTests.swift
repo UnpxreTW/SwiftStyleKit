@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("todos")
-struct TodosTests {
+private struct TodosTests {
 
 	@Test
-	func `todos .disable 返空陣列`() {
+	private func `todos .disable 返空陣列`() {
 		#expect(FormatRule.todos(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `todos .enable 展開 --enable todos`() {
+	private func `todos .enable 展開 --enable todos`() {
 		let args = FormatRule.todos(rule: .enable).cliArguments
 		#expect(args == ["--enable", "todos"])
 	}

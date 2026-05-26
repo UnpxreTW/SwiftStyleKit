@@ -10,16 +10,16 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("blankLinesBetweenChainedFunctions")
-struct BlankLinesBetweenChainedFunctionsTests {
+private struct BlankLinesBetweenChainedFunctionsTests {
 
 	@Test
-	func `blankLinesBetweenChainedFunctions .disable 返空陣列`() {
+	private func `blankLinesBetweenChainedFunctions .disable 返空陣列`() {
 		let args = FormatRule.blankLinesBetweenChainedFunctions(rule: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
-	func `blankLinesBetweenChainedFunctions .enable 展開 --enable blankLinesBetweenChainedFunctions`() {
+	private func `blankLinesBetweenChainedFunctions .enable 展開 --enable blankLinesBetweenChainedFunctions`() {
 		let args = FormatRule.blankLinesBetweenChainedFunctions(rule: .enable).cliArguments
 		#expect(args == ["--enable", "blankLinesBetweenChainedFunctions"])
 	}

@@ -10,16 +10,16 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("andOperator")
-struct AndOperatorTests {
+private struct AndOperatorTests {
 
 	@Test
-	func `andOperator .disable 返空陣列`() {
+	private func `andOperator .disable 返空陣列`() {
 		let args = FormatRule.andOperator(rule: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
-	func `andOperator .enable 展開 --enable andOperator`() {
+	private func `andOperator .enable 展開 --enable andOperator`() {
 		let args = FormatRule.andOperator(rule: .enable).cliArguments
 		#expect(args == ["--enable", "andOperator"])
 	}

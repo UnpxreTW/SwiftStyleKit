@@ -10,16 +10,16 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("redundantAsync")
-struct RedundantAsyncTests {
+private struct RedundantAsyncTests {
 
 	@Test
-	func `redundantAsync .disable 返空陣列`() {
+	private func `redundantAsync .disable 返空陣列`() {
 		let args = FormatRule.redundantAsync(rule: .disable, redundantAsync: .always).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
-	func `redundantAsync .enable（redundantAsync 預設 .testsOnly）展開 --enable + --redundantAsync tests-only`() {
+	private func `redundantAsync .enable（redundantAsync 預設 .testsOnly）展開 --enable + --redundantAsync tests-only`() {
 		let args = FormatRule.redundantAsync(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "redundantAsync",
@@ -28,7 +28,7 @@ struct RedundantAsyncTests {
 	}
 
 	@Test
-	func `redundantAsync .enable redundantAsync .always 展開 --redundantAsync always`() {
+	private func `redundantAsync .enable redundantAsync .always 展開 --redundantAsync always`() {
 		let args = FormatRule.redundantAsync(rule: .enable, redundantAsync: .always).cliArguments
 		#expect(args == [
 			"--enable", "redundantAsync",

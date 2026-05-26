@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("redundantBackticks")
-struct RedundantBackticksTests {
+private struct RedundantBackticksTests {
 
 	@Test
-	func `redundantBackticks .disable 返空陣列`() {
+	private func `redundantBackticks .disable 返空陣列`() {
 		#expect(FormatRule.redundantBackticks(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `redundantBackticks .enable 展開 --enable redundantBackticks`() {
+	private func `redundantBackticks .enable 展開 --enable redundantBackticks`() {
 		let args = FormatRule.redundantBackticks(rule: .enable).cliArguments
 		#expect(args == ["--enable", "redundantBackticks"])
 	}

@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("wrapAttributes")
-struct WrapAttributesTests {
+private struct WrapAttributesTests {
 
 	@Test
-	func `wrapAttributes .disable 返空陣列`() {
+	private func `wrapAttributes .disable 返空陣列`() {
 		#expect(FormatRule.wrapAttributes(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `wrapAttributes .enable 簽名預設展開 6 attribute mode 全 prev-line`() {
+	private func `wrapAttributes .enable 簽名預設展開 6 attribute mode 全 prev-line`() {
 		let args = FormatRule.wrapAttributes(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "wrapAttributes",
@@ -32,7 +32,7 @@ struct WrapAttributesTests {
 	}
 
 	@Test
-	func `wrapAttributes .enable funcAttributes .sameLine 展開`() {
+	private func `wrapAttributes .enable funcAttributes .sameLine 展開`() {
 		let args = FormatRule.wrapAttributes(
 			rule: .enable,
 			funcAttributes: .sameLine
@@ -42,7 +42,7 @@ struct WrapAttributesTests {
 	}
 
 	@Test
-	func `wrapAttributes .enable complexAttributes .preserve 展開`() {
+	private func `wrapAttributes .enable complexAttributes .preserve 展開`() {
 		let args = FormatRule.wrapAttributes(
 			rule: .enable,
 			complexAttributes: .preserve
@@ -52,7 +52,7 @@ struct WrapAttributesTests {
 	}
 
 	@Test
-	func `wrapAttributes .enable nonComplexAttributes 有值展開逗號相連`() {
+	private func `wrapAttributes .enable nonComplexAttributes 有值展開逗號相連`() {
 		let args = FormatRule.wrapAttributes(
 			rule: .enable,
 			nonComplexAttributes: ["objc", "available"]
@@ -62,7 +62,7 @@ struct WrapAttributesTests {
 	}
 
 	@Test
-	func `wrapAttributes .enable nonComplexAttributes 空陣列等同 nil 不展開`() {
+	private func `wrapAttributes .enable nonComplexAttributes 空陣列等同 nil 不展開`() {
 		let args = FormatRule.wrapAttributes(
 			rule: .enable,
 			nonComplexAttributes: []

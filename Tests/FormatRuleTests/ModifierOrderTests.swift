@@ -10,22 +10,22 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("modifierOrder")
-struct ModifierOrderTests {
+private struct ModifierOrderTests {
 
 	@Test
-	func `modifierOrder .disable 返空陣列`() {
+	private func `modifierOrder .disable 返空陣列`() {
 		let args = FormatRule.modifierOrder(rule: .disable, modifierOrder: "public,static").cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
-	func `modifierOrder .enable（modifierOrder 預設 nil）只展開 --enable`() {
+	private func `modifierOrder .enable（modifierOrder 預設 nil）只展開 --enable`() {
 		let args = FormatRule.modifierOrder(rule: .enable).cliArguments
 		#expect(args == ["--enable", "modifierOrder"])
 	}
 
 	@Test
-	func `modifierOrder .enable modifierOrder 有值展開 --modifierOrder`() {
+	private func `modifierOrder .enable modifierOrder 有值展開 --modifierOrder`() {
 		let args = FormatRule.modifierOrder(rule: .enable, modifierOrder: "public,static").cliArguments
 		#expect(args == [
 			"--enable", "modifierOrder",

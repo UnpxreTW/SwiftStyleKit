@@ -10,22 +10,22 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("hoistTry")
-struct HoistTryTests {
+private struct HoistTryTests {
 
 	@Test
-	func `hoistTry .disable 返空陣列`() {
+	private func `hoistTry .disable 返空陣列`() {
 		let args = FormatRule.hoistTry(rule: .disable, throwCapturing: "foo").cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
-	func `hoistTry .enable（throwCapturing 預設 nil）只展開 --enable`() {
+	private func `hoistTry .enable（throwCapturing 預設 nil）只展開 --enable`() {
 		let args = FormatRule.hoistTry(rule: .enable).cliArguments
 		#expect(args == ["--enable", "hoistTry"])
 	}
 
 	@Test
-	func `hoistTry .enable throwCapturing 有值展開 --throwCapturing`() {
+	private func `hoistTry .enable throwCapturing 有值展開 --throwCapturing`() {
 		let args = FormatRule.hoistTry(rule: .enable, throwCapturing: "expect").cliArguments
 		#expect(args == [
 			"--enable", "hoistTry",

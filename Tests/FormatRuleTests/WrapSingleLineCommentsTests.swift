@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("wrapSingleLineComments")
-struct WrapSingleLineCommentsTests {
+private struct WrapSingleLineCommentsTests {
 
 	@Test
-	func `wrapSingleLineComments .disable 返空陣列`() {
+	private func `wrapSingleLineComments .disable 返空陣列`() {
 		#expect(FormatRule.wrapSingleLineComments(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `wrapSingleLineComments .enable 展開 --enable wrapSingleLineComments`() {
+	private func `wrapSingleLineComments .enable 展開 --enable wrapSingleLineComments`() {
 		let args = FormatRule.wrapSingleLineComments(rule: .enable).cliArguments
 		#expect(args == ["--enable", "wrapSingleLineComments"])
 	}

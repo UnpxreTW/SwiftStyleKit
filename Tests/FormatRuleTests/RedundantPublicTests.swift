@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("redundantPublic")
-struct RedundantPublicTests {
+private struct RedundantPublicTests {
 
 	@Test
-	func `redundantPublic .disable 返空陣列`() {
+	private func `redundantPublic .disable 返空陣列`() {
 		#expect(FormatRule.redundantPublic(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `redundantPublic .enable 展開 --enable redundantPublic`() {
+	private func `redundantPublic .enable 展開 --enable redundantPublic`() {
 		let args = FormatRule.redundantPublic(rule: .enable).cliArguments
 		#expect(args == ["--enable", "redundantPublic"])
 	}

@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("markTypes")
-struct MarkTypesTests {
+private struct MarkTypesTests {
 
 	@Test
-	func `markTypes .disable 返空陣列`() {
+	private func `markTypes .disable 返空陣列`() {
 		#expect(FormatRule.markTypes(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `markTypes .enable 預設值展開（types/extensions always、自訂 extensionMark/groupedExtension）`() {
+	private func `markTypes .enable 預設值展開（types/extensions always、自訂 extensionMark/groupedExtension）`() {
 		let args = FormatRule.markTypes(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "markTypes",
@@ -30,7 +30,7 @@ struct MarkTypesTests {
 	}
 
 	@Test
-	func `markTypes .enable 帶 typeMark / groupedExtension 展開全部 option`() {
+	private func `markTypes .enable 帶 typeMark / groupedExtension 展開全部 option`() {
 		let args = FormatRule.markTypes(
 			rule: .enable,
 			markTypes: .always,

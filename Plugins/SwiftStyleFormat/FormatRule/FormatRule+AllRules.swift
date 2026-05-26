@@ -156,6 +156,7 @@ extension FormatRule {
 		.strongOutlets(rule: .enable),
 		.strongifiedSelf(rule: .enable),
 		.swiftTestingTestCaseNames(rule: .enable),
+		.testSuiteAccessControl(rule: .enable),
 		.todos(rule: .enable),
 		.trailingClosures(rule: .enable),
 		.trailingCommas(rule: .enable),

@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("sortSwitchCases")
-struct SortSwitchCasesTests {
+private struct SortSwitchCasesTests {
 
 	@Test
-	func `sortSwitchCases .disable 返空陣列`() {
+	private func `sortSwitchCases .disable 返空陣列`() {
 		#expect(FormatRule.sortSwitchCases(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `sortSwitchCases .enable 只 enable 不展開 option`() {
+	private func `sortSwitchCases .enable 只 enable 不展開 option`() {
 		#expect(FormatRule.sortSwitchCases(rule: .enable).cliArguments == ["--enable", "sortSwitchCases"])
 	}
 }

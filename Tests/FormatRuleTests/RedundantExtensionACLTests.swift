@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("redundantExtensionACL")
-struct RedundantExtensionACLTests {
+private struct RedundantExtensionACLTests {
 
 	@Test
-	func `redundantExtensionACL .disable 返空陣列`() {
+	private func `redundantExtensionACL .disable 返空陣列`() {
 		#expect(FormatRule.redundantExtensionACL(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `redundantExtensionACL .enable 展開 --enable redundantExtensionACL`() {
+	private func `redundantExtensionACL .enable 展開 --enable redundantExtensionACL`() {
 		let args = FormatRule.redundantExtensionACL(rule: .enable).cliArguments
 		#expect(args == ["--enable", "redundantExtensionACL"])
 	}

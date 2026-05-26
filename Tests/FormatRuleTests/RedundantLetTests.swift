@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("redundantLet")
-struct RedundantLetTests {
+private struct RedundantLetTests {
 
 	@Test
-	func `redundantLet .disable 返空陣列`() {
+	private func `redundantLet .disable 返空陣列`() {
 		#expect(FormatRule.redundantLet(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `redundantLet .enable 展開 --enable redundantLet`() {
+	private func `redundantLet .enable 展開 --enable redundantLet`() {
 		let args = FormatRule.redundantLet(rule: .enable).cliArguments
 		#expect(args == ["--enable", "redundantLet"])
 	}

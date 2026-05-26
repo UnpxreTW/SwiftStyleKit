@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("organizeDeclarations")
-struct OrganizeDeclarationsTests {
+private struct OrganizeDeclarationsTests {
 
 	@Test
-	func `organizeDeclarations .disable 返空陣列`() {
+	private func `organizeDeclarations .disable 返空陣列`() {
 		#expect(FormatRule.organizeDeclarations(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `organizeDeclarations .enable 簽名預設展開含 visibility/type order 與 thresholds`() {
+	private func `organizeDeclarations .enable 簽名預設展開含 visibility/type order 與 thresholds`() {
 		let args = FormatRule.organizeDeclarations(rule: .enable).cliArguments
 		// 簽名預設包含 organizationMode/visibilityOrder/typeOrder/visibilityMarks/
 		// lifecycleMethods/4 個 markThreshold 80/sortSwiftUIProperties/typeBodyMarks
@@ -42,7 +42,7 @@ struct OrganizeDeclarationsTests {
 	}
 
 	@Test
-	func `organizeDeclarations .enable organizationMode .type 展開`() {
+	private func `organizeDeclarations .enable organizationMode .type 展開`() {
 		let args = FormatRule.organizeDeclarations(
 			rule: .enable,
 			organizationMode: .type
@@ -52,7 +52,7 @@ struct OrganizeDeclarationsTests {
 	}
 
 	@Test
-	func `organizeDeclarations .enable 自訂 visibilityOrder 列表展開`() {
+	private func `organizeDeclarations .enable 自訂 visibilityOrder 列表展開`() {
 		let args = FormatRule.organizeDeclarations(
 			rule: .enable,
 			visibilityOrder: ["beforeMarks", "open", "public", "package", "internal", "fileprivate", "private"]
@@ -62,7 +62,7 @@ struct OrganizeDeclarationsTests {
 	}
 
 	@Test
-	func `organizeDeclarations .enable classThreshold 20 展開 --classThreshold 20`() {
+	private func `organizeDeclarations .enable classThreshold 20 展開 --classThreshold 20`() {
 		let args = FormatRule.organizeDeclarations(
 			rule: .enable,
 			classThreshold: 20
@@ -72,7 +72,7 @@ struct OrganizeDeclarationsTests {
 	}
 
 	@Test
-	func `organizeDeclarations .enable sortSwiftUIProperties .none 展開`() {
+	private func `organizeDeclarations .enable sortSwiftUIProperties .none 展開`() {
 		let args = FormatRule.organizeDeclarations(
 			rule: .enable,
 			sortSwiftUIProperties: .none
@@ -82,7 +82,7 @@ struct OrganizeDeclarationsTests {
 	}
 
 	@Test
-	func `organizeDeclarations .enable categoryMark template 展開`() {
+	private func `organizeDeclarations .enable categoryMark template 展開`() {
 		let args = FormatRule.organizeDeclarations(
 			rule: .enable,
 			categoryMark: "MARK: == %c =="
@@ -92,7 +92,7 @@ struct OrganizeDeclarationsTests {
 	}
 
 	@Test
-	func `organizeDeclarations .enable beforeMarks 空陣列等同 nil 不展開`() {
+	private func `organizeDeclarations .enable beforeMarks 空陣列等同 nil 不展開`() {
 		let args = FormatRule.organizeDeclarations(
 			rule: .enable,
 			beforeMarks: []

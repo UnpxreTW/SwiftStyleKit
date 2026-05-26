@@ -683,6 +683,14 @@ public enum FormatRule {
 		suiteNameFormat: SwiftTestingNameFormat = .preserve
 	)
 
+	/// test method 統一成設定的 access control、test suite 內非 test 的成員強制 private
+	///
+	/// `testCaseAccessControl` 簽名預設 `.private`（SwiftStyleKit 選擇、嚴格化 test
+	/// 為純 entry point）；swiftformat 上游預設 `.internal`。對 XCTest（ObjC runtime
+	/// 自動 discover private test）與 swift-testing（`@Test` macro 內 expand entry hook）
+	/// 都有效。
+	case testSuiteAccessControl(rule: Flag, testCaseAccessControl: TestCaseAccessControl = .private)
+
 	// swiftlint:disable:next todo
 	/// 規範 `TODO:` / `MARK:` / `FIXME:` 註解格式（大寫 + 冒號；`TODOfoo` 無 space 後綴視為自訂 tag、不動）
 	case todos(rule: Flag)

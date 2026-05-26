@@ -10,10 +10,10 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("fileHeader")
-struct FileHeaderTests {
+private struct FileHeaderTests {
 
 	@Test
-	func `fileHeader .disable 返空陣列`() {
+	private func `fileHeader .disable 返空陣列`() {
 		let args = FormatRule.fileHeader(
 			rule: .disable,
 			header: "ignore",
@@ -24,7 +24,7 @@ struct FileHeaderTests {
 	}
 
 	@Test
-	func `fileHeader .enable 展開 --enable + header / dateFormat / timeZone`() {
+	private func `fileHeader .enable 展開 --enable + header / dateFormat / timeZone`() {
 		let args = FormatRule.fileHeader(
 			rule: .enable,
 			header: "// {file}",

@@ -10,16 +10,16 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("acronyms")
-struct AcronymsTests {
+private struct AcronymsTests {
 
 	@Test
-	func `acronyms .disable 返空陣列（Xcode 入口已注入 --disable all、不出冗餘 args）`() {
+	private func `acronyms .disable 返空陣列（Xcode 入口已注入 --disable all、不出冗餘 args）`() {
 		let args = FormatRule.acronyms(rule: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
-	func `acronyms .enable 展開 --enable acronyms 並帶 --acronyms 預設清單`() {
+	private func `acronyms .enable 展開 --enable acronyms 並帶 --acronyms 預設清單`() {
 		let args = FormatRule.acronyms(rule: .enable).cliArguments
 		#expect(args.count == 4)
 		#expect(args[0] == "--enable")

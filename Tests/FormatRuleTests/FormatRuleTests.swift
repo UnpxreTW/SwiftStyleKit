@@ -10,10 +10,10 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("FormatRule")
-struct FormatRuleTests {
+private struct FormatRuleTests {
 
 	@Test
-	func `allRules 不為空、enum 有 case 註冊`() {
+	private func `allRules 不為空、enum 有 case 註冊`() {
 		#expect(!FormatRule.allRules.isEmpty)
 	}
 }

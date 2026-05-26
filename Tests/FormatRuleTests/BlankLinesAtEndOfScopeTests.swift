@@ -10,16 +10,16 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("blankLinesAtEndOfScope")
-struct BlankLinesAtEndOfScopeTests {
+private struct BlankLinesAtEndOfScopeTests {
 
 	@Test
-	func `blankLinesAtEndOfScope .disable 返空陣列`() {
+	private func `blankLinesAtEndOfScope .disable 返空陣列`() {
 		let args = FormatRule.blankLinesAtEndOfScope(rule: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
-	func `blankLinesAtEndOfScope .enable 展開 --enable blankLinesAtEndOfScope`() {
+	private func `blankLinesAtEndOfScope .enable 展開 --enable blankLinesAtEndOfScope`() {
 		let args = FormatRule.blankLinesAtEndOfScope(rule: .enable).cliArguments
 		#expect(args == ["--enable", "blankLinesAtEndOfScope"])
 	}

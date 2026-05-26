@@ -10,16 +10,16 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("docCommentsBeforeModifiers")
-struct DocCommentsBeforeModifiersTests {
+private struct DocCommentsBeforeModifiersTests {
 
 	@Test
-	func `docCommentsBeforeModifiers .disable 返空陣列`() {
+	private func `docCommentsBeforeModifiers .disable 返空陣列`() {
 		let args = FormatRule.docCommentsBeforeModifiers(rule: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
-	func `docCommentsBeforeModifiers .enable 展開 --enable docCommentsBeforeModifiers`() {
+	private func `docCommentsBeforeModifiers .enable 展開 --enable docCommentsBeforeModifiers`() {
 		let args = FormatRule.docCommentsBeforeModifiers(rule: .enable).cliArguments
 		#expect(args == ["--enable", "docCommentsBeforeModifiers"])
 	}

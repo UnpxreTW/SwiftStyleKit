@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("simplifyGenericConstraints")
-struct SimplifyGenericConstraintsTests {
+private struct SimplifyGenericConstraintsTests {
 
 	@Test
-	func `simplifyGenericConstraints .disable 返空陣列`() {
+	private func `simplifyGenericConstraints .disable 返空陣列`() {
 		#expect(FormatRule.simplifyGenericConstraints(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `simplifyGenericConstraints .enable 展開 --enable simplifyGenericConstraints`() {
+	private func `simplifyGenericConstraints .enable 展開 --enable simplifyGenericConstraints`() {
 		let args = FormatRule.simplifyGenericConstraints(rule: .enable).cliArguments
 		#expect(args == ["--enable", "simplifyGenericConstraints"])
 	}

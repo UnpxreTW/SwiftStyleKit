@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("headerFileName")
-struct HeaderFileNameTests {
+private struct HeaderFileNameTests {
 
 	@Test
-	func `headerFileName .disable 返空陣列`() {
+	private func `headerFileName .disable 返空陣列`() {
 		#expect(FormatRule.headerFileName(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `headerFileName .enable 展開 --enable headerFileName`() {
+	private func `headerFileName .enable 展開 --enable headerFileName`() {
 		#expect(FormatRule.headerFileName(rule: .enable).cliArguments == ["--enable", "headerFileName"])
 	}
 }

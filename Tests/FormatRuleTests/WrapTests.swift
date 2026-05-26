@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("wrap")
-struct WrapTests {
+private struct WrapTests {
 
 	@Test
-	func `wrap .disable 返空陣列`() {
+	private func `wrap .disable 返空陣列`() {
 		#expect(FormatRule.wrap(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `wrap .enable 簽名預設展開 4 option（wrapStringInterpolation 已抽出至全域）`() {
+	private func `wrap .enable 簽名預設展開 4 option（wrapStringInterpolation 已抽出至全域）`() {
 		let args = FormatRule.wrap(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "wrap",
@@ -29,7 +29,7 @@ struct WrapTests {
 	}
 
 	@Test
-	func `wrap .enable maxWidth 改 100`() {
+	private func `wrap .enable maxWidth 改 100`() {
 		let args = FormatRule.wrap(rule: .enable, maxWidth: 100).cliArguments
 		#expect(args == [
 			"--enable", "wrap",
@@ -40,7 +40,7 @@ struct WrapTests {
 	}
 
 	@Test
-	func `wrap .enable noWrapOperators 有值展開`() {
+	private func `wrap .enable noWrapOperators 有值展開`() {
 		let args = FormatRule.wrap(
 			rule: .enable,
 			noWrapOperators: [".", "?."]
@@ -55,7 +55,7 @@ struct WrapTests {
 	}
 
 	@Test
-	func `wrap .enable noWrapOperators 空陣列等同 nil 不展開`() {
+	private func `wrap .enable noWrapOperators 空陣列等同 nil 不展開`() {
 		let args = FormatRule.wrap(rule: .enable, noWrapOperators: []).cliArguments
 		#expect(args == [
 			"--enable", "wrap",
@@ -66,7 +66,7 @@ struct WrapTests {
 	}
 
 	@Test
-	func `wrap .enable assetLiterals .visualWidth 展開 visual-width`() {
+	private func `wrap .enable assetLiterals .visualWidth 展開 visual-width`() {
 		let args = FormatRule.wrap(rule: .enable, assetLiterals: .visualWidth).cliArguments
 		#expect(args == [
 			"--enable", "wrap",
@@ -77,7 +77,7 @@ struct WrapTests {
 	}
 
 	@Test
-	func `wrap .enable wrapTernary .beforeOperators 展開`() {
+	private func `wrap .enable wrapTernary .beforeOperators 展開`() {
 		let args = FormatRule.wrap(rule: .enable, wrapTernary: .beforeOperators).cliArguments
 		#expect(args == [
 			"--enable", "wrap",

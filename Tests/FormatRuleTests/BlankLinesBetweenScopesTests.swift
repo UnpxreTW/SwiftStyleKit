@@ -10,16 +10,16 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("blankLinesBetweenScopes")
-struct BlankLinesBetweenScopesTests {
+private struct BlankLinesBetweenScopesTests {
 
 	@Test
-	func `blankLinesBetweenScopes .disable 返空陣列`() {
+	private func `blankLinesBetweenScopes .disable 返空陣列`() {
 		let args = FormatRule.blankLinesBetweenScopes(rule: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
-	func `blankLinesBetweenScopes .enable 展開 --enable blankLinesBetweenScopes`() {
+	private func `blankLinesBetweenScopes .enable 展開 --enable blankLinesBetweenScopes`() {
 		let args = FormatRule.blankLinesBetweenScopes(rule: .enable).cliArguments
 		#expect(args == ["--enable", "blankLinesBetweenScopes"])
 	}

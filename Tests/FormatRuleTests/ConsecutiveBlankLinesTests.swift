@@ -10,16 +10,16 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("consecutiveBlankLines")
-struct ConsecutiveBlankLinesTests {
+private struct ConsecutiveBlankLinesTests {
 
 	@Test
-	func `consecutiveBlankLines .disable 返空陣列`() {
+	private func `consecutiveBlankLines .disable 返空陣列`() {
 		let args = FormatRule.consecutiveBlankLines(rule: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
-	func `consecutiveBlankLines .enable 展開 --enable consecutiveBlankLines`() {
+	private func `consecutiveBlankLines .enable 展開 --enable consecutiveBlankLines`() {
 		let args = FormatRule.consecutiveBlankLines(rule: .enable).cliArguments
 		#expect(args == ["--enable", "consecutiveBlankLines"])
 	}

@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("redundantParens")
-struct RedundantParensTests {
+private struct RedundantParensTests {
 
 	@Test
-	func `redundantParens .disable 返空陣列`() {
+	private func `redundantParens .disable 返空陣列`() {
 		#expect(FormatRule.redundantParens(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `redundantParens .enable 展開 --enable redundantParens`() {
+	private func `redundantParens .enable 展開 --enable redundantParens`() {
 		let args = FormatRule.redundantParens(rule: .enable).cliArguments
 		#expect(args == ["--enable", "redundantParens"])
 	}

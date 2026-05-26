@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("redundantStaticSelf")
-struct RedundantStaticSelfTests {
+private struct RedundantStaticSelfTests {
 
 	@Test
-	func `redundantStaticSelf .disable 返空陣列`() {
+	private func `redundantStaticSelf .disable 返空陣列`() {
 		#expect(FormatRule.redundantStaticSelf(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `redundantStaticSelf .enable 展開 --enable redundantStaticSelf`() {
+	private func `redundantStaticSelf .enable 展開 --enable redundantStaticSelf`() {
 		let args = FormatRule.redundantStaticSelf(rule: .enable).cliArguments
 		#expect(args == ["--enable", "redundantStaticSelf"])
 	}

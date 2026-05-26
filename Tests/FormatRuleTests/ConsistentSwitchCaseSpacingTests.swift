@@ -10,16 +10,16 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("consistentSwitchCaseSpacing")
-struct ConsistentSwitchCaseSpacingTests {
+private struct ConsistentSwitchCaseSpacingTests {
 
 	@Test
-	func `consistentSwitchCaseSpacing .disable 返空陣列`() {
+	private func `consistentSwitchCaseSpacing .disable 返空陣列`() {
 		let args = FormatRule.consistentSwitchCaseSpacing(rule: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
-	func `consistentSwitchCaseSpacing .enable 展開 --enable consistentSwitchCaseSpacing`() {
+	private func `consistentSwitchCaseSpacing .enable 展開 --enable consistentSwitchCaseSpacing`() {
 		let args = FormatRule.consistentSwitchCaseSpacing(rule: .enable).cliArguments
 		#expect(args == ["--enable", "consistentSwitchCaseSpacing"])
 	}

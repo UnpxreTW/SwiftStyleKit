@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("redundantLetError")
-struct RedundantLetErrorTests {
+private struct RedundantLetErrorTests {
 
 	@Test
-	func `redundantLetError .disable 返空陣列`() {
+	private func `redundantLetError .disable 返空陣列`() {
 		#expect(FormatRule.redundantLetError(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `redundantLetError .enable 展開 --enable redundantLetError`() {
+	private func `redundantLetError .enable 展開 --enable redundantLetError`() {
 		let args = FormatRule.redundantLetError(rule: .enable).cliArguments
 		#expect(args == ["--enable", "redundantLetError"])
 	}

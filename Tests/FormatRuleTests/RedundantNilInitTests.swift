@@ -10,16 +10,16 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("redundantNilInit")
-struct RedundantNilInitTests {
+private struct RedundantNilInitTests {
 
 	@Test
-	func `redundantNilInit .disable 返空陣列`() {
+	private func `redundantNilInit .disable 返空陣列`() {
 		let args = FormatRule.redundantNilInit(rule: .disable, mode: .remove).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
-	func `redundantNilInit .enable（mode 預設 .remove）展開 --enable + --nilinit remove`() {
+	private func `redundantNilInit .enable（mode 預設 .remove）展開 --enable + --nilinit remove`() {
 		let args = FormatRule.redundantNilInit(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "redundantNilInit",
@@ -28,7 +28,7 @@ struct RedundantNilInitTests {
 	}
 
 	@Test
-	func `redundantNilInit .enable mode .insert 展開 --nilinit insert`() {
+	private func `redundantNilInit .enable mode .insert 展開 --nilinit insert`() {
 		let args = FormatRule.redundantNilInit(rule: .enable, mode: .insert).cliArguments
 		#expect(args == [
 			"--enable", "redundantNilInit",
