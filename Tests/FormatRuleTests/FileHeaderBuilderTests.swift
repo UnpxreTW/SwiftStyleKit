@@ -15,7 +15,7 @@ struct FileHeaderBuilderTests {
 	@Test
 	// swiftlint:disable:next identifier_name
 	func `標準 (c) 版權行抓出持有人`() {
-		let holder = FileHeaderBuilder.copyrightHolder(in: "Copyright (c) 2026 Unpxre (GitHub: UnpxreTW)")
+		let holder: FileHeaderBuilder = .copyrightHolder(in: "Copyright (c) 2026 Unpxre (GitHub: UnpxreTW)")
 		#expect(holder == "Unpxre (GitHub: UnpxreTW)")
 	}
 
@@ -60,7 +60,7 @@ struct FileHeaderBuilderTests {
 	// swiftlint:disable:next identifier_name
 	func `辨識 MIT——不依賴標題行`() {
 		let text = "Copyright (c) 2026 X\n\nPermission is hereby granted, free of charge, to any person."
-		let result = FileHeaderBuilder.recognizeLicense(in: text)
+		let result: FileHeaderBuilder = .recognizeLicense(in: text)
 		#expect(result?.name == "MIT License")
 		#expect(result?.spdxID == "MIT")
 	}
@@ -68,7 +68,7 @@ struct FileHeaderBuilderTests {
 	@Test
 	// swiftlint:disable:next identifier_name
 	func `辨識 Apache-2.0`() {
-		let result = FileHeaderBuilder.recognizeLicense(in: "Apache License\nVersion 2.0, January 2004")
+		let result: FileHeaderBuilder = .recognizeLicense(in: "Apache License\nVersion 2.0, January 2004")
 		#expect(result?.spdxID == "Apache-2.0")
 	}
 
@@ -85,7 +85,7 @@ struct FileHeaderBuilderTests {
 	@Test
 	// swiftlint:disable:next identifier_name
 	func `辨識 MPL-2.0`() {
-		let result = FileHeaderBuilder.recognizeLicense(in: "Mozilla Public License Version 2.0")
+		let result: FileHeaderBuilder = .recognizeLicense(in: "Mozilla Public License Version 2.0")
 		#expect(result?.spdxID == "MPL-2.0")
 	}
 
@@ -97,7 +97,7 @@ struct FileHeaderBuilderTests {
 
 	@Test
 	func `recognized 組出含授權名稱與 SPDX 的完整標頭`() {
-		let header = FileHeaderBuilder.header(
+		let header: FileHeaderBuilder = .header(
 			targetName: "SwiftStyleFormatCore",
 			license: .recognized(holder: "Unpxre (GitHub: UnpxreTW)", name: "MIT License", spdxID: "MIT")
 		)
@@ -114,7 +114,7 @@ struct FileHeaderBuilderTests {
 
 	@Test
 	func `unrecognized 省去授權名稱與 SPDX 行`() {
-		let header = FileHeaderBuilder.header(targetName: "App", license: .unrecognized(holder: "Someone"))
+		let header: FileHeaderBuilder = .header(targetName: "App", license: .unrecognized(holder: "Someone"))
 		#expect(header == [
 			"",
 			"App",
@@ -126,7 +126,7 @@ struct FileHeaderBuilderTests {
 
 	@Test
 	func `missing 省去持有人、結尾留空註解行`() {
-		let header = FileHeaderBuilder.header(targetName: "App", license: .missing)
+		let header: FileHeaderBuilder = .header(targetName: "App", license: .missing)
 		#expect(header == [
 			"",
 			"App",

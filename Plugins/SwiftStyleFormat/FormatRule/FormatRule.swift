@@ -388,6 +388,18 @@ public enum FormatRule {
 	/// 給 `@State` / `@StateObject` 沒帶訪問控制的 property 自動加 `private`
 	case privateStateVariables(rule: Flag)
 
+	/// 控制 property 宣告用顯式 type 或推導（`let foo: Foo = .init()` ↔ `let foo = Foo()`）
+	///
+	/// - `propertyTypes`：顯式 / 推導 / local 推導全域顯式
+	/// - `inferredTypes`：推導適用範圍（all vs 排除條件表達式）
+	/// - `preservedPropertyTypes`：保留顯式型別的 type 名單（上游預設 `["Package"]`）
+	case propertyTypes(
+		rule: Flag,
+		propertyTypes: PropertyTypes = .inferLocalsOnly,
+		inferredTypes: InferredTypesMode = .always,
+		preservedPropertyTypes: [String]? = ["Package"]
+	)
+
 	/// 移除不含 `await` 的函式宣告中多餘的 `async` 關鍵字
 	///
 	/// `mode` 為 `.testsOnly` 只動測試函式、`.always` 連一般函式也動（可能讓 call site

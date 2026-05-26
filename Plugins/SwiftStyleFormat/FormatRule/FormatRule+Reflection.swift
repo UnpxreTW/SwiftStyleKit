@@ -26,7 +26,7 @@ extension FormatRule {
 		for (label, raw) in Mirror(reflecting: currentCase.value).children {
 			// Optional unwrap：nil 跳過、some 取 inner value（讓 case 簽名可帶 Optional option）
 			let unwrapped: Any
-			let optionalMirror = Mirror(reflecting: raw)
+			let optionalMirror: Mirror = .init(reflecting: raw)
 			if optionalMirror.displayStyle == .optional {
 				guard let first = optionalMirror.children.first else { continue }
 				unwrapped = first.value
