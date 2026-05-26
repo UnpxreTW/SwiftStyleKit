@@ -22,6 +22,5 @@ extension FormatRule {
 
 		/// 對應的 swiftformat CLI option flag 名稱
 		public static let flagName = "closurevoid"
-
 	}
 }

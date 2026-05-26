@@ -21,7 +21,6 @@ extension FormatRule {
 
 		/// 對應的 swiftformat CLI option flag 名稱
 		public static let flagName = "elsePosition"
-
 	}
 
 	/// ``FormatRule/elseOnSameLine(rule:elsePosition:guardElse:)`` 對 `guard` 的 `else` 擺位
@@ -40,6 +39,5 @@ extension FormatRule {
 
 		/// 對應的 swiftformat CLI option flag 名稱
 		public static let flagName = "guardElse"
-
 	}
 }

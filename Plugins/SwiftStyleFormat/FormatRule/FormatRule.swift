@@ -11,6 +11,10 @@
 // main enum body（Swift 語言限制、不能拆 extension），預期最終 ~500-600 行；
 // file_length 預設 400 在這場景對品質沒指引意義
 
+// swiftlint:disable type_body_length
+// 原因：21 option 的 organizeDeclarations case 簽名為了一個 element 一行而拉長
+// enum body、超 250 行門檻；file_length 場景同理（已 disable）
+
 /// 格式規則
 ///
 /// 每個 case 對應 swiftformat 一條 rule，Mirror reflection 自動展開為 CLI 參數。
@@ -260,14 +264,21 @@ public enum FormatRule {
 
 	/// 對 class/struct/enum/actor/extension body 內的宣告整體重新組織排序
 	///
-	/// swiftformat 最複雜的規則之一、21 個 option：
-	/// - `organizationMode`：依 visibility（預設）或 type 為主軸組織
-	/// - `visibilityOrder` / `typeOrder`：自訂順序（[String]? = nil 用上游 mode-aware 預設）
-	/// - `*Threshold` / `mark*Threshold`：觸發 organize / MARK 註解的最小行數（`nil` 用上游預設）
-	/// - `markCategories` / `groupBlankLines`：MARK 插入與群組空行（`Toggle`）
-	/// - `categoryMark` / `typeMarks` / `visibilityMarks`：MARK 模板字串（`nil` 用上游預設）
-	/// - `beforeMarks` / `lifecycleMethods` / `organizeTypes`：String 列表（`nil` / `[]` 等效不展開）
-	/// - `sortSwiftUIProperties` / `typeBodyMarks`：SwiftUI property 排序、type body 既有 MARK 處理
+	/// - `organizationMode`：依 visibility 或 type 為主軸組織
+	/// - `visibilityOrder`：自訂 visibility group 順序
+	/// - `typeOrder`：自訂 type group 順序
+	/// - `visibilityMarks`：自訂 visibility group MARK 文字
+	/// - `typeMarks`：自訂 type group MARK 文字
+	/// - `categoryMark`：MARK 模板字串
+	/// - `markCategories`：是否插入 MARK 標頭
+	/// - `beforeMarks`：放在第一個 MARK 之前的 declaration types
+	/// - `lifecycle`：自訂 lifecycle method 名單（加進 instanceLifecycle 群組）
+	/// - `organizeTypes`：哪些 type 要被 organize
+	/// - `classThreshold` / `structThreshold` / `enumThreshold` / `extensionThreshold`：觸發 organize 的最小行數
+	/// - `markClassThreshold` / `markStructThreshold` / `markEnumThreshold` / `markExtensionThreshold`：觸發 MARK 標頭的最小行數
+	/// - `sortSwiftUIProperties`：SwiftUI property 排序模式
+	/// - `typeBodyMarks`：type body 內既有 MARK 處理
+	/// - `groupBlankLines`：subgroup 之間是否插空行
 	case organizeDeclarations(
 		rule: Flag,
 		organizationMode: DeclarationOrganizationMode = .visibility,
@@ -282,10 +293,20 @@ public enum FormatRule {
 			"private"
 		],
 		typeOrder: [String]? = [
-			"nestedType", "staticProperty", "staticPropertyWithBody", "staticMethod",
-			"classPropertyWithBody", "classMethod", "swiftUIProperty", "overriddenProperty",
-			"swiftUIPropertyWrapper", "instancePropertyWithBody", "instanceProperty",
-			"overriddenMethod", "swiftUIMethod", "instanceMethod"
+			"nestedType",
+			"staticProperty",
+			"staticPropertyWithBody",
+			"staticMethod",
+			"classPropertyWithBody",
+			"classMethod",
+			"swiftUIProperty",
+			"overriddenProperty",
+			"swiftUIPropertyWrapper",
+			"instancePropertyWithBody",
+			"instanceProperty",
+			"overriddenMethod",
+			"swiftUIMethod",
+			"instanceMethod"
 		],
 		visibilityMarks: String? = "fileprivate:File Private",
 		typeMarks: String? = nil,
@@ -293,10 +314,17 @@ public enum FormatRule {
 		markCategories: Toggle = .enable,
 		beforeMarks: [String]? = nil,
 		lifecycle: [String]? = [
-			"viewDidLoad", "viewWillAppear", "viewDidAppear",
-			"viewWillDisappear", "viewDidDisappear",
-			"viewWillLayoutSubviews", "viewDidLayoutSubviews",
-			"setUp", "tearDown", "setUpWithError", "tearDownWithError"
+			"viewDidLoad",
+			"viewWillAppear",
+			"viewDidAppear",
+			"viewWillDisappear",
+			"viewDidDisappear",
+			"viewWillLayoutSubviews",
+			"viewDidLayoutSubviews",
+			"setUp",
+			"tearDown",
+			"setUpWithError",
+			"tearDownWithError"
 		],
 		organizeTypes: [String]? = nil,
 		classThreshold: Int? = nil,
@@ -756,3 +784,5 @@ public enum FormatRule {
 	/// 展開成 `--wrapStringInterpolation default`；設為 `nil` 則不展開、由 swiftformat 取上游預設。
 	case wrapStringInterpolation(mode: StringInterpolationWrapMode? = .default)
 }
+
+// swiftlint:enable type_body_length

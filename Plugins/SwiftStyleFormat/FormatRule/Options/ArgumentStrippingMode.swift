@@ -30,6 +30,5 @@ extension FormatRule {
 		/// keyPath 名 `stripUnusedArguments`）；camelCase 等價形式為 `stripUnusedArgs`、
 		/// swiftformat 接受。
 		public static let flagName = "stripUnusedArgs"
-
 	}
 }

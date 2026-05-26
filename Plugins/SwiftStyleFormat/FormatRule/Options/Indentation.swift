@@ -41,6 +41,5 @@ extension FormatRule {
 				self = .spaces(count)
 			}
 		}
-
 	}
 }
