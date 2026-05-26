@@ -134,6 +134,7 @@ extension FormatRule {
 		.redundantVoidReturnType(rule: .enable),
 		.semicolons(rule: .enable),
 		.simplifyGenericConstraints(rule: .enable),
+		.singlePropertyPerLine(rule: .enable),
 		.sortDeclarations(rule: .enable),
 		.sortImports(rule: .enable),
 		.sortTypealiases(rule: .enable),
