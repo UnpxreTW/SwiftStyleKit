@@ -385,6 +385,9 @@ public enum FormatRule {
 		xctestSymbols: [String]? = nil
 	)
 
+	/// 給 `@State` / `@StateObject` 沒帶訪問控制的 property 自動加 `private`
+	case privateStateVariables(rule: Flag)
+
 	/// 移除不含 `await` 的函式宣告中多餘的 `async` 關鍵字
 	///
 	/// `mode` 為 `.testsOnly` 只動測試函式、`.always` 連一般函式也動（可能讓 call site
