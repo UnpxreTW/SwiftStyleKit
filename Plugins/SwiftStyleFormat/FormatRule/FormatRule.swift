@@ -586,6 +586,13 @@ public enum FormatRule {
 	/// 只處理簡單 protocol conformance；複雜條件（`where T == Int`、混合 same-type requirement）不動。
 	case simplifyGenericConstraints(rule: Flag)
 
+	/// 一行多 property 宣告拆成一行一個
+	///
+	/// 例如 `let a, b, c: Int` 拆成三行各自宣告；`let (foo, bar) = ("foo", "bar")` tuple
+	/// destructuring 也拆。對 `let (foo, bar) = methodCallWithPossibleSideEffects()`
+	/// 自動 preserve（避免 method 被呼叫兩次）。
+	case singlePropertyPerLine(rule: Flag)
+
 	/// 對帶有 sort 標註的宣告排序（marker-based opt-in）
 	///
 	/// swiftformat 用 `isCommentBody.contains` 比對 comment 字串、找尋形如 `(規則名):sort`
