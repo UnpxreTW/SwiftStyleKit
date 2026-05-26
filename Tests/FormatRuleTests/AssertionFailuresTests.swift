@@ -10,16 +10,16 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("assertionFailures")
-struct AssertionFailuresTests {
+private struct AssertionFailuresTests {
 
 	@Test
-	func `assertionFailures .disable 返空陣列`() {
+	private func `assertionFailures .disable 返空陣列`() {
 		let args = FormatRule.assertionFailures(rule: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
-	func `assertionFailures .enable 展開 --enable assertionFailures`() {
+	private func `assertionFailures .enable 展開 --enable assertionFailures`() {
 		let args = FormatRule.assertionFailures(rule: .enable).cliArguments
 		#expect(args == ["--enable", "assertionFailures"])
 	}

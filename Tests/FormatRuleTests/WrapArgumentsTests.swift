@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("wrapArguments")
-struct WrapArgumentsTests {
+private struct WrapArgumentsTests {
 
 	@Test
-	func `wrapArguments .disable 返空陣列`() {
+	private func `wrapArguments .disable 返空陣列`() {
 		#expect(FormatRule.wrapArguments(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `wrapArguments .enable 簽名預設展開 10 option（wrapStringInterpolation 已抽出全域）`() {
+	private func `wrapArguments .enable 簽名預設展開 10 option（wrapStringInterpolation 已抽出全域）`() {
 		let args = FormatRule.wrapArguments(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "wrapArguments",
@@ -36,7 +36,7 @@ struct WrapArgumentsTests {
 	}
 
 	@Test
-	func `wrapArguments .enable wrapArguments .beforeFirst 展開`() {
+	private func `wrapArguments .enable wrapArguments .beforeFirst 展開`() {
 		let args = FormatRule.wrapArguments(
 			rule: .enable,
 			wrapArguments: .beforeFirst
@@ -46,7 +46,7 @@ struct WrapArgumentsTests {
 	}
 
 	@Test
-	func `wrapArguments .enable wrapEffects .ifMultiline 展開`() {
+	private func `wrapArguments .enable wrapEffects .ifMultiline 展開`() {
 		let args = FormatRule.wrapArguments(
 			rule: .enable,
 			wrapEffects: .ifMultiline
@@ -56,7 +56,7 @@ struct WrapArgumentsTests {
 	}
 
 	@Test
-	func `wrapArguments .enable closingParen .sameLine 展開`() {
+	private func `wrapArguments .enable closingParen .sameLine 展開`() {
 		let args = FormatRule.wrapArguments(
 			rule: .enable,
 			closingParen: .sameLine
@@ -66,7 +66,7 @@ struct WrapArgumentsTests {
 	}
 
 	@Test
-	func `wrapArguments .enable allowPartialWrapping .disable 展開 false`() {
+	private func `wrapArguments .enable allowPartialWrapping .disable 展開 false`() {
 		let args = FormatRule.wrapArguments(
 			rule: .enable,
 			allowPartialWrapping: .disable

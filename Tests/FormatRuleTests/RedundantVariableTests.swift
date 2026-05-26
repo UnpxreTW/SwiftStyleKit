@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("redundantVariable")
-struct RedundantVariableTests {
+private struct RedundantVariableTests {
 
 	@Test
-	func `redundantVariable .disable 返空陣列`() {
+	private func `redundantVariable .disable 返空陣列`() {
 		#expect(FormatRule.redundantVariable(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `redundantVariable .enable 展開 --enable redundantVariable`() {
+	private func `redundantVariable .enable 展開 --enable redundantVariable`() {
 		let args = FormatRule.redundantVariable(rule: .enable).cliArguments
 		#expect(args == ["--enable", "redundantVariable"])
 	}

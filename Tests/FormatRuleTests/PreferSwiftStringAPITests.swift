@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("preferSwiftStringAPI")
-struct PreferSwiftStringAPITests {
+private struct PreferSwiftStringAPITests {
 
 	@Test
-	func `preferSwiftStringAPI .disable 返空陣列`() {
+	private func `preferSwiftStringAPI .disable 返空陣列`() {
 		#expect(FormatRule.preferSwiftStringAPI(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `preferSwiftStringAPI .enable 展開 --enable preferSwiftStringAPI`() {
+	private func `preferSwiftStringAPI .enable 展開 --enable preferSwiftStringAPI`() {
 		let args = FormatRule.preferSwiftStringAPI(rule: .enable).cliArguments
 		#expect(args == ["--enable", "preferSwiftStringAPI"])
 	}

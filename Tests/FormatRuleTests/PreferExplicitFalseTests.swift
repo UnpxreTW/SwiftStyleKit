@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("preferExplicitFalse")
-struct PreferExplicitFalseTests {
+private struct PreferExplicitFalseTests {
 
 	@Test
-	func `preferExplicitFalse .disable 返空陣列`() {
+	private func `preferExplicitFalse .disable 返空陣列`() {
 		#expect(FormatRule.preferExplicitFalse(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `preferExplicitFalse .enable 展開 --enable preferExplicitFalse`() {
+	private func `preferExplicitFalse .enable 展開 --enable preferExplicitFalse`() {
 		let args = FormatRule.preferExplicitFalse(rule: .enable).cliArguments
 		#expect(args == ["--enable", "preferExplicitFalse"])
 	}

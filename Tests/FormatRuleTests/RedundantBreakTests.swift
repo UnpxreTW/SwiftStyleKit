@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("redundantBreak")
-struct RedundantBreakTests {
+private struct RedundantBreakTests {
 
 	@Test
-	func `redundantBreak .disable 返空陣列`() {
+	private func `redundantBreak .disable 返空陣列`() {
 		#expect(FormatRule.redundantBreak(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `redundantBreak .enable 展開 --enable redundantBreak`() {
+	private func `redundantBreak .enable 展開 --enable redundantBreak`() {
 		let args = FormatRule.redundantBreak(rule: .enable).cliArguments
 		#expect(args == ["--enable", "redundantBreak"])
 	}

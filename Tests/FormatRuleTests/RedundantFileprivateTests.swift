@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("redundantFileprivate")
-struct RedundantFileprivateTests {
+private struct RedundantFileprivateTests {
 
 	@Test
-	func `redundantFileprivate .disable 返空陣列`() {
+	private func `redundantFileprivate .disable 返空陣列`() {
 		#expect(FormatRule.redundantFileprivate(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `redundantFileprivate .enable 展開 --enable redundantFileprivate`() {
+	private func `redundantFileprivate .enable 展開 --enable redundantFileprivate`() {
 		let args = FormatRule.redundantFileprivate(rule: .enable).cliArguments
 		#expect(args == ["--enable", "redundantFileprivate"])
 	}

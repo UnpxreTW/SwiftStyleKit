@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("redundantRawValues")
-struct RedundantRawValuesTests {
+private struct RedundantRawValuesTests {
 
 	@Test
-	func `redundantRawValues .disable 返空陣列`() {
+	private func `redundantRawValues .disable 返空陣列`() {
 		#expect(FormatRule.redundantRawValues(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `redundantRawValues .enable 展開 --enable redundantRawValues`() {
+	private func `redundantRawValues .enable 展開 --enable redundantRawValues`() {
 		let args = FormatRule.redundantRawValues(rule: .enable).cliArguments
 		#expect(args == ["--enable", "redundantRawValues"])
 	}

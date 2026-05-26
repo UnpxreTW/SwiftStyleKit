@@ -10,22 +10,22 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("conditionalAssignment")
-struct ConditionalAssignmentTests {
+private struct ConditionalAssignmentTests {
 
 	@Test
-	func `conditionalAssignment .disable 返空陣列`() {
+	private func `conditionalAssignment .disable 返空陣列`() {
 		let args = FormatRule.conditionalAssignment(rule: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
-	func `conditionalAssignment .disable + mode（option 被忽略）返空陣列`() {
+	private func `conditionalAssignment .disable + mode（option 被忽略）返空陣列`() {
 		let args = FormatRule.conditionalAssignment(rule: .disable, mode: .afterProperty).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
-	func `conditionalAssignment .enable（mode 預設 .always）展開 --enable + --conditionalAssignment always`() {
+	private func `conditionalAssignment .enable（mode 預設 .always）展開 --enable + --conditionalAssignment always`() {
 		let args = FormatRule.conditionalAssignment(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "conditionalAssignment",
@@ -34,7 +34,7 @@ struct ConditionalAssignmentTests {
 	}
 
 	@Test
-	func `conditionalAssignment .enable mode .afterProperty 展開 --conditionalAssignment after-property`() {
+	private func `conditionalAssignment .enable mode .afterProperty 展開 --conditionalAssignment after-property`() {
 		let args = FormatRule.conditionalAssignment(rule: .enable, mode: .afterProperty).cliArguments
 		#expect(args == [
 			"--enable", "conditionalAssignment",

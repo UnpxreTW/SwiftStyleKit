@@ -10,22 +10,22 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("docComments")
-struct DocCommentsTests {
+private struct DocCommentsTests {
 
 	@Test
-	func `docComments .disable 返空陣列`() {
+	private func `docComments .disable 返空陣列`() {
 		let args = FormatRule.docComments(rule: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
-	func `docComments .disable + mode（option 被忽略）返空陣列`() {
+	private func `docComments .disable + mode（option 被忽略）返空陣列`() {
 		let args = FormatRule.docComments(rule: .disable, mode: .preserve).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
-	func `docComments .enable（mode 預設 .beforeDeclarations）展開 --enable + --docComments before-declarations`() {
+	private func `docComments .enable（mode 預設 .beforeDeclarations）展開 --enable + --docComments before-declarations`() {
 		let args = FormatRule.docComments(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "docComments",
@@ -34,7 +34,7 @@ struct DocCommentsTests {
 	}
 
 	@Test
-	func `docComments .enable mode .preserve 展開 --docComments preserve`() {
+	private func `docComments .enable mode .preserve 展開 --docComments preserve`() {
 		let args = FormatRule.docComments(rule: .enable, mode: .preserve).cliArguments
 		#expect(args == [
 			"--enable", "docComments",

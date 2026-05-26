@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("numberFormatting")
-struct NumberFormattingTests {
+private struct NumberFormattingTests {
 
 	@Test
-	func `numberFormatting .disable 返空陣列`() {
+	private func `numberFormatting .disable 返空陣列`() {
 		#expect(FormatRule.numberFormatting(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `numberFormatting .enable 預設值展開全部 8 個 option`() {
+	private func `numberFormatting .enable 預設值展開全部 8 個 option`() {
 		let args = FormatRule.numberFormatting(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "numberFormatting",
@@ -34,7 +34,7 @@ struct NumberFormattingTests {
 	}
 
 	@Test
-	func `numberFormatting grouping 設 nil 則不展開該 flag`() {
+	private func `numberFormatting grouping 設 nil 則不展開該 flag`() {
 		let args = FormatRule.numberFormatting(rule: .enable, decimalGrouping: nil).cliArguments
 		#expect(!args.contains("--decimalGrouping"))
 		#expect(args.contains("--binaryGrouping"))

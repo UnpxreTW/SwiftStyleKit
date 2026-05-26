@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("noForceTryInTests")
-struct NoForceTryInTestsTests {
+private struct NoForceTryInTestsTests {
 
 	@Test
-	func `noForceTryInTests .disable 返空陣列`() {
+	private func `noForceTryInTests .disable 返空陣列`() {
 		#expect(FormatRule.noForceTryInTests(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `noForceTryInTests .enable 展開 --enable noForceTryInTests`() {
+	private func `noForceTryInTests .enable 展開 --enable noForceTryInTests`() {
 		let args = FormatRule.noForceTryInTests(rule: .enable).cliArguments
 		#expect(args == ["--enable", "noForceTryInTests"])
 	}

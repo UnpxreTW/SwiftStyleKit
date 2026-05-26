@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("noExplicitOwnership")
-struct NoExplicitOwnershipTests {
+private struct NoExplicitOwnershipTests {
 
 	@Test
-	func `noExplicitOwnership .disable 返空陣列`() {
+	private func `noExplicitOwnership .disable 返空陣列`() {
 		#expect(FormatRule.noExplicitOwnership(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `noExplicitOwnership .enable 展開 --enable noExplicitOwnership`() {
+	private func `noExplicitOwnership .enable 展開 --enable noExplicitOwnership`() {
 		let args = FormatRule.noExplicitOwnership(rule: .enable).cliArguments
 		#expect(args == ["--enable", "noExplicitOwnership"])
 	}

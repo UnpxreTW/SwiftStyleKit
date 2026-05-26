@@ -10,22 +10,22 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("extensionAccessControl")
-struct ExtensionAccessControlTests {
+private struct ExtensionAccessControlTests {
 
 	@Test
-	func `extensionAccessControl .disable 返空陣列`() {
+	private func `extensionAccessControl .disable 返空陣列`() {
 		let args = FormatRule.extensionAccessControl(rule: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
-	func `extensionAccessControl .disable + mode（option 被忽略）返空陣列`() {
+	private func `extensionAccessControl .disable + mode（option 被忽略）返空陣列`() {
 		let args = FormatRule.extensionAccessControl(rule: .disable, mode: .onExtension).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
-	func `extensionAccessControl .enable（mode 預設 .onDeclarations）展開 --enable + --extensionAcl on-declarations`() {
+	private func `extensionAccessControl .enable（mode 預設 .onDeclarations）展開 --enable + --extensionAcl on-declarations`() {
 		let args = FormatRule.extensionAccessControl(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "extensionAccessControl",
@@ -34,7 +34,7 @@ struct ExtensionAccessControlTests {
 	}
 
 	@Test
-	func `extensionAccessControl .enable mode .onExtension 展開 --extensionAcl on-extension`() {
+	private func `extensionAccessControl .enable mode .onExtension 展開 --extensionAcl on-extension`() {
 		let args = FormatRule.extensionAccessControl(rule: .enable, mode: .onExtension).cliArguments
 		#expect(args == [
 			"--enable", "extensionAccessControl",

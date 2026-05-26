@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("redundantObjc")
-struct RedundantObjcTests {
+private struct RedundantObjcTests {
 
 	@Test
-	func `redundantObjc .disable 返空陣列`() {
+	private func `redundantObjc .disable 返空陣列`() {
 		#expect(FormatRule.redundantObjc(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `redundantObjc .enable 展開 --enable redundantObjc`() {
+	private func `redundantObjc .enable 展開 --enable redundantObjc`() {
 		let args = FormatRule.redundantObjc(rule: .enable).cliArguments
 		#expect(args == ["--enable", "redundantObjc"])
 	}

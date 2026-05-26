@@ -10,16 +10,16 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("opaqueGenericParameters")
-struct OpaqueGenericParametersTests {
+private struct OpaqueGenericParametersTests {
 
 	@Test
-	func `opaqueGenericParameters .disable 返空陣列`() {
+	private func `opaqueGenericParameters .disable 返空陣列`() {
 		let args = FormatRule.opaqueGenericParameters(rule: .disable, someAny: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
-	func `opaqueGenericParameters .enable（someAny 預設 .enable）展開 --enable + --someAny true`() {
+	private func `opaqueGenericParameters .enable（someAny 預設 .enable）展開 --enable + --someAny true`() {
 		let args = FormatRule.opaqueGenericParameters(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "opaqueGenericParameters",
@@ -28,7 +28,7 @@ struct OpaqueGenericParametersTests {
 	}
 
 	@Test
-	func `opaqueGenericParameters .enable someAny .disable 展開 --someAny false`() {
+	private func `opaqueGenericParameters .enable someAny .disable 展開 --someAny false`() {
 		let args = FormatRule.opaqueGenericParameters(rule: .enable, someAny: .disable).cliArguments
 		#expect(args == [
 			"--enable", "opaqueGenericParameters",

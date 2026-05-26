@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("modifiersOnSameLine")
-struct ModifiersOnSameLineTests {
+private struct ModifiersOnSameLineTests {
 
 	@Test
-	func `modifiersOnSameLine .disable 返空陣列`() {
+	private func `modifiersOnSameLine .disable 返空陣列`() {
 		#expect(FormatRule.modifiersOnSameLine(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `modifiersOnSameLine .enable 展開 --enable modifiersOnSameLine`() {
+	private func `modifiersOnSameLine .enable 展開 --enable modifiersOnSameLine`() {
 		let args = FormatRule.modifiersOnSameLine(rule: .enable).cliArguments
 		#expect(args == ["--enable", "modifiersOnSameLine"])
 	}

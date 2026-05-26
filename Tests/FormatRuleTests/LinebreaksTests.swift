@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("linebreaks")
-struct LinebreaksTests {
+private struct LinebreaksTests {
 
 	@Test
-	func `linebreaks .disable 返空陣列`() {
+	private func `linebreaks .disable 返空陣列`() {
 		#expect(FormatRule.linebreaks(rule: .disable, mode: .crlf).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `linebreaks .enable（mode 預設 .lf）展開 --enable + --linebreaks lf`() {
+	private func `linebreaks .enable（mode 預設 .lf）展開 --enable + --linebreaks lf`() {
 		let args = FormatRule.linebreaks(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "linebreaks",
@@ -27,7 +27,7 @@ struct LinebreaksTests {
 	}
 
 	@Test
-	func `linebreaks .enable mode .crlf 展開 --linebreaks crlf`() {
+	private func `linebreaks .enable mode .crlf 展開 --linebreaks crlf`() {
 		let args = FormatRule.linebreaks(rule: .enable, mode: .crlf).cliArguments
 		#expect(args == [
 			"--enable", "linebreaks",

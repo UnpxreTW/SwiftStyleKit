@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("spaceInsideComments")
-struct SpaceInsideCommentsTests {
+private struct SpaceInsideCommentsTests {
 
 	@Test
-	func `spaceInsideComments .disable 返空陣列`() {
+	private func `spaceInsideComments .disable 返空陣列`() {
 		#expect(FormatRule.spaceInsideComments(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `spaceInsideComments .enable 展開 --enable spaceInsideComments`() {
+	private func `spaceInsideComments .enable 展開 --enable spaceInsideComments`() {
 		let args = FormatRule.spaceInsideComments(rule: .enable).cliArguments
 		#expect(args == ["--enable", "spaceInsideComments"])
 	}

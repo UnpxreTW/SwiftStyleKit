@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("isEmpty")
-struct IsEmptyTests {
+private struct IsEmptyTests {
 
 	@Test
-	func `isEmpty .disable 返空陣列`() {
+	private func `isEmpty .disable 返空陣列`() {
 		#expect(FormatRule.isEmpty(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `isEmpty .enable 展開 --enable isEmpty`() {
+	private func `isEmpty .enable 展開 --enable isEmpty`() {
 		let args = FormatRule.isEmpty(rule: .enable).cliArguments
 		#expect(args == ["--enable", "isEmpty"])
 	}

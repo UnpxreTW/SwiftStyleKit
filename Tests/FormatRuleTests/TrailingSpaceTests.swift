@@ -10,21 +10,21 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("trailingSpace")
-struct TrailingSpaceTests {
+private struct TrailingSpaceTests {
 
 	@Test
-	func `trailingSpace .disable 返空陣列`() {
+	private func `trailingSpace .disable 返空陣列`() {
 		#expect(FormatRule.trailingSpace(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `trailingSpace .enable 簽名預設展開 --trimWhitespace always`() {
+	private func `trailingSpace .enable 簽名預設展開 --trimWhitespace always`() {
 		let args = FormatRule.trailingSpace(rule: .enable).cliArguments
 		#expect(args == ["--enable", "trailingSpace", "--trimWhitespace", "always"])
 	}
 
 	@Test
-	func `trailingSpace .enable mode .nonblankLines 展開 --trimWhitespace nonblank-lines`() {
+	private func `trailingSpace .enable mode .nonblankLines 展開 --trimWhitespace nonblank-lines`() {
 		let args = FormatRule.trailingSpace(rule: .enable, mode: .nonblankLines).cliArguments
 		#expect(args == ["--enable", "trailingSpace", "--trimWhitespace", "nonblank-lines"])
 	}

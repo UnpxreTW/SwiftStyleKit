@@ -10,16 +10,16 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("emptyExtensions")
-struct EmptyExtensionsTests {
+private struct EmptyExtensionsTests {
 
 	@Test
-	func `emptyExtensions .disable 返空陣列`() {
+	private func `emptyExtensions .disable 返空陣列`() {
 		let args = FormatRule.emptyExtensions(rule: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
-	func `emptyExtensions .enable 展開 --enable emptyExtensions`() {
+	private func `emptyExtensions .enable 展開 --enable emptyExtensions`() {
 		let args = FormatRule.emptyExtensions(rule: .enable).cliArguments
 		#expect(args == ["--enable", "emptyExtensions"])
 	}

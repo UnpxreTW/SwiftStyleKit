@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("sortTypealiases")
-struct SortTypealiasesTests {
+private struct SortTypealiasesTests {
 
 	@Test
-	func `sortTypealiases .disable 返空陣列`() {
+	private func `sortTypealiases .disable 返空陣列`() {
 		#expect(FormatRule.sortTypealiases(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `sortTypealiases .enable 展開 --enable sortTypealiases`() {
+	private func `sortTypealiases .enable 展開 --enable sortTypealiases`() {
 		let args = FormatRule.sortTypealiases(rule: .enable).cliArguments
 		#expect(args == ["--enable", "sortTypealiases"])
 	}

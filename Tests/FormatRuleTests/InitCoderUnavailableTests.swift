@@ -10,16 +10,16 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("initCoderUnavailable")
-struct InitCoderUnavailableTests {
+private struct InitCoderUnavailableTests {
 
 	@Test
-	func `initCoderUnavailable .disable 返空陣列`() {
+	private func `initCoderUnavailable .disable 返空陣列`() {
 		let args = FormatRule.initCoderUnavailable(rule: .disable, initCoderNil: .enable).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
-	func `initCoderUnavailable .enable（initCoderNil 預設 .disable）展開 --enable + --initCoderNil false`() {
+	private func `initCoderUnavailable .enable（initCoderNil 預設 .disable）展開 --enable + --initCoderNil false`() {
 		let args = FormatRule.initCoderUnavailable(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "initCoderUnavailable",
@@ -28,7 +28,7 @@ struct InitCoderUnavailableTests {
 	}
 
 	@Test
-	func `initCoderUnavailable .enable initCoderNil .enable 展開 --initCoderNil true`() {
+	private func `initCoderUnavailable .enable initCoderNil .enable 展開 --initCoderNil true`() {
 		let args = FormatRule.initCoderUnavailable(rule: .enable, initCoderNil: .enable).cliArguments
 		#expect(args == [
 			"--enable", "initCoderUnavailable",

@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("spaceInsideGenerics")
-struct SpaceInsideGenericsTests {
+private struct SpaceInsideGenericsTests {
 
 	@Test
-	func `spaceInsideGenerics .disable 返空陣列`() {
+	private func `spaceInsideGenerics .disable 返空陣列`() {
 		#expect(FormatRule.spaceInsideGenerics(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `spaceInsideGenerics .enable 展開 --enable spaceInsideGenerics`() {
+	private func `spaceInsideGenerics .enable 展開 --enable spaceInsideGenerics`() {
 		let args = FormatRule.spaceInsideGenerics(rule: .enable).cliArguments
 		#expect(args == ["--enable", "spaceInsideGenerics"])
 	}

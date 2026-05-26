@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("leadingDelimiters")
-struct LeadingDelimitersTests {
+private struct LeadingDelimitersTests {
 
 	@Test
-	func `leadingDelimiters .disable 返空陣列`() {
+	private func `leadingDelimiters .disable 返空陣列`() {
 		#expect(FormatRule.leadingDelimiters(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `leadingDelimiters .enable 展開 --enable leadingDelimiters`() {
+	private func `leadingDelimiters .enable 展開 --enable leadingDelimiters`() {
 		#expect(FormatRule.leadingDelimiters(rule: .enable).cliArguments == ["--enable", "leadingDelimiters"])
 	}
 }

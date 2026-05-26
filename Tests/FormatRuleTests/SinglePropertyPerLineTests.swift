@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("singlePropertyPerLine")
-struct SinglePropertyPerLineTests {
+private struct SinglePropertyPerLineTests {
 
 	@Test
-	func `singlePropertyPerLine .disable 返空陣列`() {
+	private func `singlePropertyPerLine .disable 返空陣列`() {
 		#expect(FormatRule.singlePropertyPerLine(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `singlePropertyPerLine .enable 只 enable 不展開 option`() {
+	private func `singlePropertyPerLine .enable 只 enable 不展開 option`() {
 		#expect(FormatRule.singlePropertyPerLine(rule: .enable).cliArguments == ["--enable", "singlePropertyPerLine"])
 	}
 }

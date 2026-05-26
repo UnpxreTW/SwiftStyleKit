@@ -10,16 +10,16 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("redundantVoidReturnType")
-struct RedundantVoidReturnTypeTests {
+private struct RedundantVoidReturnTypeTests {
 
 	@Test
-	func `redundantVoidReturnType .disable 返空陣列`() {
+	private func `redundantVoidReturnType .disable 返空陣列`() {
 		let args = FormatRule.redundantVoidReturnType(rule: .disable, closureVoid: .remove).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
-	func `redundantVoidReturnType .enable（預設 closureVoid .remove）展開 --enable + --closurevoid remove`() {
+	private func `redundantVoidReturnType .enable（預設 closureVoid .remove）展開 --enable + --closurevoid remove`() {
 		let args = FormatRule.redundantVoidReturnType(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "redundantVoidReturnType",
@@ -28,7 +28,7 @@ struct RedundantVoidReturnTypeTests {
 	}
 
 	@Test
-	func `redundantVoidReturnType .enable closureVoid .preserve 展開 --closurevoid preserve`() {
+	private func `redundantVoidReturnType .enable closureVoid .preserve 展開 --closurevoid preserve`() {
 		let args = FormatRule.redundantVoidReturnType(rule: .enable, closureVoid: .preserve).cliArguments
 		#expect(args == [
 			"--enable", "redundantVoidReturnType",

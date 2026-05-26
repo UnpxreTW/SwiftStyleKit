@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("wrapPropertyBodies")
-struct WrapPropertyBodiesTests {
+private struct WrapPropertyBodiesTests {
 
 	@Test
-	func `wrapPropertyBodies .disable 返空陣列`() {
+	private func `wrapPropertyBodies .disable 返空陣列`() {
 		#expect(FormatRule.wrapPropertyBodies(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `wrapPropertyBodies .enable 展開 --enable wrapPropertyBodies`() {
+	private func `wrapPropertyBodies .enable 展開 --enable wrapPropertyBodies`() {
 		let args = FormatRule.wrapPropertyBodies(rule: .enable).cliArguments
 		#expect(args == ["--enable", "wrapPropertyBodies"])
 	}

@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("redundantOptionalBinding")
-struct RedundantOptionalBindingTests {
+private struct RedundantOptionalBindingTests {
 
 	@Test
-	func `redundantOptionalBinding .disable 返空陣列`() {
+	private func `redundantOptionalBinding .disable 返空陣列`() {
 		#expect(FormatRule.redundantOptionalBinding(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `redundantOptionalBinding .enable 展開 --enable redundantOptionalBinding`() {
+	private func `redundantOptionalBinding .enable 展開 --enable redundantOptionalBinding`() {
 		let args = FormatRule.redundantOptionalBinding(rule: .enable).cliArguments
 		#expect(args == ["--enable", "redundantOptionalBinding"])
 	}

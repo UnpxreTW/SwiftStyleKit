@@ -10,16 +10,16 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("duplicateImports")
-struct DuplicateImportsTests {
+private struct DuplicateImportsTests {
 
 	@Test
-	func `duplicateImports .disable 返空陣列`() {
+	private func `duplicateImports .disable 返空陣列`() {
 		let args = FormatRule.duplicateImports(rule: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
-	func `duplicateImports .enable 展開 --enable duplicateImports`() {
+	private func `duplicateImports .enable 展開 --enable duplicateImports`() {
 		let args = FormatRule.duplicateImports(rule: .enable).cliArguments
 		#expect(args == ["--enable", "duplicateImports"])
 	}

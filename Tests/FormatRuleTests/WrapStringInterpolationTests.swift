@@ -10,22 +10,22 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("wrapStringInterpolation")
-struct WrapStringInterpolationTests {
+private struct WrapStringInterpolationTests {
 
 	@Test
-	func `wrapStringInterpolation 簽名預設展開 --wrapStringInterpolation default`() {
+	private func `wrapStringInterpolation 簽名預設展開 --wrapStringInterpolation default`() {
 		let args = FormatRule.wrapStringInterpolation().cliArguments
 		#expect(args == ["--wrapStringInterpolation", "default"])
 	}
 
 	@Test
-	func `wrapStringInterpolation mode .preserve 展開`() {
+	private func `wrapStringInterpolation mode .preserve 展開`() {
 		let args = FormatRule.wrapStringInterpolation(mode: .preserve).cliArguments
 		#expect(args == ["--wrapStringInterpolation", "preserve"])
 	}
 
 	@Test
-	func `wrapStringInterpolation mode nil 不展開`() {
+	private func `wrapStringInterpolation mode nil 不展開`() {
 		let args = FormatRule.wrapStringInterpolation(mode: nil).cliArguments
 		#expect(args.isEmpty)
 	}

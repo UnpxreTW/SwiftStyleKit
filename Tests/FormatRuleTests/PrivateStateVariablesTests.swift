@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("privateStateVariables")
-struct PrivateStateVariablesTests {
+private struct PrivateStateVariablesTests {
 
 	@Test
-	func `privateStateVariables .disable 返空陣列`() {
+	private func `privateStateVariables .disable 返空陣列`() {
 		#expect(FormatRule.privateStateVariables(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `privateStateVariables .enable 展開 --enable privateStateVariables`() {
+	private func `privateStateVariables .enable 展開 --enable privateStateVariables`() {
 		let args = FormatRule.privateStateVariables(rule: .enable).cliArguments
 		#expect(args == ["--enable", "privateStateVariables"])
 	}

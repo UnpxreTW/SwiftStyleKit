@@ -10,22 +10,22 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("hoistAwait")
-struct HoistAwaitTests {
+private struct HoistAwaitTests {
 
 	@Test
-	func `hoistAwait .disable 返空陣列`() {
+	private func `hoistAwait .disable 返空陣列`() {
 		let args = FormatRule.hoistAwait(rule: .disable, asyncCapturing: "foo").cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
-	func `hoistAwait .enable（asyncCapturing 預設 nil）只展開 --enable`() {
+	private func `hoistAwait .enable（asyncCapturing 預設 nil）只展開 --enable`() {
 		let args = FormatRule.hoistAwait(rule: .enable).cliArguments
 		#expect(args == ["--enable", "hoistAwait"])
 	}
 
 	@Test
-	func `hoistAwait .enable asyncCapturing 有值展開 --asyncCapturing`() {
+	private func `hoistAwait .enable asyncCapturing 有值展開 --asyncCapturing`() {
 		let args = FormatRule.hoistAwait(rule: .enable, asyncCapturing: "withChecked").cliArguments
 		#expect(args == [
 			"--enable", "hoistAwait",

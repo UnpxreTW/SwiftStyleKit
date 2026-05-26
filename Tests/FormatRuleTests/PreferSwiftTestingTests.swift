@@ -10,21 +10,21 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("preferSwiftTesting")
-struct PreferSwiftTestingTests {
+private struct PreferSwiftTestingTests {
 
 	@Test
-	func `preferSwiftTesting .disable 返空陣列`() {
+	private func `preferSwiftTesting .disable 返空陣列`() {
 		#expect(FormatRule.preferSwiftTesting(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `preferSwiftTesting .enable 簽名預設兩 option 皆 nil 不展開`() {
+	private func `preferSwiftTesting .enable 簽名預設兩 option 皆 nil 不展開`() {
 		let args = FormatRule.preferSwiftTesting(rule: .enable).cliArguments
 		#expect(args == ["--enable", "preferSwiftTesting"])
 	}
 
 	@Test
-	func `preferSwiftTesting .enable defaultTestSuiteAttributes 有值展開`() {
+	private func `preferSwiftTesting .enable defaultTestSuiteAttributes 有值展開`() {
 		let args = FormatRule.preferSwiftTesting(
 			rule: .enable,
 			defaultTestSuiteAttributes: ["@MainActor", "@Suite(.serialized)"]
@@ -34,7 +34,7 @@ struct PreferSwiftTestingTests {
 	}
 
 	@Test
-	func `preferSwiftTesting .enable xctestSymbols 有值展開`() {
+	private func `preferSwiftTesting .enable xctestSymbols 有值展開`() {
 		let args = FormatRule.preferSwiftTesting(
 			rule: .enable,
 			xctestSymbols: ["CustomTestHelper"]

@@ -10,22 +10,22 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("genericExtensions")
-struct GenericExtensionsTests {
+private struct GenericExtensionsTests {
 
 	@Test
-	func `genericExtensions .disable 返空陣列`() {
+	private func `genericExtensions .disable 返空陣列`() {
 		let args = FormatRule.genericExtensions(rule: .disable, genericTypes: "Foo<Bar>").cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
-	func `genericExtensions .enable（genericTypes 預設 nil）只展開 --enable`() {
+	private func `genericExtensions .enable（genericTypes 預設 nil）只展開 --enable`() {
 		let args = FormatRule.genericExtensions(rule: .enable).cliArguments
 		#expect(args == ["--enable", "genericExtensions"])
 	}
 
 	@Test
-	func `genericExtensions .enable genericTypes 有值展開 --genericTypes`() {
+	private func `genericExtensions .enable genericTypes 有值展開 --genericTypes`() {
 		let args = FormatRule.genericExtensions(rule: .enable, genericTypes: "LinkedList<Element>").cliArguments
 		#expect(args == [
 			"--enable", "genericExtensions",

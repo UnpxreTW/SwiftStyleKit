@@ -10,16 +10,16 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("blankLineAfterImports")
-struct BlankLineAfterImportsTests {
+private struct BlankLineAfterImportsTests {
 
 	@Test
-	func `blankLineAfterImports .disable 返空陣列`() {
+	private func `blankLineAfterImports .disable 返空陣列`() {
 		let args = FormatRule.blankLineAfterImports(rule: .disable).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
-	func `blankLineAfterImports .enable 展開 --enable blankLineAfterImports`() {
+	private func `blankLineAfterImports .enable 展開 --enable blankLineAfterImports`() {
 		let args = FormatRule.blankLineAfterImports(rule: .enable).cliArguments
 		#expect(args == ["--enable", "blankLineAfterImports"])
 	}

@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("blockComments")
-struct BlockCommentsTests {
+private struct BlockCommentsTests {
 
 	@Test
-	func `blockComments .disable 返空陣列`() {
+	private func `blockComments .disable 返空陣列`() {
 		#expect(FormatRule.blockComments(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `blockComments .enable 展開 --enable blockComments`() {
+	private func `blockComments .enable 展開 --enable blockComments`() {
 		let args = FormatRule.blockComments(rule: .enable).cliArguments
 		#expect(args == ["--enable", "blockComments"])
 	}

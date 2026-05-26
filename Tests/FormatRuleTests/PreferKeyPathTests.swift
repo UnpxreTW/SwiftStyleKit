@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("preferKeyPath")
-struct PreferKeyPathTests {
+private struct PreferKeyPathTests {
 
 	@Test
-	func `preferKeyPath .disable 返空陣列`() {
+	private func `preferKeyPath .disable 返空陣列`() {
 		#expect(FormatRule.preferKeyPath(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `preferKeyPath .enable 展開 --enable preferKeyPath`() {
+	private func `preferKeyPath .enable 展開 --enable preferKeyPath`() {
 		let args = FormatRule.preferKeyPath(rule: .enable).cliArguments
 		#expect(args == ["--enable", "preferKeyPath"])
 	}

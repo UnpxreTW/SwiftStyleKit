@@ -10,15 +10,15 @@ import SwiftStyleFormatCore
 import Testing
 
 @Suite("strongifiedSelf")
-struct StrongifiedSelfTests {
+private struct StrongifiedSelfTests {
 
 	@Test
-	func `strongifiedSelf .disable 返空陣列`() {
+	private func `strongifiedSelf .disable 返空陣列`() {
 		#expect(FormatRule.strongifiedSelf(rule: .disable).cliArguments.isEmpty)
 	}
 
 	@Test
-	func `strongifiedSelf .enable 展開 --enable strongifiedSelf`() {
+	private func `strongifiedSelf .enable 展開 --enable strongifiedSelf`() {
 		let args = FormatRule.strongifiedSelf(rule: .enable).cliArguments
 		#expect(args == ["--enable", "strongifiedSelf"])
 	}
