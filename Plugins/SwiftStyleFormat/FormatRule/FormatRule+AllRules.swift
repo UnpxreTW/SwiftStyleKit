@@ -172,6 +172,7 @@ extension FormatRule {
 		// import 會編譯 fail。case 留在 enum 內形成「考慮過且選擇關閉」的 in-tree 宣告、
 		// fork 自備 macro dependency 後可改 .enable + 設 urlMacro option
 		.urlMacro(rule: .disable),
+		.validateTestCases(rule: .enable),
 		.void(rule: .enable),
 		.wrap(rule: .enable),
 		.wrapArguments(rule: .enable),
