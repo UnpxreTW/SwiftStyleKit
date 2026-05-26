@@ -744,6 +744,19 @@ public enum FormatRule {
 	/// `preserveDecls` 為逗號分隔的 declaration 名單、列在內的不刪（`nil` 表無保留）。
 	case unusedPrivateDeclarations(rule: Flag, preserveDecls: String? = nil)
 
+	/// 把 `URL(string: "...")!` force-unwrap 改寫成設定的 `#URL(_:)` macro call
+	///
+	/// macro 在編譯期驗 URL、無效字串編譯 fail（取代 runtime crash）。
+	///
+	/// `urlMacro` 簽名預設 `nil`：規則啟用但不指定 macro → 自動 no-op；fork 設
+	/// `"#URL,URLFoundation"` 格式（macro 名 + module 名、逗號分隔）即生效、規則
+	/// 自動補 `import <module>`。
+	///
+	/// **Footgun**：規則純文字 add import、不檢查 module 是否可解析。Fork 設 macro
+	/// 但沒在 `Package.swift` / Podfile / Xcode 加對應 dependency 時、自動補的
+	/// `import <module>` 會編譯 fail（`no such module '<module>'`）。
+	case urlMacro(rule: Flag, urlMacro: String? = nil)
+
 	/// 規範 `Void` / `()` 用法：type 位置用 `Void`、value 位置用 `()`
 	///
 	/// `mode` 簽名預設 `.void`：對齊 Swift 社群標準與上游預設（`() -> Void`）。
