@@ -371,6 +371,9 @@ public enum FormatRule {
 	/// 需 Swift 5.2+（key path as function）、低於版本規則自動 no-op。
 	case preferKeyPath(rule: Flag)
 
+	/// 把 Objective-C bridged String method 改寫成 Swift 5.7+ 等價（`replacingOccurrences` → `replacing` 等）
+	case preferSwiftStringAPI(rule: Flag)
+
 	/// 移除不含 `await` 的函式宣告中多餘的 `async` 關鍵字
 	///
 	/// `mode` 為 `.testsOnly` 只動測試函式、`.always` 連一般函式也動（可能讓 call site
