@@ -167,6 +167,11 @@ extension FormatRule {
 		// Mirror reflection 等 dynamic dispatch 無感、可能誤刪；fork 用戶若有
 		// reflection-heavy 寫法應自訂 preserveDecls 名單後再啟用
 		.unusedPrivateDeclarations(rule: .disable),
+		// 不啟用：規則純文字操作、自動補 `import <module>` 但不檢查 module 是否可解析；
+		// fork 設 `urlMacro: "#URL,URLFoundation"` 卻沒裝對應 dependency 時、自動補的
+		// import 會編譯 fail。case 留在 enum 內形成「考慮過且選擇關閉」的 in-tree 宣告、
+		// fork 自備 macro dependency 後可改 .enable + 設 urlMacro option
+		.urlMacro(rule: .disable),
 		.void(rule: .enable),
 		.wrap(rule: .enable),
 		.wrapArguments(rule: .enable),
