@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: MIT
 
 // swiftlint:disable file_length
-// 原因：FormatRule case 隨 swiftformat 規則 sweep 累積（總計 107 條）、case 必須宣告在
+// 原因：FormatRule case 逐條對應 swiftformat 規則（總計 107 條）、case 必須宣告在
 // main enum body（Swift 語言限制、不能拆 extension），預期最終 ~500-600 行；
 // file_length 預設 400 在這場景對品質沒指引意義
 
@@ -698,7 +698,7 @@ public enum FormatRule {
 	///
 	/// `mode` 簽名預設 `.never`：移除所有 trailing comma。對齊 swiftlint
 	/// `trailing_comma` 規則預設行為（mandatory_comma: false → 要求無 trailing
-	/// comma）+ 主人歷史 codebase 99% 風格。上游預設為 `.always`。
+	/// comma）。上游預設為 `.always`。
 	case trailingCommas(rule: Flag, mode: TrailingCommas = .never)
 
 	/// 清行尾空白（含純空白行的縮排）
@@ -777,7 +777,8 @@ public enum FormatRule {
 	/// 規範 `@attribute` 擺位——換到上一行或同行
 	///
 	/// 6 個 `AttributeMode` option 簽名預設全部 `.prevLine`（B 方案、上游 `.preserve`）——
-	/// 強調 attribute 存在感、對齊主人 `@Test` / SwiftUI `@State` / Concurrency `@MainActor` 慣例。
+	/// 強調 attribute 存在感、與 `@Test` / SwiftUI `@State` / Concurrency `@MainActor` 等
+	/// 常見 attribute 慣例同調。
 	/// - `funcAttributes`：function 上的 @attribute
 	/// - `typeAttributes`：type 宣告上的 @attribute
 	/// - `varAttributes`：var 上的 @attribute（總控、stored / computed 沒設時 fallback 用此值）

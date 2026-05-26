@@ -18,11 +18,11 @@ extension FormatRule {
 		// 同 entry point 的 API 心智模型統一
 		.assertionFailures(rule: .disable),
 		.blankLineAfterImports(rule: .enable),
-		// 不啟用：對齊主人 96.7% 既有 switch case 緊鄰寫法（三 repo 86 switch、
-		// 648 case 無空行、僅 22 case 有空行）；保留 case 在 enum 內形成「考慮
-		// 過且選擇關閉」的 in-tree 宣告，未來偏好改變只改 allRules 不需重新討論
+		// 不啟用：switch case 緊鄰寫法在 Swift 社群屬主流、規則啟用會插入空行
+		// 改變 case 區塊密度；保留 case 在 enum 內形成「考慮過且選擇關閉」的
+		// in-tree 宣告、fork 可改
 		.blankLineAfterSwitchCase(rule: .disable),
-		// 不啟用：Opt-in 規則、依「sweep 範圍確立」策略 allRules 傾向 .disable。
+		// 不啟用：Opt-in 規則、SwiftStyleKit 預設策略對 Opt-in 規則傾向 .disable。
 		// case 留在 enum 內形成「考慮過且選擇關閉」的 in-tree 宣告、fork 可改
 		.blankLinesAfterGuardStatements(rule: .disable),
 		.blankLinesAroundMark(rule: .enable),
