@@ -757,6 +757,21 @@ public enum FormatRule {
 	/// `import <module>` 會編譯 fail（`no such module '<module>'`）。
 	case urlMacro(rule: Flag, urlMacro: String? = nil)
 
+	/// 補漏 test method 的 `test` prefix（XCTest）或 `@Test` attribute（swift-testing）
+	///
+	/// 規則先 detect framework（XCTest / swift-testing）、再對 test suite / class 內每個
+	/// `func` 成員判斷：
+	/// - **跳過**：有 `override` / `@objc` / `static` modifier、`disabled_` prefix、
+	///   或 `private` / `fileprivate` modifier
+	/// - **判為 test**（swift-testing）：有 `@Test` 或無 params + 無 return type
+	/// - **判為 test**（XCTest）：無 params + 無 return type + 函式名整檔只出現 1 次
+	///
+	/// 動作：XCTest 加 `test` prefix、swift-testing 加 `@Test` attribute。
+	///
+	/// 對 `private func` 成員不動——故對 SwiftStyleKit 自身 *Tests.swift（皆 private）
+	/// no-op、純為 fork 用戶補漏。
+	case validateTestCases(rule: Flag)
+
 	/// 規範 `Void` / `()` 用法：type 位置用 `Void`、value 位置用 `()`
 	///
 	/// `mode` 簽名預設 `.void`：對齊 Swift 社群標準與上游預設（`() -> Void`）。
