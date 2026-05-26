@@ -13,13 +13,6 @@ extension FormatRule {
 	/// 對應 swiftformat 的 `strip-unused-args` option。
 	public enum ArgumentStrippingMode: String, FormatRuleOption {
 
-		/// 對應的 swiftformat CLI option flag 名稱
-		///
-		/// swiftformat argument name 為 kebab-case `strip-unused-args`（**不是**
-		/// keyPath 名 `stripUnusedArguments`）；camelCase 等價形式為 `stripUnusedArgs`、
-		/// swiftformat 接受。
-		public static let flagName = "stripUnusedArgs"
-
 		/// 只動 `func foo(_ bar: Int)` 這種已 underscore label 的 args；其他位置不動
 		case unnamedOnly = "unnamed-only"
 
@@ -30,5 +23,12 @@ extension FormatRule {
 
 		/// function declaration + closure 都動（swiftformat 上游預設）
 		case all = "always"
+
+		/// 對應的 swiftformat CLI option flag 名稱
+		///
+		/// swiftformat argument name 為 kebab-case `strip-unused-args`（**不是**
+		/// keyPath 名 `stripUnusedArguments`）；camelCase 等價形式為 `stripUnusedArgs`、
+		/// swiftformat 接受。
+		public static let flagName = "stripUnusedArgs"
 	}
 }

@@ -13,13 +13,13 @@ extension FormatRule {
 	/// 對應 swiftformat 的 `enum-namespaces` option。
 	public enum EnumNamespacesMode: String, FormatRuleOption {
 
-		/// 對應的 swiftformat CLI option flag 名稱
-		public static let flagName = "enumNamespaces"
-
 		/// `struct` 與 `final class` 命名空間都轉成 `enum`（swiftformat 上游預設）
 		case always
 
 		/// 只轉 `struct`、`final class` 命名空間保留不動
 		case structsOnly = "structs-only"
+
+		/// 對應的 swiftformat CLI option flag 名稱
+		public static let flagName = "enumNamespaces"
 	}
 }
