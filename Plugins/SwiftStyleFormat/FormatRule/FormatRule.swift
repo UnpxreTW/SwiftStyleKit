@@ -388,6 +388,31 @@ public enum FormatRule {
 	/// 給 `@State` / `@StateObject` 沒帶訪問控制的 property 自動加 `private`
 	case privateStateVariables(rule: Flag)
 
+	/// 控制 property 宣告用顯式 type 或推導
+	///
+	/// SwiftStyleKit 簽名預設選 `.explicit`、所有 property 都顯式（跟 `redundantType .explicit`
+	/// 同調、一致性最高）。
+	///
+	/// **Footgun**：規則對 `let x = Type.staticMethod()` 一律假設 `staticMethod` 回 `Type`、
+	/// 不看 method 簽名。當 static method 實際回不同型別（如 factory 回 Optional / tuple）
+	/// 自洗後編譯 fail；對應 call site 用 `// swiftformat:disable propertyTypes` directive
+	/// 局部豁免、或改用 `let x: ActualType = Type.staticMethod()` 手寫正確標註。
+	///
+	/// - `propertyTypes`：模式選擇（`.explicit` / `.inferred` / `.inferLocalsOnly`、上游預設
+	///   `.inferLocalsOnly`）
+	/// - `inferredTypes`：推導適用範圍（`.always` 全推導 / `.excludeCondExprs` 條件式保留顯式、
+	///   上游預設 `.always`）；只在 `propertyTypes = .inferred` 時生效、對 SwiftStyleKit
+	///   `.explicit` 簽名無作用、純為 fork 簽名 hint
+	/// - `preservedPropertyTypes`：保留顯式型別的 type 名單；SwiftStyleKit 簽名 `nil`
+	///   不保留任何（上游預設 `["Package"]` 為 SPM Package.swift 識別、但 SPM 識別實際依
+	///   檔名 + import、不純依顯式型別）；同樣只在 `.inferred` / `.inferLocalsOnly` 模式生效
+	case propertyTypes(
+		rule: Flag,
+		propertyTypes: PropertyTypes = .explicit,
+		inferredTypes: InferredTypesMode = .always,
+		preservedPropertyTypes: [String]? = nil
+	)
+
 	/// 移除不含 `await` 的函式宣告中多餘的 `async` 關鍵字
 	///
 	/// `mode` 為 `.testsOnly` 只動測試函式、`.always` 連一般函式也動（可能讓 call site
