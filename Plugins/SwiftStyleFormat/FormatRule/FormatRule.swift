@@ -609,6 +609,13 @@ public enum FormatRule {
 	/// swiftformat 上游預設為 `.alpha`。
 	case sortImports(rule: Flag, mode: ImportGrouping = .testableFirst)
 
+	/// 對所有 switch case 字母排序（無 option）
+	///
+	/// 規則啟用後**所有** switch case 字串都會被字母重排、不限於加標註的位置（與
+	/// ``sortDeclarations(rule:)`` 的 marker-based 設計不同）。對「按 priority / state
+	/// machine / by domain」排序的場景會洗掉業務語意、SwiftStyleKit 預設 `.disable`。
+	case sortSwitchCases(rule: Flag)
+
 	/// 對 protocol composition typealias 字母排序（`Foo & Bar & Baaz` → `Baaz & Bar & Foo`）
 	case sortTypealiases(rule: Flag)
 
