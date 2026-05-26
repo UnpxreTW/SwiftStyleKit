@@ -177,6 +177,10 @@ extension FormatRule {
 		.wrap(rule: .enable),
 		.wrapArguments(rule: .enable),
 		.wrapAttributes(rule: .enable),
+		// 不啟用：inline `case .foo: return bar` 對短 body 一行緊湊、可讀性更高；
+		// 強制換行讓「狀態 → 單行 handler」型 switch 變冗長；與 blankLineAfterSwitchCase
+		// / sortSwitchCases 已 .disable 同精神（switch case 結構由業務決定、不機械改寫）
+		.wrapCaseBodies(rule: .disable),
 		.wrapFunctionBodies(rule: .enable),
 		.wrapLoopBodies(rule: .enable),
 		.wrapMultilineStatementBraces(rule: .enable),
