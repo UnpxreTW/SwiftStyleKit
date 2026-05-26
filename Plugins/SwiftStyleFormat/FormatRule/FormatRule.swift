@@ -374,6 +374,17 @@ public enum FormatRule {
 	/// 把 Objective-C bridged String method 改寫成 Swift 5.7+ 等價（`replacingOccurrences` → `replacing` 等）
 	case preferSwiftStringAPI(rule: Flag)
 
+	/// 把 XCTest 整個改寫成 Swift Testing（`XCTestCase` → `@Test`、`XCTAssert*` → `#expect`）
+	///
+	/// - `defaultTestSuiteAttributes`：轉換時自動加的 attributes 列表（如 `["@MainActor"]`）
+	/// - `xctestSymbols`：fork 自訂額外 XCTest 依賴 symbol（規則用來判斷是否真的依賴 XCTest）
+	/// Swift 6.0+ gate（規則內部處理）。
+	case preferSwiftTesting(
+		rule: Flag,
+		defaultTestSuiteAttributes: [String]? = nil,
+		xctestSymbols: [String]? = nil
+	)
+
 	/// 移除不含 `await` 的函式宣告中多餘的 `async` 關鍵字
 	///
 	/// `mode` 為 `.testsOnly` 只動測試函式、`.always` 連一般函式也動（可能讓 call site
