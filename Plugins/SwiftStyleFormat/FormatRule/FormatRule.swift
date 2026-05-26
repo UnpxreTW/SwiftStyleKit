@@ -353,6 +353,9 @@ public enum FormatRule {
 	/// 把 `!flag` 改寫成 `flag == false`
 	case preferExplicitFalse(rule: Flag)
 
+	/// 在 class 前自動加 `final`（`open class` / 名稱含 `Base` / 同檔被 subclass 等自動保留）
+	case preferFinalClasses(rule: Flag)
+
 	/// 把函式式 `forEach` 呼叫轉成 `for` 迴圈
 	///
 	/// `anonymousForEach` 為 `.ignore` 時保留匿名 forEach（用 `$0` 的形式）、
