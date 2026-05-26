@@ -86,6 +86,7 @@ extension FormatRule {
 		.preferSwiftStringAPI(rule: .enable),
 		.preferSwiftTesting(rule: .enable),
 		.privateStateVariables(rule: .enable),
+		.propertyTypes(rule: .enable),
 		.redundantAsync(rule: .enable),
 		.redundantBackticks(rule: .enable),
 		.redundantBreak(rule: .enable),

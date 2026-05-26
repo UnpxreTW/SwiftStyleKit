@@ -37,7 +37,7 @@ public enum FileHeaderBuilder {
 	public static func copyrightHolder(in licenseText: String) -> String? {
 		let pattern = #"(?im)^[\s*#>]*copyright\s+(?:\([cC]\)\s+|©\s+)?\d{4}(?:\s*[-–]\s*\S+)?\s+(.+?)\s*$"#
 		guard let regex = try? NSRegularExpression(pattern: pattern) else { return nil }
-		let range = NSRange(licenseText.startIndex..., in: licenseText)
+		let range: NSRange = .init(licenseText.startIndex..., in: licenseText)
 		guard
 			let match = regex.firstMatch(in: licenseText, range: range),
 			let holderRange = Range(match.range(at: 1), in: licenseText)
