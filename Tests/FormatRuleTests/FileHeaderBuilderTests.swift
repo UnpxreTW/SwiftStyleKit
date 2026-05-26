@@ -9,6 +9,11 @@
 import SwiftStyleFormatCore
 import Testing
 
+// swiftformat:disable propertyTypes
+// 原因：FileHeaderBuilder 為 caseless enum、`Type.staticMethod()` call 形式繞過
+// propertyTypes 規則 `.explicit` 模式對「Type.method() 假設回 Type」的判斷——`copyrightHolder`
+// 回 String?、`recognizeLicense` 回 tuple? 、`header` 回 String，自洗會插錯標註
+
 @Suite("FileHeaderBuilder")
 struct FileHeaderBuilderTests {
 
