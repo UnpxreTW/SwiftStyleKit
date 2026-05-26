@@ -737,6 +737,13 @@ public enum FormatRule {
 	/// 內部沒用 `bar` 也不改寫）。上游預設為 `.all`。
 	case unusedArguments(rule: Flag, mode: ArgumentStrippingMode = .closureOnly)
 
+	/// 移除未被引用的 `private` / `fileprivate` 宣告
+	///
+	/// **Footgun**：規則只看 static reference、對 `@objc selector(_:)` / KVC
+	/// `value(forKey:)` / Mirror reflection 等 dynamic dispatch 無感、可能誤刪。
+	/// `preserveDecls` 為逗號分隔的 declaration 名單、列在內的不刪（`nil` 表無保留）。
+	case unusedPrivateDeclarations(rule: Flag, preserveDecls: String? = nil)
+
 	/// 規範 `Void` / `()` 用法：type 位置用 `Void`、value 位置用 `()`
 	///
 	/// `mode` 簽名預設 `.void`：對齊 Swift 社群標準與上游預設（`() -> Void`）。
