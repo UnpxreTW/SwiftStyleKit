@@ -80,6 +80,7 @@ extension FormatRule {
 		// 不啟用：Opt-in 規則、且跟 Swift 社群慣例反向——Apple Swift Style Guide 偏
 		// `!flag` 簡潔形式；`== false` 是 PHP/C 傳統風格、Swift 罕用
 		.preferExplicitFalse(rule: .disable),
+		.preferFinalClasses(rule: .enable),
 		.preferForLoop(rule: .enable),
 		.preferKeyPath(rule: .enable),
 		.redundantAsync(rule: .enable),
