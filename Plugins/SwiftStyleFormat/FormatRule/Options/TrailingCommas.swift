@@ -13,9 +13,6 @@ extension FormatRule {
 	/// 對應 swiftformat 的 `trailing-commas` option。
 	public enum TrailingCommas: String, FormatRuleOption {
 
-		/// 對應的 swiftformat CLI option flag 名稱
-		public static let flagName = "trailingCommas"
-
 		/// 移除所有 trailing comma
 		case never
 
@@ -31,5 +28,9 @@ extension FormatRule {
 
 		/// multi-element 列表才加 trailing comma；單元素列表豁免、不加
 		case multiElementLists = "multi-element-lists"
+
+		/// 對應的 swiftformat CLI option flag 名稱
+		public static let flagName = "trailingCommas"
+
 	}
 }

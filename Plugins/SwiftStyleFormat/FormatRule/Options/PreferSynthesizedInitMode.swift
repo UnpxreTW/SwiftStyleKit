@@ -16,9 +16,6 @@ extension FormatRule {
 	/// 規則只對 conform 這些 protocol 的 internal struct 做改寫。
 	public enum PreferSynthesizedInitMode: FormatRuleOption {
 
-		/// 對應的 swiftformat CLI option flag 名稱
-		public static let flagName = "preferSynthesizedInitForInternalStructs"
-
 		/// 保守模式：只移除明顯冗餘的 init（swiftformat 上游預設）
 		case never
 
@@ -27,6 +24,9 @@ extension FormatRule {
 
 		/// 只對 conform 指定 protocol 的 struct 做（如 `.conformances(["View", "ViewModifier"])`）
 		case conformances([String])
+
+		/// 對應的 swiftformat CLI option flag 名稱
+		public static let flagName = "preferSynthesizedInitForInternalStructs"
 
 		public var cliValue: String {
 			switch self {

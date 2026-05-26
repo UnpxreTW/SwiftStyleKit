@@ -271,25 +271,44 @@ public enum FormatRule {
 	case organizeDeclarations(
 		rule: Flag,
 		organizationMode: DeclarationOrganizationMode = .visibility,
-		visibilityOrder: [String]? = nil,
-		typeOrder: [String]? = nil,
-		visibilityMarks: String? = nil,
+		visibilityOrder: [String]? = [
+			"beforeMarks",
+			"open",
+			"public",
+			"package",
+			"instanceLifecycle",
+			"internal",
+			"fileprivate",
+			"private"
+		],
+		typeOrder: [String]? = [
+			"nestedType", "staticProperty", "staticPropertyWithBody", "staticMethod",
+			"classPropertyWithBody", "classMethod", "swiftUIProperty", "overriddenProperty",
+			"swiftUIPropertyWrapper", "instancePropertyWithBody", "instanceProperty",
+			"overriddenMethod", "swiftUIMethod", "instanceMethod"
+		],
+		visibilityMarks: String? = "fileprivate:File Private",
 		typeMarks: String? = nil,
 		categoryMark: String? = nil,
 		markCategories: Toggle = .enable,
 		beforeMarks: [String]? = nil,
-		lifecycleMethods: [String]? = nil,
+		lifecycle: [String]? = [
+			"viewDidLoad", "viewWillAppear", "viewDidAppear",
+			"viewWillDisappear", "viewDidDisappear",
+			"viewWillLayoutSubviews", "viewDidLayoutSubviews",
+			"setUp", "tearDown", "setUpWithError", "tearDownWithError"
+		],
 		organizeTypes: [String]? = nil,
 		classThreshold: Int? = nil,
 		structThreshold: Int? = nil,
 		enumThreshold: Int? = nil,
 		extensionThreshold: Int? = nil,
-		markClassThreshold: Int? = nil,
-		markStructThreshold: Int? = nil,
-		markEnumThreshold: Int? = nil,
-		markExtensionThreshold: Int? = nil,
-		sortSwiftUIProperties: SwiftUIPropertiesSortMode = .none,
-		typeBodyMarks: TypeBodyMarks = .preserve,
+		markClassThreshold: Int? = 80,
+		markStructThreshold: Int? = 80,
+		markEnumThreshold: Int? = 80,
+		markExtensionThreshold: Int? = 80,
+		sortSwiftUIProperties: SwiftUIPropertiesSortMode = .firstAppearanceSort,
+		typeBodyMarks: TypeBodyMarks = .remove,
 		groupBlankLines: Toggle = .enable
 	)
 
@@ -717,8 +736,6 @@ public enum FormatRule {
 	/// `mode` 簽名預設 `.always`（與上游一致）：翻所有 yoda condition；設 `.literalsOnly`
 	/// 改為只翻字面值放左側的情形。
 	case yodaConditions(rule: Flag, mode: YodaMode = .always)
-
-	// MARK: - 全域 option
 
 	/// type 宣告邊界（開頭與結尾）的空白行政策
 	///

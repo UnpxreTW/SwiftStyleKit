@@ -14,14 +14,23 @@ extension FormatRule {
 	/// 對應 swiftformat 的 `indent` option。swiftformat 上游預設為 4 空格。
 	public enum Indentation: RawRepresentable, FormatRuleOption {
 
-		/// 對應的 swiftformat CLI option flag 名稱
-		public static let flagName = "indent"
-
 		/// 以 N 個空格縮排
 		case spaces(Int)
 
 		/// 以 tab 縮排
 		case tab
+
+		/// 對應的 swiftformat CLI option flag 名稱
+		public static let flagName = "indent"
+
+		public var rawValue: String {
+			switch self {
+			case let .spaces(count):
+				"\(count)"
+			case .tab:
+				"tab"
+			}
+		}
 
 		public init?(rawValue: String) {
 			switch rawValue.lowercased() {
@@ -33,13 +42,5 @@ extension FormatRule {
 			}
 		}
 
-		public var rawValue: String {
-			switch self {
-			case let .spaces(count):
-				"\(count)"
-			case .tab:
-				"tab"
-			}
-		}
 	}
 }

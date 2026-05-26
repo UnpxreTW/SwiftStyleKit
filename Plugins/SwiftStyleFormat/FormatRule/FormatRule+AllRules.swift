@@ -74,10 +74,7 @@ extension FormatRule {
 		.noForceUnwrapInTests(rule: .enable),
 		.noGuardInTests(rule: .enable),
 		.numberFormatting(rule: .enable),
-		// 不啟用：Opt-in 規則、影響極大（整個 type body reorganize、改宣告順序、插
-		// 類別標頭註解）；屬激進改寫、case 留在 enum 內讓 fork 可調 21 個 option
-		// 後啟用、SwiftStyleKit 本身保守不主動套
-		.organizeDeclarations(rule: .disable),
+		.organizeDeclarations(rule: .enable),
 		.opaqueGenericParameters(rule: .enable),
 		.preferCountWhere(rule: .enable),
 		.preferForLoop(rule: .enable),

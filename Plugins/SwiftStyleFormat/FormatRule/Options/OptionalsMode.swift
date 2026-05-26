@@ -14,9 +14,6 @@ extension FormatRule {
 	/// `Array<T>` / `Dictionary<K, V>` sugar 無例外、永遠轉。
 	public enum OptionalsMode: String, FormatRuleOption {
 
-		/// 對應的 swiftformat CLI option flag 名稱
-		public static let flagName = "shortOptionals"
-
 		/// 保留 struct stored property 位置的 `Optional<T>`（swiftformat 上游預設）
 		///
 		/// 該位置寫 `Optional<T>` 時 Swift 編譯器生成 `init(prop: Optional<T>)`、
@@ -30,5 +27,9 @@ extension FormatRule {
 
 		/// **deprecated**——swiftformat 已不建議使用、不應選此值
 		case exceptPropertiesDeprecated = "except-properties"
+
+		/// 對應的 swiftformat CLI option flag 名稱
+		public static let flagName = "shortOptionals"
+
 	}
 }

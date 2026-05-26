@@ -14,6 +14,8 @@ import Foundation
 /// `LICENSE`，`header` 依結果組出傳給 swiftformat `--header` 的標頭字串。
 public enum FileHeaderBuilder {
 
+	// MARK: Public
+
 	/// `LICENSE` 檔的辨識結果
 	public enum LicenseInfo {
 
@@ -102,6 +104,8 @@ public enum FileHeaderBuilder {
 		}
 		return lines.joined(separator: #"\n"#)
 	}
+
+	// MARK: Private
 
 	/// 組版權行——有持有人則附上、否則只到年份
 	private static func copyrightLine(holder: String?) -> String {

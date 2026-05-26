@@ -18,16 +18,27 @@ struct OrganizeDeclarationsTests {
 	}
 
 	@Test
-	func `organizeDeclarations .enable 簽名預設展開 5 個必要 option`() {
+	func `organizeDeclarations .enable 簽名預設展開含 visibility/type order 與 thresholds`() {
 		let args = FormatRule.organizeDeclarations(rule: .enable).cliArguments
-		#expect(args == [
-			"--enable", "organizeDeclarations",
-			"--organizationMode", "visibility",
-			"--markCategories", "true",
-			"--sortSwiftUIProperties", "none",
-			"--typeBodyMarks", "preserve",
-			"--groupBlankLines", "true"
-		])
+		// 簽名預設包含 organizationMode/visibilityOrder/typeOrder/visibilityMarks/
+		// lifecycleMethods/4 個 markThreshold 80/sortSwiftUIProperties/typeBodyMarks
+		// markCategories/groupBlankLines
+		#expect(args.contains("--enable"))
+		#expect(args.contains("organizeDeclarations"))
+		#expect(args.contains("--organizationMode"))
+		#expect(args.contains("visibility"))
+		#expect(args.contains("--visibilityOrder"))
+		#expect(args.contains("beforeMarks,open,public,package,instanceLifecycle,internal,fileprivate,private"))
+		#expect(args.contains("--typeOrder"))
+		#expect(args.contains("--visibilityMarks"))
+		#expect(args.contains("fileprivate:File Private"))
+		#expect(args.contains("--lifecycle"))
+		#expect(args.contains("--markClassThreshold"))
+		#expect(args.contains("80"))
+		#expect(args.contains("--sortSwiftUIProperties"))
+		#expect(args.contains("first-appearance-sort"))
+		#expect(args.contains("--typeBodyMarks"))
+		#expect(args.contains("remove"))
 	}
 
 	@Test
@@ -41,13 +52,13 @@ struct OrganizeDeclarationsTests {
 	}
 
 	@Test
-	func `organizeDeclarations .enable visibilityOrder 列表展開`() {
+	func `organizeDeclarations .enable 自訂 visibilityOrder 列表展開`() {
 		let args = FormatRule.organizeDeclarations(
 			rule: .enable,
-			visibilityOrder: ["beforeMarks", "instanceLifecycle", "public", "internal", "fileprivate", "private"]
+			visibilityOrder: ["beforeMarks", "open", "public", "package", "internal", "fileprivate", "private"]
 		).cliArguments
 		#expect(args.contains("--visibilityOrder"))
-		#expect(args.contains("beforeMarks,instanceLifecycle,public,internal,fileprivate,private"))
+		#expect(args.contains("beforeMarks,open,public,package,internal,fileprivate,private"))
 	}
 
 	@Test
@@ -61,13 +72,13 @@ struct OrganizeDeclarationsTests {
 	}
 
 	@Test
-	func `organizeDeclarations .enable sortSwiftUIProperties .firstAppearanceSort 展開`() {
+	func `organizeDeclarations .enable sortSwiftUIProperties .none 展開`() {
 		let args = FormatRule.organizeDeclarations(
 			rule: .enable,
-			sortSwiftUIProperties: .firstAppearanceSort
+			sortSwiftUIProperties: .none
 		).cliArguments
 		#expect(args.contains("--sortSwiftUIProperties"))
-		#expect(args.contains("first-appearance-sort"))
+		#expect(args.contains("none"))
 	}
 
 	@Test

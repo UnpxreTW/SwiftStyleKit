@@ -13,13 +13,14 @@ extension FormatRule {
 	/// 對應 swiftformat 的 `extension-acl` option。
 	public enum ExtensionACLPlacement: String, FormatRuleOption {
 
-		/// 對應的 swiftformat CLI option flag 名稱
-		public static let flagName = "extensionAcl"
-
 		/// 修飾詞放在 `extension` 關鍵字上、成員不寫（swiftformat 上游預設）
 		case onExtension = "on-extension"
 
 		/// `extension` 不寫、修飾詞下放到每個成員
 		case onDeclarations = "on-declarations"
+
+		/// 對應的 swiftformat CLI option flag 名稱
+		public static let flagName = "extensionAcl"
+
 	}
 }

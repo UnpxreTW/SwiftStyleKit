@@ -13,9 +13,6 @@ extension FormatRule {
 	/// 對應 swiftformat 的 `sort-swiftui-properties` option。
 	public enum SwiftUIPropertiesSortMode: String, FormatRuleOption {
 
-		/// 對應的 swiftformat CLI option flag 名稱
-		public static let flagName = "sortSwiftUIProperties"
-
 		/// 不排序（swiftformat 上游預設）
 		case none
 
@@ -24,5 +21,9 @@ extension FormatRule {
 
 		/// 依「首次出現順序」group 同型別 property
 		case firstAppearanceSort = "first-appearance-sort"
+
+		/// 對應的 swiftformat CLI option flag 名稱
+		public static let flagName = "sortSwiftUIProperties"
+
 	}
 }

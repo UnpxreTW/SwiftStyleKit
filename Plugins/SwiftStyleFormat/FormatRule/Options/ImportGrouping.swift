@@ -13,9 +13,6 @@ extension FormatRule {
 	/// 對應 swiftformat 的 `importgrouping` option。分組內各自字母排序。
 	public enum ImportGrouping: String, FormatRuleOption {
 
-		/// 對應的 swiftformat CLI option flag 名稱
-		public static let flagName = "importgrouping"
-
 		/// 純字母排序、不分組（swiftformat 上游預設）
 		case alpha
 
@@ -27,5 +24,9 @@ extension FormatRule {
 
 		/// `@testable` import 集中排後面、各組內部字母排序
 		case testableLast = "testable-last"
+
+		/// 對應的 swiftformat CLI option flag 名稱
+		public static let flagName = "importgrouping"
+
 	}
 }

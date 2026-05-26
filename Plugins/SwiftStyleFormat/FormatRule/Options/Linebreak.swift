@@ -13,9 +13,6 @@ extension FormatRule {
 	/// 對應 swiftformat 的 `linebreaks` option。
 	public enum Linebreak: String, FormatRuleOption {
 
-		/// 對應的 swiftformat CLI option flag 名稱
-		public static let flagName = "linebreaks"
-
 		// swiftlint:disable identifier_name
 		// cr / lf 是換行字元的標準縮寫、較全名通用
 
@@ -27,6 +24,11 @@ extension FormatRule {
 
 		/// `\n`——Unix 換行（swiftformat 上游預設）
 		case lf
+
 		// swiftlint:enable identifier_name
+
+		/// 對應的 swiftformat CLI option flag 名稱
+		public static let flagName = "linebreaks"
+
 	}
 }

@@ -15,13 +15,14 @@ extension FormatRule {
 	/// 因此不能用通用 ``Toggle`` 而需專屬 enum。
 	public enum VoidType: String, FormatRuleOption {
 
-		/// 對應的 swiftformat CLI option flag 名稱
-		public static let flagName = "voidType"
-
 		/// type 位置用 `Void`（swiftformat 上游預設、Swift 社群標準）
 		case void = "Void"
 
 		/// type 位置用 `()`
 		case tuple
+
+		/// 對應的 swiftformat CLI option flag 名稱
+		public static let flagName = "voidType"
+
 	}
 }

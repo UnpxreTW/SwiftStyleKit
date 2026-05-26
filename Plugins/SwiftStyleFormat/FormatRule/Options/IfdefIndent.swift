@@ -14,9 +14,6 @@ extension FormatRule {
 	/// 對應 swiftformat 的 `ifdef` option。
 	public enum IfdefIndent: String, FormatRuleOption {
 
-		/// 對應的 swiftformat CLI option flag 名稱
-		public static let flagName = "ifdef"
-
 		/// `#if` 內容比 `#if` 多縮一層（swiftformat 上游預設）
 		case indent
 
@@ -28,5 +25,9 @@ extension FormatRule {
 
 		/// `#if` / `#endif` 指令本身推到行首
 		case outdent
+
+		/// 對應的 swiftformat CLI option flag 名稱
+		public static let flagName = "ifdef"
+
 	}
 }

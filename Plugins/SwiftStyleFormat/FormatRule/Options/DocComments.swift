@@ -13,13 +13,14 @@ extension FormatRule {
 	/// 對應 swiftformat 的 `doc-comments` option。
 	public enum DocCommentsMode: String, FormatRuleOption {
 
-		/// 對應的 swiftformat CLI option flag 名稱
-		public static let flagName = "docComments"
-
 		/// 雙向正規化：宣告上的 `//` 升 `///`、非宣告處的 `///` 降 `//`（swiftformat 上游預設）
 		case beforeDeclarations = "before-declarations"
 
 		/// 只升級 `//` → `///`，不動既有 `///`
 		case preserve
+
+		/// 對應的 swiftformat CLI option flag 名稱
+		public static let flagName = "docComments"
+
 	}
 }

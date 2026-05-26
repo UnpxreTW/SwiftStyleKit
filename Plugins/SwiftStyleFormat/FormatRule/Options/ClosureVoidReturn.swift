@@ -14,13 +14,14 @@ extension FormatRule {
 	/// typealias 與函式型別宣告（`var cb: () -> Void`）兩種值都不會動。
 	public enum ClosureVoidReturn: String, FormatRuleOption {
 
-		/// 對應的 swiftformat CLI option flag 名稱
-		public static let flagName = "closurevoid"
-
 		/// closure 內的 `-> Void` 一律移除（`{ () -> Void in ... }` → `{ () in ... }`、swiftformat 上游預設）
 		case remove
 
 		/// closure 內顯式寫的 `-> Void` 保留
 		case preserve
+
+		/// 對應的 swiftformat CLI option flag 名稱
+		public static let flagName = "closurevoid"
+
 	}
 }
