@@ -137,6 +137,10 @@ extension FormatRule {
 		.singlePropertyPerLine(rule: .enable),
 		.sortDeclarations(rule: .enable),
 		.sortImports(rule: .enable),
+		// 不啟用：規則對「所有」switch case 字母排序、不是 marker-based、會洗掉
+		// 「按 priority / state machine / by domain」排序的業務語意；與 blankLineAfterSwitchCase
+		// 同 .disable 形成「switch case 順序由業務語意決定、不由規則改寫」的一致立場
+		.sortSwitchCases(rule: .disable),
 		.sortTypealiases(rule: .enable),
 		.spaceAroundBraces(rule: .enable),
 		.spaceAroundBrackets(rule: .enable),
