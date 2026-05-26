@@ -74,6 +74,7 @@ extension FormatRule {
 		.noForceUnwrapInTests(rule: .enable),
 		.noGuardInTests(rule: .enable),
 		.numberFormatting(rule: .enable),
+		.organizeDeclarations(rule: .enable),
 		.opaqueGenericParameters(rule: .enable),
 		.preferCountWhere(rule: .enable),
 		.preferForLoop(rule: .enable),

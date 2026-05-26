@@ -13,9 +13,6 @@ extension FormatRule {
 	/// 對應 swiftformat 的 `empty-braces` option。
 	public enum EmptyBracesSpacing: String, FormatRuleOption {
 
-		/// 對應的 swiftformat CLI option flag 名稱
-		public static let flagName = "emptyBraces"
-
 		/// `{}`——大括號間不留空白（swiftformat 上游預設）
 		case noSpace = "no-space"
 
@@ -24,5 +21,8 @@ extension FormatRule {
 
 		/// `{` 換行 `}`——空 body 但維持兩行
 		case linebreak
+
+		/// 對應的 swiftformat CLI option flag 名稱
+		public static let flagName = "emptyBraces"
 	}
 }

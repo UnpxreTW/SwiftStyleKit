@@ -11,6 +11,10 @@
 // main enum body（Swift 語言限制、不能拆 extension），預期最終 ~500-600 行；
 // file_length 預設 400 在這場景對品質沒指引意義
 
+// swiftlint:disable type_body_length
+// 原因：21 option 的 organizeDeclarations case 簽名為了一個 element 一行而拉長
+// enum body、超 250 行門檻；file_length 場景同理（已 disable）
+
 /// 格式規則
 ///
 /// 每個 case 對應 swiftformat 一條 rule，Mirror reflection 自動展開為 CLI 參數。
@@ -256,6 +260,84 @@ public enum FormatRule {
 		exponentGrouping: Toggle = .disable,
 		hexLiteralCase: LetterCase = .uppercase,
 		exponentCase: LetterCase = .lowercase
+	)
+
+	/// 對 class/struct/enum/actor/extension body 內的宣告整體重新組織排序
+	///
+	/// - `organizationMode`：依 visibility 或 type 為主軸組織
+	/// - `visibilityOrder`：自訂 visibility group 順序
+	/// - `typeOrder`：自訂 type group 順序
+	/// - `visibilityMarks`：自訂 visibility group MARK 文字
+	/// - `typeMarks`：自訂 type group MARK 文字
+	/// - `categoryMark`：MARK 模板字串
+	/// - `markCategories`：是否插入 MARK 標頭
+	/// - `beforeMarks`：放在第一個 MARK 之前的 declaration types
+	/// - `lifecycle`：自訂 lifecycle method 名單（加進 instanceLifecycle 群組）
+	/// - `organizeTypes`：哪些 type 要被 organize
+	/// - `classThreshold` / `structThreshold` / `enumThreshold` / `extensionThreshold`：觸發 organize 的最小行數
+	/// - `markClassThreshold` / `markStructThreshold` / `markEnumThreshold` / `markExtensionThreshold`：觸發 MARK 標頭的最小行數
+	/// - `sortSwiftUIProperties`：SwiftUI property 排序模式
+	/// - `typeBodyMarks`：type body 內既有 MARK 處理
+	/// - `groupBlankLines`：subgroup 之間是否插空行
+	case organizeDeclarations(
+		rule: Flag,
+		organizationMode: DeclarationOrganizationMode = .visibility,
+		visibilityOrder: [String]? = [
+			"beforeMarks",
+			"open",
+			"public",
+			"package",
+			"instanceLifecycle",
+			"internal",
+			"fileprivate",
+			"private"
+		],
+		typeOrder: [String]? = [
+			"nestedType",
+			"staticProperty",
+			"staticPropertyWithBody",
+			"staticMethod",
+			"classPropertyWithBody",
+			"classMethod",
+			"swiftUIProperty",
+			"overriddenProperty",
+			"swiftUIPropertyWrapper",
+			"instancePropertyWithBody",
+			"instanceProperty",
+			"overriddenMethod",
+			"swiftUIMethod",
+			"instanceMethod"
+		],
+		visibilityMarks: String? = "fileprivate:File Private",
+		typeMarks: String? = nil,
+		categoryMark: String? = nil,
+		markCategories: Toggle = .enable,
+		beforeMarks: [String]? = nil,
+		lifecycle: [String]? = [
+			"viewDidLoad",
+			"viewWillAppear",
+			"viewDidAppear",
+			"viewWillDisappear",
+			"viewDidDisappear",
+			"viewWillLayoutSubviews",
+			"viewDidLayoutSubviews",
+			"setUp",
+			"tearDown",
+			"setUpWithError",
+			"tearDownWithError"
+		],
+		organizeTypes: [String]? = nil,
+		classThreshold: Int? = nil,
+		structThreshold: Int? = nil,
+		enumThreshold: Int? = nil,
+		extensionThreshold: Int? = nil,
+		markClassThreshold: Int? = 80,
+		markStructThreshold: Int? = 80,
+		markEnumThreshold: Int? = 80,
+		markExtensionThreshold: Int? = 80,
+		sortSwiftUIProperties: SwiftUIPropertiesSortMode = .firstAppearanceSort,
+		typeBodyMarks: TypeBodyMarks = .remove,
+		groupBlankLines: Toggle = .enable
 	)
 
 	/// 用 opaque 泛型參數（`some Protocol`）取代有約束的泛型參數
@@ -683,8 +765,6 @@ public enum FormatRule {
 	/// 改為只翻字面值放左側的情形。
 	case yodaConditions(rule: Flag, mode: YodaMode = .always)
 
-	// MARK: - 全域 option
-
 	/// type 宣告邊界（開頭與結尾）的空白行政策
 	///
 	/// 對應 swiftformat 全域 option `type-blank-lines`——``blankLinesAtStartOfScope(rule:)``
@@ -704,3 +784,5 @@ public enum FormatRule {
 	/// 展開成 `--wrapStringInterpolation default`；設為 `nil` 則不展開、由 swiftformat 取上游預設。
 	case wrapStringInterpolation(mode: StringInterpolationWrapMode? = .default)
 }
+
+// swiftlint:enable type_body_length

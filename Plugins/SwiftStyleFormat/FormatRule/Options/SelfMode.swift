@@ -13,9 +13,6 @@ extension FormatRule {
 	/// 對應 swiftformat 的 `self` option。
 	public enum SelfMode: String, FormatRuleOption {
 
-		/// 對應的 swiftformat CLI option flag 名稱
-		public static let flagName = "self"
-
 		/// 移除所有可省略的 `self.`（swiftformat 上游預設、minimal 派）
 		case remove
 
@@ -24,5 +21,8 @@ extension FormatRule {
 
 		/// 只在 `init` 內強制 `self.`、其他位置移除（折衷派）
 		case initOnly = "init-only"
+
+		/// 對應的 swiftformat CLI option flag 名稱
+		public static let flagName = "self"
 	}
 }
