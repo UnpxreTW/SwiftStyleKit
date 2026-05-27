@@ -913,6 +913,29 @@ public enum FormatRule {
 	/// 兩規則 own。無 ``Flag``——option 不是規則。`mode` 簽名預設 `.default`（與上游一致）、
 	/// 展開成 `--wrapStringInterpolation default`；設為 `nil` 則不展開、由 swiftformat 取上游預設。
 	case wrapStringInterpolation(mode: StringInterpolationWrapMode? = .default)
+
+	/// 已棄用、改用 ``sortImports(rule:mode:)``
+	///
+	/// swiftformat 規則改名後保留的相容別名；call site 展開仍用舊 flag 名（swiftformat
+	/// 自身會印 deprecation warning 並映射到新規則）。不入 ``allRules``。
+	@available(*, deprecated, renamed: "sortImports")
+	case sortedImports(rule: Flag, mode: ImportGrouping = .testableFirst)
+
+	/// 已棄用、改用 ``sortSwitchCases(rule:)``
+	@available(*, deprecated, renamed: "sortSwitchCases")
+	case sortedSwitchCases(rule: Flag)
+
+	/// 已棄用、改用 ``modifierOrder(rule:modifierOrder:)``
+	@available(*, deprecated, renamed: "modifierOrder")
+	case specifiers(rule: Flag, modifierOrder: String? = nil)
+
+	/// 已棄用、改用 ``noForceTryInTests(rule:)``
+	@available(*, deprecated, renamed: "noForceTryInTests")
+	case throwingTests(rule: Flag)
+
+	/// 已棄用、改用 ``redundantVariable(rule:)``
+	@available(*, deprecated, renamed: "redundantVariable")
+	case redundantProperty(rule: Flag)
 }
 
 // swiftlint:enable type_body_length
