@@ -40,7 +40,8 @@ private struct WrapArgumentsTests {
 		let args = FormatRule.wrapArguments(
 			rule: .enable,
 			wrapArguments: .beforeFirst
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args.contains("--wrapArguments"))
 		#expect(args.contains("before-first"))
 	}
@@ -50,7 +51,8 @@ private struct WrapArgumentsTests {
 		let args = FormatRule.wrapArguments(
 			rule: .enable,
 			wrapEffects: .ifMultiline
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args.contains("--wrapEffects"))
 		#expect(args.contains("if-multiline"))
 	}
@@ -60,7 +62,8 @@ private struct WrapArgumentsTests {
 		let args = FormatRule.wrapArguments(
 			rule: .enable,
 			closingParen: .sameLine
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args.contains("--closingParen"))
 		#expect(args.contains("same-line"))
 	}
@@ -70,7 +73,8 @@ private struct WrapArgumentsTests {
 		let args = FormatRule.wrapArguments(
 			rule: .enable,
 			allowPartialWrapping: .disable
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args.contains("--allowPartialWrapping"))
 		#expect(args.contains("false"))
 	}

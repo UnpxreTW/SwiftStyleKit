@@ -29,7 +29,8 @@ private struct UnusedPrivateDeclarationsTests {
 		let args = FormatRule.unusedPrivateDeclarations(
 			rule: .enable,
 			preserveDecls: "foo,bar"
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args.contains("--preserveDecls"))
 		#expect(args.contains("foo,bar"))
 	}

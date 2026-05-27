@@ -46,7 +46,8 @@ private struct OrganizeDeclarationsTests {
 		let args = FormatRule.organizeDeclarations(
 			rule: .enable,
 			organizationMode: .type
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args.contains("--organizationMode"))
 		#expect(args.contains("type"))
 	}
@@ -56,7 +57,8 @@ private struct OrganizeDeclarationsTests {
 		let args = FormatRule.organizeDeclarations(
 			rule: .enable,
 			visibilityOrder: ["beforeMarks", "open", "public", "package", "internal", "fileprivate", "private"]
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args.contains("--visibilityOrder"))
 		#expect(args.contains("beforeMarks,open,public,package,internal,fileprivate,private"))
 	}
@@ -66,7 +68,8 @@ private struct OrganizeDeclarationsTests {
 		let args = FormatRule.organizeDeclarations(
 			rule: .enable,
 			classThreshold: 20
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args.contains("--classThreshold"))
 		#expect(args.contains("20"))
 	}
@@ -76,7 +79,8 @@ private struct OrganizeDeclarationsTests {
 		let args = FormatRule.organizeDeclarations(
 			rule: .enable,
 			sortSwiftUIProperties: .none
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args.contains("--sortSwiftUIProperties"))
 		#expect(args.contains("none"))
 	}
@@ -86,7 +90,8 @@ private struct OrganizeDeclarationsTests {
 		let args = FormatRule.organizeDeclarations(
 			rule: .enable,
 			categoryMark: "MARK: == %c =="
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args.contains("--categoryMark"))
 		#expect(args.contains("MARK: == %c =="))
 	}
@@ -96,7 +101,8 @@ private struct OrganizeDeclarationsTests {
 		let args = FormatRule.organizeDeclarations(
 			rule: .enable,
 			beforeMarks: []
-		).cliArguments
+		)
+		.cliArguments
 		#expect(!args.contains("--beforeMarks"))
 	}
 }

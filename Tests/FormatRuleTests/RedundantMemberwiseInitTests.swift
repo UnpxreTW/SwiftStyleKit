@@ -40,7 +40,8 @@ private struct RedundantMemberwiseInitTests {
 		let args = FormatRule.redundantMemberwiseInit(
 			rule: .enable,
 			mode: .conformances(["View", "ViewModifier"])
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args == [
 			"--enable", "redundantMemberwiseInit",
 			"--preferSynthesizedInitForInternalStructs", "View,ViewModifier"

@@ -38,7 +38,8 @@ private struct MarkTypesTests {
 			markExtensions: .ifNotEmpty,
 			extensionMark: "MARK: %c",
 			groupedExtension: "MARK: %c"
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args == [
 			"--enable", "markTypes",
 			"--markTypes", "always",

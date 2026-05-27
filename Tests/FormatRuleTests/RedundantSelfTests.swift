@@ -51,7 +51,8 @@ private struct RedundantSelfTests {
 			rule: .enable,
 			mode: .initOnly,
 			selfRequired: "expect,require"
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args == [
 			"--enable", "redundantSelf",
 			"--self", "init-only",

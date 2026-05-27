@@ -46,7 +46,8 @@ private struct PropertyTypesTests {
 		let args = FormatRule.propertyTypes(
 			rule: .enable,
 			preservedPropertyTypes: ["Package", "MyCustom"]
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args.contains("--preservedPropertyTypes"))
 		#expect(args.contains("Package,MyCustom"))
 	}

@@ -36,7 +36,8 @@ private struct WrapAttributesTests {
 		let args = FormatRule.wrapAttributes(
 			rule: .enable,
 			funcAttributes: .sameLine
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args.contains("--funcAttributes"))
 		#expect(args.contains("same-line"))
 	}
@@ -46,7 +47,8 @@ private struct WrapAttributesTests {
 		let args = FormatRule.wrapAttributes(
 			rule: .enable,
 			complexAttributes: .preserve
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args.contains("--complexAttributes"))
 		#expect(args.contains("preserve"))
 	}
@@ -56,7 +58,8 @@ private struct WrapAttributesTests {
 		let args = FormatRule.wrapAttributes(
 			rule: .enable,
 			nonComplexAttributes: ["objc", "available"]
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args.contains("--nonComplexAttributes"))
 		#expect(args.contains("objc,available"))
 	}
@@ -66,7 +69,8 @@ private struct WrapAttributesTests {
 		let args = FormatRule.wrapAttributes(
 			rule: .enable,
 			nonComplexAttributes: []
-		).cliArguments
+		)
+		.cliArguments
 		#expect(!args.contains("--nonComplexAttributes"))
 	}
 }

@@ -28,7 +28,8 @@ private struct PreferSwiftTestingTests {
 		let args = FormatRule.preferSwiftTesting(
 			rule: .enable,
 			defaultTestSuiteAttributes: ["@MainActor", "@Suite(.serialized)"]
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args.contains("--defaultTestSuiteAttributes"))
 		#expect(args.contains("@MainActor,@Suite(.serialized)"))
 	}
@@ -38,7 +39,8 @@ private struct PreferSwiftTestingTests {
 		let args = FormatRule.preferSwiftTesting(
 			rule: .enable,
 			xctestSymbols: ["CustomTestHelper"]
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args.contains("--xctestSymbols"))
 		#expect(args.contains("CustomTestHelper"))
 	}
