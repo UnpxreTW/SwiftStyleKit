@@ -852,6 +852,13 @@ public enum FormatRule {
 	/// 把 inline `if` / `guard` body 換成多行（`guard let x = y else { return }` → 多行寫法）
 	case wrapConditionalBodies(rule: Flag)
 
+	/// 把逗號分隔的 enum case 拆成一行一個（`case bar, baz` → `case bar` + `case baz`）
+	///
+	/// `wrapEnumCases` 簽名預設 `.always`：所有逗號分隔 case 都拆（含 flat enum
+	/// 如 `case up, down, left, right`）、跟上游預設一致、一致性最高。
+	/// 設 `.withValues` 只拆有 associated value 的 case、保留簡單 case 緊湊寫法。
+	case wrapEnumCases(rule: Flag, wrapEnumCases: WrapEnumCases = .always)
+
 	/// 把 single-line function / init / subscript body 拆成多行（`func foo() { print("bar") }` → 多行寫法）
 	case wrapFunctionBodies(rule: Flag)
 
