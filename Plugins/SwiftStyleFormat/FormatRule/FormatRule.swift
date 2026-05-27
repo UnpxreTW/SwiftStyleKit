@@ -849,6 +849,9 @@ public enum FormatRule {
 	/// 把 inline switch case body 換到下一行（`case .foo: return bar` → `case .foo:` + 換行縮排）
 	case wrapCaseBodies(rule: Flag)
 
+	/// 把 inline `if` / `guard` body 換成多行（`guard let x = y else { return }` → 多行寫法）
+	case wrapConditionalBodies(rule: Flag)
+
 	/// 把 single-line function / init / subscript body 拆成多行（`func foo() { print("bar") }` → 多行寫法）
 	case wrapFunctionBodies(rule: Flag)
 
