@@ -885,6 +885,10 @@ public enum FormatRule {
 	/// code span ` `` ` 內的 token 不會被拆斷。
 	case wrapSingleLineComments(rule: Flag)
 
+	/// 把逗號分隔的 switch case pattern 拆成多行 + align（`case .bar, .baz:` →
+	/// `case .bar,` + 換行 `     .baz:`）
+	case wrapSwitchCases(rule: Flag)
+
 	/// 把 yoda condition（常數在左側）翻成自然順序（`5 == foo` → `foo == 5`）
 	///
 	/// `mode` 簽名預設 `.always`（與上游一致）：翻所有 yoda condition；設 `.literalsOnly`
