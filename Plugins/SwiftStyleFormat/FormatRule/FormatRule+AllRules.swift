@@ -185,6 +185,7 @@ extension FormatRule {
 		// early-return idiom、單行緊湊；強制換行讓 guard / 簡短 if 變多行、邊際好處不大；
 		// 與 wrapCaseBodies .disable 同類精神（單行 conditional body 緊湊）
 		.wrapConditionalBodies(rule: .disable),
+		.wrapEnumCases(rule: .enable),
 		.wrapFunctionBodies(rule: .enable),
 		.wrapLoopBodies(rule: .enable),
 		.wrapMultilineStatementBraces(rule: .enable),
