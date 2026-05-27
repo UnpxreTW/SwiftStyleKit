@@ -865,6 +865,10 @@ public enum FormatRule {
 	/// 把 single-line `for` / `while` loop body 拆成多行（`for x in arr { print(x) }` → 多行寫法）
 	case wrapLoopBodies(rule: Flag)
 
+	/// 把 multiline conditional assignment（Swift 5.9+ `if`/`switch` expression）的整個
+	/// conditional block 換到 `=` 後下一行、縮排（`let x = if foo { ... }` → `let x =` + 換行）
+	case wrapMultilineConditionalAssignment(rule: Flag)
+
 	/// multi-line 條件式（`if`/`guard`/`while`）的 opening brace `{` 換到單獨一行
 	case wrapMultilineStatementBraces(rule: Flag)
 

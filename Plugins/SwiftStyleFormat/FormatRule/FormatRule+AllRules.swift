@@ -188,6 +188,9 @@ extension FormatRule {
 		.wrapEnumCases(rule: .enable),
 		.wrapFunctionBodies(rule: .enable),
 		.wrapLoopBodies(rule: .enable),
+		// 不啟用：Opt-in 規則、SwiftStyleKit 預設策略對 Opt-in 規則傾向 .disable；
+		// case 留在 enum 內形成「考慮過且選擇關閉」的 in-tree 宣告、fork 可改
+		.wrapMultilineConditionalAssignment(rule: .disable),
 		.wrapMultilineStatementBraces(rule: .enable),
 		// 不啟用：single-line computed property（`var id: Int { rawValue }`、SwiftUI
 		// `var body: some View { ... }`）是 Swift 5.9+ 推薦慣例、社群主流寫法；
