@@ -31,7 +31,8 @@ private struct BlankLinesAfterGuardStatementsTests {
 		let args = FormatRule.blankLinesAfterGuardStatements(
 			rule: .enable,
 			lineBetweenGuards: .enable
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args == [
 			"--enable", "blankLinesAfterGuardStatements",
 			"--lineBetweenGuards", "true"

@@ -19,7 +19,8 @@ private struct FileHeaderTests {
 			header: "ignore",
 			dateFormat: "system",
 			timeZone: "system"
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args.isEmpty)
 	}
 
@@ -30,7 +31,8 @@ private struct FileHeaderTests {
 			header: "// {file}",
 			dateFormat: "iso",
 			timeZone: "utc"
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args == [
 			"--enable", "fileHeader",
 			"--header", "// {file}",

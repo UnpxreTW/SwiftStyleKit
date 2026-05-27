@@ -33,7 +33,8 @@ private struct SpaceAroundOperatorsTests {
 		let args = FormatRule.spaceAroundOperators(
 			rule: .enable,
 			noSpaceOperators: []
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args == [
 			"--enable", "spaceAroundOperators",
 			"--operatorFunc", "no-space",
@@ -47,7 +48,8 @@ private struct SpaceAroundOperatorsTests {
 		let args = FormatRule.spaceAroundOperators(
 			rule: .enable,
 			noSpaceOperators: ["..<", "..."]
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args == [
 			"--enable", "spaceAroundOperators",
 			"--operatorFunc", "no-space",
@@ -64,7 +66,8 @@ private struct SpaceAroundOperatorsTests {
 			operatorFunc: .insert,
 			ranges: .remove,
 			typeDelimiter: .spaced
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args == [
 			"--enable", "spaceAroundOperators",
 			"--operatorFunc", "spaced",

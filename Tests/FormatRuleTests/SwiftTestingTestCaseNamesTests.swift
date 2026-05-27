@@ -32,7 +32,8 @@ private struct SwiftTestingTestCaseNamesTests {
 		let args = FormatRule.swiftTestingTestCaseNames(
 			rule: .enable,
 			suiteNameFormat: .rawIdentifiers
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args == [
 			"--enable", "swiftTestingTestCaseNames",
 			"--testCaseNameFormat", "raw-identifiers",
@@ -46,7 +47,8 @@ private struct SwiftTestingTestCaseNamesTests {
 			rule: .enable,
 			testCaseNameFormat: .standardIdentifiers,
 			suiteNameFormat: .standardIdentifiers
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args == [
 			"--enable", "swiftTestingTestCaseNames",
 			"--testCaseNameFormat", "standard-identifiers",

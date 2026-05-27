@@ -869,6 +869,10 @@ public enum FormatRule {
 	/// conditional block 換到 `=` 後下一行、縮排（`let x = if foo { ... }` → `let x =` + 換行）
 	case wrapMultilineConditionalAssignment(rule: Flag)
 
+	/// 已多行的 chained function call 強制每個 method 拆成獨立一行（all-or-nothing、
+	/// 不允許 mixed layout）
+	case wrapMultilineFunctionChains(rule: Flag)
+
 	/// multi-line 條件式（`if`/`guard`/`while`）的 opening brace `{` 換到單獨一行
 	case wrapMultilineStatementBraces(rule: Flag)
 

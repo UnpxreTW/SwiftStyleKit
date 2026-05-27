@@ -18,7 +18,8 @@ private struct PreferForLoopTests {
 			rule: .disable,
 			anonymousForEach: .convert,
 			singleLineForEach: .convert
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args.isEmpty)
 	}
 
@@ -38,7 +39,8 @@ private struct PreferForLoopTests {
 			rule: .enable,
 			anonymousForEach: .convert,
 			singleLineForEach: .convert
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args == [
 			"--enable", "preferForLoop",
 			"--anonymousForEach", "convert",

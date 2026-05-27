@@ -44,7 +44,8 @@ private struct WrapTests {
 		let args = FormatRule.wrap(
 			rule: .enable,
 			noWrapOperators: [".", "?."]
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args == [
 			"--enable", "wrap",
 			"--maxWidth", "120",

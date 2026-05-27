@@ -28,7 +28,8 @@ private struct TrailingClosuresTests {
 		let args = FormatRule.trailingClosures(
 			rule: .enable,
 			trailingClosures: ["withAnimation", "UIView.animate"]
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args == [
 			"--enable", "trailingClosures",
 			"--trailingClosures", "withAnimation,UIView.animate"
@@ -40,7 +41,8 @@ private struct TrailingClosuresTests {
 		let args = FormatRule.trailingClosures(
 			rule: .enable,
 			neverTrailing: ["customExpect"]
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args == [
 			"--enable", "trailingClosures",
 			"--neverTrailing", "customExpect"
@@ -53,7 +55,8 @@ private struct TrailingClosuresTests {
 			rule: .enable,
 			trailingClosures: [],
 			neverTrailing: []
-		).cliArguments
+		)
+		.cliArguments
 		#expect(args == ["--enable", "trailingClosures"])
 	}
 }
