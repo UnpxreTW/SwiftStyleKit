@@ -199,6 +199,10 @@ extension FormatRule {
 		// case 留在 enum 內形成「考慮過且選擇關閉」的 in-tree 宣告
 		.wrapPropertyBodies(rule: .disable),
 		.wrapSingleLineComments(rule: .enable),
+		// 不啟用：`case .a, .b:` 短 pattern 列同行屬 Swift idiomatic；強制換行 + align
+		// 讓「2-3 個 enum case 共用 handler」型 switch 變 cluttered；與 sortSwitchCases /
+		// blankLineAfterSwitchCase / wrapCaseBodies 同 .disable 同精神（switch 結構由業務決定）
+		.wrapSwitchCases(rule: .disable),
 		.yodaConditions(rule: .enable),
 		// 全域 option（無啟用開關、mode 預設 .preserve）
 		.typeBlankLines(),
