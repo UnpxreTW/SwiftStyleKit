@@ -75,9 +75,16 @@ import XcodeProjectPlugin
 
 extension SwiftStyleFormat: XcodeCommandPlugin {
     func performCommand(context: XcodePluginContext, arguments: [String]) throws {
+        var extractor = ArgumentExtractor(arguments)
+        let selectedTargets = extractor.extractOption(named: "target")
+        let remaining = extractor.remainingArguments
+
         let tool = try context.tool(named: "swiftformat")
         let license = readLicenseInfo(directory: context.xcodeProject.directory)
-        for target in context.xcodeProject.targets {
+        let targets = selectedTargets.isEmpty
+            ? context.xcodeProject.targets
+            : context.xcodeProject.targets.filter { selectedTargets.contains($0.displayName) }
+        for target in targets {
             let swiftFiles = target.inputFiles
                 .filter { $0.path.extension == "swift" }
                 .map { $0.path.string }
@@ -89,7 +96,7 @@ extension SwiftStyleFormat: XcodeCommandPlugin {
             try runSwiftFormat(
                 executable: tool.path,
                 paths: swiftFiles,
-                arguments: injected + arguments
+                arguments: injected + remaining
             )
         }
     }
