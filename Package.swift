@@ -18,14 +18,16 @@ let package = Package(
             targets: ["SwiftStyleFormat"]
         ),
     ],
-    dependencies: [
-        .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.61.1"),
-    ],
     targets: [
         .binaryTarget(
             name: "SwiftLintBinary",
             url: "https://github.com/realm/SwiftLint/releases/download/0.63.2/SwiftLintBinary.artifactbundle.zip",
             checksum: "12befab676fc972ffde2ec295d016d53c3a85f64aabd9c7fee0032d681e307e9"
+        ),
+        .binaryTarget(
+            name: "SwiftFormatBinary",
+            url: "https://github.com/nicklockwood/SwiftFormat/releases/download/0.61.1/swiftformat.artifactbundle.zip",
+            checksum: "47f7932f35c714b00430f56df1cfaf1bea0b4baae299bb2a09874cb52ee45350"
         ),
         .plugin(
             name: "SwiftStyleLint",
@@ -41,7 +43,7 @@ let package = Package(
                 permissions: [.writeToPackageDirectory(reason: "格式化原始碼")]
             ),
             dependencies: [
-                .product(name: "swiftformat", package: "SwiftFormat"),
+                .target(name: "SwiftFormatBinary"),
             ]
         ),
         .target(
