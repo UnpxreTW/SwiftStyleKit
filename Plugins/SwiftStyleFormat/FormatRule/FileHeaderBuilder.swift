@@ -46,10 +46,11 @@ public enum FileHeaderBuilder {
 		}
 		let trimSet = CharacterSet(charactersIn: "*#").union(.whitespaces)
 		var holder = String(licenseText[holderRange]).trimmingCharacters(in: trimSet)
-		if let reserved = holder.range(
+		let reserved = holder.range(
 			of: #"[.,]?\s*all rights reserved\.?$"#,
 			options: [.regularExpression, .caseInsensitive]
-		) {
+		)
+		if let reserved {
 			holder.removeSubrange(reserved)
 			holder = holder.trimmingCharacters(in: trimSet)
 		}

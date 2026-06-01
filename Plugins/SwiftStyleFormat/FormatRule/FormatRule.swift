@@ -805,7 +805,10 @@ public enum FormatRule {
 	///   parameter 換行模式——已 wrap 的多行參數列強制 before-first（`(` 後即換行、每參數獨立一行、
 	///   `)` 配合 `closingParen: .balanced` 獨立成行接 `{`），避免 after-first 殘留 `?)` + `{` 裂行
 	/// - `wrapCollections` 簽名預設 `.preserve`：collection literal element 換行模式
-	/// - `wrapConditions` 簽名預設 `.preserve`：conditional expression 換行模式
+	/// - `wrapConditions` 簽名預設 `.beforeFirst`（B 方案、上游 `.preserve`）：conditional expression
+	///   （`if` / `guard` / `while`）換行模式——已 wrap 的多行條件式把關鍵字推到獨立一行（條件接在下一行），
+	///   配合 `guardElse: next-line` 讓 `else` 也獨立成行。注意：條件的「組內分行」維持來源、不強制逐條件拆
+	///   （`let x = a, x.count >= 10` 仍黏一行）；單行且不超 `maxWidth` 的條件式完全不受影響
 	/// - `wrapTypeAliases` 簽名預設 `.preserve`：typealias 換行模式
 	/// - `wrapEffects` 簽名預設 `.preserve`：function effects（`throws` / `async`）換行
 	/// - `wrapReturnType` 簽名預設 `.preserve`：function return type 換行
@@ -817,7 +820,7 @@ public enum FormatRule {
 		wrapArguments: WrapMode = .preserve,
 		wrapParameters: WrapMode = .beforeFirst,
 		wrapCollections: WrapMode = .preserve,
-		wrapConditions: WrapMode = .preserve,
+		wrapConditions: WrapMode = .beforeFirst,
 		wrapTypeAliases: WrapMode = .preserve,
 		wrapEffects: WrapEffects = .preserve,
 		wrapReturnType: WrapEffects = .preserve,
