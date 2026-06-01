@@ -41,9 +41,7 @@ public enum FileHeaderBuilder {
 		guard
 			let match = regex.firstMatch(in: licenseText, range: range),
 			let holderRange = Range(match.range(at: 1), in: licenseText)
-		else {
-			return nil
-		}
+		else { return nil }
 		let trimSet = CharacterSet(charactersIn: "*#").union(.whitespaces)
 		var holder = String(licenseText[holderRange]).trimmingCharacters(in: trimSet)
 		let reserved = holder.range(
