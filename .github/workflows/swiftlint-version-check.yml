@@ -66,8 +66,12 @@ jobs:
           new="${{ steps.diff.outputs.upstream }}"
           old="${{ steps.diff.outputs.current }}"
           checksum="${{ steps.artifact.outputs.checksum }}"
+          # 只改 SwiftLint 區塊：以 artifactbundle url 鎖定其 checksum 行、取舊值後「按值」替換，
+          # 避免誤觸同檔的 SwiftFormat checksum（舊寫法 checksum:"[a-f0-9]+" 會把兩條都換成同一值）
+          old_checksum=$(grep -A1 'SwiftLintBinary.artifactbundle.zip' Package.swift | grep -oE '[a-f0-9]{64}' | head -1)
+          [ -n "${old_checksum}" ] || { echo "::error::找不到 SwiftLint checksum"; exit 1; }
           sed -i.bak "s|/releases/download/${old}/|/releases/download/${new}/|" Package.swift
-          sed -i.bak -E "s|checksum: \"[a-f0-9]+\"|checksum: \"${checksum}\"|" Package.swift
+          sed -i.bak "s|${old_checksum}|${checksum}|" Package.swift
           rm Package.swift.bak
           if ! grep -q "${new}" Package.swift; then
             echo "::error::sed did not apply, Package.swift unchanged"
