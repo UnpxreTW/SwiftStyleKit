@@ -1,10 +1,10 @@
 //
-// FormatRuleTests
+//  FormatRuleTests
 //
-// Copyright (c) 2026 Unpxre (GitHub: UnpxreTW)
-// Licensed under the MIT License. See LICENSE for details.
+//  Copyright © 2026 Unpxre (GitHub: UnpxreTW)
+//  Licensed under the MIT License. See LICENSE for details.
 //
-// SPDX-License-Identifier: MIT
+//  SPDX-License-Identifier: MIT
 
 import SwiftStyleFormatCore
 import Testing
@@ -108,12 +108,12 @@ private struct FileHeaderBuilderTests {
 		)
 		#expect(header == [
 			"",
-			"SwiftStyleFormatCore",
+			" SwiftStyleFormatCore",
 			"",
-			"Copyright (c) {created.year} Unpxre (GitHub: UnpxreTW)",
-			"Licensed under the MIT License. See LICENSE for details.",
+			" Copyright © {created.year} Unpxre (GitHub: UnpxreTW)",
+			" Licensed under the MIT License. See LICENSE for details.",
 			"",
-			"SPDX-License-Identifier: MIT"
+			" SPDX-License-Identifier: MIT"
 		].joined(separator: #"\n"#))
 	}
 
@@ -122,10 +122,10 @@ private struct FileHeaderBuilderTests {
 		let header = FileHeaderBuilder.header(targetName: "App", license: .unrecognized(holder: "Someone"))
 		#expect(header == [
 			"",
-			"App",
+			" App",
 			"",
-			"Copyright (c) {created.year} Someone",
-			"See LICENSE for details."
+			" Copyright © {created.year} Someone",
+			" See LICENSE for details."
 		].joined(separator: #"\n"#))
 	}
 
@@ -134,9 +134,9 @@ private struct FileHeaderBuilderTests {
 		let header = FileHeaderBuilder.header(targetName: "App", license: .missing)
 		#expect(header == [
 			"",
-			"App",
+			" App",
 			"",
-			"Copyright (c) {created.year}",
+			" Copyright © {created.year}",
 			""
 		].joined(separator: #"\n"#))
 	}

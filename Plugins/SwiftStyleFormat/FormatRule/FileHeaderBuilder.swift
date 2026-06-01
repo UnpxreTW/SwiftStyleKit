@@ -1,10 +1,10 @@
 //
-// SwiftStyleFormatCore
+//  SwiftStyleFormatCore
 //
-// Copyright (c) 2026 Unpxre (GitHub: UnpxreTW)
-// Licensed under the MIT License. See LICENSE for details.
+//  Copyright © 2026 Unpxre (GitHub: UnpxreTW)
+//  Licensed under the MIT License. See LICENSE for details.
 //
-// SPDX-License-Identifier: MIT
+//  SPDX-License-Identifier: MIT
 
 import Foundation
 
@@ -101,7 +101,9 @@ public enum FileHeaderBuilder {
 			lines.append("")
 			lines.append("SPDX-License-Identifier: \(spdxID)")
 		}
-		return lines.joined(separator: #"\n"#)
+		return lines
+			.map { $0.isEmpty ? $0 : " " + $0 }
+			.joined(separator: #"\n"#)
 	}
 
 	// MARK: Private
@@ -109,9 +111,9 @@ public enum FileHeaderBuilder {
 	/// 組版權行——有持有人則附上、否則只到年份
 	private static func copyrightLine(holder: String?) -> String {
 		if let holder {
-			"Copyright (c) {created.year} \(holder)"
+			"Copyright © {created.year} \(holder)"
 		} else {
-			"Copyright (c) {created.year}"
+			"Copyright © {created.year}"
 		}
 	}
 }
