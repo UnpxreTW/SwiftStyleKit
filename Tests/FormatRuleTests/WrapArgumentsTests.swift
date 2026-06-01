@@ -25,7 +25,7 @@ private struct WrapArgumentsTests {
 			"--wrapArguments", "preserve",
 			"--wrapParameters", "before-first",
 			"--wrapCollections", "preserve",
-			"--wrapConditions", "preserve",
+			"--wrapConditions", "before-first",
 			"--wrapTypeAliases", "preserve",
 			"--wrapEffects", "preserve",
 			"--wrapReturnType", "preserve",
