@@ -1,10 +1,10 @@
 //
-// SwiftStyleFormatCore
+//  SwiftStyleFormatCore
 //
-// Copyright (c) 2026 Unpxre (GitHub: UnpxreTW)
-// Licensed under the MIT License. See LICENSE for details.
+//  Copyright © 2026 Unpxre (GitHub: UnpxreTW)
+//  Licensed under the MIT License. See LICENSE for details.
 //
-// SPDX-License-Identifier: MIT
+//  SPDX-License-Identifier: MIT
 
 // swiftlint:disable file_length
 // 原因：FormatRule case 隨 逐條對應 swiftformat 規則（總計 107 條）、case 必須宣告在

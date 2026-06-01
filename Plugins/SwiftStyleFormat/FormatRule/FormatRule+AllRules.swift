@@ -1,10 +1,10 @@
 //
-// SwiftStyleFormatCore
+//  SwiftStyleFormatCore
 //
-// Copyright (c) 2026 Unpxre (GitHub: UnpxreTW)
-// Licensed under the MIT License. See LICENSE for details.
+//  Copyright © 2026 Unpxre (GitHub: UnpxreTW)
+//  Licensed under the MIT License. See LICENSE for details.
 //
-// SPDX-License-Identifier: MIT
+//  SPDX-License-Identifier: MIT
 
 extension FormatRule {
 	/// 此 package 啟用的規則集合
