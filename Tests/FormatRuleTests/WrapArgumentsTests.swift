@@ -23,7 +23,7 @@ private struct WrapArgumentsTests {
 		#expect(args == [
 			"--enable", "wrapArguments",
 			"--wrapArguments", "preserve",
-			"--wrapParameters", "preserve",
+			"--wrapParameters", "before-first",
 			"--wrapCollections", "preserve",
 			"--wrapConditions", "preserve",
 			"--wrapTypeAliases", "preserve",

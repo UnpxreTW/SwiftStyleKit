@@ -801,7 +801,9 @@ public enum FormatRule {
 	///
 	/// 11 個 own option 中 10 個暴露於此 case（`wrap-string-interpolation` 屬全域、抽出至底部）：
 	/// - `wrapArguments` 簽名預設 `.preserve`：function call argument 換行模式
-	/// - `wrapParameters` 簽名預設 `.preserve`：function declaration parameter 換行模式
+	/// - `wrapParameters` 簽名預設 `.beforeFirst`（B 方案、上游 `.preserve`）：function declaration
+	///   parameter 換行模式——已 wrap 的多行參數列強制 before-first（`(` 後即換行、每參數獨立一行、
+	///   `)` 配合 `closingParen: .balanced` 獨立成行接 `{`），避免 after-first 殘留 `?)` + `{` 裂行
 	/// - `wrapCollections` 簽名預設 `.preserve`：collection literal element 換行模式
 	/// - `wrapConditions` 簽名預設 `.preserve`：conditional expression 換行模式
 	/// - `wrapTypeAliases` 簽名預設 `.preserve`：typealias 換行模式
@@ -813,7 +815,7 @@ public enum FormatRule {
 	case wrapArguments(
 		rule: Flag,
 		wrapArguments: WrapMode = .preserve,
-		wrapParameters: WrapMode = .preserve,
+		wrapParameters: WrapMode = .beforeFirst,
 		wrapCollections: WrapMode = .preserve,
 		wrapConditions: WrapMode = .preserve,
 		wrapTypeAliases: WrapMode = .preserve,
