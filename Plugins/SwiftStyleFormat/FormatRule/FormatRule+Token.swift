@@ -8,13 +8,13 @@
 
 extension FormatRule {
 
+	// EnableToken / DisableToken 各只承載 .enable / .disable 一個 case，給型別安全 overload
+	// 做 dispatch：`rule:` 參數型別（EnableToken vs DisableToken）區分 enable / disable，
+	// call site 維持 .enable / .disable 寫法、由 Swift 依 overload 期望型別解析。.disable
+	// 誤帶 option 會命中 `@available(*, unavailable)` 診斷 overload、編譯期報「option 只在
+	// .enable 有效」。
+
 	/// 規則啟用 token——dispatch 到 enable overload（可帶 option）
-	///
-	/// `EnableToken` / `DisableToken` 是只承載 `.enable` / `.disable` 單一 case 的型別。
-	/// 型別安全 overload 用 `rule:` 參數型別（`EnableToken` vs `DisableToken`）區分 enable /
-	/// disable 路徑——call site 維持 `.enable` / `.disable` 寫法、由 Swift 依 overload 期望
-	/// 型別解析。`rule: .disable` 時帶 option 會命中 `@available(*, unavailable)` 診斷
-	/// overload、編譯期報「mode 只在 .enable 有效」。
 	public enum EnableToken {
 
 		/// 規則啟用
