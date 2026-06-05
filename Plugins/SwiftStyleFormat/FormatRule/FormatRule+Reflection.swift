@@ -17,8 +17,15 @@ extension FormatRule {
 		Mirror(reflecting: self).children.first!
 	}
 
-	/// 當前 case 的名稱
-	private var name: String { currentCase.label! }
+	/// 當前 case 的名稱（strip 掉 storage case 的 `_` 前綴還原真實 rule 名）
+	///
+	/// storage enum 的 case 自型別安全遷移起一律 `_` 前綴（如 `_acronyms`），對外型別安全
+	/// overload 才是 public API 名（`acronyms`）。reflection 展開 CLI flag 時需還原。
+	/// 尚未遷移的 case 無 `_` 前綴、strip 不影響。
+	private var name: String {
+		let raw = currentCase.label!
+		return raw.hasPrefix("_") ? String(raw.dropFirst()) : raw
+	}
 
 	/// 反射展開出 CLI 參數
 	private var command: [String] {
