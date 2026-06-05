@@ -113,10 +113,6 @@ final class CaseCollector: SyntaxVisitor {
 	}
 }
 
-let collector = CaseCollector(viewMode: .sourceAccurate)
-collector.walk(tree)
-let allCases = collector.cases
-
 // MARK: 分類
 
 enum Shape: String {
@@ -204,6 +200,12 @@ final class StorageRewriter: SyntaxRewriter {
 let storageRewriter = StorageRewriter()
 let rewrittenTree = storageRewriter.visit(tree)
 try rewrittenTree.description.write(toFile: formatRulePath, atomically: true, encoding: .utf8)
+
+// 從改寫後的 tree 收集 case：storage 合成的 default（如 fileHeader 的 `= ""`）也進到
+// caseInfo.defaultText，enable / 診斷 overload 簽名才帶得上、連無原始 default 的 param 一起覆蓋
+let collector = CaseCollector(viewMode: .sourceAccurate)
+collector.walk(rewrittenTree)
+let allCases = collector.cases
 
 // MARK: overload 簽名與 body 片段
 
@@ -298,7 +300,8 @@ func renderOverloads(_ caseInfo: CaseInfo) -> String {
 		// 3. disable + 參數診斷 overload（@available unavailable、吐客製訊息）
 		let diagnosticParams = caseInfo.extraParams.map { param -> String in
 			let label = param.label.isEmpty ? "_ value" : param.label
-			return "\(label): \(param.typeText)"
+			let def = param.defaultText.map { " = \($0)" } ?? ""
+			return "\(label): \(param.typeText)\(def)"
 		}.joined(separator: ", ")
 		let diagnosticOverload = """
 		\t@available(*, unavailable, message: "rule 為 .disable 時不可帶 option（option 只在 .enable 有效）")
