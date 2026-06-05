@@ -13,7 +13,7 @@ let package = Package(
     name: "FormatRuleCodegen",
     platforms: [.macOS(.v13)],
     dependencies: [
-        .package(url: "https://github.com/swiftlang/swift-syntax.git", from: "600.0.0")
+        .package(url: "https://github.com/swiftlang/swift-syntax.git", from: "603.0.0")
     ],
     targets: [
         .executableTarget(
