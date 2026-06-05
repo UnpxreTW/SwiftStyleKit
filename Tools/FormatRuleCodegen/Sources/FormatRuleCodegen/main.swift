@@ -1,9 +1,8 @@
 // swiftformat:disable all
-// swiftlint:disable all
-// 原因：本檔是 FormatRule overload 生成的一次性 codegen dev 工具、住在獨立 package（Tools/FormatRuleCodegen、
-// swift-syntax 依賴只在這、反 SwiftSyntax 傳染）。內含的多行 string 模板帶 load-bearing 的 `\t`
-// 縮排（直接寫進生成檔），讓主 package 的 swiftformat 規則自動重排會破壞生成輸出。此工具不參與
-// 主 package 的格式治理、故整檔停用 SwiftFormat 與 SwiftLint。
+// 原因：本檔含多行 string 模板、帶 load-bearing 的 `\t` 縮排（直接寫進生成檔），swiftformat 的
+// indent / indentStrings 重排會破壞生成輸出；加上 redundantType（SSK 用 .explicit）與「生成檔不需
+// 顯式型別」需求相反、docComments 會把實作說明誤判成 API doc——故 swiftformat 整檔停用、格式由
+// codegen 模板手動維持。swiftlint（不改 code）正常啟用、僅個別規則針對性 disable。
 
 import Foundation
 import SwiftParser
@@ -29,7 +28,7 @@ import SwiftSyntaxBuilder
 let arguments = CommandLine.arguments
 guard arguments.count >= 3 else {
 	FileHandle.standardError.write(
-		"usage: FormatRuleCodegen <FormatRule.swift path> <output dir>\n".data(using: .utf8)!
+		Data("usage: FormatRuleCodegen <FormatRule.swift path> <output dir>\n".utf8)
 	)
 	exit(2)
 }
@@ -37,7 +36,7 @@ let formatRulePath = arguments[1]
 let outDir = arguments[2]
 
 guard let source = try? String(contentsOfFile: formatRulePath, encoding: .utf8) else {
-	FileHandle.standardError.write("cannot read \(formatRulePath)\n".data(using: .utf8)!)
+	FileHandle.standardError.write(Data("cannot read \(formatRulePath)\n".utf8))
 	exit(1)
 }
 
@@ -68,7 +67,7 @@ final class CaseCollector: SyntaxVisitor {
 
 	override func visit(_ node: EnumCaseDeclSyntax) -> SyntaxVisitorContinueKind {
 		var isDeprecated = false
-		var renamed: String? = nil
+		var renamed: String?
 		for attr in node.attributes {
 			guard case let .attribute(attribute) = attr,
 				attribute.attributeName.trimmedDescription == "available" else { continue }
@@ -236,6 +235,7 @@ func renderStorageCall(_ caseInfo: CaseInfo, enable: Bool) -> String {
 	return args.joined(separator: ", ")
 }
 
+// swiftlint:disable:next function_body_length
 func renderOverloads(_ caseInfo: CaseInfo) -> String {
 	switch shape(caseInfo) {
 	case .deprecated:
@@ -347,7 +347,7 @@ try overloads.write(toFile: "\(outDir)/FormatRule+SafeOverloads.swift", atomical
 
 // MARK: 統計報告（stderr，不污染檔案）
 
-func err(_ string: String) { FileHandle.standardError.write((string + "\n").data(using: .utf8)!) }
+func err(_ string: String) { FileHandle.standardError.write(Data((string + "\n").utf8)) }
 
 var counts: [Shape: Int] = [:]
 for caseInfo in allCases { counts[shape(caseInfo), default: 0] += 1 }
@@ -364,8 +364,8 @@ for caseInfo in allCases {
 
 err("===== CODEGEN REPORT =====")
 err("total enum cases parsed: \(allCases.count)")
-for sh: Shape in [.pureFlag, .flagPlusParams, .globalOption, .deprecated] {
-	err("  \(sh.rawValue): \(counts[sh] ?? 0)")
+for kind: Shape in [.pureFlag, .flagPlusParams, .globalOption, .deprecated] {
+	err("  \(kind.rawValue): \(counts[kind] ?? 0)")
 }
 err("total generated overloads: \(overloadCount)")
 err("")
