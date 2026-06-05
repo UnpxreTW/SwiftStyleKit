@@ -7,6 +7,7 @@ DerivedData/
 .swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
 .netrc
 Tools/FormatRuleCodegen/.build/
+Tools/FormatRuleCodegen/Package.resolved
 
 # L2 fixture build / Tuist generated artifacts
 Tests/Lint/.build/
