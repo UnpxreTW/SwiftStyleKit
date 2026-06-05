@@ -58,6 +58,8 @@ jobs:
 
 ## 開發
 
+### 本機 dogfooding（strict 模式）
+
 本機開發 SwiftStyleKit 本身時、export 環境變數讓 dogfooding lint 行為跟 CI 一致：
 
 ```bash
@@ -67,3 +69,44 @@ export SWIFTSTYLELINT_STRICT=1
 CI workflow 已設 job-level `SWIFTSTYLELINT_STRICT: '1'`、本機 export 後 `swift build` / `swift test` 跟 CI 同樣 strict、不會發生「本機 pass、push 上 CI 才 strict fail」的 round-trip。
 
 可寫進 shell profile（`~/.zshrc` / `~/.bashrc`）永久、或進 SwiftStyleKit 工作目錄前手動 export。
+
+### 新增 / 修改格式規則
+
+每條 swiftformat 規則對應 `FormatRule` enum 的一個 case。為了讓 `.disable + option` 這種無效組合在編譯期就被擋下（而非 runtime 默默忽略），規則的 public API 是一組型別安全 overload，由 `Tools/FormatRuleCodegen` 從 `FormatRule.swift` 自動生成。
+
+#### 為什麼是 codegen，不是 macro
+
+型別安全靠 `EnableToken` / `DisableToken` 兩個型別把 `.enable` / `.disable` 分流到不同 overload。手寫這批 overload（每條規則 2–3 個、上百條）不現實；但若用 Swift macro 即時展開，會把 swift-syntax 依賴傳染給每一個下游消費者、還可能跟對方的 macro 套件撞版本。所以改用 dev-time codegen：
+
+- swift-syntax 只宣告在 `Tools/FormatRuleCodegen/Package.swift`，主 `Package.swift` 維持零 source 依賴。
+- 產物 `FormatRule+SafeOverloads.swift` 是純 Swift、commit 進庫；消費者只看到生成好的 overload，看不到 swift-syntax。
+
+#### 操作：加 / 改一條規則
+
+1. 在 `FormatRule.swift` 加 / 改 case，case 名 = swiftformat 規則名。第一個參數固定 `rule: Flag`、其後是該規則的 option（每個 option 都要給預設值，見下方規範）。
+2. 重跑 codegen：
+
+   ```bash
+   swift run --package-path Tools/FormatRuleCodegen FormatRuleCodegen \
+     Plugins/SwiftStyleFormat/FormatRule/FormatRule.swift \
+     Plugins/SwiftStyleFormat/FormatRule
+   ```
+
+   codegen 會（a）就地把 storage case 名加 `_` 前綴、（b）生成 / 覆寫 `FormatRule+SafeOverloads.swift`，並在 stderr 印一份分類報告（各形狀數量、特例清單）。
+3. `swift build && swift test` 確認綠。
+4. 把改過的 `FormatRule.swift` 與重生成的 `FormatRule+SafeOverloads.swift` 一起 commit。不要手改 `FormatRule+SafeOverloads.swift`（檔頭標 GENERATED）——要改簽名就改 `FormatRule.swift` 後重跑 codegen。
+
+#### 規範
+
+case 形狀決定生成幾個 overload：
+
+| 形狀 | 範例 | 生成 |
+|---|---|---|
+| 純 Flag | `case andOperator(rule: Flag)` | enable / disable 各一 |
+| Flag + option | `case braces(rule: Flag, allman: Toggle = .disable)` | enable / disable / 診斷 三個 |
+| 全域 option（無 Flag） | `case typeBlankLines(mode: ... = .preserve)` | 單一 passthrough，無 enable/disable |
+| deprecated | `@available(*, deprecated, renamed:) case ...` | 保留相容 factory、不做型別安全拆分 |
+
+- **option 一律給預設值**：disable overload 不帶任何 option、靠 storage case 的預設值補齊；沒給預設值的 option 會讓 disable overload 缺引數、編不過。少數確實無法給預設的情形，codegen 會合成 `""` / `0` / `[]` / `nil`；遇到無法合成的型別會在報告報錯，不要忽略。
+- **`_` 前綴由 codegen 管理**：storage case 的加前綴與還原都由 codegen 處理、可重複 re-run 不會雙前綴；手寫 case 時不要自己加 `_`。
+- **診斷 overload**：Flag + option 的規則會多生一個 `@available(*, unavailable)` 的 `(rule: DisableToken, option…)` overload，用來在 `.disable` 誤帶 option 時給出客製編譯錯誤訊息，而不是讓 option 被默默忽略。
