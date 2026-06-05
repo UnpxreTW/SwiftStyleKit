@@ -12,9 +12,11 @@ extension FormatRule {
 }
 
 extension FormatRule {
-	/// 取得當前 case 的反射節點（label + value）
-	private var currentCase: (label: String?, value: Any) {
-		Mirror(reflecting: self).children.first!
+	/// 取得當前 case 的反射節點。force unwrap 收在此反射邊界、且安全：FormatRule 每個
+	/// case 都帶 payload（至少 `rule: Flag`），Mirror `children.first` 與其 `label` 必非 nil。
+	private var currentCase: (label: String, value: Any) {
+		let child = Mirror(reflecting: self).children.first!
+		return (child.label!, child.value)
 	}
 
 	/// 當前 case 的名稱（strip 掉 storage case 的 `_` 前綴還原真實 rule 名）
@@ -22,7 +24,7 @@ extension FormatRule {
 	/// storage enum 的 case 採型別安全 overload 後一律 `_` 前綴（如 `_acronyms`），對外
 	/// 型別安全 overload 才是 public API 名（`acronyms`）。reflection 展開 CLI flag 時需還原。
 	/// 尚未改用 overload 的 case 無 `_` 前綴、strip 不影響。
-	private var name: String { .init(currentCase.label!.trimmingPrefix("_")) }
+	private var name: String { .init(currentCase.label.trimmingPrefix("_")) }
 
 	/// 反射展開出 CLI 參數
 	private var command: [String] {
