@@ -1,8 +1,9 @@
-// swiftformat:disable all
-// 原因：本檔含多行 string 模板、帶 load-bearing 的 `\t` 縮排（直接寫進生成檔），swiftformat 的
-// indent / indentStrings 重排會破壞生成輸出；加上 redundantType（SSK 用 .explicit）與「生成檔不需
-// 顯式型別」需求相反、docComments 會把實作說明誤判成 API doc——故 swiftformat 整檔停用、格式由
-// codegen 模板手動維持。swiftlint（不改 code）正常啟用、僅個別規則針對性 disable。
+// swiftformat:disable indent
+// swiftlint:disable file_length
+// 原因：renderOverloads 的多行 string 模板帶 load-bearing 的 `\t` 縮排（直接寫進生成檔），
+// swiftformat 的 indent（含 indentStrings option）重排會破壞生成輸出——故只停用 indent 規則、
+// 模板縮排手動維持；其餘格式規則照常套用（已用 SSK 規則手動 format 過）。file_length：codegen
+// 逐條對應規則 + 模板字串 + 報告，~400 行屬正常規模、超預設 400 無品質意義（同 FormatRule.swift）。
 
 import Foundation
 import SwiftParser
@@ -10,6 +11,7 @@ import SwiftSyntax
 import SwiftSyntaxBuilder
 
 // MARK: - 一次性 codegen for FormatRule 型別安全 overload
+
 //
 // 讀真實 FormatRule.swift ->
 //   1) 就地把 storage enum 的 case 名加 `_` 前綴（SyntaxRewriter、保留所有 doc comment /
@@ -32,6 +34,7 @@ guard arguments.count >= 3 else {
 	)
 	exit(2)
 }
+
 let formatRulePath = arguments[1]
 let outDir = arguments[2]
 
@@ -45,19 +48,26 @@ let tree = Parser.parse(source: source)
 // MARK: 模型
 
 struct Param {
-	let label: String          // 參數 label（rule, mode, allman, ...）；unnamed = ""
-	let typeText: String       // 型別文字（Flag, Toggle, BlankLineAfterSwitchCaseMode?, [String]?, Int?, String）
-	let defaultText: String?   // 預設值文字（原樣保留、含 multi-line array literal）
-	var isRule: Bool { typeText == "Flag" && label == "rule" }
+	let label: String // 參數 label（rule, mode, allman, ...）；unnamed = ""
+	let typeText: String // 型別文字（Flag, Toggle, BlankLineAfterSwitchCaseMode?, [String]?, Int?, String）
+	let defaultText: String? // 預設值文字（原樣保留、含 multi-line array literal）
+	var isRule: Bool {
+		typeText == "Flag" && label == "rule"
+	}
 }
 
 struct CaseInfo {
 	let name: String
 	let params: [Param]
 	let isDeprecated: Bool
-	let renamed: String?       // @available(deprecated, renamed:) 目標
-	var hasRule: Bool { params.contains { $0.isRule } }
-	var extraParams: [Param] { params.filter { !$0.isRule } }
+	let renamed: String? // @available(deprecated, renamed:) 目標
+	var hasRule: Bool {
+		params.contains { $0.isRule }
+	}
+
+	var extraParams: [Param] {
+		params.filter { !$0.isRule }
+	}
 }
 
 // MARK: 找到 enum FormatRule、走訪 case
@@ -74,12 +84,8 @@ final class CaseCollector: SyntaxVisitor {
 			let argDesc = attribute.arguments?.trimmedDescription ?? ""
 			if argDesc.contains("deprecated") {
 				isDeprecated = true
-				if let range = argDesc.range(of: "renamed:") {
-					let tail = argDesc[range.upperBound...]
-					if let open = tail.firstIndex(of: "\""),
-						let close = tail[tail.index(after: open)...].firstIndex(of: "\"") {
-						renamed = String(tail[tail.index(after: open)..<close])
-					}
+				if let cap = argDesc.firstMatch(of: #/renamed:\s*"([^"]+)"/#)?.output.1 {
+					renamed = String(cap)
 				}
 			}
 		}
@@ -115,10 +121,10 @@ final class CaseCollector: SyntaxVisitor {
 // MARK: 分類
 
 enum Shape: String {
-	case pureFlag            // (rule: Flag) 只有 rule
-	case flagPlusParams      // (rule: Flag, ...extra)
-	case globalOption        // 無 rule（typeBlankLines / wrapStringInterpolation）
-	case deprecated          // @available deprecated（不生成）
+	case pureFlag // (rule: Flag) 只有 rule
+	case flagPlusParams // (rule: Flag, ...extra)
+	case globalOption // 無 rule（typeBlankLines / wrapStringInterpolation）
+	case deprecated // @available deprecated（不生成）
 }
 
 func shape(_ caseInfo: CaseInfo) -> Shape {
@@ -129,22 +135,22 @@ func shape(_ caseInfo: CaseInfo) -> Shape {
 
 // MARK: 合成預設（特例 1）
 
-// 為「無原始預設值的 extra param」合成一個預設，讓 disable factory 可省略全部 option。
-// 真實 enum 裡 fileHeader 的 header/dateFormat/timeZone 無 default、若不補 storage 端
-// disable overload 會缺引數編譯 fail——此即必須處理的 edge。
+/// 為「無原始預設值的 extra param」合成一個預設，讓 disable factory 可省略全部 option。
+/// 真實 enum 裡 fileHeader 的 header/dateFormat/timeZone 無 default、若不補 storage 端
+/// disable overload 會缺引數編譯 fail——此即必須處理的 edge。
 func synthesizedDefault(forType typeText: String) -> String? {
-	if typeText.hasSuffix("?") { return "nil" }              // Optional -> nil
+	if typeText.hasSuffix("?") { return "nil" } // Optional -> nil
 	switch typeText {
 	case "String": return "\"\""
 	case "Int": return "0"
 	case "[String]": return "[]"
-	default: return nil                                       // 非 Optional enum 無安全合成預設
+	default: return nil // 非 Optional enum 無安全合成預設
 	}
 }
 
 // MARK: storage enum 就地改寫（`_` 前綴 + fileHeader 合成預設）
 
-// 用 SyntaxRewriter 只改 case 名與缺 default 的 param、保留所有 doc comment / trivia。
+/// 用 SyntaxRewriter 只改 case 名與缺 default 的 param、保留所有 doc comment / trivia。
 struct SynthRecord {
 	let caseName: String
 	let label: String
@@ -200,15 +206,15 @@ let storageRewriter = StorageRewriter()
 let rewrittenTree = storageRewriter.visit(tree)
 try rewrittenTree.description.write(toFile: formatRulePath, atomically: true, encoding: .utf8)
 
-// 從改寫後的 tree 收集 case：storage 合成的 default（如 fileHeader 的 `= ""`）也進到
-// caseInfo.defaultText，enable / 診斷 overload 簽名才帶得上、連無原始 default 的 param 一起覆蓋
+/// 從改寫後的 tree 收集 case：storage 合成的 default（如 fileHeader 的 `= ""`）也進到
+/// caseInfo.defaultText，enable / 診斷 overload 簽名才帶得上、連無原始 default 的 param 一起覆蓋
 let collector = CaseCollector(viewMode: .sourceAccurate)
 collector.walk(rewrittenTree)
 let allCases = collector.cases
 
 // MARK: overload 簽名與 body 片段
 
-// enable overload 的參數列（extra params 保留 default、call-site 可省略）
+/// enable overload 的參數列（extra params 保留 default、call-site 可省略）
 func renderEnableSignature(_ caseInfo: CaseInfo) -> String {
 	var parts: [String] = ["rule: EnableToken"]
 	for param in caseInfo.extraParams {
@@ -220,13 +226,13 @@ func renderEnableSignature(_ caseInfo: CaseInfo) -> String {
 	return parts.joined(separator: ", ")
 }
 
-// storage case 的建構引數列（enable：帶上 extra 值；disable：只有 rule）
+/// storage case 的建構引數列（enable：帶上 extra 值；disable：只有 rule）
 func renderStorageCall(_ caseInfo: CaseInfo, enable: Bool) -> String {
 	var args: [String] = [enable ? "rule: .enable" : "rule: .disable"]
 	if enable {
 		for param in caseInfo.extraParams {
 			if param.label.isEmpty {
-				args.append("value")                          // 特例 2：positional 傳
+				args.append("value") // 特例 2：positional 傳
 			} else {
 				args.append("\(param.label): \(param.label)")
 			}
@@ -342,15 +348,20 @@ for caseInfo in allCases {
 	overloads += "\t// MARK: \(caseInfo.name)\n\n"
 	overloads += body + "\n\n"
 }
+
 overloads += "}\n"
 try overloads.write(toFile: "\(outDir)/FormatRule+SafeOverloads.swift", atomically: true, encoding: .utf8)
 
 // MARK: 統計報告（stderr，不污染檔案）
 
-func err(_ string: String) { FileHandle.standardError.write(Data((string + "\n").utf8)) }
+func err(_ string: String) {
+	FileHandle.standardError.write(Data((string + "\n").utf8))
+}
 
 var counts: [Shape: Int] = [:]
-for caseInfo in allCases { counts[shape(caseInfo), default: 0] += 1 }
+for caseInfo in allCases {
+	counts[shape(caseInfo), default: 0] += 1
+}
 
 var overloadCount = 0
 for caseInfo in allCases {
@@ -358,7 +369,7 @@ for caseInfo in allCases {
 	case .pureFlag: overloadCount += 2
 	case .flagPlusParams: overloadCount += 3
 	case .globalOption: overloadCount += 1
-	case .deprecated: overloadCount += 1   // backward-compat 單一 deprecated factory
+	case .deprecated: overloadCount += 1 // backward-compat 單一 deprecated factory
 	}
 }
 
@@ -367,12 +378,14 @@ err("total enum cases parsed: \(allCases.count)")
 for kind: Shape in [.pureFlag, .flagPlusParams, .globalOption, .deprecated] {
 	err("  \(kind.rawValue): \(counts[kind] ?? 0)")
 }
+
 err("total generated overloads: \(overloadCount)")
 err("")
 err("[special case 1] synthesized storage defaults (param lacking original default):")
 for record in storageRewriter.synthesized {
 	err("  \(record.caseName).\(record.label): \(record.type) = \(record.injected)")
 }
+
 err("")
 err("[special case 2] unnamed associated values:")
 for caseInfo in allCases where shape(caseInfo) == .flagPlusParams {
@@ -380,14 +393,17 @@ for caseInfo in allCases where shape(caseInfo) == .flagPlusParams {
 		err("  \(caseInfo.name).<unnamed>: \(param.typeText)")
 	}
 }
+
 err("")
 err("[special case 3] deprecated cases (backward-compat Flag factory, no token split):")
 for caseInfo in allCases where caseInfo.isDeprecated {
 	err("  \(caseInfo.name) -> renamed: \(caseInfo.renamed ?? "?")")
 }
+
 err("")
 err("[special case 4] global-option cases (passthrough factory):")
 for caseInfo in allCases where shape(caseInfo) == .globalOption {
 	err("  \(caseInfo.name)")
 }
+
 err("==========================")
