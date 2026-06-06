@@ -24,7 +24,7 @@ extension FormatRule {
 	/// storage enum 的 case 採型別安全 overload 後一律 `_` 前綴（如 `_acronyms`），對外
 	/// 型別安全 overload 才是 public API 名（`acronyms`）。reflection 展開 CLI flag 時需還原。
 	/// 尚未改用 overload 的 case 無 `_` 前綴、strip 不影響。
-	private var name: String { .init(currentCase.label.trimmingPrefix("_")) }
+	private var name: String { .init(currentCase.label.drop(while: { $0 == "_" })) }
 
 	/// 反射展開出 CLI 參數
 	private var command: [String] {
