@@ -35,20 +35,13 @@ public enum FileHeaderBuilder {
 	/// markdown 符號與 `<年份>-Present` 之類的非年份範圍尾，並剝除尾端的
 	/// `All rights reserved`。找不到回 `nil`。
 	public static func copyrightHolder(in licenseText: String) -> String? {
-		let pattern = #"(?im)^[\s*#>]*copyright\s+(?:\([cC]\)\s+|©\s+)?\d{4}(?:\s*[-–]\s*\S+)?\s+(.+?)\s*$"#
-		guard let regex = try? NSRegularExpression(pattern: pattern) else { return nil }
-		let range: NSRange = .init(licenseText.startIndex..., in: licenseText)
-		guard
-			let match = regex.firstMatch(in: licenseText, range: range),
-			let holderRange = Range(match.range(at: 1), in: licenseText)
-		else { return nil }
+		let pattern = #/^[\s*#>]*copyright\s+(?:\([cC]\)\s+|©\s+)?\d{4}(?:\s*[-–]\s*\S+)?\s+(.+?)\s*$/#
+			.ignoresCase()
+			.anchorsMatchLineEndings()
+		guard let cap = licenseText.firstMatch(of: pattern)?.output.1 else { return nil }
 		let trimSet = CharacterSet(charactersIn: "*#").union(.whitespaces)
-		var holder = String(licenseText[holderRange]).trimmingCharacters(in: trimSet)
-		let reserved = holder.range(
-			of: #"[.,]?\s*all rights reserved\.?$"#,
-			options: [.regularExpression, .caseInsensitive]
-		)
-		if let reserved {
+		var holder = String(cap).trimmingCharacters(in: trimSet)
+		if let reserved = holder.firstRange(of: #/[.,]?\s*all rights reserved\.?$/#.ignoresCase()) {
 			holder.removeSubrange(reserved)
 			holder = holder.trimmingCharacters(in: trimSet)
 		}
