@@ -1,81 +1,91 @@
+//
+//  FormatRuleCodegen
+//
+//  Copyright © 2026 Unpxre (GitHub: UnpxreTW)
+//  Licensed under the MIT License. See LICENSE for details.
+//
+//  SPDX-License-Identifier: MIT
+
 // swiftformat:disable indent
 // swiftlint:disable file_length
-// 原因：renderOverloads 的多行 string 模板帶 load-bearing 的 `\t` 縮排（直接寫進生成檔），
-// swiftformat 的 indent（含 indentStrings option）重排會破壞生成輸出——故只停用 indent 規則、
-// 模板縮排手動維持；其餘格式規則照常套用（已用 SSK 規則手動 format 過）。file_length：codegen
-// 逐條對應規則 + 模板字串 + 報告，~400 行屬正常規模、超預設 400 無品質意義（同 FormatRule.swift）。
+// indent：renderOverloads 的多行 string 模板帶 load-bearing 的 `\t` 縮排（直接寫進生成檔），
+// swiftformat 的 indent（含 indentStrings option）重排會破壞輸出——故只停 indent、模板縮排手動維持，
+// 其餘格式規則照常套用。file_length：逐條規則 + 模板 + 報告 ~400 行屬正常規模、無品質意義。
 
 import Foundation
 import SwiftParser
 import SwiftSyntax
 import SwiftSyntaxBuilder
 
-// MARK: - 一次性 codegen for FormatRule 型別安全 overload
-
+// MARK: - 流程概述
 //
 // 讀真實 FormatRule.swift ->
-//   1) 就地把 storage enum 的 case 名加 `_` 前綴（SyntaxRewriter、保留所有 doc comment /
-//      trivia），並對 `fileHeader` 三個無預設 String param 合成 `= ""` 預設、
+//   1) 就地把 storage enum 的 case 名加 `_` 前綴（SyntaxRewriter、保留所有 doc comment / trivia），
+//      並對 `fileHeader` 三個無預設 String param 合成 `= ""` 預設、
 //   2) 生成型別安全 enable/disable/diagnostic overloads（FormatRule+SafeOverloads.swift）。
 //
-// 4 個特例（不處理會編不過）：
-//   1. 非 rule 參數無預設的 case（fileHeader 三個 String）→ storage 端合成預設、
-//      讓 disable overload 可省略全部 option。
-//   2. acronyms 的 unnamed associated value → storage 用裸型別、enable overload 給合成
-//      內部名（_value）、positional 傳。
-//   3. 5 個 deprecated case → 跳過、不生 overload、保留原 @available(deprecated, renamed:)。
-//   4. 2 個 global-option case（typeBlankLines / wrapStringInterpolation、無 Flag）→
-//      生單一 passthrough factory、無 enable/disable/diagnostic。
+// 4 個特例（不處理會編不過、細節見各 render 站點的內嵌註解）：
+//   1. 非 rule 參數無預設的 case（fileHeader 三個 String）→ storage 端合成預設。
+//   2. acronyms 的 unnamed associated value → storage 用裸型別、enable 給合成內部名（_value）positional 傳。
+//   3. 5 個 deprecated case → 跳過、保留原 @available(deprecated, renamed:)。
+//   4. 2 個 global-option case（typeBlankLines / wrapStringInterpolation、無 Flag）→ 單一 passthrough factory。
 
-let arguments = CommandLine.arguments
-guard arguments.count >= 3 else {
-	FileHandle.standardError.write(
-		Data("usage: FormatRuleCodegen <FormatRule.swift path> <output dir>\n".utf8)
-	)
-	exit(2)
-}
+// MARK: - 模型
 
-let formatRulePath = arguments[1]
-let outDir = arguments[2]
-
-guard let source = try? String(contentsOfFile: formatRulePath, encoding: .utf8) else {
-	FileHandle.standardError.write(Data("cannot read \(formatRulePath)\n".utf8))
-	exit(1)
-}
-
-let tree = Parser.parse(source: source)
-
-// MARK: 模型
-
+/// 單一 case 的一個參數：rule 旗標本身、或某條 option。
 struct Param {
-	let label: String // 參數 label（rule, mode, allman, ...）；unnamed = ""
-	let typeText: String // 型別文字（Flag, Toggle, BlankLineAfterSwitchCaseMode?, [String]?, Int?, String）
-	let defaultText: String? // 預設值文字（原樣保留、含 multi-line array literal）
+
+	/// 參數 label（rule, mode, allman, ...）；unnamed associated value 為空字串
+	let label: String
+
+	/// 型別文字（Flag, Toggle, BlankLineAfterSwitchCaseMode?, [String]?, Int?, String ...）
+	let typeText: String
+
+	/// 預設值文字（原樣保留、含 multi-line array literal）；無預設為 nil
+	let defaultText: String?
+
+	/// 是否為規則旗標本身（rule: Flag）——用來和 extra option 參數區分
 	var isRule: Bool {
 		typeText == "Flag" && label == "rule"
 	}
 }
 
+/// 從 FormatRule enum 解析出的單一 case。
 struct CaseInfo {
+
+	/// 規則 case 名（public API 名、已去掉 storage 的 `_` 前綴）
 	let name: String
+
+	/// case 的所有參數（含 rule 旗標與 extra option）
 	let params: [Param]
+
+	/// 是否標了 @available(deprecated)
 	let isDeprecated: Bool
-	let renamed: String? // @available(deprecated, renamed:) 目標
+
+	/// @available(deprecated, renamed:) 的目標名；無則 nil
+	let renamed: String?
+
+	/// 是否含 rule 旗標（globalOption case 無）
 	var hasRule: Bool {
 		params.contains { $0.isRule }
 	}
 
+	/// 除 rule 旗標外的 option 參數
 	var extraParams: [Param] {
 		params.filter { !$0.isRule }
 	}
 }
 
-// MARK: 找到 enum FormatRule、走訪 case
+// MARK: - 找到 enum FormatRule、走訪 case
 
+/// 走訪語法樹、把每個 EnumCaseDecl 解析成 CaseInfo。
 final class CaseCollector: SyntaxVisitor {
+
+	/// 收集到的所有 case
 	var cases: [CaseInfo] = []
 
 	override func visit(_ node: EnumCaseDeclSyntax) -> SyntaxVisitorContinueKind {
+		// 解析 case 上的 @available：判斷是否 deprecated、抓 renamed 目標
 		var isDeprecated = false
 		var renamed: String?
 		for attr in node.attributes {
@@ -94,6 +104,7 @@ final class CaseCollector: SyntaxVisitor {
 			// 已 `_` 前綴的 storage case 還原成 public API 名（讓 codegen 可 re-run）
 			let rawName = element.name.text
 			let name = rawName.hasPrefix("_") ? String(rawName.dropFirst()) : rawName
+			// 逐一收集參數（label / 型別 / 預設值文字）
 			var params: [Param] = []
 			if let paramClause = element.parameterClause {
 				for param in paramClause.parameters {
@@ -118,22 +129,32 @@ final class CaseCollector: SyntaxVisitor {
 	}
 }
 
-// MARK: 分類
+// MARK: - 分類
 
+/// case 的四種形狀，決定生成哪些 overload。
 enum Shape: String {
-	case pureFlag // (rule: Flag) 只有 rule
-	case flagPlusParams // (rule: Flag, ...extra)
-	case globalOption // 無 rule（typeBlankLines / wrapStringInterpolation）
-	case deprecated // @available deprecated（不生成）
+
+	/// (rule: Flag) 只有 rule
+	case pureFlag
+
+	/// (rule: Flag, ...extra) 帶 option
+	case flagPlusParams
+
+	/// 無 rule（typeBlankLines / wrapStringInterpolation）
+	case globalOption
+
+	/// @available deprecated（不生成 token 拆分）
+	case deprecated
 }
 
+/// 依 deprecated / 有無 rule / 有無 extra option 判斷形狀。
 func shape(_ caseInfo: CaseInfo) -> Shape {
 	if caseInfo.isDeprecated { return .deprecated }
 	if !caseInfo.hasRule { return .globalOption }
 	return caseInfo.extraParams.isEmpty ? .pureFlag : .flagPlusParams
 }
 
-// MARK: 合成預設（特例 1）
+// MARK: - 合成預設（特例 1）
 
 /// 為「無原始預設值的 extra param」合成一個預設，讓 disable factory 可省略全部 option。
 /// 真實 enum 裡 fileHeader 的 header/dateFormat/timeZone 無 default、若不補 storage 端
@@ -148,17 +169,28 @@ func synthesizedDefault(forType typeText: String) -> String? {
 	}
 }
 
-// MARK: storage enum 就地改寫（`_` 前綴 + fileHeader 合成預設）
+// MARK: - storage enum 就地改寫（`_` 前綴 + fileHeader 合成預設）
 
-/// 用 SyntaxRewriter 只改 case 名與缺 default 的 param、保留所有 doc comment / trivia。
+/// 一筆「被合成預設」的紀錄（供結尾報告列出哪些 param 被補了預設）。
 struct SynthRecord {
+
+	/// 被補預設的 case 名
 	let caseName: String
+
+	/// 被補預設的參數 label
 	let label: String
+
+	/// 該參數型別文字
 	let type: String
+
+	/// 合成注入的預設值文字
 	let injected: String
 }
 
+/// 用 SyntaxRewriter 只改 case 名與缺 default 的 param、保留所有 doc comment / trivia。
 final class StorageRewriter: SyntaxRewriter {
+
+	/// 改寫過程中合成預設的紀錄
 	var synthesized: [SynthRecord] = []
 
 	override func visit(_ node: EnumCaseElementSyntax) -> EnumCaseElementSyntax {
@@ -202,17 +234,7 @@ final class StorageRewriter: SyntaxRewriter {
 	}
 }
 
-let storageRewriter = StorageRewriter()
-let rewrittenTree = storageRewriter.visit(tree)
-try rewrittenTree.description.write(toFile: formatRulePath, atomically: true, encoding: .utf8)
-
-/// 從改寫後的 tree 收集 case：storage 合成的 default（如 fileHeader 的 `= ""`）也進到
-/// caseInfo.defaultText，enable / 診斷 overload 簽名才帶得上、連無原始 default 的 param 一起覆蓋
-let collector = CaseCollector(viewMode: .sourceAccurate)
-collector.walk(rewrittenTree)
-let allCases = collector.cases
-
-// MARK: overload 簽名與 body 片段
+// MARK: - overload 簽名與 body 片段
 
 /// enable overload 的參數列（extra params 保留 default、call-site 可省略）
 func renderEnableSignature(_ caseInfo: CaseInfo) -> String {
@@ -241,6 +263,7 @@ func renderStorageCall(_ caseInfo: CaseInfo, enable: Bool) -> String {
 	return args.joined(separator: ", ")
 }
 
+/// 依形狀生成單一 case 的所有 overload 字串片段（含 load-bearing `\t` 縮排、直接寫進生成檔）。
 // swiftlint:disable:next function_body_length
 func renderOverloads(_ caseInfo: CaseInfo) -> String {
 	switch shape(caseInfo) {
@@ -319,8 +342,9 @@ func renderOverloads(_ caseInfo: CaseInfo) -> String {
 	}
 }
 
-// MARK: 輸出 overload 檔
+// MARK: - 生成檔檔頭 + 報告 helper
 
+/// 生成檔最頂端的檔頭（含 license 與整檔停用 lint/format 的理由）。
 let fileHeaderComment = """
 //
 //  SwiftStyleFormatCore
@@ -341,6 +365,43 @@ let fileHeaderComment = """
 // codegen 模板、不手改本檔。故整檔同時停用 SwiftLint 與 SwiftFormat。
 """
 
+/// 寫一行到 stderr（codegen 報告專用、不污染生成檔）。
+func err(_ string: String) {
+	FileHandle.standardError.write(Data((string + "\n").utf8))
+}
+
+// MARK: - 主流程
+
+// 1. 解析參數
+let arguments = CommandLine.arguments
+guard arguments.count >= 3 else {
+	FileHandle.standardError.write(
+		Data("usage: FormatRuleCodegen <FormatRule.swift path> <output dir>\n".utf8)
+	)
+	exit(2)
+}
+let formatRulePath = arguments[1] // 來源 FormatRule.swift 路徑
+let outDir = arguments[2] // 生成檔輸出目錄
+
+// 2. 讀取並解析 FormatRule.swift
+guard let source = try? String(contentsOfFile: formatRulePath, encoding: .utf8) else {
+	FileHandle.standardError.write(Data("cannot read \(formatRulePath)\n".utf8))
+	exit(1)
+}
+let tree = Parser.parse(source: source)
+
+// 3. storage enum 就地改寫（`_` 前綴 + fileHeader 合成預設）、寫回原檔
+let storageRewriter = StorageRewriter()
+let rewrittenTree = storageRewriter.visit(tree)
+try rewrittenTree.description.write(toFile: formatRulePath, atomically: true, encoding: .utf8)
+
+// 4. 從改寫後的 tree 收集 case：storage 合成的 default（如 fileHeader 的 `= ""`）也進到
+//    caseInfo.defaultText，enable / 診斷 overload 簽名才帶得上、連無原始 default 的 param 一起覆蓋
+let collector = CaseCollector(viewMode: .sourceAccurate)
+collector.walk(rewrittenTree)
+let allCases = collector.cases
+
+// 5. 生成 overload 檔
 var overloads = fileHeaderComment + "\n\nextension FormatRule {\n\n"
 for caseInfo in allCases {
 	let body = renderOverloads(caseInfo)
@@ -348,21 +409,14 @@ for caseInfo in allCases {
 	overloads += "\t// MARK: \(caseInfo.name)\n\n"
 	overloads += body + "\n\n"
 }
-
 overloads += "}\n"
 try overloads.write(toFile: "\(outDir)/FormatRule+SafeOverloads.swift", atomically: true, encoding: .utf8)
 
-// MARK: 統計報告（stderr，不污染檔案）
-
-func err(_ string: String) {
-	FileHandle.standardError.write(Data((string + "\n").utf8))
-}
-
+// 6. 統計報告（stderr，不污染檔案）
 var counts: [Shape: Int] = [:]
 for caseInfo in allCases {
 	counts[shape(caseInfo), default: 0] += 1
 }
-
 var overloadCount = 0
 for caseInfo in allCases {
 	switch shape(caseInfo) {
