@@ -30,6 +30,12 @@ struct SwiftStyleLint: BuildToolPlugin {
             arguments.append("--strict")
         }
         arguments.append(contentsOf: swiftFiles.map(\.string))
+        // Xcode 的 XcodeBuildToolPlugin 路徑不會自動建立 outputFilesDirectory，
+        // build system 在 prebuild command 結束後要掃描該目錄收集輸出、缺目錄會中止建置。
+        // （Cache 由 swiftlint --cache-path 寫入時自行建立、不需預建。）
+        try FileManager.default.createDirectory(
+            atPath: outputDir.string, withIntermediateDirectories: true
+        )
         return [
             .prebuildCommand(
                 displayName: "SwiftStyleLint",
