@@ -76,10 +76,10 @@ CI workflow 已設 job-level `SWIFTSTYLELINT_STRICT: '1'`、本機 export 後 `s
 
 #### 為什麼是 codegen，不是 macro
 
-型別安全靠 `EnableToken` / `DisableToken` 兩個型別把 `.enable` / `.disable` 分流到不同 overload。手寫這批 overload（每條規則 2–3 個、上百條）不現實；但若用 Swift macro 即時展開，會把 swift-syntax 依賴傳染給每一個下游消費者、還可能跟對方的 macro 套件撞版本。所以改用 dev-time codegen：
+型別安全靠 `EnableToken` / `DisableToken` 兩個型別把 `.enable` / `.disable` 分流到不同 overload。手寫這批 overload（每條規則 2–3 個、上百條）不現實；但若用 Swift macro 即時展開，會把 swift-syntax 依賴傳染給每一個下游、還可能跟對方的 macro 套件撞版本。所以改用 dev-time codegen：
 
 - swift-syntax 只宣告在 `Tools/FormatRuleCodegen/Package.swift`，主 `Package.swift` 維持零 source 依賴。
-- 產物 `FormatRule+SafeOverloads.swift` 是純 Swift、commit 進庫；消費者只看到生成好的 overload，看不到 swift-syntax。
+- 產物 `FormatRule+SafeOverloads.swift` 是純 Swift、commit 進庫；下游只看到生成好的 overload，看不到 swift-syntax。
 
 #### 操作：加 / 改一條規則
 
