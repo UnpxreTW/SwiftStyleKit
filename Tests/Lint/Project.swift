@@ -11,6 +11,7 @@ let project = Project(
             destinations: [.mac],
             product: .framework,
             bundleId: "dev.unpxre.swiftstylekit.fixture.passing",
+            deploymentTargets: .macOS("13.0"),
             sources: ["Sources/Passing.swift"],
             dependencies: [
                 .package(product: "SwiftStyleLint", type: .plugin)
@@ -21,6 +22,7 @@ let project = Project(
             destinations: [.mac],
             product: .framework,
             bundleId: "dev.unpxre.swiftstylekit.fixture.warning",
+            deploymentTargets: .macOS("13.0"),
             sources: ["Sources/Warning.swift"],
             dependencies: [
                 .package(product: "SwiftStyleLint", type: .plugin)
@@ -31,6 +33,7 @@ let project = Project(
             destinations: [.mac],
             product: .framework,
             bundleId: "dev.unpxre.swiftstylekit.fixture.failing",
+            deploymentTargets: .macOS("13.0"),
             sources: ["Sources/Failing.swift"],
             dependencies: [
                 .package(product: "SwiftStyleLint", type: .plugin)

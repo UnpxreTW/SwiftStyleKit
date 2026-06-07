@@ -18,6 +18,11 @@
 /// 格式規則
 ///
 /// 每個 case 對應 swiftformat 一條 rule，Mirror reflection 自動展開為 CLI 參數。
+///
+/// rule 採型別安全 overload 配置：`rule:` 參數用 ``EnableToken`` / ``DisableToken`` 區分
+/// enable / disable，call site 維持 `.enable` / `.disable` 寫法、由 Swift 依 overload 期望
+/// 型別解析。`.disable` 誤帶 option 會命中 `@available(*, unavailable)` 診斷 overload、
+/// 編譯期報「option 只在 .enable 有效」。
 public enum FormatRule {
 
 	/// 當設定的單字字首為大寫時轉換成全大寫，清單見 ``defaultAcronyms``

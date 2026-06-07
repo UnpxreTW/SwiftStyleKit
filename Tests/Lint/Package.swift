@@ -30,7 +30,7 @@ let targets: [Target] = only.flatMap { name in
 
 let package = Package(
     name: "Lint",
-    platforms: [.macOS(.v12)],
+    platforms: [.macOS(.v13)],
     dependencies: [.package(path: "../..")],
     targets: targets
 )
