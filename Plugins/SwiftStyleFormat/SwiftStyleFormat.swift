@@ -6,6 +6,7 @@ struct SwiftStyleFormat: CommandPlugin {
     func performCommand(context: PluginContext, arguments: [String]) throws {
         var extractor = ArgumentExtractor(arguments)
         let selectedTargets = extractor.extractOption(named: "target")
+        let holderOverride = extractor.extractOption(named: "copyright-holder")
         let remaining = extractor.remainingArguments
 
         let targets: [Target]
@@ -16,14 +17,20 @@ struct SwiftStyleFormat: CommandPlugin {
         }
 
         let tool = try context.tool(named: "swiftformat")
-        let license = readLicenseInfo(directory: context.package.directory)
+        let directory = context.package.directory
+        let ctx = licenseInfo(directory: directory)
+        let holders = resolveHolders(
+            override: holderOverride,
+            authors: readAuthors(directory: directory),
+            licenseHolder: ctx.holder
+        )
         for target in targets {
             guard let module = target as? SourceModuleTarget else { continue }
             let injected: [String] = [
                 "--disable", "all",
                 "--swiftversion", "6.2",
                 "--symlinks", "follow"
-            ] + FormatRule.allToCommand + headerArguments(targetName: module.name, license: license)
+            ] + FormatRule.allToCommand + headerArguments(targetName: module.name, holders: holders, license: ctx.license)
             try runSwiftFormat(
                 executable: tool.path,
                 paths: [module.directory.string],
@@ -32,23 +39,41 @@ struct SwiftStyleFormat: CommandPlugin {
         }
     }
 
-    /// 找專案根目錄的 `LICENSE` 並解析成 ``FileHeaderBuilder/LicenseInfo``
-    private func readLicenseInfo(directory: Path) -> FileHeaderBuilder.LicenseInfo {
+    /// 找專案根目錄的 `LICENSE`，解析版權持有人（fallback 用）與 ``FileHeaderBuilder/LicenseInfo``
+    private func licenseInfo(directory: Path) -> (holder: String?, license: FileHeaderBuilder.LicenseInfo) {
         for name in ["LICENSE", "LICENSE.md", "LICENSE.txt"] {
             let url = URL(fileURLWithPath: directory.string + "/" + name)
             guard let text = try? String(contentsOf: url, encoding: .utf8) else { continue }
             let holder = FileHeaderBuilder.copyrightHolder(in: text)
             if let license = FileHeaderBuilder.recognizeLicense(in: text) {
-                return .recognized(holder: holder, name: license.name, spdxID: license.spdxID)
+                return (holder, .recognized(name: license.name, spdxID: license.spdxID))
             }
-            return .unrecognized(holder: holder)
+            return (holder, .unrecognized)
         }
-        return .missing
+        return (nil, .missing)
+    }
+
+    /// 找專案根目錄的 `AUTHORS` 並抓出版權持有人清單（每行非空非註解一筆）
+    private func readAuthors(directory: Path) -> [String] {
+        for name in ["AUTHORS", "AUTHORS.md", "AUTHORS.txt"] {
+            let url = URL(fileURLWithPath: directory.string + "/" + name)
+            guard let text = try? String(contentsOf: url, encoding: .utf8) else { continue }
+            return FileHeaderBuilder.authors(in: text)
+        }
+        return []
+    }
+
+    /// 版權持有人來源優先序：`--copyright-holder` flag > `AUTHORS` > `LICENSE` 解析 > 無
+    private func resolveHolders(override: [String], authors: [String], licenseHolder: String?) -> [String] {
+        if !override.isEmpty { return override }
+        if !authors.isEmpty { return authors }
+        if let licenseHolder { return [licenseHolder] }
+        return []
     }
 
     /// 為單一 target 組出 `fileHeader` 規則的 CLI 參數
-    private func headerArguments(targetName: String, license: FileHeaderBuilder.LicenseInfo) -> [String] {
-        let header = FileHeaderBuilder.header(targetName: targetName, license: license)
+    private func headerArguments(targetName: String, holders: [String], license: FileHeaderBuilder.LicenseInfo) -> [String] {
+        let header = FileHeaderBuilder.header(targetName: targetName, holders: holders, license: license)
         let rule = FormatRule.fileHeader(
             rule: .enable,
             header: header,
@@ -77,10 +102,17 @@ extension SwiftStyleFormat: XcodeCommandPlugin {
     func performCommand(context: XcodePluginContext, arguments: [String]) throws {
         var extractor = ArgumentExtractor(arguments)
         let selectedTargets = extractor.extractOption(named: "target")
+        let holderOverride = extractor.extractOption(named: "copyright-holder")
         let remaining = extractor.remainingArguments
 
         let tool = try context.tool(named: "swiftformat")
-        let license = readLicenseInfo(directory: context.xcodeProject.directory)
+        let directory = context.xcodeProject.directory
+        let ctx = licenseInfo(directory: directory)
+        let holders = resolveHolders(
+            override: holderOverride,
+            authors: readAuthors(directory: directory),
+            licenseHolder: ctx.holder
+        )
         let targets = selectedTargets.isEmpty
             ? context.xcodeProject.targets
             : context.xcodeProject.targets.filter { selectedTargets.contains($0.displayName) }
@@ -92,7 +124,7 @@ extension SwiftStyleFormat: XcodeCommandPlugin {
             let injected: [String] = [
                 "--disable", "all",
                 "--swiftversion", "6.2"
-            ] + FormatRule.allToCommand + headerArguments(targetName: target.displayName, license: license)
+            ] + FormatRule.allToCommand + headerArguments(targetName: target.displayName, holders: holders, license: ctx.license)
             try runSwiftFormat(
                 executable: tool.path,
                 paths: swiftFiles,
