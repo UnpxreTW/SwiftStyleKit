@@ -1,9 +1,7 @@
 //
 //  SwiftStyleFormatCore
 //
-//  Copyright © 2026 Unpxre (GitHub: UnpxreTW)
-//  Licensed under the MIT License. See LICENSE for details.
-//
+//  SPDX-FileCopyrightText: 2026 Unpxre (GitHub: UnpxreTW)
 //  SPDX-License-Identifier: MIT
 
 extension FormatRuleOption where Self: RawRepresentable, Self.RawValue == String {
