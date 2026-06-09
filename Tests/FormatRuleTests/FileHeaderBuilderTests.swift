@@ -101,27 +101,32 @@ private struct FileHeaderBuilderTests {
 	}
 
 	@Test
-	private func `recognized + 單一 holder：SPDX-FileCopyrightText + SPDX-License-Identifier`() {
+	private func `recognized MIT：Copyright © 用 LICENSE holder、原樣格式`() {
 		let header = FileHeaderBuilder.header(
 			targetName: "SwiftStyleFormatCore",
-			holders: ["Unpxre (GitHub: UnpxreTW)"],
+			licenseHolder: "Unpxre (GitHub: UnpxreTW)",
+			noticeHolder: nil,
+			authors: ["忽略我"],
 			license: .recognized(name: "MIT License", spdxID: "MIT")
 		)
 		#expect(header == [
 			"",
 			" SwiftStyleFormatCore",
 			"",
-			" SPDX-FileCopyrightText: {created.year} Unpxre (GitHub: UnpxreTW)",
+			" Copyright © {created.year} Unpxre (GitHub: UnpxreTW)",
+			" Licensed under the MIT License. See LICENSE for details.",
+			"",
 			" SPDX-License-Identifier: MIT"
 		].joined(separator: #"\n"#))
 	}
 
 	@Test
-	// swiftlint:disable:next identifier_name
-	private func `多個 holder 各產一行 SPDX-FileCopyrightText`() {
+	private func `recognized MPL：每位 author 各一行 SPDX-FileCopyrightText`() {
 		let header = FileHeaderBuilder.header(
 			targetName: "koine",
-			holders: ["Unpxre (GitHub: UnpxreTW)", "Alice Chen"],
+			licenseHolder: nil,
+			noticeHolder: nil,
+			authors: ["Unpxre (GitHub: UnpxreTW)", "Alice Chen"],
 			license: .recognized(name: "Mozilla Public License 2.0", spdxID: "MPL-2.0")
 		)
 		#expect(header == [
@@ -135,10 +140,12 @@ private struct FileHeaderBuilderTests {
 	}
 
 	@Test
-	private func `recognized 但無 holder：省略 copyright 行`() {
+	private func `recognized MPL 無 author：省略 copyright、只剩 SPDX-License-Identifier`() {
 		let header = FileHeaderBuilder.header(
 			targetName: "koine",
-			holders: [],
+			licenseHolder: nil,
+			noticeHolder: nil,
+			authors: [],
 			license: .recognized(name: "Mozilla Public License 2.0", spdxID: "MPL-2.0")
 		)
 		#expect(header == [
@@ -150,23 +157,57 @@ private struct FileHeaderBuilderTests {
 	}
 
 	@Test
-	private func `unrecognized：holder + See LICENSE、無 SPDX-License-Identifier`() {
-		let header = FileHeaderBuilder.header(targetName: "App", holders: ["Someone"], license: .unrecognized)
+	private func `recognized Apache：Copyright © 用 NOTICE holder`() {
+		let header = FileHeaderBuilder.header(
+			targetName: "App",
+			licenseHolder: "不該用我",
+			noticeHolder: "The Foo Project",
+			authors: [],
+			license: .recognized(name: "Apache License 2.0", spdxID: "Apache-2.0")
+		)
 		#expect(header == [
 			"",
 			" App",
 			"",
-			" SPDX-FileCopyrightText: {created.year} Someone",
+			" Copyright © {created.year} The Foo Project",
+			" Licensed under the Apache License 2.0. See LICENSE for details.",
+			"",
+			" SPDX-License-Identifier: Apache-2.0"
+		].joined(separator: #"\n"#))
+	}
+
+	@Test
+	private func `unrecognized：Copyright © 用 LICENSE holder + See LICENSE`() {
+		let header = FileHeaderBuilder.header(
+			targetName: "App",
+			licenseHolder: "Someone",
+			noticeHolder: nil,
+			authors: [],
+			license: .unrecognized
+		)
+		#expect(header == [
+			"",
+			" App",
+			"",
+			" Copyright © {created.year} Someone",
 			" See LICENSE for details."
 		].joined(separator: #"\n"#))
 	}
 
 	@Test
-	private func `missing + 無 holder：只剩 target 行`() {
-		let header = FileHeaderBuilder.header(targetName: "App", holders: [], license: .missing)
+	private func `missing：Copyright © 無 holder`() {
+		let header = FileHeaderBuilder.header(
+			targetName: "App",
+			licenseHolder: nil,
+			noticeHolder: nil,
+			authors: [],
+			license: .missing
+		)
 		#expect(header == [
 			"",
 			" App",
+			"",
+			" Copyright © {created.year}",
 			""
 		].joined(separator: #"\n"#))
 	}

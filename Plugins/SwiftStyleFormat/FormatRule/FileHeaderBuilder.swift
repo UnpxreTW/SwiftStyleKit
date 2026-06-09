@@ -29,7 +29,7 @@ public enum FileHeaderBuilder {
 		case recognized(name: String, spdxID: String)
 	}
 
-	/// 從 `LICENSE` 內容抓版權持有人
+	/// 從版權文字（`LICENSE` / `NOTICE`）抓版權持有人
 	///
 	/// 比對 `Copyright (©|(c)) <年份> <持有人>` 形式的版權行、取「持有人」段；容前導
 	/// markdown 符號與 `<年份>-Present` 之類的非年份範圍尾，並剝除尾端的
@@ -86,26 +86,53 @@ public enum FileHeaderBuilder {
 			.filter { !$0.isEmpty && !$0.hasPrefix("#") }
 	}
 
-	/// 依 target 名、版權持有人清單與 `LICENSE` 辨識結果組裝標頭字串（SPDX / REUSE 風格）
+	/// 依 target 名與來源資訊組裝檔案標頭字串
 	///
-	/// 每個 holder 產一行 `SPDX-FileCopyrightText`（依序、0..n 筆、無則省略）；授權以
-	/// `SPDX-License-Identifier` 表示。回傳值以字面 `\n` 分隔行、供 swiftformat `--header`
-	/// 使用，`{created.year}` 維持 token 形式、由 swiftformat 執行時解析。
-	public static func header(targetName: String, holders: [String], license: LicenseInfo) -> String {
+	/// holder 行依授權型別分流：MPL-2.0 走 REUSE 風格、每位 `authors` 各一行
+	/// `SPDX-FileCopyrightText`；其餘授權沿用 `Copyright © {created.year} <holder>`、holder
+	/// 來源 Apache-2.0 取 `noticeHolder`、其餘取 `licenseHolder`。回傳值以字面 `\n` 分隔行、
+	/// 供 swiftformat `--header` 使用，`{created.year}` 由 swiftformat 執行時解析。
+	public static func header(
+		targetName: String,
+		licenseHolder: String?,
+		noticeHolder: String?,
+		authors: [String],
+		license: LicenseInfo
+	) -> String {
 		var lines = ["", targetName, ""]
-		for holder in holders {
-			lines.append("SPDX-FileCopyrightText: {created.year} \(holder)")
-		}
 		switch license {
 		case .missing:
-			break
+			lines.append(copyrightLine(holder: nil))
+			lines.append("")
 		case .unrecognized:
+			lines.append(copyrightLine(holder: licenseHolder))
 			lines.append("See LICENSE for details.")
-		case let .recognized(_, spdxID):
+		case let .recognized(name, spdxID):
+			if spdxID == "MPL-2.0" {
+				for holder in authors {
+					lines.append("SPDX-FileCopyrightText: {created.year} \(holder)")
+				}
+			} else {
+				let holder = spdxID == "Apache-2.0" ? noticeHolder : licenseHolder
+				lines.append(copyrightLine(holder: holder))
+				lines.append("Licensed under the \(name). See LICENSE for details.")
+				lines.append("")
+			}
 			lines.append("SPDX-License-Identifier: \(spdxID)")
 		}
 		return lines
 			.map { $0.isEmpty ? $0 : " " + $0 }
 			.joined(separator: #"\n"#)
+	}
+
+	// MARK: Private
+
+	/// 組版權行——有持有人則附上、否則只到年份
+	private static func copyrightLine(holder: String?) -> String {
+		if let holder {
+			"Copyright © {created.year} \(holder)"
+		} else {
+			"Copyright © {created.year}"
+		}
 	}
 }
