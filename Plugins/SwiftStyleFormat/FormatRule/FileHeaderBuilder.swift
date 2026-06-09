@@ -16,20 +16,20 @@ public enum FileHeaderBuilder {
 
 	// MARK: Public
 
-	/// `LICENSE` 檔的辨識結果
+	/// `LICENSE` 檔的辨識結果（僅授權類型；版權持有人改由 AUTHORS / 設定提供、與授權正交）
 	public enum LicenseInfo {
 
 		/// 無 `LICENSE` 檔
 		case missing
 
 		/// 有 `LICENSE` 檔、但授權類型未辨識
-		case unrecognized(holder: String?)
+		case unrecognized
 
 		/// 有 `LICENSE` 檔、授權類型已辨識
-		case recognized(holder: String?, name: String, spdxID: String)
+		case recognized(name: String, spdxID: String)
 	}
 
-	/// 從 `LICENSE` 內容抓版權持有人
+	/// 從版權文字（`LICENSE` / `NOTICE`）抓版權持有人
 	///
 	/// 比對 `Copyright (©|(c)) <年份> <持有人>` 形式的版權行、取「持有人」段；容前導
 	/// markdown 符號與 `<年份>-Present` 之類的非年份範圍尾，並剝除尾端的
@@ -75,23 +75,49 @@ public enum FileHeaderBuilder {
 		return nil
 	}
 
-	/// 依 target 名與 `LICENSE` 辨識結果組裝標頭字串
+	/// 從 `AUTHORS` 內容抓版權持有人清單
 	///
-	/// 回傳值以字面 `\n` 分隔行、供 swiftformat `--header` 使用。`{created.year}` 維持
-	/// token 形式、由 swiftformat 執行時解析。
-	public static func header(targetName: String, license: LicenseInfo) -> String {
+	/// 每行非空、非 `#` 註解算一筆、依檔案順序逐字 trim 後回傳。集合式（單行
+	/// `The X Authors`）或逐人列名，由 `AUTHORS` 怎麼排決定、非工具強制。
+	public static func authors(in authorsText: String) -> [String] {
+		authorsText
+			.split(separator: "\n", omittingEmptySubsequences: false)
+			.map { $0.trimmingCharacters(in: .whitespaces) }
+			.filter { !$0.isEmpty && !$0.hasPrefix("#") }
+	}
+
+	/// 依 target 名與來源資訊組裝檔案標頭字串
+	///
+	/// holder 行依授權型別分流：MPL-2.0 走 REUSE 風格、每位 `authors` 各一行
+	/// `SPDX-FileCopyrightText`；其餘授權沿用 `Copyright © {created.year} <holder>`、holder
+	/// 來源 Apache-2.0 取 `noticeHolder`、其餘取 `licenseHolder`。回傳值以字面 `\n` 分隔行、
+	/// 供 swiftformat `--header` 使用，`{created.year}` 由 swiftformat 執行時解析。
+	public static func header(
+		targetName: String,
+		licenseHolder: String?,
+		noticeHolder: String?,
+		authors: [String],
+		license: LicenseInfo
+	) -> String {
 		var lines = ["", targetName, ""]
 		switch license {
 		case .missing:
 			lines.append(copyrightLine(holder: nil))
 			lines.append("")
-		case let .unrecognized(holder):
-			lines.append(copyrightLine(holder: holder))
+		case .unrecognized:
+			lines.append(copyrightLine(holder: licenseHolder))
 			lines.append("See LICENSE for details.")
-		case let .recognized(holder, name, spdxID):
-			lines.append(copyrightLine(holder: holder))
-			lines.append("Licensed under the \(name). See LICENSE for details.")
-			lines.append("")
+		case let .recognized(name, spdxID):
+			if spdxID == "MPL-2.0" {
+				for holder in authors {
+					lines.append("SPDX-FileCopyrightText: {created.year} \(holder)")
+				}
+			} else {
+				let holder = spdxID == "Apache-2.0" ? noticeHolder : licenseHolder
+				lines.append(copyrightLine(holder: holder))
+				lines.append("Licensed under the \(name). See LICENSE for details.")
+				lines.append("")
+			}
 			lines.append("SPDX-License-Identifier: \(spdxID)")
 		}
 		return lines
