@@ -81,9 +81,19 @@ extension SwiftStyleFormat: XcodeCommandPlugin {
 
         let tool = try context.tool(named: "swiftformat")
         let license = readLicenseInfo(directory: context.xcodeProject.directory)
+        let allTargets = context.xcodeProject.targets
+        if !selectedTargets.isEmpty {
+            let availableNames = Set(allTargets.map(\.displayName))
+            let missing = selectedTargets.filter { !availableNames.contains($0) }
+            guard missing.isEmpty else {
+                let available = allTargets.map(\.displayName).sorted().joined(separator: "、")
+                Diagnostics.error("找不到指定的 target：\(missing.joined(separator: "、"))。可用 target：\(available)")
+                return
+            }
+        }
         let targets = selectedTargets.isEmpty
-            ? context.xcodeProject.targets
-            : context.xcodeProject.targets.filter { selectedTargets.contains($0.displayName) }
+            ? allTargets
+            : allTargets.filter { selectedTargets.contains($0.displayName) }
         for target in targets {
             let swiftFiles = target.inputFiles
                 .filter { $0.path.extension == "swift" }
