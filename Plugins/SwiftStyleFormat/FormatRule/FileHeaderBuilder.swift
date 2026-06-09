@@ -1,7 +1,9 @@
 //
 //  SwiftStyleFormatCore
 //
-//  SPDX-FileCopyrightText: 2026 Unpxre (GitHub: UnpxreTW)
+//  Copyright © 2026 Unpxre (GitHub: UnpxreTW)
+//  Licensed under the MIT License. See LICENSE for details.
+//
 //  SPDX-License-Identifier: MIT
 
 import Foundation
@@ -11,6 +13,8 @@ import Foundation
 /// 由 plugin 在執行期呼叫——`copyrightHolder` 與 `recognizeLicense` 解析使用端專案的
 /// `LICENSE`，`header` 依結果組出傳給 swiftformat `--header` 的標頭字串。
 public enum FileHeaderBuilder {
+
+	// MARK: Public
 
 	/// `LICENSE` 檔的辨識結果（僅授權類型；版權持有人改由 AUTHORS / 設定提供、與授權正交）
 	public enum LicenseInfo {
