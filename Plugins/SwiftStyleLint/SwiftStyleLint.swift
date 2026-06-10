@@ -1,3 +1,11 @@
+//
+//  SwiftStyleLint
+//
+//  Copyright © 2026 Unpxre (GitHub: UnpxreTW)
+//  Licensed under the MIT License. See LICENSE for details.
+//
+//  SPDX-License-Identifier: MIT
+
 import Foundation
 import PackagePlugin
 
