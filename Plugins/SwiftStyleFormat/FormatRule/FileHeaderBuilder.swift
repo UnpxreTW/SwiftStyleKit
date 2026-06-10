@@ -8,6 +8,9 @@
 
 import Foundation
 
+// REUSE-IgnoreStart — 本檔通篇是「產生檔頭」的模板字串與範例，
+// 非本檔自身的授權宣告（見上方檔頭）；不圈會被 reuse 誤抽成 invalid expression。
+
 /// 檔案標頭組裝
 ///
 /// 由 plugin 在執行期呼叫——`copyrightHolder` 與 `recognizeLicense` 解析使用端專案的
@@ -136,3 +139,5 @@ public enum FileHeaderBuilder {
 		}
 	}
 }
+
+// REUSE-IgnoreEnd
