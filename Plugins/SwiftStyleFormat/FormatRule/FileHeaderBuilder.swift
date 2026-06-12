@@ -55,17 +55,18 @@ public enum FileHeaderBuilder {
 	///
 	/// 比對 `LICENSE` 正文的特徵語句（不依賴標題行——真實 LICENSE 標題格式不一）。
 	/// 涵蓋 MIT / Apache-2.0 / BSD-2-Clause / BSD-3-Clause / ISC / MPL-2.0 /
-	/// FSL-1.1（ALv2 / MIT 變體）；辨識不到回 `nil`。
+	/// FSL-1.1（ALv2 / MIT 變體）/ GNU 家族（GPL-2.0 / GPL-3.0 / LGPL-2.1 / LGPL-3.0 /
+	/// AGPL-3.0、一律 `-only`——`-or-later` 是檔頭宣告選擇、非條文差異，需要時以
+	/// `--header-spdx` 覆寫）；辨識不到回 `nil`。
 	public static func recognizeLicense(in licenseText: String) -> (name: String, spdxID: String)? {
 		let text = licenseText.lowercased()
+		if let gnu = recognizeGNUFamily(in: text) {
+			return gnu
+		}
 		// FSL 必須先於 Apache 判斷：FSL-1.1-ALv2 的未來授權段含「Apache License, Version 2.0」
-		// 字句、後置會被誤辨識為 Apache-2.0。變體靠「mit license」詞組分流（ALv2 變體
-		// 全文無此詞組；不可用裸 "mit"——會誤中 "Permitted"）。
-		if text.contains("functional source license") {
-			if text.contains("mit license") {
-				return ("Functional Source License 1.1", "FSL-1.1-MIT")
-			}
-			return ("Functional Source License 1.1", "FSL-1.1-ALv2")
+		// 字句、後置會被誤辨識為 Apache-2.0。
+		if let fsl = recognizeFSL(in: text) {
+			return fsl
 		}
 		if text.contains("apache license"), text.contains("version 2.0") {
 			return ("Apache License 2.0", "Apache-2.0")
@@ -156,6 +157,43 @@ public enum FileHeaderBuilder {
 	}
 
 	// MARK: Private
+
+	/// 辨識 GNU 家族（GPL-2.0 / GPL-3.0 / LGPL-2.1 / LGPL-3.0 / AGPL-3.0）
+	///
+	/// 例外採「前綴窗標題判斷」、不用全文特徵語句：各授權正文互相引用（GPL-3.0 §13 提及
+	/// AGPL、結尾建議段提及 LGPL 等）、全文比對必誤中；FSF 要求條文逐字轉載、標題塊必在
+	/// 檔首，前綴窗判斷反而可靠。順序 AGPL → LGPL → GPL：後者標題是前兩者標題的子串。
+	private static func recognizeGNUFamily(in lowercasedText: String) -> (name: String, spdxID: String)? {
+		let head: String = .init(lowercasedText.prefix(300))
+		if head.contains("gnu affero general public license") {
+			return ("GNU Affero General Public License v3.0", "AGPL-3.0-only")
+		}
+		if head.contains("gnu lesser general public license") {
+			if head.contains("version 3") {
+				return ("GNU Lesser General Public License v3.0", "LGPL-3.0-only")
+			}
+			return ("GNU Lesser General Public License v2.1", "LGPL-2.1-only")
+		}
+		if head.contains("gnu general public license") {
+			if head.contains("version 3") {
+				return ("GNU General Public License v3.0", "GPL-3.0-only")
+			}
+			return ("GNU General Public License v2.0", "GPL-2.0-only")
+		}
+		return nil
+	}
+
+	/// 辨識 FSL-1.1 兩變體
+	///
+	/// 變體靠「mit license」詞組分流（ALv2 變體全文無此詞組；不可用裸 "mit"——會誤中
+	/// "Permitted"）。
+	private static func recognizeFSL(in lowercasedText: String) -> (name: String, spdxID: String)? {
+		guard lowercasedText.contains("functional source license") else { return nil }
+		if lowercasedText.contains("mit license") {
+			return ("Functional Source License 1.1", "FSL-1.1-MIT")
+		}
+		return ("Functional Source License 1.1", "FSL-1.1-ALv2")
+	}
 
 	/// 組版權行——有持有人則附上、否則只到年份
 	private static func copyrightLine(holder: String?) -> String {
