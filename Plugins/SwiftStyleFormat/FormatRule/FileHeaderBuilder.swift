@@ -78,6 +78,15 @@ public enum FileHeaderBuilder {
 		return nil
 	}
 
+	/// 驗證檔頭授權覆寫值是否為單一 SPDX 授權識別字
+	///
+	/// 接受 SPDX License List 的 idstring（字母、數字、`.`、`-`，容許 legacy 尾碼 `+`）與
+	/// REUSE 規範的 `LicenseRef-<idstring>` 自訂授權；不接受含 `AND` / `OR` / `WITH` 的
+	/// 複合運算式——檔頭一檔一授權、複合情境應改以 `REUSE.toml` 表達。
+	public static func isValidSPDXID(_ id: String) -> Bool {
+		id.wholeMatch(of: #/(?:LicenseRef-)?[A-Za-z0-9.\-]+\+?/#) != nil
+	}
+
 	/// 從 `AUTHORS` 內容抓版權持有人清單
 	///
 	/// 每行非空、非 `#` 註解算一筆、依檔案順序逐字 trim 後回傳。集合式（單行

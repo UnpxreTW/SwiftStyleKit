@@ -217,6 +217,23 @@ private struct FileHeaderBuilderTests {
 	}
 
 	@Test
+	private func `isValidSPDXID 接受 idstring 與 LicenseRef`() {
+		#expect(FileHeaderBuilder.isValidSPDXID("MIT"))
+		#expect(FileHeaderBuilder.isValidSPDXID("FSL-1.1-ALv2"))
+		#expect(FileHeaderBuilder.isValidSPDXID("GPL-3.0-or-later"))
+		#expect(FileHeaderBuilder.isValidSPDXID("GPL-2.0+"))
+		#expect(FileHeaderBuilder.isValidSPDXID("LicenseRef-MyTerms"))
+	}
+
+	@Test
+	private func `isValidSPDXID 拒絕複合運算式與空值`() {
+		#expect(!FileHeaderBuilder.isValidSPDXID(""))
+		#expect(!FileHeaderBuilder.isValidSPDXID("MIT OR Apache-2.0"))
+		#expect(!FileHeaderBuilder.isValidSPDXID("Apache-2.0 WITH LLVM-exception"))
+		#expect(!FileHeaderBuilder.isValidSPDXID("FSL 1.1"))
+	}
+
+	@Test
 	private func `authors 取非空非註解行、依序`() {
 		let parsed = FileHeaderBuilder.authors(in: "Unpxre (GitHub: UnpxreTW)\n\n# 個別貢獻者\n# Alice\nBob Wang")
 		#expect(parsed == ["Unpxre (GitHub: UnpxreTW)", "Bob Wang"])
