@@ -54,9 +54,19 @@ public enum FileHeaderBuilder {
 	/// 辨識授權
 	///
 	/// 比對 `LICENSE` 正文的特徵語句（不依賴標題行——真實 LICENSE 標題格式不一）。
-	/// 涵蓋 MIT / Apache-2.0 / BSD-2-Clause / BSD-3-Clause / ISC / MPL-2.0；辨識不到回 `nil`。
+	/// 涵蓋 MIT / Apache-2.0 / BSD-2-Clause / BSD-3-Clause / ISC / MPL-2.0 /
+	/// FSL-1.1（ALv2 / MIT 變體）；辨識不到回 `nil`。
 	public static func recognizeLicense(in licenseText: String) -> (name: String, spdxID: String)? {
 		let text = licenseText.lowercased()
+		// FSL 必須先於 Apache 判斷：FSL-1.1-ALv2 的未來授權段含「Apache License, Version 2.0」
+		// 字句、後置會被誤辨識為 Apache-2.0。變體靠「mit license」詞組分流（ALv2 變體
+		// 全文無此詞組；不可用裸 "mit"——會誤中 "Permitted"）。
+		if text.contains("functional source license") {
+			if text.contains("mit license") {
+				return ("Functional Source License 1.1", "FSL-1.1-MIT")
+			}
+			return ("Functional Source License 1.1", "FSL-1.1-ALv2")
+		}
 		if text.contains("apache license"), text.contains("version 2.0") {
 			return ("Apache License 2.0", "Apache-2.0")
 		}
@@ -102,8 +112,10 @@ public enum FileHeaderBuilder {
 	///
 	/// holder 行依授權型別分流：MPL-2.0 走 REUSE 風格、每位 `authors` 各一行
 	/// `SPDX-FileCopyrightText`；其餘授權沿用 `Copyright © {created.year} <holder>`、holder
-	/// 來源 Apache-2.0 取 `noticeHolder`、其餘取 `licenseHolder`。回傳值以字面 `\n` 分隔行、
-	/// 供 swiftformat `--header` 使用，`{created.year}` 由 swiftformat 執行時解析。
+	/// 來源 Apache-2.0 取 `noticeHolder`、其餘取 `licenseHolder`；FSL-1.1 在 `licenseHolder`
+	/// 缺席時 fallback 每位 `authors` 各一行 `Copyright ©`（官方模板以 we/us 指稱授權人、
+	/// Notice 段的 Copyright 行可能未填）。回傳值以字面 `\n` 分隔行、供 swiftformat
+	/// `--header` 使用，`{created.year}` 由 swiftformat 執行時解析。
 	public static func header(
 		targetName: String,
 		licenseHolder: String?,
@@ -126,7 +138,13 @@ public enum FileHeaderBuilder {
 				}
 			} else {
 				let holder = spdxID == "Apache-2.0" ? noticeHolder : licenseHolder
-				lines.append(copyrightLine(holder: holder))
+				if holder == nil, spdxID.hasPrefix("FSL-1.1"), !authors.isEmpty {
+					for author in authors {
+						lines.append(copyrightLine(holder: author))
+					}
+				} else {
+					lines.append(copyrightLine(holder: holder))
+				}
 				lines.append("Licensed under the \(name). See LICENSE for details.")
 				lines.append("")
 			}
