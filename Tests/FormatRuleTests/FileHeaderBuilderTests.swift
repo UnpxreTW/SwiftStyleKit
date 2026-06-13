@@ -100,6 +100,32 @@ private struct FileHeaderBuilderTests {
 
 	@Test
 	// swiftlint:disable:next identifier_name
+	private func `辨識 FSL-1.1-ALv2——不被未來授權段的 Apache 字句誤導`() {
+		let text = """
+			# Functional Source License, Version 1.1, ALv2 Future License
+			A Permitted Purpose is any purpose other than a Competing Use.
+			We hereby irrevocably grant you an additional license to use the Software under
+			the Apache License, Version 2.0 that is effective on the second anniversary.
+			"""
+		let result = FileHeaderBuilder.recognizeLicense(in: text)
+		#expect(result?.name == "Functional Source License 1.1")
+		#expect(result?.spdxID == "FSL-1.1-ALv2")
+	}
+
+	@Test
+	// swiftlint:disable:next identifier_name
+	private func `辨識 FSL-1.1-MIT——靠 mit license 詞組分流`() {
+		let text = """
+			# Functional Source License, Version 1.1, MIT Future License
+			A Permitted Purpose is any purpose other than a Competing Use.
+			We hereby irrevocably grant you an additional license to use the Software under
+			the MIT license that is effective on the second anniversary.
+			"""
+		#expect(FileHeaderBuilder.recognizeLicense(in: text)?.spdxID == "FSL-1.1-MIT")
+	}
+
+	@Test
+	// swiftlint:disable:next identifier_name
 	private func `未知授權回 nil`() {
 		#expect(FileHeaderBuilder.recognizeLicense(in: "Some Custom License\n\nDo whatever you want.") == nil)
 	}
@@ -177,6 +203,47 @@ private struct FileHeaderBuilderTests {
 			" Licensed under the Apache License 2.0. See LICENSE for details.",
 			"",
 			" SPDX-License-Identifier: Apache-2.0"
+		].joined(separator: #"\n"#))
+	}
+
+	@Test
+	private func `recognized FSL：LICENSE holder 缺席時 fallback AUTHORS 各一行 Copyright`() {
+		let header = FileHeaderBuilder.header(
+			targetName: "Koine",
+			licenseHolder: nil,
+			noticeHolder: "不該用我",
+			authors: ["Unpxre (GitHub: UnpxreTW)", "Alice Chen"],
+			license: .recognized(name: "Functional Source License 1.1", spdxID: "FSL-1.1-ALv2")
+		)
+		#expect(header == [
+			"",
+			" Koine",
+			"",
+			" Copyright © {created.year} Unpxre (GitHub: UnpxreTW)",
+			" Copyright © {created.year} Alice Chen",
+			" Licensed under the Functional Source License 1.1. See LICENSE for details.",
+			"",
+			" SPDX-License-Identifier: FSL-1.1-ALv2"
+		].joined(separator: #"\n"#))
+	}
+
+	@Test
+	private func `recognized FSL：LICENSE holder 在場時不用 AUTHORS`() {
+		let header = FileHeaderBuilder.header(
+			targetName: "Koine",
+			licenseHolder: "Unpxre (GitHub: UnpxreTW)",
+			noticeHolder: nil,
+			authors: ["忽略我"],
+			license: .recognized(name: "Functional Source License 1.1", spdxID: "FSL-1.1-MIT")
+		)
+		#expect(header == [
+			"",
+			" Koine",
+			"",
+			" Copyright © {created.year} Unpxre (GitHub: UnpxreTW)",
+			" Licensed under the Functional Source License 1.1. See LICENSE for details.",
+			"",
+			" SPDX-License-Identifier: FSL-1.1-MIT"
 		].joined(separator: #"\n"#))
 	}
 
