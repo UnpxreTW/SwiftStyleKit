@@ -56,6 +56,18 @@ jobs:
 
 未設、或設為任何非 `1` 的值時、走 default non-strict 行為。對下游既有 codebase 想漸進採用 SwiftStyleKit 的情境友好——先 attach plugin 看 warning 清單、整理完了再設 `SWIFTSTYLELINT_STRICT=1` 鎖死。
 
+## SwiftStyleFormat：檔頭授權覆寫（`--header-spdx`）
+
+檔頭的授權行預設由專案根目錄 `LICENSE` 自動辨識。辨識不到（罕見授權、自訂條款）或要強制指定時，傳 `--header-spdx` 直接給定單一 SPDX 授權識別字、跳過自動辨識：
+
+```bash
+swift package plugin --allow-writing-to-package-directory format-source-code --header-spdx FSL-1.1-ALv2
+```
+
+- 接受 SPDX License List 的 idstring 與 REUSE 規範的 `LicenseRef-<idstring>` 自訂授權（如 `--header-spdx LicenseRef-MyTerms`，搭配 `LICENSES/LicenseRef-MyTerms.txt`）。
+- 不接受 `AND` / `OR` / `WITH` 複合運算式——檔頭一檔一授權、複合情境改以 `REUSE.toml` 表達。
+- 版權持有人來源檔（`LICENSE` / `NOTICE` / `AUTHORS`）照常解析、不受覆寫影響。
+
 ## 開發
 
 ### 本機 dogfooding（strict 模式）

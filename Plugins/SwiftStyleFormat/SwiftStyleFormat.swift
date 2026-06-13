@@ -14,6 +14,7 @@ struct SwiftStyleFormat: CommandPlugin {
     func performCommand(context: PluginContext, arguments: [String]) throws {
         var extractor = ArgumentExtractor(arguments)
         let selectedTargets = extractor.extractOption(named: "target")
+        guard let headerSPDX = extractHeaderSPDX(from: &extractor) else { return }
         let remaining = extractor.remainingArguments
 
         let targets: [Target]
@@ -24,7 +25,7 @@ struct SwiftStyleFormat: CommandPlugin {
         }
 
         let tool = try context.tool(named: "swiftformat")
-        let inputs = headerInputs(directory: context.package.directory)
+        let inputs = headerInputs(directory: context.package.directory, headerSPDXOverride: headerSPDX.value)
         for target in targets {
             guard let module = target as? SourceModuleTarget else { continue }
             let injected: [String] = [
@@ -41,14 +42,36 @@ struct SwiftStyleFormat: CommandPlugin {
     }
 
     /// 解析專案根目錄的授權與版權來源檔，組出檔頭所需輸入
-    private func headerInputs(directory: Path) -> HeaderInputs {
+    ///
+    /// `headerSPDXOverride` 存在時跳過 `LICENSE` 的授權自動辨識、直接以指定 SPDX ID
+    /// 視為已辨識授權（持有人來源檔照常解析）；用於辨識不到的授權與 `LicenseRef-*`
+    /// 自訂授權的逃生梯。
+    private func headerInputs(directory: Path, headerSPDXOverride: String? = nil) -> HeaderInputs {
         let (license, licenseHolder) = licenseInfo(directory: directory)
         return HeaderInputs(
-            license: license,
+            license: headerSPDXOverride.map { .recognized(name: $0, spdxID: $0) } ?? license,
             licenseHolder: licenseHolder,
             noticeHolder: noticeHolder(directory: directory),
             authors: readAuthors(directory: directory)
         )
+    }
+
+    /// 取出並驗證 `--header-spdx`；未指定回 `.init(value: nil)`、非法時報錯回 `nil`（呼叫端應中止）
+    private func extractHeaderSPDX(from extractor: inout ArgumentExtractor) -> HeaderSPDXOverride? {
+        guard let id = extractor.extractOption(named: "header-spdx").last else {
+            return HeaderSPDXOverride(value: nil)
+        }
+        guard FileHeaderBuilder.isValidSPDXID(id) else {
+            Diagnostics.error("--header-spdx 不是合法的單一 SPDX 授權識別字：\(id)（接受 idstring 或 LicenseRef-*、不接受複合運算式）")
+            return nil
+        }
+        return HeaderSPDXOverride(value: id)
+    }
+
+    /// `--header-spdx` 的解析結果——`value == nil` 表未指定、走 `LICENSE` 自動辨識
+    private struct HeaderSPDXOverride {
+
+        let value: String?
     }
 
     /// 找專案根目錄的 `LICENSE`，解析授權類型與版權持有人（持有人型授權的來源）
@@ -130,10 +153,11 @@ extension SwiftStyleFormat: XcodeCommandPlugin {
     func performCommand(context: XcodePluginContext, arguments: [String]) throws {
         var extractor = ArgumentExtractor(arguments)
         let selectedTargets = extractor.extractOption(named: "target")
+        guard let headerSPDX = extractHeaderSPDX(from: &extractor) else { return }
         let remaining = extractor.remainingArguments
 
         let tool = try context.tool(named: "swiftformat")
-        let inputs = headerInputs(directory: context.xcodeProject.directory)
+        let inputs = headerInputs(directory: context.xcodeProject.directory, headerSPDXOverride: headerSPDX.value)
         let allTargets = context.xcodeProject.targets
         if !selectedTargets.isEmpty {
             let availableNames = Set(allTargets.map(\.displayName))
