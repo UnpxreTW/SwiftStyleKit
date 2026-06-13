@@ -99,6 +99,7 @@ private struct FileHeaderBuilderTests {
 	}
 
 	@Test
+	// swiftlint:disable:next identifier_name
 	private func `辨識 FSL-1.1-ALv2——不被未來授權段的 Apache 字句誤導`() {
 		let text = """
 			# Functional Source License, Version 1.1, ALv2 Future License
@@ -112,6 +113,7 @@ private struct FileHeaderBuilderTests {
 	}
 
 	@Test
+	// swiftlint:disable:next identifier_name
 	private func `辨識 FSL-1.1-MIT——靠 mit license 詞組分流`() {
 		let text = """
 			# Functional Source License, Version 1.1, MIT Future License
