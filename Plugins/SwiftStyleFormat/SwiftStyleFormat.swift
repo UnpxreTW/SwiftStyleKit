@@ -70,6 +70,7 @@ struct SwiftStyleFormat: CommandPlugin {
 
     /// `--header-spdx` 的解析結果——`value == nil` 表未指定、走 `LICENSE` 自動辨識
     private struct HeaderSPDXOverride {
+
         let value: String?
     }
 
