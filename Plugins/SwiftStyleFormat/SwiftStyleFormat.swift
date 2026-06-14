@@ -26,7 +26,7 @@ struct SwiftStyleFormat: CommandPlugin {
 
         let tool = try context.tool(named: "swiftformat")
         let inputs = headerInputs(directory: context.package.directory, headerSPDXOverride: headerSPDX.value)
-        guard hasRequiredHolder(inputs) else { return }
+        try requireHolder(inputs)
         for target in targets {
             guard let module = target as? SourceModuleTarget else { continue }
             let injected: [String] = [
@@ -78,14 +78,21 @@ struct SwiftStyleFormat: CommandPlugin {
     /// FSL 授權需有版權持有人——`LICENSE` Notice 段未填 Copyright 行且無 `AUTHORS` 時
     /// 報錯擋下，不產出零版權行的殘缺檔頭（FSL 官方模板以 we/us 指稱授權人、
     /// 易漏填 Notice 段）
-    private func hasRequiredHolder(_ inputs: HeaderInputs) -> Bool {
-        if case let .recognized(_, spdxID) = inputs.license,
-           spdxID.hasPrefix("FSL-1.1"),
-           inputs.licenseHolder == nil, inputs.authors.isEmpty {
-            Diagnostics.error("FSL 授權需有版權持有人：請在 LICENSE 的 Notice 段填 Copyright 行、或提供 AUTHORS 檔")
-            return false
+    /// 缺版權持有人時 throw（SwiftPM 印錯誤 + 非零失敗，比 `Diagnostics.error` + return 可靠）
+    private func requireHolder(_ inputs: HeaderInputs) throws {
+        guard case let .recognized(_, spdxID) = inputs.license else { return }
+        let noHolder = inputs.licenseHolder == nil && inputs.authors.isEmpty
+        if spdxID.hasPrefix("FSL-1.1"), noHolder {
+            throw HeaderError(description: "FSL 授權需有版權持有人：請在 LICENSE 的 Notice 段填 Copyright 行、或提供 AUTHORS 檔")
         }
-        return true
+        if spdxID == "MPL-2.0", noHolder {
+            throw HeaderError(description: "MPL-2.0 每檔需版權持有人（REUSE 合規要求）：請提供 AUTHORS 檔、或在 LICENSE 填 Copyright 行")
+        }
+    }
+
+    /// plugin 中止用錯誤：`description` 即 SwiftPM 顯示的訊息
+    private struct HeaderError: Error, CustomStringConvertible {
+        let description: String
     }
 
     /// 找專案根目錄的 `LICENSE`，解析授權類型與版權持有人（持有人型授權的來源）
@@ -147,7 +154,7 @@ struct SwiftStyleFormat: CommandPlugin {
         try process.run()
         process.waitUntilExit()
         if process.terminationStatus != 0 {
-            Diagnostics.error("swiftformat 失敗 (exit \(process.terminationStatus))")
+            throw HeaderError(description: "swiftformat 失敗 (exit \(process.terminationStatus))")
         }
     }
 
@@ -172,7 +179,7 @@ extension SwiftStyleFormat: XcodeCommandPlugin {
 
         let tool = try context.tool(named: "swiftformat")
         let inputs = headerInputs(directory: context.xcodeProject.directory, headerSPDXOverride: headerSPDX.value)
-        guard hasRequiredHolder(inputs) else { return }
+        try requireHolder(inputs)
         let allTargets = context.xcodeProject.targets
         if !selectedTargets.isEmpty {
             let availableNames = Set(allTargets.map(\.displayName))
