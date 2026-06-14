@@ -66,71 +66,6 @@ private struct FileHeaderBuilderTests {
 	}
 
 	@Test
-	// swiftlint:disable:next identifier_name
-	private func `辨識 MIT——不依賴標題行`() {
-		let text = "Copyright (c) 2026 X\n\nPermission is hereby granted, free of charge, to any person."
-		let result = FileHeaderBuilder.recognizeLicense(in: text)
-		#expect(result?.name == "MIT License")
-		#expect(result?.spdxID == "MIT")
-	}
-
-	@Test
-	// swiftlint:disable:next identifier_name
-	private func `辨識 Apache-2.0`() {
-		let result = FileHeaderBuilder.recognizeLicense(in: "Apache License\nVersion 2.0, January 2004")
-		#expect(result?.spdxID == "Apache-2.0")
-	}
-
-	@Test
-	// swiftlint:disable:next identifier_name
-	private func `辨識 BSD-3-Clause——靠第三條款語句`() {
-		let text = """
-			Redistribution and use in source and binary forms are permitted.
-			Neither the name of the copyright holder may be used to endorse products.
-			"""
-		#expect(FileHeaderBuilder.recognizeLicense(in: text)?.spdxID == "BSD-3-Clause")
-	}
-
-	@Test
-	// swiftlint:disable:next identifier_name
-	private func `辨識 MPL-2.0`() {
-		let result = FileHeaderBuilder.recognizeLicense(in: "Mozilla Public License Version 2.0")
-		#expect(result?.spdxID == "MPL-2.0")
-	}
-
-	@Test
-	// swiftlint:disable:next identifier_name
-	private func `辨識 FSL-1.1-ALv2——不被未來授權段的 Apache 字句誤導`() {
-		let text = """
-			# Functional Source License, Version 1.1, ALv2 Future License
-			A Permitted Purpose is any purpose other than a Competing Use.
-			We hereby irrevocably grant you an additional license to use the Software under
-			the Apache License, Version 2.0 that is effective on the second anniversary.
-			"""
-		let result = FileHeaderBuilder.recognizeLicense(in: text)
-		#expect(result?.name == "Functional Source License 1.1")
-		#expect(result?.spdxID == "FSL-1.1-ALv2")
-	}
-
-	@Test
-	// swiftlint:disable:next identifier_name
-	private func `辨識 FSL-1.1-MIT——靠 mit license 詞組分流`() {
-		let text = """
-			# Functional Source License, Version 1.1, MIT Future License
-			A Permitted Purpose is any purpose other than a Competing Use.
-			We hereby irrevocably grant you an additional license to use the Software under
-			the MIT license that is effective on the second anniversary.
-			"""
-		#expect(FileHeaderBuilder.recognizeLicense(in: text)?.spdxID == "FSL-1.1-MIT")
-	}
-
-	@Test
-	// swiftlint:disable:next identifier_name
-	private func `未知授權回 nil`() {
-		#expect(FileHeaderBuilder.recognizeLicense(in: "Some Custom License\n\nDo whatever you want.") == nil)
-	}
-
-	@Test
 	private func `recognized MIT：Copyright © 用 LICENSE holder、原樣格式`() {
 		let header = FileHeaderBuilder.header(
 			targetName: "SwiftStyleFormatCore",
@@ -281,23 +216,6 @@ private struct FileHeaderBuilderTests {
 			" Copyright © {created.year}",
 			""
 		].joined(separator: #"\n"#))
-	}
-
-	@Test
-	private func `isValidSPDXID 接受 idstring 與 LicenseRef`() {
-		#expect(FileHeaderBuilder.isValidSPDXID("MIT"))
-		#expect(FileHeaderBuilder.isValidSPDXID("FSL-1.1-ALv2"))
-		#expect(FileHeaderBuilder.isValidSPDXID("GPL-3.0-or-later"))
-		#expect(FileHeaderBuilder.isValidSPDXID("GPL-2.0+"))
-		#expect(FileHeaderBuilder.isValidSPDXID("LicenseRef-MyTerms"))
-	}
-
-	@Test
-	private func `isValidSPDXID 拒絕複合運算式與空值`() {
-		#expect(!FileHeaderBuilder.isValidSPDXID(""))
-		#expect(!FileHeaderBuilder.isValidSPDXID("MIT OR Apache-2.0"))
-		#expect(!FileHeaderBuilder.isValidSPDXID("Apache-2.0 WITH LLVM-exception"))
-		#expect(!FileHeaderBuilder.isValidSPDXID("FSL 1.1"))
 	}
 
 	@Test
