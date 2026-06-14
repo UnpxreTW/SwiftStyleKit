@@ -49,6 +49,23 @@ private struct FileHeaderBuilderRecognizeTests {
 
 	@Test
 	// swiftlint:disable:next identifier_name
+	private func `辨識 BSD-2-Clause——無 neither the name 條款`() {
+		let text = """
+			Redistribution and use in source and binary forms, with or without modification, are permitted.
+			Redistributions of source code must retain the above copyright notice.
+			"""
+		#expect(FileHeaderBuilder.recognizeLicense(in: text)?.spdxID == "BSD-2-Clause")
+	}
+
+	@Test
+	// swiftlint:disable:next identifier_name
+	private func `辨識 ISC——permission to use copy modify and/or distribute`() {
+		let text = "Permission to use, copy, modify, and/or distribute this software is hereby granted."
+		#expect(FileHeaderBuilder.recognizeLicense(in: text)?.spdxID == "ISC")
+	}
+
+	@Test
+	// swiftlint:disable:next identifier_name
 	private func `辨識 MPL-2.0`() {
 		let result = FileHeaderBuilder.recognizeLicense(in: "Mozilla Public License Version 2.0")
 		#expect(result?.spdxID == "MPL-2.0")
