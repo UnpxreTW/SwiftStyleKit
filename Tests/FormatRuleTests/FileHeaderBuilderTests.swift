@@ -105,7 +105,25 @@ private struct FileHeaderBuilderTests {
 	}
 
 	@Test
-	private func `recognized MPL 無 author：省略 copyright、只剩 SPDX-License-Identifier`() {
+	private func `recognized MPL 無 author 但有 licenseHolder：退回 licenseHolder 一行`() {
+		let header = FileHeaderBuilder.header(
+			targetName: "koine",
+			licenseHolder: "Unpxre (GitHub: UnpxreTW)",
+			noticeHolder: nil,
+			authors: [],
+			license: .recognized(name: "Mozilla Public License 2.0", spdxID: "MPL-2.0")
+		)
+		#expect(header == [
+			"",
+			" koine",
+			"",
+			" SPDX-FileCopyrightText: {created.year} Unpxre (GitHub: UnpxreTW)",
+			" SPDX-License-Identifier: MPL-2.0"
+		].joined(separator: #"\n"#))
+	}
+
+	@Test
+	private func `recognized MPL 無任何 holder：header() 退化只剩 SPDX（plugin 端 gate 擋下）`() {
 		let header = FileHeaderBuilder.header(
 			targetName: "koine",
 			licenseHolder: nil,
@@ -135,6 +153,26 @@ private struct FileHeaderBuilderTests {
 			" App",
 			"",
 			" Copyright © {created.year} The Foo Project",
+			" Licensed under the Apache License 2.0. See LICENSE for details.",
+			"",
+			" SPDX-License-Identifier: Apache-2.0"
+		].joined(separator: #"\n"#))
+	}
+
+	@Test
+	private func `recognized Apache 無 NOTICE：退回 licenseHolder`() {
+		let header = FileHeaderBuilder.header(
+			targetName: "App",
+			licenseHolder: "Unpxre (GitHub: UnpxreTW)",
+			noticeHolder: nil,
+			authors: [],
+			license: .recognized(name: "Apache License 2.0", spdxID: "Apache-2.0")
+		)
+		#expect(header == [
+			"",
+			" App",
+			"",
+			" Copyright © {created.year} Unpxre (GitHub: UnpxreTW)",
 			" Licensed under the Apache License 2.0. See LICENSE for details.",
 			"",
 			" SPDX-License-Identifier: Apache-2.0"

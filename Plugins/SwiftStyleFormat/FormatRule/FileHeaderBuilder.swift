@@ -134,11 +134,15 @@ public enum FileHeaderBuilder {
 			lines.append("See LICENSE for details.")
 		case let .recognized(name, spdxID):
 			if spdxID == "MPL-2.0" {
-				for holder in authors {
+				// 無 AUTHORS 時退回 licenseHolder（REUSE 要求每檔有版權持有人）；
+				// 兩者皆空由 plugin 端 hasRequiredHolder 擋下、不會到這
+				let holders = authors.isEmpty ? [licenseHolder].compactMap(\.self) : authors
+				for holder in holders {
 					lines.append("SPDX-FileCopyrightText: {created.year} \(holder)")
 				}
 			} else {
-				let holder = spdxID == "Apache-2.0" ? noticeHolder : licenseHolder
+				// Apache 取 NOTICE holder、缺則退回 LICENSE 解析出的 licenseHolder
+				let holder = spdxID == "Apache-2.0" ? noticeHolder ?? licenseHolder : licenseHolder
 				if holder == nil, spdxID.hasPrefix("FSL-1.1"), !authors.isEmpty {
 					for author in authors {
 						lines.append(copyrightLine(holder: author))
