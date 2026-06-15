@@ -153,14 +153,14 @@ public enum FileHeaderBuilder {
 			} else {
 				// holder 來源：Apache 取 NOTICE（缺退回 licenseHolder）；GNU 家族取 NOTICE（其 LICENSE
 				// 帶 FSF 對條文的版權、licenseHolder 不可用）；其餘（MIT/BSD/ISC/FSL）取 licenseHolder
-				let holder: String?
-				if spdxID == "Apache-2.0" {
-					holder = noticeHolder ?? licenseHolder
-				} else if isGNUFamily(spdxID) {
-					holder = noticeHolder
-				} else {
-					holder = licenseHolder
-				}
+				let holder: String? =
+					if spdxID == "Apache-2.0" {
+						noticeHolder ?? licenseHolder
+					} else if isGNUFamily(spdxID) {
+						noticeHolder
+					} else {
+						licenseHolder
+					}
 				if holder == nil, spdxID.hasPrefix("FSL-1.1") || isGNUFamily(spdxID), !authors.isEmpty {
 					for author in authors {
 						lines.append(copyrightLine(holder: author))
