@@ -88,6 +88,10 @@ struct SwiftStyleFormat: CommandPlugin {
         if spdxID == "MPL-2.0", noHolder {
             throw HeaderError(description: "MPL-2.0 每檔需版權持有人（REUSE 合規要求）：請提供 AUTHORS 檔、或在 LICENSE 填 Copyright 行")
         }
+        // GNU 家族的 LICENSE 帶的是 FSF 對條文的版權、licenseHolder 不可用 → 需 NOTICE 或 AUTHORS
+        if FileHeaderBuilder.isGNUFamily(spdxID), inputs.noticeHolder == nil, inputs.authors.isEmpty {
+            throw HeaderError(description: "GNU 授權（GPL/LGPL/AGPL）需版權持有人：其 LICENSE 帶的是 FSF 對條文的版權、不可作專案持有人，請提供 NOTICE 的 Copyright 行、或 AUTHORS 檔")
+        }
     }
 
     /// plugin 中止用錯誤：`description` 即 SwiftPM 顯示的訊息
