@@ -192,6 +192,10 @@ extension FormatRule {
 		// case 留在 enum 內形成「考慮過且選擇關閉」的 in-tree 宣告、fork 可改
 		.wrapMultilineConditionalAssignment(rule: .disable),
 		.wrapMultilineFunctionChains(rule: .enable),
+		// 啟用：多行 if/guard/while 條件時 swiftformat 把 `{` 推到獨立行，與 swiftlint
+		// opening_brace（`{` 同行、--strict）方向相反觸發 CI 報錯；我們刻意把這衝突當作
+		// 「判斷式超過 maxWidth（120）該壓短」的信號、而非缺陷。func/init 因 closingParen:
+		// .balanced 不觸發；guard/switch/do-catch 在 opening_brace 無豁免、信號最硬
 		.wrapMultilineStatementBraces(rule: .enable),
 		// 不啟用：single-line computed property（`var id: Int { rawValue }`、SwiftUI
 		// `var body: some View { ... }`）是 Swift 5.9+ 推薦慣例、社群主流寫法；
