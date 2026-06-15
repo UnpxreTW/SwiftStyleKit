@@ -9,6 +9,8 @@
 import SwiftStyleFormatCore
 import Testing
 
+// MARK: - FileHeaderBuilderTests
+
 // REUSE-IgnoreStart — 測試 fixture 含 MPL-2.0 / Apache-2.0 等檔頭樣本字串，
 // 屬測試資料、非本檔（MIT，見上方檔頭）的授權宣告；不圈會讓 reuse lint
 // 誤判 repo 使用多種授權、要求 LICENSES/ 補對應全文。
@@ -262,6 +264,8 @@ private struct FileHeaderBuilderTests {
 		#expect(parsed == ["Unpxre (GitHub: UnpxreTW)", "Bob Wang"])
 	}
 }
+
+// MARK: - FileHeaderBuilderGNUTests
 
 @Suite("FileHeaderBuilder GNU")
 private struct FileHeaderBuilderGNUTests {
