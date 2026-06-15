@@ -98,6 +98,15 @@ public enum FileHeaderBuilder {
 		id.wholeMatch(of: #/(?:LicenseRef-)?[A-Za-z0-9.\-]+\+?/#) != nil
 	}
 
+	/// 是否 GNU 家族（GPL / LGPL / AGPL）
+	///
+	/// 這些授權的 `LICENSE` 全文帶的是 FSF 對「授權條文本身」的版權
+	/// （`Copyright © 2007 Free Software Foundation`），非專案版權——故 holder 不可取
+	/// `licenseHolder`，改走 `noticeHolder` / `authors`（同 Apache / FSL 之所以不取 LICENSE）。
+	public static func isGNUFamily(_ spdxID: String) -> Bool {
+		spdxID.hasPrefix("GPL-") || spdxID.hasPrefix("LGPL-") || spdxID.hasPrefix("AGPL-")
+	}
+
 	/// 從 `AUTHORS` 內容抓版權持有人清單
 	///
 	/// 每行非空、非 `#` 註解算一筆、依檔案順序逐字 trim 後回傳。集合式（單行
@@ -113,8 +122,9 @@ public enum FileHeaderBuilder {
 	///
 	/// holder 行依授權型別分流：MPL-2.0 走 REUSE 風格、每位 `authors` 各一行
 	/// `SPDX-FileCopyrightText`；其餘授權沿用 `Copyright © {created.year} <holder>`、holder
-	/// 來源 Apache-2.0 取 `noticeHolder`、其餘取 `licenseHolder`；FSL-1.1 在 `licenseHolder`
-	/// 缺席時 fallback 每位 `authors` 各一行 `Copyright ©`（官方模板以 we/us 指稱授權人、
+	/// 來源 Apache-2.0 與 GNU 家族取 `noticeHolder`（GNU 的 LICENSE 帶 FSF 版權、不可取
+	/// `licenseHolder`）、其餘取 `licenseHolder`；FSL-1.1 與 GNU 在 holder 缺席時 fallback 每位
+	/// `authors` 各一行 `Copyright ©`（官方模板以 we/us 指稱授權人、
 	/// Notice 段的 Copyright 行可能未填）。回傳值以字面 `\n` 分隔行、供 swiftformat
 	/// `--header` 使用，`{created.year}` 由 swiftformat 執行時解析。
 	public static func header(
@@ -141,9 +151,17 @@ public enum FileHeaderBuilder {
 					lines.append("SPDX-FileCopyrightText: {created.year} \(holder)")
 				}
 			} else {
-				// Apache 取 NOTICE holder、缺則退回 LICENSE 解析出的 licenseHolder
-				let holder = spdxID == "Apache-2.0" ? noticeHolder ?? licenseHolder : licenseHolder
-				if holder == nil, spdxID.hasPrefix("FSL-1.1"), !authors.isEmpty {
+				// holder 來源：Apache 取 NOTICE（缺退回 licenseHolder）；GNU 家族取 NOTICE（其 LICENSE
+				// 帶 FSF 對條文的版權、licenseHolder 不可用）；其餘（MIT/BSD/ISC/FSL）取 licenseHolder
+				let holder: String?
+				if spdxID == "Apache-2.0" {
+					holder = noticeHolder ?? licenseHolder
+				} else if isGNUFamily(spdxID) {
+					holder = noticeHolder
+				} else {
+					holder = licenseHolder
+				}
+				if holder == nil, spdxID.hasPrefix("FSL-1.1") || isGNUFamily(spdxID), !authors.isEmpty {
 					for author in authors {
 						lines.append(copyrightLine(holder: author))
 					}
