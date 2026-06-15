@@ -221,47 +221,6 @@ private struct FileHeaderBuilderTests {
 	}
 
 	@Test
-	private func `recognized GPL：Copyright © 用 NOTICE holder（不取 LICENSE 的 FSF 版權）`() {
-		let header = FileHeaderBuilder.header(
-			targetName: "App",
-			licenseHolder: "Free Software Foundation, Inc.",
-			noticeHolder: "The Foo Project",
-			authors: [],
-			license: .recognized(name: "GNU General Public License v3.0", spdxID: "GPL-3.0-only")
-		)
-		#expect(header == [
-			"",
-			" App",
-			"",
-			" Copyright © {created.year} The Foo Project",
-			" Licensed under the GNU General Public License v3.0. See LICENSE for details.",
-			"",
-			" SPDX-License-Identifier: GPL-3.0-only"
-		].joined(separator: #"\n"#))
-	}
-
-	@Test
-	private func `recognized GPL 無 NOTICE：fallback AUTHORS 各一行 Copyright`() {
-		let header = FileHeaderBuilder.header(
-			targetName: "App",
-			licenseHolder: "Free Software Foundation, Inc.",
-			noticeHolder: nil,
-			authors: ["Unpxre (GitHub: UnpxreTW)", "Alice Chen"],
-			license: .recognized(name: "GNU General Public License v3.0", spdxID: "GPL-3.0-only")
-		)
-		#expect(header == [
-			"",
-			" App",
-			"",
-			" Copyright © {created.year} Unpxre (GitHub: UnpxreTW)",
-			" Copyright © {created.year} Alice Chen",
-			" Licensed under the GNU General Public License v3.0. See LICENSE for details.",
-			"",
-			" SPDX-License-Identifier: GPL-3.0-only"
-		].joined(separator: #"\n"#))
-	}
-
-	@Test
 	private func `unrecognized：Copyright © 用 LICENSE holder + See LICENSE`() {
 		let header = FileHeaderBuilder.header(
 			targetName: "App",
@@ -301,6 +260,51 @@ private struct FileHeaderBuilderTests {
 	private func `authors 取非空非註解行、依序`() {
 		let parsed = FileHeaderBuilder.authors(in: "Unpxre (GitHub: UnpxreTW)\n\n# 個別貢獻者\n# Alice\nBob Wang")
 		#expect(parsed == ["Unpxre (GitHub: UnpxreTW)", "Bob Wang"])
+	}
+}
+
+@Suite("FileHeaderBuilder GNU")
+private struct FileHeaderBuilderGNUTests {
+
+	@Test
+	private func `recognized GPL：Copyright © 用 NOTICE holder（不取 LICENSE 的 FSF 版權）`() {
+		let header = FileHeaderBuilder.header(
+			targetName: "App",
+			licenseHolder: "Free Software Foundation, Inc.",
+			noticeHolder: "The Foo Project",
+			authors: [],
+			license: .recognized(name: "GNU General Public License v3.0", spdxID: "GPL-3.0-only")
+		)
+		#expect(header == [
+			"",
+			" App",
+			"",
+			" Copyright © {created.year} The Foo Project",
+			" Licensed under the GNU General Public License v3.0. See LICENSE for details.",
+			"",
+			" SPDX-License-Identifier: GPL-3.0-only"
+		].joined(separator: #"\n"#))
+	}
+
+	@Test
+	private func `recognized GPL 無 NOTICE：fallback AUTHORS 各一行 Copyright`() {
+		let header = FileHeaderBuilder.header(
+			targetName: "App",
+			licenseHolder: "Free Software Foundation, Inc.",
+			noticeHolder: nil,
+			authors: ["Unpxre (GitHub: UnpxreTW)", "Alice Chen"],
+			license: .recognized(name: "GNU General Public License v3.0", spdxID: "GPL-3.0-only")
+		)
+		#expect(header == [
+			"",
+			" App",
+			"",
+			" Copyright © {created.year} Unpxre (GitHub: UnpxreTW)",
+			" Copyright © {created.year} Alice Chen",
+			" Licensed under the GNU General Public License v3.0. See LICENSE for details.",
+			"",
+			" SPDX-License-Identifier: GPL-3.0-only"
+		].joined(separator: #"\n"#))
 	}
 }
 
