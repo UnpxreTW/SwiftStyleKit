@@ -884,6 +884,9 @@ public enum FormatRule {
 	case wrapMultilineFunctionChains(rule: Flag)
 
 	/// multi-line 條件式（`if`/`guard`/`while`）的 opening brace `{` 換到單獨一行
+	///
+	/// 刻意保留啟用、勿 disable：多行條件會與 swiftlint `opening_brace` 衝突而觸發
+	/// `--strict` 報錯，此衝突刻意當作「判斷式超過 maxWidth（120）該壓短」的信號。
 	case wrapMultilineStatementBraces(rule: Flag)
 
 	/// 把 single-line property body 拆成多行（`var bar: String { "bar" }` → 多行寫法）
