@@ -562,9 +562,10 @@ public enum FormatRule {
 
 	/// 移除冗餘的型別標註（含 Swift 5.9+ if/switch expression、SE-0380）
 	///
-	/// `mode` 預設 `.explicit`（strong-typing 派、保留型別標註、右側 `Type(...)` 改 `.init(...)`）。
-	/// swiftformat 上游預設為 `.inferLocalsOnly`。
-	case redundantType(rule: Flag, mode: RedundantTypeMode = .explicit)
+	/// 不帶 mode 參數：型別推導模式由 `--property-types` 選項控制、與 ``propertyTypes`` 規則共用，
+	/// 統一在 ``propertyTypes`` 設定（SwiftStyleKit 選 `.explicit`）。swiftformat 0.55.0 起此選項
+	/// 由 `--redundant-type` 改名為 `--property-types`、在此另設只會 emit 已 deprecated 的舊名。
+	case redundantType(rule: Flag)
 
 	/// 簡化冗餘的 typed throws（Swift 6.0+、SE-0413）
 	///
@@ -836,20 +837,22 @@ public enum FormatRule {
 
 	/// 規範 `@attribute` 擺位——換到上一行或同行
 	///
-	/// 6 個 `AttributeMode` option 簽名預設全部 `.prevLine`（B 方案、上游 `.preserve`）——
+	/// 5 個 `AttributeMode` option 簽名預設全部 `.prevLine`（B 方案、上游 `.preserve`）——
 	/// 強調 attribute 存在感、對齊 `@Test` / SwiftUI `@State` / Concurrency `@MainActor` 慣例。
 	/// - `funcAttributes`：function 上的 @attribute
 	/// - `typeAttributes`：type 宣告上的 @attribute
-	/// - `varAttributes`：var 上的 @attribute（總控、stored / computed 沒設時 fallback 用此值）
-	/// - `storedVarAttributes`：stored property 細分 override
-	/// - `computedVarAttributes`：computed property 細分 override
+	/// - `storedVarAttributes`：stored property 上的 @attribute
+	/// - `computedVarAttributes`：computed property 上的 @attribute
 	/// - `complexAttributes`：帶參數的 @attribute（如 `@available(iOS 15, *)`）
 	/// - `nonComplexAttributes` 簽名預設 `nil`：fork 自訂哪些 attribute 強制當 simple；`nil`/`[]` 等效不展開
+	///
+	/// 不提供 `varAttributes` 總控：swiftformat 0.54.0 起 `--var-attributes` 已拆分為
+	/// `--stored-var-attributes` / `--computed-var-attributes`、umbrella 選項被 deprecated；
+	/// stored / computed 已涵蓋所有 var、毋須再傳會觸發 deprecation warning 的 `--var-attributes`。
 	case wrapAttributes(
 		rule: Flag,
 		funcAttributes: AttributeMode = .prevLine,
 		typeAttributes: AttributeMode = .prevLine,
-		varAttributes: AttributeMode = .prevLine,
 		storedVarAttributes: AttributeMode = .prevLine,
 		computedVarAttributes: AttributeMode = .prevLine,
 		complexAttributes: AttributeMode = .prevLine,

@@ -18,13 +18,12 @@ private struct WrapAttributesTests {
 	}
 
 	@Test
-	private func `wrapAttributes .enable 簽名預設展開 6 attribute mode 全 prev-line`() {
+	private func `wrapAttributes .enable 簽名預設展開 5 attribute mode 全 prev-line`() {
 		let args = FormatRule.wrapAttributes(rule: .enable).cliArguments
 		#expect(args == [
 			"--enable", "wrapAttributes",
 			"--funcAttributes", "prev-line",
 			"--typeAttributes", "prev-line",
-			"--varAttributes", "prev-line",
 			"--storedVarAttributes", "prev-line",
 			"--computedVarAttributes", "prev-line",
 			"--complexAttributes", "prev-line"

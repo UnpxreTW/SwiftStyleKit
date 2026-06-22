@@ -9,12 +9,12 @@
 extension FormatRule {
 
 	// swiftlint:disable:next line_length
-	/// ``FormatRule/wrapAttributes(rule:funcAttributes:typeAttributes:varAttributes:storedVarAttributes:computedVarAttributes:complexAttributes:nonComplexAttributes:)``
+	/// ``FormatRule/wrapAttributes(rule:funcAttributes:typeAttributes:storedVarAttributes:computedVarAttributes:complexAttributes:nonComplexAttributes:)``
 	/// 對 `@attribute` 擺位的模式
 	///
-	/// 對應 swiftformat 的 6 個 `*-attributes` option：`func-attributes` / `type-attributes` /
-	/// `var-attributes` / `stored-var-attributes` / `computed-var-attributes` / `complex-attributes`，
-	/// 本 enum 被六者共用、不 conform ``FormatRuleOption``、由各 case 簽名的參數 label 決定 CLI flag 名。
+	/// 對應 swiftformat 的 5 個 `*-attributes` option：`func-attributes` / `type-attributes` /
+	/// `stored-var-attributes` / `computed-var-attributes` / `complex-attributes`，
+	/// 本 enum 被五者共用、不 conform ``FormatRuleOption``、由各 case 簽名的參數 label 決定 CLI flag 名。
 	public enum AttributeMode: String {
 
 		/// `@attribute` 換到上一行、宣告自成一行（強調 attribute 存在感、SwiftUI / Concurrency 慣例）
