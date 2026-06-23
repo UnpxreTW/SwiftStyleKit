@@ -65,6 +65,9 @@ struct CaseInfo {
 	/// @available(deprecated, renamed:) 的目標名；無則 nil
 	let renamed: String?
 
+	/// 是否已遷移（storage case 帶 `_` 前綴）；增量模式下只有已遷移的 case 才生成 overload
+	let isMigrated: Bool
+
 	/// 是否含 rule 旗標（globalOption case 無）
 	var hasRule: Bool {
 		params.contains { $0.isRule }
@@ -107,9 +110,10 @@ final class CaseCollector: SyntaxVisitor {
 		}
 
 		for element in node.elements {
-			// 已 `_` 前綴的 storage case 還原成 public API 名（讓 codegen 可 re-run）
+			// 已 `_` 前綴 ＝ 已遷移；還原成 public API 名（讓 codegen 可 re-run）
 			let rawName = element.name.text
-			let name = rawName.hasPrefix("_") ? String(rawName.dropFirst()) : rawName
+			let isMigrated = rawName.hasPrefix("_")
+			let name = isMigrated ? String(rawName.dropFirst()) : rawName
 			// 逐一收集參數（label / 型別 / 預設值文字）
 			var params: [Param] = []
 			if let paramClause = element.parameterClause {
@@ -128,7 +132,8 @@ final class CaseCollector: SyntaxVisitor {
 				name: name,
 				params: params,
 				isDeprecated: isDeprecated,
-				renamed: renamed
+				renamed: renamed,
+				isMigrated: isMigrated
 			))
 		}
 		return .skipChildren
@@ -209,6 +214,12 @@ struct SynthFailure {
 /// 用 SyntaxRewriter 只改 case 名與缺 default 的 param、保留所有 doc comment / trivia。
 final class StorageRewriter: SyntaxRewriter {
 
+	/// 本次要額外遷移（加 `_` 前綴）的規則名；nil ＝ 只保留既有遷移、不新增（增量）
+	var onlyRule: String?
+
+	/// onlyRule 是否真的匹配到某個 case（fail-loud：指定不存在的規則名要報錯）
+	var onlyRuleMatched = false
+
 	/// 改寫過程中合成預設的紀錄
 	var synthesized: [SynthRecord] = []
 
@@ -227,6 +238,10 @@ final class StorageRewriter: SyntaxRewriter {
 		let rawName = node.name.text
 		// idempotent：已 `_` 前綴的不再加（讓 codegen 可重複 re-run 不雙前綴）
 		let originalName = rawName.hasPrefix("_") ? String(rawName.dropFirst()) : rawName
+		// 增量：只遷移「已 `_` 前綴（前次已遷移）」或本次 `--only` 指定的 case；
+		// 其餘保持 bare、原樣返回（不前綴、不合成 default），讓遷移逐條進行。
+		if onlyRule == originalName { onlyRuleMatched = true }
+		guard rawName.hasPrefix("_") || onlyRule == originalName else { return node }
 		// case 名加 `_` 前綴（保留 leading/trailing trivia）
 		node.name = TokenSyntax.identifier("_" + originalName)
 			.with(\.leadingTrivia, node.name.leadingTrivia)
@@ -423,12 +438,21 @@ func err(_ string: String) {
 let arguments = CommandLine.arguments
 guard arguments.count >= 3 else {
 	FileHandle.standardError.write(
-		Data("usage: FormatRuleCodegen <FormatRule.swift path> <output dir>\n".utf8)
+		Data("usage: FormatRuleCodegen <FormatRule.swift path> <output dir> [--only <rule>]\n".utf8)
 	)
 	exit(2)
 }
 let formatRulePath = arguments[1] // 來源 FormatRule.swift 路徑
 let outDir = arguments[2] // 生成檔輸出目錄
+// 增量模式：`--only <rule>` 只額外遷移指定規則；省略則只保留既有 `_` 遷移、不新增
+var onlyRule: String?
+if let flagIndex = arguments.firstIndex(of: "--only") {
+	guard flagIndex + 1 < arguments.count else {
+		err("ERROR: --only 需接規則名，例：--only acronyms")
+		exit(2)
+	}
+	onlyRule = arguments[flagIndex + 1]
+}
 
 // 2. 讀取並解析 FormatRule.swift
 guard let source = try? String(contentsOfFile: formatRulePath, encoding: .utf8) else {
@@ -439,7 +463,13 @@ let tree = Parser.parse(source: source)
 
 // 3. storage enum 就地改寫（`_` 前綴 + fileHeader 合成預設）、寫回原檔
 let storageRewriter = StorageRewriter()
+storageRewriter.onlyRule = onlyRule
 let rewrittenTree = storageRewriter.visit(tree)
+// fail-loud：--only 指定了不存在的規則名 → 報錯中止（此時尚未寫回 source）
+if let onlyRule, !storageRewriter.onlyRuleMatched {
+	err("ERROR: --only 指定的規則 '\(onlyRule)' 不在 enum FormatRule 中")
+	exit(1)
+}
 // gate 3：有無法安全合成預設的 param → 報錯中止（此時尚未寫回 source、不留壞檔）
 if !storageRewriter.synthesisFailures.isEmpty {
 	err("ERROR: 以下 param 無原始 default 且型別無法安全合成預設（gate 3）：")
@@ -457,9 +487,9 @@ let collector = CaseCollector(viewMode: .sourceAccurate)
 collector.walk(rewrittenTree)
 let allCases = collector.cases
 
-// 5. 生成 overload 檔
+// 5. 生成 overload 檔（增量：只對已遷移的 case 出 overload；未遷移者維持原 enum case 直接存取）
 var overloads = fileHeaderComment + "\n\nextension FormatRule {\n\n"
-for caseInfo in allCases {
+for caseInfo in allCases where caseInfo.isMigrated {
 	let body = renderOverloads(caseInfo)
 	guard !body.isEmpty else { continue }
 	overloads += "\t// MARK: \(caseInfo.name)\n\n"
@@ -468,13 +498,14 @@ for caseInfo in allCases {
 overloads += "}\n"
 try overloads.write(toFile: "\(outDir)/FormatRule+SafeOverloads.swift", atomically: true, encoding: .utf8)
 
-// 6. 統計報告（stderr，不污染檔案）
+// 6. 統計報告（stderr，不污染檔案）；增量下統計只算已遷移的 case
+let migratedCases = allCases.filter(\.isMigrated)
 var counts: [Shape: Int] = [:]
-for caseInfo in allCases {
+for caseInfo in migratedCases {
 	counts[shape(caseInfo), default: 0] += 1
 }
 var overloadCount = 0
-for caseInfo in allCases {
+for caseInfo in migratedCases {
 	switch shape(caseInfo) {
 	case .pureFlag: overloadCount += 2
 	case .flagPlusParams: overloadCount += 3
@@ -484,7 +515,8 @@ for caseInfo in allCases {
 }
 
 err("===== CODEGEN REPORT =====")
-err("total enum cases parsed: \(allCases.count)")
+if let onlyRule { err("--only: \(onlyRule)") }
+err("enum cases: \(allCases.count) total, \(migratedCases.count) migrated（已生成 overload）")
 for kind: Shape in [.pureFlag, .flagPlusParams, .globalOption, .deprecated] {
 	err("  \(kind.rawValue): \(counts[kind] ?? 0)")
 }
@@ -498,7 +530,7 @@ for record in storageRewriter.synthesized {
 
 err("")
 err("[special case 2] unnamed associated values:")
-for caseInfo in allCases where shape(caseInfo) == .flagPlusParams {
+for caseInfo in migratedCases where shape(caseInfo) == .flagPlusParams {
 	for param in caseInfo.extraParams where param.label.isEmpty {
 		err("  \(caseInfo.name).<unnamed>: \(param.typeText)")
 	}
@@ -506,13 +538,13 @@ for caseInfo in allCases where shape(caseInfo) == .flagPlusParams {
 
 err("")
 err("[special case 3] deprecated cases (backward-compat Flag factory, no token split):")
-for caseInfo in allCases where caseInfo.isDeprecated {
+for caseInfo in migratedCases where caseInfo.isDeprecated {
 	err("  \(caseInfo.name) -> renamed: \(caseInfo.renamed ?? "?")")
 }
 
 err("")
 err("[special case 4] global-option cases (passthrough factory):")
-for caseInfo in allCases where shape(caseInfo) == .globalOption {
+for caseInfo in migratedCases where shape(caseInfo) == .globalOption {
 	err("  \(caseInfo.name)")
 }
 
