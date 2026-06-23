@@ -84,6 +84,12 @@ final class CaseCollector: SyntaxVisitor {
 	/// 收集到的所有 case
 	var cases: [CaseInfo] = []
 
+	// 範圍守衛（gate 2）：codegen 讀單一 FormatRule.swift；只收集 `enum FormatRule`
+	// 的 case，未來若在同檔加 helper enum 才不會誤收其 case。
+	override func visit(_ node: EnumDeclSyntax) -> SyntaxVisitorContinueKind {
+		node.name.text == "FormatRule" ? .visitChildren : .skipChildren
+	}
+
 	override func visit(_ node: EnumCaseDeclSyntax) -> SyntaxVisitorContinueKind {
 		// 解析 case 上的 @available：判斷是否 deprecated、抓 renamed 目標
 		var isDeprecated = false
@@ -187,11 +193,34 @@ struct SynthRecord {
 	let injected: String
 }
 
+/// 一筆「無法安全合成預設」的紀錄（gate 3：型別不在 synthesizedDefault 支援範圍）。
+struct SynthFailure {
+
+	/// 出問題的 case 名
+	let caseName: String
+
+	/// 缺 default 又無法合成的參數 label
+	let label: String
+
+	/// 該參數型別文字
+	let type: String
+}
+
 /// 用 SyntaxRewriter 只改 case 名與缺 default 的 param、保留所有 doc comment / trivia。
 final class StorageRewriter: SyntaxRewriter {
 
 	/// 改寫過程中合成預設的紀錄
 	var synthesized: [SynthRecord] = []
+
+	/// 無法安全合成預設的 param 紀錄（gate 3：main 端據此報錯中止）
+	var synthesisFailures: [SynthFailure] = []
+
+	// 範圍守衛（gate 2）：只就地改寫 `enum FormatRule`；其他 enum（未來在同檔加的
+	// helper）原樣返回、不遞迴改寫其 case，避免 case 名被默默加 `_` 前綴寫壞 source。
+	override func visit(_ node: EnumDeclSyntax) -> DeclSyntax {
+		guard node.name.text == "FormatRule" else { return DeclSyntax(node) }
+		return super.visit(node)
+	}
 
 	override func visit(_ node: EnumCaseElementSyntax) -> EnumCaseElementSyntax {
 		var node = node
@@ -211,8 +240,19 @@ final class StorageRewriter: SyntaxRewriter {
 			let label = param.firstName?.text ?? ""
 			let typeText = param.type.trimmedDescription
 			let isRule = (typeText == "Flag" && label == "rule")
-			guard !isRule, param.defaultValue == nil,
-				let synth = synthesizedDefault(forType: typeText) else { continue }
+			// rule 旗標、或已有原始 default 的 param 不需合成
+			guard !isRule, param.defaultValue == nil else { continue }
+			// gate 3：非 rule param 無原始 default、但型別無法安全合成預設（非 Optional 的
+			// Bool/Toggle/Double 等）→ 記錄失敗、main 端報錯中止，別讓 disable overload
+			// 缺引數、把編譯錯誤甩給看不懂 codegen 的下游。
+			guard let synth = synthesizedDefault(forType: typeText) else {
+				synthesisFailures.append(SynthFailure(
+					caseName: originalName,
+					label: label,
+					type: typeText
+				))
+				continue
+			}
 			let synthExpr = ExprSyntax("\(raw: synth)")
 			newParams[index] = param.with(
 				\.defaultValue,
@@ -287,15 +327,22 @@ func renderOverloads(_ caseInfo: CaseInfo) -> String {
 		\t}
 		"""
 	case .globalOption:
-		// 特例 4：無 Flag——維持單一 passthrough factory（mode 預設保留），無 enable/disable/diagnostic
-		let param = caseInfo.extraParams.first
-		let label = param?.label ?? "mode"
-		let typeText = param?.typeText ?? "Never"
-		let def = param?.defaultText.map { " = \($0)" } ?? ""
+		// 特例 4：無 Flag——維持單一 passthrough factory（mode 預設保留），無 enable/disable/diagnostic。
+		// gate 4：globalOption 可能不只一個 param（未來 typeBlankLines 加第二 option）；
+		// 逐一展開簽名與 storage 引數、別只取 first。
+		let params = caseInfo.extraParams
+		let signature = params.isEmpty ? "mode: Never" : params.map { param in
+			let label = param.label.isEmpty ? "_ value" : param.label
+			let def = param.defaultText.map { " = \($0)" } ?? ""
+			return "\(label): \(param.typeText)\(def)"
+		}.joined(separator: ", ")
+		let storageArgs = params.isEmpty ? "mode: mode" : params.map { param in
+			param.label.isEmpty ? "value" : "\(param.label): \(param.label)"
+		}.joined(separator: ", ")
 		return """
 		\t/// 全域 option（無 rule Flag）：直接 passthrough，無 enable/disable 之分
-		\tpublic static func \(caseInfo.name)(\(label): \(typeText)\(def)) -> FormatRule {
-		\t\t._\(caseInfo.name)(\(label): \(label))
+		\tpublic static func \(caseInfo.name)(\(signature)) -> FormatRule {
+		\t\t._\(caseInfo.name)(\(storageArgs))
 		\t}
 		"""
 	case .pureFlag:
@@ -393,6 +440,15 @@ let tree = Parser.parse(source: source)
 // 3. storage enum 就地改寫（`_` 前綴 + fileHeader 合成預設）、寫回原檔
 let storageRewriter = StorageRewriter()
 let rewrittenTree = storageRewriter.visit(tree)
+// gate 3：有無法安全合成預設的 param → 報錯中止（此時尚未寫回 source、不留壞檔）
+if !storageRewriter.synthesisFailures.isEmpty {
+	err("ERROR: 以下 param 無原始 default 且型別無法安全合成預設（gate 3）：")
+	for failure in storageRewriter.synthesisFailures {
+		err("  \(failure.caseName).\(failure.label): \(failure.type)")
+	}
+	err("請在 synthesizedDefault(forType:) 補上該型別、或在 FormatRule 給該 param 預設值。")
+	exit(1)
+}
 try rewrittenTree.description.write(toFile: formatRulePath, atomically: true, encoding: .utf8)
 
 // 4. 從改寫後的 tree 收集 case：storage 合成的 default（如 fileHeader 的 `= ""`）也進到
