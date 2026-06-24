@@ -420,7 +420,6 @@ let fileHeaderComment = """
 //  型別安全 enable/disable/diagnostic overloads。改規則簽名請改 FormatRule.swift 後重跑 codegen。
 
 // swiftformat:disable all
-// swiftlint:disable all
 // 原因：本檔為 codegen 機械產出、簽名逐一對應 FormatRule 的原始 case（含 organizeDeclarations
 // 等 8~22 參數的多 option 規則）。file_length / function_parameter_count / line_length /
 // vertical_parameter_alignment / wrap 等風格規則對「生成檔的可讀性」沒指引意義——要改格式請改
