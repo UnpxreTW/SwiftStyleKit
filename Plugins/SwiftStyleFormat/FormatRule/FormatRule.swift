@@ -15,6 +15,10 @@
 // 原因：21 option 的 organizeDeclarations case 簽名為了一個 element 一行而拉長
 // enum body、超 250 行門檻；file_length 場景同理（已 disable）
 
+// swiftlint:disable identifier_name
+// 原因：型別安全遷移把已遷移規則的 storage case 改 `_` 前綴（如 `_acronyms`），
+// identifier_name 對底線開頭 case 宣告報 error；不在 blanket 豁免清單、需配對 enable（見檔尾）
+
 /// 格式規則
 ///
 /// 每個 case 對應 swiftformat 一條 rule，Mirror reflection 自動展開為 CLI 參數。
@@ -26,7 +30,7 @@
 public enum FormatRule {
 
 	/// 當設定的單字字首為大寫時轉換成全大寫，清單見 ``defaultAcronyms``
-	case acronyms(rule: Flag, String = FormatRule.defaultAcronyms)
+	case _acronyms(rule: Flag, String = FormatRule.defaultAcronyms)
 
 	/// 偏好在 `if`、`guard`、`while` 條件式中使用逗號取代 `&&`
 	case andOperator(rule: Flag)
@@ -952,3 +956,4 @@ public enum FormatRule {
 }
 
 // swiftlint:enable type_body_length
+// swiftlint:enable identifier_name
