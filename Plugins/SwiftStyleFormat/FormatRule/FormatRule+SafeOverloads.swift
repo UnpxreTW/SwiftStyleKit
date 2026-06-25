@@ -53,6 +53,23 @@ extension FormatRule {
 	public static func blankLineAfterSwitchCase(rule: DisableToken, mode: BlankLineAfterSwitchCaseMode? = nil) -> FormatRule {
 		fatalError("unavailable")
 	}
+
+	// MARK: blankLinesAfterGuardStatements
+
+	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	public static func blankLinesAfterGuardStatements(rule: EnableToken, lineBetweenGuards: Toggle = .disable) -> FormatRule {
+		._blankLinesAfterGuardStatements(rule: .enable, lineBetweenGuards: lineBetweenGuards)
+	}
+
+	/// 停用（不可帶 option）
+	public static func blankLinesAfterGuardStatements(rule: DisableToken) -> FormatRule {
+		._blankLinesAfterGuardStatements(rule: .disable)
+	}
+
+	@available(*, unavailable, message: "rule 為 .disable 時不可帶 option（option 只在 .enable 有效）")
+	public static func blankLinesAfterGuardStatements(rule: DisableToken, lineBetweenGuards: Toggle = .disable) -> FormatRule {
+		fatalError("unavailable")
+	}
 }
 
 // swiftlint:enable line_length
