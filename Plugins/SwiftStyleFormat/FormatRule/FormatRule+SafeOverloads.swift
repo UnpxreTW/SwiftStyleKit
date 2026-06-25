@@ -14,6 +14,10 @@
 // 等 8~22 參數的多 option 規則）。wrap / wrapArguments / indent 等格式規則對「生成檔的可讀性」
 // 沒指引意義——要改格式請改 codegen 模板、不手改本檔。故整檔停用 SwiftFormat。
 
+// swiftlint:disable line_length
+// 原因：生成的 overload 簽名（規則名＋型別）逐字對應原 case、可能破 120；line_length 對生成檔
+// 無指引意義。需停的其他 swiftlint 規則隨更複雜規則遷移時逐條加進此 disable。
+
 extension FormatRule {
 
 	// MARK: acronyms
@@ -32,4 +36,23 @@ extension FormatRule {
 	public static func acronyms(rule: DisableToken, _ value: String = FormatRule.defaultAcronyms) -> FormatRule {
 		fatalError("unavailable")
 	}
+
+	// MARK: blankLineAfterSwitchCase
+
+	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	public static func blankLineAfterSwitchCase(rule: EnableToken, mode: BlankLineAfterSwitchCaseMode? = nil) -> FormatRule {
+		._blankLineAfterSwitchCase(rule: .enable, mode: mode)
+	}
+
+	/// 停用（不可帶 option）
+	public static func blankLineAfterSwitchCase(rule: DisableToken) -> FormatRule {
+		._blankLineAfterSwitchCase(rule: .disable)
+	}
+
+	@available(*, unavailable, message: "rule 為 .disable 時不可帶 option（option 只在 .enable 有效）")
+	public static func blankLineAfterSwitchCase(rule: DisableToken, mode: BlankLineAfterSwitchCaseMode? = nil) -> FormatRule {
+		fatalError("unavailable")
+	}
 }
+
+// swiftlint:enable line_length

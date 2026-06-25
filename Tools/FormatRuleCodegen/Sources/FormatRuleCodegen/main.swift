@@ -423,6 +423,10 @@ let fileHeaderComment = """
 // 原因：本檔為 codegen 機械產出、簽名逐一對應 FormatRule 的原始 case（含 organizeDeclarations
 // 等 8~22 參數的多 option 規則）。wrap / wrapArguments / indent 等格式規則對「生成檔的可讀性」
 // 沒指引意義——要改格式請改 codegen 模板、不手改本檔。故整檔停用 SwiftFormat。
+
+// swiftlint:disable line_length
+// 原因：生成的 overload 簽名（規則名＋型別）逐字對應原 case、可能破 120；line_length 對生成檔
+// 無指引意義。需停的其他 swiftlint 規則隨更複雜規則遷移時逐條加進此 disable。
 """
 
 /// 寫一行到 stderr（codegen 報告專用、不污染生成檔）。
@@ -498,7 +502,7 @@ for caseInfo in allCases where caseInfo.isMigrated {
 if overloads.hasSuffix("\n\n") {
 	overloads.removeLast()
 }
-overloads += "}\n"
+overloads += "}\n\n// swiftlint:enable line_length\n"
 try overloads.write(toFile: "\(outDir)/FormatRule+SafeOverloads.swift", atomically: true, encoding: .utf8)
 
 // 6. 統計報告（stderr，不污染檔案）；增量下統計只算已遷移的 case
