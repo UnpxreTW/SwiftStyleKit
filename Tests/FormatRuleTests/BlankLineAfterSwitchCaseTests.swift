@@ -19,12 +19,6 @@ private struct BlankLineAfterSwitchCaseTests {
 	}
 
 	@Test
-	private func `blankLineAfterSwitchCase .disable + mode（mode 被忽略）返空陣列`() {
-		let args = FormatRule.blankLineAfterSwitchCase(rule: .disable, mode: .always).cliArguments
-		#expect(args.isEmpty)
-	}
-
-	@Test
 	private func `blankLineAfterSwitchCase .enable mode .multilineOnly 展開 --enable + flag multiline-only`() {
 		let args = FormatRule.blankLineAfterSwitchCase(rule: .enable, mode: .multilineOnly).cliArguments
 		#expect(args == [

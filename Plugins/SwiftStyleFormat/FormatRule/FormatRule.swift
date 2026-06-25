@@ -48,7 +48,7 @@ public enum FormatRule {
 	case blankLineAfterImports(rule: Flag)
 
 	/// 在 `switch` 內每個 `case` 後插入空白行
-	case blankLineAfterSwitchCase(rule: Flag, mode: BlankLineAfterSwitchCaseMode? = nil)
+	case _blankLineAfterSwitchCase(rule: Flag, mode: BlankLineAfterSwitchCaseMode? = nil)
 
 	/// 在最後一個 `guard` 後強制插入空白行；連續多個 `guard` 之間由 `lineBetweenGuards` 控
 	///
