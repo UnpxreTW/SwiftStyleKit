@@ -15,22 +15,17 @@
 // 原因：21 option 的 organizeDeclarations case 簽名為了一個 element 一行而拉長
 // enum body、超 250 行門檻；file_length 場景同理（已 disable）
 
-// swiftlint:disable identifier_name
-// 原因：型別安全遷移把已遷移規則的 storage case 改 `_` 前綴（如 `_acronyms`），
-// identifier_name 對底線開頭 case 宣告報 error；不在 blanket 豁免清單、需配對 enable（見檔尾）
-
 /// 格式規則
 ///
 /// 每個 case 對應 swiftformat 一條 rule，Mirror reflection 自動展開為 CLI 參數。
 ///
-/// rule 採型別安全 overload 配置：`rule:` 參數用 ``EnableToken`` / ``DisableToken`` 區分
-/// enable / disable，call site 維持 `.enable` / `.disable` 寫法、由 Swift 依 overload 期望
-/// 型別解析。`.disable` 誤帶 option 會命中 `@available(*, unavailable)` 診斷 overload、
-/// 編譯期報「option 只在 .enable 有效」。
+/// 漸進遷移中：規則逐條搬進巢狀 ``Storage`` enum、改由型別安全的 `.on` / `.off` static func
+/// 工廠建立（已遷者由載體 case ``_storage(_:)`` 承載）；尚未遷的維持原 `case`、以 `rule: Flag` 建立。
+/// 全部遷完後 FormatRule 會轉成 struct、``Storage`` 改 internal。
 public enum FormatRule {
 
 	/// 當設定的單字字首為大寫時轉換成全大寫，清單見 ``defaultAcronyms``
-	case _acronyms(rule: Flag, String = FormatRule.defaultAcronyms)
+	case acronyms(rule: Flag, String = FormatRule.defaultAcronyms)
 
 	/// 偏好在 `if`、`guard`、`while` 條件式中使用逗號取代 `&&`
 	case andOperator(rule: Flag)
@@ -48,13 +43,13 @@ public enum FormatRule {
 	case blankLineAfterImports(rule: Flag)
 
 	/// 在 `switch` 內每個 `case` 後插入空白行
-	case _blankLineAfterSwitchCase(rule: Flag, mode: BlankLineAfterSwitchCaseMode? = nil)
+	case blankLineAfterSwitchCase(rule: Flag, mode: BlankLineAfterSwitchCaseMode? = nil)
 
 	/// 在最後一個 `guard` 後強制插入空白行；連續多個 `guard` 之間由 `lineBetweenGuards` 控
 	///
 	/// `lineBetweenGuards` 簽名預設 `.disable`（與上游 `false` 一致）：連續 guard 連成一塊
 	/// early return 區。設 `.enable` 則連續 guard 之間也插空行。
-	case _blankLinesAfterGuardStatements(rule: Flag, lineBetweenGuards: Toggle = .disable)
+	case blankLinesAfterGuardStatements(rule: Flag, lineBetweenGuards: Toggle = .disable)
 
 	/// 在 `MARK:` 註解前後插入空白行
 	case blankLinesAroundMark(rule: Flag, lineAfterMarks: Toggle = .enable)
@@ -953,7 +948,17 @@ public enum FormatRule {
 	/// 已棄用、改用 ``redundantVariable(rule:)``
 	@available(*, deprecated, renamed: "redundantVariable")
 	case redundantProperty(rule: Flag)
+
+	/// 過渡載體：已遷移規則包進巢狀 ``Storage``；待全部遷完再把 FormatRule 轉成 struct、
+	/// 載體改為 internal `storage` property、本 case 消失。
+	case _storage(Storage) // swiftlint:disable:this identifier_name
+
+	// MARK: Public
+
+	/// 已遷移規則的後端聯集（逐條長大）；對外名與型別安全由 ``FormatRule`` 的 static func 工廠提供。
+	///
+	/// 過渡期為 public（因被 public 載體 ``_storage(_:)`` 引用）；最終 flip 成 struct 後改 internal。
+	public enum Storage {}
 }
 
 // swiftlint:enable type_body_length
-// swiftlint:enable identifier_name
