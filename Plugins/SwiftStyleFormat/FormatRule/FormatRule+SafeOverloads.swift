@@ -12,6 +12,9 @@
 // swiftformat:disable all
 // 原因：本檔為 codegen 機械產出、簽名逐一對應 Storage 的原始 case。格式規則對生成檔可讀性無指引意義。
 
+// swiftlint:disable line_length
+// 原因：生成的工廠簽名逐字對應原 case、行長 / 多行對齊對機械產出無指引意義。
+
 extension FormatRule {
 
 	// MARK: acronyms
@@ -31,4 +34,24 @@ extension FormatRule {
 	public static func acronyms(_ state: OffToken, _ value: String = FormatRule.defaultAcronyms) -> FormatRule {
 		fatalError("unavailable")
 	}
+
+	// MARK: blankLineAfterSwitchCase
+
+	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	public static func blankLineAfterSwitchCase(_ state: OnToken, mode: BlankLineAfterSwitchCaseMode? = nil) -> FormatRule {
+		._storage(.blankLineAfterSwitchCase(rule: .enable, mode: mode))
+	}
+
+	/// 停用（不可帶 option）
+	public static func blankLineAfterSwitchCase(_ state: OffToken) -> FormatRule {
+		._storage(.blankLineAfterSwitchCase(rule: .disable))
+	}
+
+	/// `.off` 誤帶 option 的編譯期診斷（命中即報錯、不會被呼叫）
+	@available(*, unavailable, message: ".off 不可帶 option（option 只在 .on 有效）")
+	public static func blankLineAfterSwitchCase(_ state: OffToken, mode: BlankLineAfterSwitchCaseMode? = nil) -> FormatRule {
+		fatalError("unavailable")
+	}
 }
+
+// swiftlint:enable line_length

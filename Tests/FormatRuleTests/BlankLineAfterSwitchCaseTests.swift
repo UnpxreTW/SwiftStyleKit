@@ -14,13 +14,13 @@ private struct BlankLineAfterSwitchCaseTests {
 
 	@Test
 	private func `blankLineAfterSwitchCase .disable（無 mode）返空陣列`() {
-		let args = FormatRule.blankLineAfterSwitchCase(rule: .disable).cliArguments
+		let args = FormatRule.blankLineAfterSwitchCase(.off).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
 	private func `blankLineAfterSwitchCase .enable mode .multilineOnly 展開 --enable + flag multiline-only`() {
-		let args = FormatRule.blankLineAfterSwitchCase(rule: .enable, mode: .multilineOnly).cliArguments
+		let args = FormatRule.blankLineAfterSwitchCase(.on, mode: .multilineOnly).cliArguments
 		#expect(args == [
 			"--enable", "blankLineAfterSwitchCase",
 			"--blankLineAfterSwitchCase", "multiline-only"
@@ -29,7 +29,7 @@ private struct BlankLineAfterSwitchCaseTests {
 
 	@Test
 	private func `blankLineAfterSwitchCase .enable mode .always 展開 --enable + flag always`() {
-		let args = FormatRule.blankLineAfterSwitchCase(rule: .enable, mode: .always).cliArguments
+		let args = FormatRule.blankLineAfterSwitchCase(.on, mode: .always).cliArguments
 		#expect(args == [
 			"--enable", "blankLineAfterSwitchCase",
 			"--blankLineAfterSwitchCase", "always"
@@ -38,7 +38,7 @@ private struct BlankLineAfterSwitchCaseTests {
 
 	@Test
 	private func `blankLineAfterSwitchCase .enable（mode nil 跳過、swiftformat 取上游預設）只展開 --enable`() {
-		let args = FormatRule.blankLineAfterSwitchCase(rule: .enable).cliArguments
+		let args = FormatRule.blankLineAfterSwitchCase(.on).cliArguments
 		#expect(args == ["--enable", "blankLineAfterSwitchCase"])
 	}
 }
