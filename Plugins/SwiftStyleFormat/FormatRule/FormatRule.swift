@@ -24,9 +24,6 @@
 /// 全部遷完後 FormatRule 會轉成 struct、``Storage`` 改 internal。
 public enum FormatRule {
 
-	/// 當設定的單字字首為大寫時轉換成全大寫，清單見 ``defaultAcronyms``
-	case acronyms(rule: Flag, String = FormatRule.defaultAcronyms)
-
 	/// 偏好在 `if`、`guard`、`while` 條件式中使用逗號取代 `&&`
 	case andOperator(rule: Flag)
 
@@ -958,7 +955,11 @@ public enum FormatRule {
 	/// 已遷移規則的後端聯集（逐條長大）；對外名與型別安全由 ``FormatRule`` 的 static func 工廠提供。
 	///
 	/// 過渡期為 public（因被 public 載體 ``_storage(_:)`` 引用）；最終 flip 成 struct 後改 internal。
-	public enum Storage {}
+	public enum Storage {
+
+		/// 當設定的單字字首為大寫時轉換成全大寫，清單見 ``defaultAcronyms``
+		case acronyms(rule: Flag, String = FormatRule.defaultAcronyms)
+	}
 }
 
 // swiftlint:enable type_body_length

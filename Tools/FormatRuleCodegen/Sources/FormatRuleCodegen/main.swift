@@ -79,12 +79,21 @@ final class CaseCollector: SyntaxVisitor {
 	/// 收集到的所有 Storage case
 	var cases: [CaseInfo] = []
 
-	// 範圍守衛：只收集 `enum Storage`（FormatRule 的直接 case ＝未遷移、不出工廠）。
+	/// 是否正在 `enum Storage` 內（只收集其 case；FormatRule 直接 case ＝未遷移、不收）。
+	private var inStorage = false
+
+	// 一律下探（巢狀 Storage 是 FormatRule 的 child、不能 skip FormatRule）；進 Storage 才開收集旗標。
 	override func visit(_ node: EnumDeclSyntax) -> SyntaxVisitorContinueKind {
-		node.name.text == "Storage" ? .visitChildren : .skipChildren
+		if node.name.text == "Storage" { inStorage = true }
+		return .visitChildren
+	}
+
+	override func visitPost(_ node: EnumDeclSyntax) {
+		if node.name.text == "Storage" { inStorage = false }
 	}
 
 	override func visit(_ node: EnumCaseDeclSyntax) -> SyntaxVisitorContinueKind {
+		guard inStorage else { return .skipChildren }
 		for element in node.elements {
 			let name = element.name.text
 			var params: [Param] = []
@@ -157,12 +166,20 @@ final class StorageRewriter: SyntaxRewriter {
 	/// 無法安全合成預設的 param 紀錄（gate）
 	var synthesisFailures: [SynthFailure] = []
 
+	/// 是否正在 `enum Storage` 內（只改寫其 case）。
+	private var inStorage = false
+
+	// 一律下探以抵達巢狀 Storage；進 Storage 才開改寫旗標、避免動到 FormatRule 直接 case。
 	override func visit(_ node: EnumDeclSyntax) -> DeclSyntax {
-		guard node.name.text == "Storage" else { return DeclSyntax(node) }
-		return super.visit(node)
+		guard node.name.text == "Storage" else { return super.visit(node) }
+		inStorage = true
+		let result = super.visit(node)
+		inStorage = false
+		return result
 	}
 
 	override func visit(_ node: EnumCaseElementSyntax) -> EnumCaseElementSyntax {
+		guard inStorage else { return node }
 		var node = node
 		let caseName = node.name.text
 		guard var paramClause = node.parameterClause else { return node }
@@ -280,9 +297,6 @@ let fileHeaderComment = """
 
 // swiftformat:disable all
 // 原因：本檔為 codegen 機械產出、簽名逐一對應 Storage 的原始 case。格式規則對生成檔可讀性無指引意義。
-
-// swiftlint:disable file_length line_length vertical_parameter_alignment
-// 原因：生成的工廠逐字對應原 case、行數 / 行長 / 多行對齊對生成檔無指引意義；隨更複雜規則加進此 disable。
 """
 
 /// 寫一行到 stderr。
@@ -335,15 +349,40 @@ if allCases.isEmpty {
 	err("wrap mode: \(wrapPrefix)")
 	err("==========================")
 } else {
-	var overloads = fileHeaderComment + "\n\nextension FormatRule {\n\n"
+	// 先組 body，再依實際內容決定放哪些 swiftlint disable——生成檔逐條長大，小檔時
+	// file_length / line_length / vertical_parameter_alignment 都不觸發，硬放會被
+	// superfluous_disable_command 判多餘；故只在真會觸發時放、且非豁免規則配 enable。
+	var body = "extension FormatRule {\n\n"
 	for caseInfo in allCases {
-		overloads += "\t// MARK: \(caseInfo.name)\n\n"
-		overloads += renderOverloads(caseInfo) + "\n\n"
+		body += "\t// MARK: \(caseInfo.name)\n\n"
+		body += renderOverloads(caseInfo) + "\n\n"
 	}
-	if overloads.hasSuffix("\n\n") {
-		overloads.removeLast()
+	if body.hasSuffix("\n\n") {
+		body.removeLast()
 	}
-	overloads += "}\n"
+	body += "}\n"
+
+	let bodyLines = body.split(separator: "\n", omittingEmptySubsequences: false)
+	let needLineLength = bodyLines.contains { $0.count > 120 }
+	// 多行參數（某 param 的 default 是 multi-line array）→ vertical_parameter_alignment
+	let needVertical = allCases.contains { caseInfo in
+		caseInfo.params.contains { ($0.defaultText ?? "").contains("\n") }
+	}
+	let headerLineCount = fileHeaderComment.split(separator: "\n", omittingEmptySubsequences: false).count
+	// file_length warning 門檻 400；超過才放（file_length 在 blanket 豁免清單、不需 enable）
+	let needFileLength = headerLineCount + bodyLines.count > 400
+
+	var disablesHeader = ""
+	if needFileLength {
+		disablesHeader += "\n\n// swiftlint:disable file_length\n// 原因：生成檔行數超門檻、對機械產出無指引意義。"
+	}
+	let paired = (needLineLength ? ["line_length"] : []) + (needVertical ? ["vertical_parameter_alignment"] : [])
+	if !paired.isEmpty {
+		disablesHeader += "\n\n// swiftlint:disable \(paired.joined(separator: " "))\n// 原因：生成的工廠簽名逐字對應原 case、行長 / 多行對齊對機械產出無指引意義。"
+	}
+	let enableFooter = paired.isEmpty ? "" : "\n// swiftlint:enable \(paired.joined(separator: " "))\n"
+
+	let overloads = fileHeaderComment + disablesHeader + "\n\n" + body + enableFooter
 	try overloads.write(toFile: outPath, atomically: true, encoding: .utf8)
 
 	err("===== CODEGEN REPORT =====")
