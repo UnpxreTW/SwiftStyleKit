@@ -12,19 +12,20 @@ extension FormatRule {
 }
 
 extension FormatRule {
-	/// 取得當前 case 的反射節點。force unwrap 收在此反射邊界、且安全：FormatRule 每個
-	/// case 都帶 payload（至少 `rule: Flag`），Mirror `children.first` 與其 `label` 必非 nil。
+	/// 取得當前規則 case 的反射節點。已遷規則包在載體 `_storage(Storage)` 內、往內一層取真正
+	/// 的 Storage case；未遷規則直接是 FormatRule 的 case。force unwrap 安全：每個 case 都帶
+	/// payload（至少 `rule: Flag`），Mirror `children.first` 與其 `label` 必非 nil。
 	private var currentCase: (label: String, value: Any) {
-		let child = Mirror(reflecting: self).children.first!
-		return (child.label!, child.value)
+		let top = Mirror(reflecting: self).children.first!
+		if top.label == "_storage" {
+			let inner = Mirror(reflecting: top.value).children.first!
+			return (inner.label!, inner.value)
+		}
+		return (top.label!, top.value)
 	}
 
-	/// 當前 case 的名稱（strip 掉 storage case 的 `_` 前綴還原真實 rule 名）
-	///
-	/// storage enum 的 case 採型別安全 overload 後一律 `_` 前綴（如 `_acronyms`），對外
-	/// 型別安全 overload 才是 public API 名（`acronyms`）。reflection 展開 CLI flag 時需還原。
-	/// 尚未改用 overload 的 case 無 `_` 前綴、strip 不影響。
-	private var name: String { .init(currentCase.label.trimmingPrefix("_")) }
+	/// 當前規則 case 的名稱（＝ swiftformat rule 名；clean 命名、無 `_` 前綴）
+	private var name: String { currentCase.label }
 
 	/// 反射展開出 CLI 參數
 	private var command: [String] {
