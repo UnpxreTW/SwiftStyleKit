@@ -9,7 +9,7 @@
 extension FormatRule {
 	/// 此 package 啟用的規則集合
 	public static var allRules: [Self] = [
-		.acronyms(rule: .enable),
+		.acronyms(.on),
 		.andOperator(rule: .enable),
 		.anyObjectProtocol(rule: .enable),
 		.applicationMain(rule: .enable),
