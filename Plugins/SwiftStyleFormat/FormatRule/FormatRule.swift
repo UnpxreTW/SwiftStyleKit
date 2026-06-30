@@ -39,9 +39,6 @@ public enum FormatRule {
 	/// 在 `import` 區塊後插入空白行
 	case blankLineAfterImports(rule: Flag)
 
-	/// 在 `switch` 內每個 `case` 後插入空白行
-	case blankLineAfterSwitchCase(rule: Flag, mode: BlankLineAfterSwitchCaseMode? = nil)
-
 	/// 在最後一個 `guard` 後強制插入空白行；連續多個 `guard` 之間由 `lineBetweenGuards` 控
 	///
 	/// `lineBetweenGuards` 簽名預設 `.disable`（與上游 `false` 一致）：連續 guard 連成一塊
@@ -959,6 +956,9 @@ public enum FormatRule {
 
 		/// 當設定的單字字首為大寫時轉換成全大寫，清單見 ``defaultAcronyms``
 		case acronyms(rule: Flag, String = FormatRule.defaultAcronyms)
+
+		/// 在 `switch` 內每個 `case` 後插入空白行
+		case blankLineAfterSwitchCase(rule: Flag, mode: BlankLineAfterSwitchCaseMode? = nil)
 	}
 }
 
