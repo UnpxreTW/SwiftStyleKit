@@ -11,7 +11,7 @@ extension FormatRule {
 	public static var allRules: [Self] = [
 		.acronyms(.on),
 		.andOperator(.on),
-		.anyObjectProtocol(rule: .enable),
+		.anyObjectProtocol(.on),
 		.applicationMain(rule: .enable),
 		// 不啟用：保留 `assert(false, ...)` / `precondition(false, ...)` 三段式句型作為
 		// 「為什麼這條路徑不該被走到」的註解體；維持 `assert(condition)` 與 `assert(false)`

@@ -14,13 +14,13 @@ private struct AnyObjectProtocolTests {
 
 	@Test
 	private func `anyObjectProtocol .disable 返空陣列`() {
-		let args = FormatRule.anyObjectProtocol(rule: .disable).cliArguments
+		let args = FormatRule.anyObjectProtocol(.off).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
 	private func `anyObjectProtocol .enable 展開 --enable anyObjectProtocol`() {
-		let args = FormatRule.anyObjectProtocol(rule: .enable).cliArguments
+		let args = FormatRule.anyObjectProtocol(.on).cliArguments
 		#expect(args == ["--enable", "anyObjectProtocol"])
 	}
 }
