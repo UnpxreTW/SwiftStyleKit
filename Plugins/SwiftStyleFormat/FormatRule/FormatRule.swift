@@ -24,9 +24,6 @@
 /// 全部遷完後 FormatRule 會轉成 struct、``Storage`` 改 internal。
 public enum FormatRule {
 
-	/// 偏好在 `if`、`guard`、`while` 條件式中使用逗號取代 `&&`
-	case andOperator(rule: Flag)
-
 	/// 偏好在 protocol 宣告中使用 `AnyObject` 取代 `class`
 	case anyObjectProtocol(rule: Flag)
 
@@ -959,6 +956,9 @@ public enum FormatRule {
 
 		/// 在 `switch` 內每個 `case` 後插入空白行
 		case blankLineAfterSwitchCase(rule: Flag, mode: BlankLineAfterSwitchCaseMode? = nil)
+
+		/// 偏好在 `if`、`guard`、`while` 條件式中使用逗號取代 `&&`
+		case andOperator(rule: Flag)
 	}
 }
 

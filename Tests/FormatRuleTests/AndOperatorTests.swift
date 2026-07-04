@@ -14,13 +14,13 @@ private struct AndOperatorTests {
 
 	@Test
 	private func `andOperator .disable 返空陣列`() {
-		let args = FormatRule.andOperator(rule: .disable).cliArguments
+		let args = FormatRule.andOperator(.off).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
 	private func `andOperator .enable 展開 --enable andOperator`() {
-		let args = FormatRule.andOperator(rule: .enable).cliArguments
+		let args = FormatRule.andOperator(.on).cliArguments
 		#expect(args == ["--enable", "andOperator"])
 	}
 }

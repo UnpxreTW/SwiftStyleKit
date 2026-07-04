@@ -10,7 +10,7 @@ extension FormatRule {
 	/// 此 package 啟用的規則集合
 	public static var allRules: [Self] = [
 		.acronyms(.on),
-		.andOperator(rule: .enable),
+		.andOperator(.on),
 		.anyObjectProtocol(rule: .enable),
 		.applicationMain(rule: .enable),
 		// 不啟用：保留 `assert(false, ...)` / `precondition(false, ...)` 三段式句型作為
