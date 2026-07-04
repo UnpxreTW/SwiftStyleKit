@@ -52,6 +52,18 @@ extension FormatRule {
 	public static func blankLineAfterSwitchCase(_ state: OffToken, mode: BlankLineAfterSwitchCaseMode? = nil) -> FormatRule {
 		fatalError("unavailable")
 	}
+
+	// MARK: andOperator
+
+	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	public static func andOperator(_ state: OnToken) -> FormatRule {
+		._storage(.andOperator(rule: .enable))
+	}
+
+	/// 停用（不可帶 option）
+	public static func andOperator(_ state: OffToken) -> FormatRule {
+		._storage(.andOperator(rule: .disable))
+	}
 }
 
 // swiftlint:enable line_length
