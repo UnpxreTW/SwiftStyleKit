@@ -24,9 +24,6 @@
 /// 全部遷完後 FormatRule 會轉成 struct、``Storage`` 改 internal。
 public enum FormatRule {
 
-	/// 偏好使用 `@main` 取代 `@UIApplicationMain` 與 `@NSApplicationMain`
-	case applicationMain(rule: Flag)
-
 	/// 偏好 `assertionFailure` 與 `preconditionFailure` 取代判斷為 `false` 的測試
 	case assertionFailures(rule: Flag)
 
@@ -959,6 +956,9 @@ public enum FormatRule {
 
 		/// 偏好在 protocol 宣告中使用 `AnyObject` 取代 `class`
 		case anyObjectProtocol(rule: Flag)
+
+		/// 偏好使用 `@main` 取代 `@UIApplicationMain` 與 `@NSApplicationMain`
+		case applicationMain(rule: Flag)
 	}
 }
 
