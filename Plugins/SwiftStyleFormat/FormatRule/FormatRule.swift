@@ -24,9 +24,6 @@
 /// 全部遷完後 FormatRule 會轉成 struct、``Storage`` 改 internal。
 public enum FormatRule {
 
-	/// 偏好在 protocol 宣告中使用 `AnyObject` 取代 `class`
-	case anyObjectProtocol(rule: Flag)
-
 	/// 偏好使用 `@main` 取代 `@UIApplicationMain` 與 `@NSApplicationMain`
 	case applicationMain(rule: Flag)
 
@@ -959,6 +956,9 @@ public enum FormatRule {
 
 		/// 偏好在 `if`、`guard`、`while` 條件式中使用逗號取代 `&&`
 		case andOperator(rule: Flag)
+
+		/// 偏好在 protocol 宣告中使用 `AnyObject` 取代 `class`
+		case anyObjectProtocol(rule: Flag)
 	}
 }
 

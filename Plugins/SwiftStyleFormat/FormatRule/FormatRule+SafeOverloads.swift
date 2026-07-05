@@ -64,6 +64,18 @@ extension FormatRule {
 	public static func andOperator(_ state: OffToken) -> FormatRule {
 		._storage(.andOperator(rule: .disable))
 	}
+
+	// MARK: anyObjectProtocol
+
+	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	public static func anyObjectProtocol(_ state: OnToken) -> FormatRule {
+		._storage(.anyObjectProtocol(rule: .enable))
+	}
+
+	/// 停用（不可帶 option）
+	public static func anyObjectProtocol(_ state: OffToken) -> FormatRule {
+		._storage(.anyObjectProtocol(rule: .disable))
+	}
 }
 
 // swiftlint:enable line_length
