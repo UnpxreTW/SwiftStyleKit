@@ -12,7 +12,7 @@ extension FormatRule {
 		.acronyms(.on),
 		.andOperator(.on),
 		.anyObjectProtocol(.on),
-		.applicationMain(rule: .enable),
+		.applicationMain(.on),
 		// 不啟用：保留 `assert(false, ...)` / `precondition(false, ...)` 三段式句型作為
 		// 「為什麼這條路徑不該被走到」的註解體；維持 `assert(condition)` 與 `assert(false)`
 		// 同 entry point 的 API 心智模型統一
