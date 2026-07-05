@@ -14,13 +14,13 @@ private struct AssertionFailuresTests {
 
 	@Test
 	private func `assertionFailures .disable 返空陣列`() {
-		let args = FormatRule.assertionFailures(rule: .disable).cliArguments
+		let args = FormatRule.assertionFailures(.off).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
 	private func `assertionFailures .enable 展開 --enable assertionFailures`() {
-		let args = FormatRule.assertionFailures(rule: .enable).cliArguments
+		let args = FormatRule.assertionFailures(.on).cliArguments
 		#expect(args == ["--enable", "assertionFailures"])
 	}
 }

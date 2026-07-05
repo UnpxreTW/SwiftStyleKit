@@ -88,6 +88,18 @@ extension FormatRule {
 	public static func applicationMain(_ state: OffToken) -> FormatRule {
 		._storage(.applicationMain(rule: .disable))
 	}
+
+	// MARK: assertionFailures
+
+	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	public static func assertionFailures(_ state: OnToken) -> FormatRule {
+		._storage(.assertionFailures(rule: .enable))
+	}
+
+	/// 停用（不可帶 option）
+	public static func assertionFailures(_ state: OffToken) -> FormatRule {
+		._storage(.assertionFailures(rule: .disable))
+	}
 }
 
 // swiftlint:enable line_length
