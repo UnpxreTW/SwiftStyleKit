@@ -181,12 +181,15 @@ extension FormatRule {
 		// 強制換行讓「狀態 → 單行 handler」型 switch 變冗長；與 blankLineAfterSwitchCase
 		// / sortSwitchCases 已 .disable 同精神（switch case 結構由業務決定、不機械改寫）
 		.wrapCaseBodies(rule: .disable),
-		// 不啟用：`guard let x = y else { return }` / `if foo { return }` 是 Swift 常見
-		// early-return idiom、單行緊湊；強制換行讓 guard / 簡短 if 變多行、邊際好處不大；
-		// 與 wrapCaseBodies .disable 同類精神（單行 conditional body 緊湊）
-		.wrapConditionalBodies(rule: .disable),
 		.wrapEnumCases(rule: .enable),
 		.wrapFunctionBodies(rule: .enable),
+		// 不啟用：`guard let x = y else { return }` / `if foo { return }` 是 Swift 常見
+		// early-return idiom、單行緊湊；強制換行讓 guard / 簡短 if 變多行、邊際好處不大；
+		// 與 wrapCaseBodies .disable 同類精神（單行 conditional body 緊湊）。上游 0.62.0 起把
+		// wrapConditionalBodies 依語句類型拆成這三條、行為不變、同 .disable
+		.wrapGuardStatementBodies(rule: .disable),
+		.wrapIfExpressionBodies(rule: .disable),
+		.wrapIfStatementBodies(rule: .disable),
 		.wrapLoopBodies(rule: .enable),
 		// 不啟用：Opt-in 規則、SwiftStyleKit 預設策略對 Opt-in 規則傾向 .disable；
 		// case 留在 enum 內形成「考慮過且選擇關閉」的 in-tree 宣告、fork 可改
