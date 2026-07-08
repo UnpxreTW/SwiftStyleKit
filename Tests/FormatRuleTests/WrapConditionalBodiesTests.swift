@@ -12,11 +12,13 @@ import Testing
 @Suite("wrapConditionalBodies")
 private struct WrapConditionalBodiesTests {
 
+	@available(*, deprecated)
 	@Test
 	private func `wrapConditionalBodies .disable 返空陣列`() {
 		#expect(FormatRule.wrapConditionalBodies(rule: .disable).cliArguments.isEmpty)
 	}
 
+	@available(*, deprecated)
 	@Test
 	private func `wrapConditionalBodies .enable 只 enable 不展開 option`() {
 		#expect(FormatRule.wrapConditionalBodies(rule: .enable).cliArguments == ["--enable", "wrapConditionalBodies"])

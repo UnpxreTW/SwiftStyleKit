@@ -843,9 +843,6 @@ public enum FormatRule {
 	/// 把 inline switch case body 換到下一行（`case .foo: return bar` → `case .foo:` + 換行縮排）
 	case wrapCaseBodies(rule: Flag)
 
-	/// 把 inline `if` / `guard` body 換成多行（`guard let x = y else { return }` → 多行寫法）
-	case wrapConditionalBodies(rule: Flag)
-
 	/// 把逗號分隔的 enum case 拆成一行一個（`case bar, baz` → `case bar` + `case baz`）
 	///
 	/// `wrapEnumCases` 簽名預設 `.always`：所有逗號分隔 case 都拆（含 flat enum
@@ -855,6 +852,15 @@ public enum FormatRule {
 
 	/// 把 single-line function / init / subscript body 拆成多行（`func foo() { print("bar") }` → 多行寫法）
 	case wrapFunctionBodies(rule: Flag)
+
+	/// 把 inline `guard` body 換成多行（`guard let x = y else { return }` → 多行寫法）
+	case wrapGuardStatementBodies(rule: Flag)
+
+	/// 把 inline `if` expression body 換成多行（作為運算式的 `if`、Swift 5.9+ SE-0380）
+	case wrapIfExpressionBodies(rule: Flag)
+
+	/// 把 inline `if` statement body 換成多行（`if foo { return }` → 多行寫法）
+	case wrapIfStatementBodies(rule: Flag)
 
 	/// 把 single-line `for` / `while` loop body 拆成多行（`for x in arr { print(x) }` → 多行寫法）
 	case wrapLoopBodies(rule: Flag)
@@ -930,6 +936,14 @@ public enum FormatRule {
 	/// 已棄用、改用 ``redundantVariable(rule:)``
 	@available(*, deprecated, renamed: "redundantVariable")
 	case redundantProperty(rule: Flag)
+
+	/// 已棄用：上游 0.62.0 起依語句類型拆成三條新規則、原規則標 deprecated
+	///
+	/// 改用 ``wrapIfStatementBodies(rule:)`` / ``wrapIfExpressionBodies(rule:)``
+	/// / ``wrapGuardStatementBodies(rule:)``；展開仍用舊 flag 名（swiftformat 自身映射
+	/// 到三條新規則並印 deprecation warning）。不入 ``allRules``。
+	@available(*, deprecated, message: "改用 wrapIfStatementBodies / wrapIfExpressionBodies / wrapGuardStatementBodies")
+	case wrapConditionalBodies(rule: Flag)
 
 	/// 過渡載體：已遷移規則包進巢狀 ``Storage``；待全部遷完再把 FormatRule 轉成 struct、
 	/// 載體改為 internal `storage` property、本 case 消失。

@@ -26,8 +26,8 @@ let package = Package(
         ),
         .binaryTarget(
             name: "SwiftFormatBinary",
-            url: "https://github.com/nicklockwood/SwiftFormat/releases/download/0.61.1/swiftformat.artifactbundle.zip",
-            checksum: "47f7932f35c714b00430f56df1cfaf1bea0b4baae299bb2a09874cb52ee45350"
+            url: "https://github.com/nicklockwood/SwiftFormat/releases/download/0.62.1/swiftformat.artifactbundle.zip",
+            checksum: "6595f3121e657438a24dabd9f8fecb648d3f362e5106df0968f734f5863fe404"
         ),
         .plugin(
             name: "SwiftStyleLint",
