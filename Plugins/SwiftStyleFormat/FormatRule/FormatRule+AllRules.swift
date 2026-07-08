@@ -17,7 +17,7 @@ extension FormatRule {
 		// 「為什麼這條路徑不該被走到」的註解體；維持 `assert(condition)` 與 `assert(false)`
 		// 同 entry point 的 API 心智模型統一
 		.assertionFailures(.off),
-		.blankLineAfterImports(rule: .enable),
+		.blankLineAfterImports(.on),
 		// 不啟用：對齊switch case 緊鄰寫法在 Swift 社群屬主流、規則啟用會插入空行
 		// 改變 case 區塊密度；保留 case 在 enum 內形成「考慮
 		// 過且選擇關閉」的 in-tree 宣告，未來偏好改變只改 allRules 不需重新討論
