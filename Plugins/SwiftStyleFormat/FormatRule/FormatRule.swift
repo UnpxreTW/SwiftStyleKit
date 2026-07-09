@@ -973,6 +973,27 @@ public enum FormatRule {
 
 		/// 在 `import` 區塊後插入空白行
 		case blankLineAfterImports(rule: Flag)
+
+		/// 偏好 `contains(where:)` 取代 `filter(_:).isEmpty`、`first(where:) != nil` 與 `range(of:) != nil`
+		case preferContains(rule: Flag)
+
+		/// 偏好 `first(where:)` 取代 `filter(_:).first`（含 lazy 鏈；`.last` / `.count` 不改寫）
+		case preferFirstWhere(rule: Flag)
+
+		/// 偏好 `flatMap { ... }` 取代 `map { ... }.reduce([], +)`（攤平串接 O(n²) → O(n)）
+		///
+		/// 只認 `reduce([], +)` 攤平形；`reduce(0, +)` 等加總形不改寫。
+		case preferFlatMap(rule: Flag)
+
+		/// 偏好 `min()` 取代 `sorted().first`（具名 `sorted(by:)` 形轉 `min(by:)`）
+		///
+		/// trailing closure 形（`sorted { ... }.first`）、`sorted(using:)` 與 `.last` 皆不改寫。
+		case preferMinOverSorted(rule: Flag)
+
+		/// 移除 SwiftUI 冗餘 `Group` 包裝、非 `body` 的 view 屬性自動補 `@ViewBuilder`
+		///
+		/// 帶 modifier 的 `Group`（如 `.font` / `.onAppear` 掛在 Group 上）語義不同、保留不動。
+		case redundantSwiftUIGroup(rule: Flag)
 	}
 }
 

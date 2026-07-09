@@ -112,6 +112,66 @@ extension FormatRule {
 	public static func blankLineAfterImports(_ state: OffToken) -> FormatRule {
 		._storage(.blankLineAfterImports(rule: .disable))
 	}
+
+	// MARK: preferContains
+
+	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	public static func preferContains(_ state: OnToken) -> FormatRule {
+		._storage(.preferContains(rule: .enable))
+	}
+
+	/// 停用（不可帶 option）
+	public static func preferContains(_ state: OffToken) -> FormatRule {
+		._storage(.preferContains(rule: .disable))
+	}
+
+	// MARK: preferFirstWhere
+
+	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	public static func preferFirstWhere(_ state: OnToken) -> FormatRule {
+		._storage(.preferFirstWhere(rule: .enable))
+	}
+
+	/// 停用（不可帶 option）
+	public static func preferFirstWhere(_ state: OffToken) -> FormatRule {
+		._storage(.preferFirstWhere(rule: .disable))
+	}
+
+	// MARK: preferFlatMap
+
+	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	public static func preferFlatMap(_ state: OnToken) -> FormatRule {
+		._storage(.preferFlatMap(rule: .enable))
+	}
+
+	/// 停用（不可帶 option）
+	public static func preferFlatMap(_ state: OffToken) -> FormatRule {
+		._storage(.preferFlatMap(rule: .disable))
+	}
+
+	// MARK: preferMinOverSorted
+
+	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	public static func preferMinOverSorted(_ state: OnToken) -> FormatRule {
+		._storage(.preferMinOverSorted(rule: .enable))
+	}
+
+	/// 停用（不可帶 option）
+	public static func preferMinOverSorted(_ state: OffToken) -> FormatRule {
+		._storage(.preferMinOverSorted(rule: .disable))
+	}
+
+	// MARK: redundantSwiftUIGroup
+
+	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	public static func redundantSwiftUIGroup(_ state: OnToken) -> FormatRule {
+		._storage(.redundantSwiftUIGroup(rule: .enable))
+	}
+
+	/// 停用（不可帶 option）
+	public static func redundantSwiftUIGroup(_ state: OffToken) -> FormatRule {
+		._storage(.redundantSwiftUIGroup(rule: .disable))
+	}
 }
 
 // swiftlint:enable line_length
