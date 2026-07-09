@@ -14,13 +14,13 @@ private struct BlankLineAfterImportsTests {
 
 	@Test
 	private func `blankLineAfterImports .disable 返空陣列`() {
-		let args = FormatRule.blankLineAfterImports(rule: .disable).cliArguments
+		let args = FormatRule.blankLineAfterImports(.off).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
 	private func `blankLineAfterImports .enable 展開 --enable blankLineAfterImports`() {
-		let args = FormatRule.blankLineAfterImports(rule: .enable).cliArguments
+		let args = FormatRule.blankLineAfterImports(.on).cliArguments
 		#expect(args == ["--enable", "blankLineAfterImports"])
 	}
 }

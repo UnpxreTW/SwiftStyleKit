@@ -24,9 +24,6 @@
 /// 全部遷完後 FormatRule 會轉成 struct、``Storage`` 改 internal。
 public enum FormatRule {
 
-	/// 在 `import` 區塊後插入空白行
-	case blankLineAfterImports(rule: Flag)
-
 	/// 在最後一個 `guard` 後強制插入空白行；連續多個 `guard` 之間由 `lineBetweenGuards` 控
 	///
 	/// `lineBetweenGuards` 簽名預設 `.disable`（與上游 `false` 一致）：連續 guard 連成一塊
@@ -973,6 +970,9 @@ public enum FormatRule {
 
 		/// 偏好 `assertionFailure` 與 `preconditionFailure` 取代判斷為 `false` 的測試
 		case assertionFailures(rule: Flag)
+
+		/// 在 `import` 區塊後插入空白行
+		case blankLineAfterImports(rule: Flag)
 	}
 }
 
