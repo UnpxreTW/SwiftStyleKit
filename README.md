@@ -2,7 +2,15 @@
 
 把 SwiftLint + SwiftFormat 與規則設定打包成 Swift Package；下游 `.package(...)` 即用、無需在 repo root 放 `.swiftlint.yml` 或 `.swiftformat`。
 
-## Dependencies
+## 安裝
+
+```swift
+.package(url: "https://github.com/UnpxreTW/SwiftStyleKit.git", from: "2.0.1")
+```
+
+下游 target 掛 `SwiftStyleLint`（build tool plugin）與／或 `SwiftStyleFormat`（command plugin）即可套用規則，細節見下方各節。
+
+## 相依套件
 
 ### SwiftLintBinary（直接 binaryTarget）
 
