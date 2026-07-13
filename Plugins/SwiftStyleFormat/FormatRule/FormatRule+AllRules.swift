@@ -25,7 +25,7 @@ extension FormatRule {
 		// 不啟用：Opt-in 規則、依SwiftStyleKit 預設策略對 Opt-in 規則 傾向 .disable。
 		// case 留在 enum 內形成「考慮過且選擇關閉」的 in-tree 宣告、fork 可改
 		.blankLinesAfterGuardStatements(.off),
-		.blankLinesAroundMark(rule: .enable),
+		.blankLinesAroundMark(.on),
 		.blankLinesAtEndOfScope(rule: .enable),
 		.blankLinesAtStartOfScope(rule: .enable),
 		.blankLinesBetweenChainedFunctions(rule: .enable),
