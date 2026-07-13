@@ -24,12 +24,6 @@
 /// 全部遷完後 FormatRule 會轉成 struct、``Storage`` 改 internal。
 public enum FormatRule {
 
-	/// 在最後一個 `guard` 後強制插入空白行；連續多個 `guard` 之間由 `lineBetweenGuards` 控
-	///
-	/// `lineBetweenGuards` 簽名預設 `.disable`（與上游 `false` 一致）：連續 guard 連成一塊
-	/// early return 區。設 `.enable` 則連續 guard 之間也插空行。
-	case blankLinesAfterGuardStatements(rule: Flag, lineBetweenGuards: Toggle = .disable)
-
 	/// 在 `MARK:` 註解前後插入空白行
 	case blankLinesAroundMark(rule: Flag, lineAfterMarks: Toggle = .enable)
 
@@ -994,6 +988,12 @@ public enum FormatRule {
 		///
 		/// 帶 modifier 的 `Group`（如 `.font` / `.onAppear` 掛在 Group 上）語義不同、保留不動。
 		case redundantSwiftUIGroup(rule: Flag)
+
+		/// 在最後一個 `guard` 後強制插入空白行；連續多個 `guard` 之間由 `lineBetweenGuards` 控
+		///
+		/// `lineBetweenGuards` 簽名預設 `.disable`（與上游 `false` 一致）：連續 guard 連成一塊
+		/// early return 區。設 `.enable` 則連續 guard 之間也插空行。
+		case blankLinesAfterGuardStatements(rule: Flag, lineBetweenGuards: Toggle = .disable)
 	}
 }
 

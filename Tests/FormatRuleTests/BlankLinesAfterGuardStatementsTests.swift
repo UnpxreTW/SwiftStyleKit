@@ -14,12 +14,12 @@ private struct BlankLinesAfterGuardStatementsTests {
 
 	@Test
 	private func `blankLinesAfterGuardStatements .disable 返空陣列`() {
-		#expect(FormatRule.blankLinesAfterGuardStatements(rule: .disable).cliArguments.isEmpty)
+		#expect(FormatRule.blankLinesAfterGuardStatements(.off).cliArguments.isEmpty)
 	}
 
 	@Test
 	private func `blankLinesAfterGuardStatements .enable 簽名預設展開 --lineBetweenGuards false`() {
-		let args = FormatRule.blankLinesAfterGuardStatements(rule: .enable).cliArguments
+		let args = FormatRule.blankLinesAfterGuardStatements(.on).cliArguments
 		#expect(args == [
 			"--enable", "blankLinesAfterGuardStatements",
 			"--lineBetweenGuards", "false"
@@ -29,7 +29,7 @@ private struct BlankLinesAfterGuardStatementsTests {
 	@Test
 	private func `blankLinesAfterGuardStatements .enable lineBetweenGuards .enable 展開 true`() {
 		let args = FormatRule.blankLinesAfterGuardStatements(
-			rule: .enable,
+			.on,
 			lineBetweenGuards: .enable
 		)
 		.cliArguments

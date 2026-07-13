@@ -24,7 +24,7 @@ extension FormatRule {
 		.blankLineAfterSwitchCase(.off),
 		// 不啟用：Opt-in 規則、依SwiftStyleKit 預設策略對 Opt-in 規則 傾向 .disable。
 		// case 留在 enum 內形成「考慮過且選擇關閉」的 in-tree 宣告、fork 可改
-		.blankLinesAfterGuardStatements(rule: .disable),
+		.blankLinesAfterGuardStatements(.off),
 		.blankLinesAroundMark(rule: .enable),
 		.blankLinesAtEndOfScope(rule: .enable),
 		.blankLinesAtStartOfScope(rule: .enable),
