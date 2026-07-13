@@ -14,19 +14,13 @@ private struct BlankLinesAroundMarkTests {
 
 	@Test
 	private func `blankLinesAroundMark .disable 返空陣列`() {
-		let args = FormatRule.blankLinesAroundMark(rule: .disable).cliArguments
-		#expect(args.isEmpty)
-	}
-
-	@Test
-	private func `blankLinesAroundMark .disable + lineAfterMarks（option 被忽略）返空陣列`() {
-		let args = FormatRule.blankLinesAroundMark(rule: .disable, lineAfterMarks: .disable).cliArguments
+		let args = FormatRule.blankLinesAroundMark(.off).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
 	private func `blankLinesAroundMark .enable（lineAfterMarks 預設 .enable）展開 --enable + --lineAfterMarks true`() {
-		let args = FormatRule.blankLinesAroundMark(rule: .enable).cliArguments
+		let args = FormatRule.blankLinesAroundMark(.on).cliArguments
 		#expect(args == [
 			"--enable", "blankLinesAroundMark",
 			"--lineAfterMarks", "true"
@@ -35,7 +29,7 @@ private struct BlankLinesAroundMarkTests {
 
 	@Test
 	private func `blankLinesAroundMark .enable lineAfterMarks .disable 展開 --lineAfterMarks false`() {
-		let args = FormatRule.blankLinesAroundMark(rule: .enable, lineAfterMarks: .disable).cliArguments
+		let args = FormatRule.blankLinesAroundMark(.on, lineAfterMarks: .disable).cliArguments
 		#expect(args == [
 			"--enable", "blankLinesAroundMark",
 			"--lineAfterMarks", "false"

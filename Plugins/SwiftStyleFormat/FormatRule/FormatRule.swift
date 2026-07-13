@@ -24,9 +24,6 @@
 /// 全部遷完後 FormatRule 會轉成 struct、``Storage`` 改 internal。
 public enum FormatRule {
 
-	/// 在 `MARK:` 註解前後插入空白行
-	case blankLinesAroundMark(rule: Flag, lineAfterMarks: Toggle = .enable)
-
 	/// 移除 scope 結尾的空白行
 	///
 	/// type 宣告結尾的空白行行為由全域 option ``typeBlankLines(mode:)`` 控制。
@@ -994,6 +991,9 @@ public enum FormatRule {
 		/// `lineBetweenGuards` 簽名預設 `.disable`（與上游 `false` 一致）：連續 guard 連成一塊
 		/// early return 區。設 `.enable` 則連續 guard 之間也插空行。
 		case blankLinesAfterGuardStatements(rule: Flag, lineBetweenGuards: Toggle = .disable)
+
+		/// 在 `MARK:` 註解前後插入空白行
+		case blankLinesAroundMark(rule: Flag, lineAfterMarks: Toggle = .enable)
 	}
 }
 

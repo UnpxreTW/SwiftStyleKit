@@ -190,6 +190,24 @@ extension FormatRule {
 	public static func blankLinesAfterGuardStatements(_ state: OffToken, lineBetweenGuards: Toggle = .disable) -> FormatRule {
 		fatalError("unavailable")
 	}
+
+	// MARK: blankLinesAroundMark
+
+	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	public static func blankLinesAroundMark(_ state: OnToken, lineAfterMarks: Toggle = .enable) -> FormatRule {
+		._storage(.blankLinesAroundMark(rule: .enable, lineAfterMarks: lineAfterMarks))
+	}
+
+	/// 停用（不可帶 option）
+	public static func blankLinesAroundMark(_ state: OffToken) -> FormatRule {
+		._storage(.blankLinesAroundMark(rule: .disable))
+	}
+
+	/// `.off` 誤帶 option 的編譯期診斷（命中即報錯、不會被呼叫）
+	@available(*, unavailable, message: ".off 不可帶 option（option 只在 .on 有效）")
+	public static func blankLinesAroundMark(_ state: OffToken, lineAfterMarks: Toggle = .enable) -> FormatRule {
+		fatalError("unavailable")
+	}
 }
 
 // swiftlint:enable line_length
