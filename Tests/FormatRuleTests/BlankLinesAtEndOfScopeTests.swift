@@ -14,13 +14,13 @@ private struct BlankLinesAtEndOfScopeTests {
 
 	@Test
 	private func `blankLinesAtEndOfScope .disable 返空陣列`() {
-		let args = FormatRule.blankLinesAtEndOfScope(rule: .disable).cliArguments
+		let args = FormatRule.blankLinesAtEndOfScope(.off).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
 	private func `blankLinesAtEndOfScope .enable 展開 --enable blankLinesAtEndOfScope`() {
-		let args = FormatRule.blankLinesAtEndOfScope(rule: .enable).cliArguments
+		let args = FormatRule.blankLinesAtEndOfScope(.on).cliArguments
 		#expect(args == ["--enable", "blankLinesAtEndOfScope"])
 	}
 }
