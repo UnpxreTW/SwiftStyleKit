@@ -24,11 +24,6 @@
 /// 全部遷完後 FormatRule 會轉成 struct、``Storage`` 改 internal。
 public enum FormatRule {
 
-	/// 移除 scope 起始的空白行
-	///
-	/// type 宣告開頭的空白行行為由全域 option ``typeBlankLines(mode:)`` 控制。
-	case blankLinesAtStartOfScope(rule: Flag)
-
 	/// 移除鏈式呼叫之間的空白行（保留換行）
 	case blankLinesBetweenChainedFunctions(rule: Flag)
 
@@ -994,6 +989,11 @@ public enum FormatRule {
 		///
 		/// type 宣告結尾的空白行行為由全域 option ``typeBlankLines(mode:)`` 控制。
 		case blankLinesAtEndOfScope(rule: Flag)
+
+		/// 移除 scope 起始的空白行
+		///
+		/// type 宣告開頭的空白行行為由全域 option ``typeBlankLines(mode:)`` 控制。
+		case blankLinesAtStartOfScope(rule: Flag)
 	}
 }
 

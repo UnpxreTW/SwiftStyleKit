@@ -27,7 +27,7 @@ extension FormatRule {
 		.blankLinesAfterGuardStatements(.off),
 		.blankLinesAroundMark(.on),
 		.blankLinesAtEndOfScope(.on),
-		.blankLinesAtStartOfScope(rule: .enable),
+		.blankLinesAtStartOfScope(.on),
 		.blankLinesBetweenChainedFunctions(rule: .enable),
 		.blankLinesBetweenImports(rule: .enable),
 		.blankLinesBetweenScopes(rule: .enable),
