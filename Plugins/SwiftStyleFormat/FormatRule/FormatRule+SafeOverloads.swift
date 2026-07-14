@@ -232,6 +232,18 @@ extension FormatRule {
 	public static func blankLinesAtStartOfScope(_ state: OffToken) -> FormatRule {
 		._storage(.blankLinesAtStartOfScope(rule: .disable))
 	}
+
+	// MARK: blankLinesBetweenChainedFunctions
+
+	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	public static func blankLinesBetweenChainedFunctions(_ state: OnToken) -> FormatRule {
+		._storage(.blankLinesBetweenChainedFunctions(rule: .enable))
+	}
+
+	/// 停用（不可帶 option）
+	public static func blankLinesBetweenChainedFunctions(_ state: OffToken) -> FormatRule {
+		._storage(.blankLinesBetweenChainedFunctions(rule: .disable))
+	}
 }
 
 // swiftlint:enable line_length
