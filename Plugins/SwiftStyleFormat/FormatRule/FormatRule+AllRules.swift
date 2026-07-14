@@ -26,7 +26,7 @@ extension FormatRule {
 		// case 留在 enum 內形成「考慮過且選擇關閉」的 in-tree 宣告、fork 可改
 		.blankLinesAfterGuardStatements(.off),
 		.blankLinesAroundMark(.on),
-		.blankLinesAtEndOfScope(rule: .enable),
+		.blankLinesAtEndOfScope(.on),
 		.blankLinesAtStartOfScope(rule: .enable),
 		.blankLinesBetweenChainedFunctions(rule: .enable),
 		.blankLinesBetweenImports(rule: .enable),

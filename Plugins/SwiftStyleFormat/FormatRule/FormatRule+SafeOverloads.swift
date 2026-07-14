@@ -208,6 +208,18 @@ extension FormatRule {
 	public static func blankLinesAroundMark(_ state: OffToken, lineAfterMarks: Toggle = .enable) -> FormatRule {
 		fatalError("unavailable")
 	}
+
+	// MARK: blankLinesAtEndOfScope
+
+	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	public static func blankLinesAtEndOfScope(_ state: OnToken) -> FormatRule {
+		._storage(.blankLinesAtEndOfScope(rule: .enable))
+	}
+
+	/// 停用（不可帶 option）
+	public static func blankLinesAtEndOfScope(_ state: OffToken) -> FormatRule {
+		._storage(.blankLinesAtEndOfScope(rule: .disable))
+	}
 }
 
 // swiftlint:enable line_length
