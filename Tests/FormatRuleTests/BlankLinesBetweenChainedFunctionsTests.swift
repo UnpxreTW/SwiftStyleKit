@@ -14,13 +14,13 @@ private struct BlankLinesBetweenChainedFunctionsTests {
 
 	@Test
 	private func `blankLinesBetweenChainedFunctions .disable 返空陣列`() {
-		let args = FormatRule.blankLinesBetweenChainedFunctions(rule: .disable).cliArguments
+		let args = FormatRule.blankLinesBetweenChainedFunctions(.off).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
 	private func `blankLinesBetweenChainedFunctions .enable 展開 --enable blankLinesBetweenChainedFunctions`() {
-		let args = FormatRule.blankLinesBetweenChainedFunctions(rule: .enable).cliArguments
+		let args = FormatRule.blankLinesBetweenChainedFunctions(.on).cliArguments
 		#expect(args == ["--enable", "blankLinesBetweenChainedFunctions"])
 	}
 }
