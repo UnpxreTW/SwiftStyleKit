@@ -29,7 +29,7 @@ extension FormatRule {
 		.blankLinesAtEndOfScope(.on),
 		.blankLinesAtStartOfScope(.on),
 		.blankLinesBetweenChainedFunctions(.on),
-		.blankLinesBetweenImports(rule: .enable),
+		.blankLinesBetweenImports(.on),
 		.blankLinesBetweenScopes(rule: .enable),
 		.blockComments(rule: .enable),
 		.braces(rule: .enable),

@@ -24,9 +24,6 @@
 /// 全部遷完後 FormatRule 會轉成 struct、``Storage`` 改 internal。
 public enum FormatRule {
 
-	/// 移除 import 陳述式之間的空白行
-	case blankLinesBetweenImports(rule: Flag)
-
 	/// 在型別與函式宣告之間插入空白行
 	case blankLinesBetweenScopes(rule: Flag)
 
@@ -994,6 +991,9 @@ public enum FormatRule {
 
 		/// 移除鏈式呼叫之間的空白行（保留換行）
 		case blankLinesBetweenChainedFunctions(rule: Flag)
+
+		/// 移除 import 陳述式之間的空白行
+		case blankLinesBetweenImports(rule: Flag)
 	}
 }
 
