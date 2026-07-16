@@ -24,9 +24,6 @@
 /// 全部遷完後 FormatRule 會轉成 struct、``Storage`` 改 internal。
 public enum FormatRule {
 
-	/// 在型別與函式宣告之間插入空白行
-	case blankLinesBetweenScopes(rule: Flag)
-
 	/// 把 block comment `/* */` 轉成連續 single-line（DocC `/**` 轉成 `///`、一般轉成 `//`）
 	///
 	/// 規則無 own option；內部自動分辨 DocC 跟一般 block comment、轉成對應 single-line 形式。
@@ -994,6 +991,9 @@ public enum FormatRule {
 
 		/// 移除 import 陳述式之間的空白行
 		case blankLinesBetweenImports(rule: Flag)
+
+		/// 在型別與函式宣告之間插入空白行
+		case blankLinesBetweenScopes(rule: Flag)
 	}
 }
 
