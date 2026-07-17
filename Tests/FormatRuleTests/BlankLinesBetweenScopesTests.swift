@@ -14,13 +14,13 @@ private struct BlankLinesBetweenScopesTests {
 
 	@Test
 	private func `blankLinesBetweenScopes .disable 返空陣列`() {
-		let args = FormatRule.blankLinesBetweenScopes(rule: .disable).cliArguments
+		let args = FormatRule.blankLinesBetweenScopes(.off).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
 	private func `blankLinesBetweenScopes .enable 展開 --enable blankLinesBetweenScopes`() {
-		let args = FormatRule.blankLinesBetweenScopes(rule: .enable).cliArguments
+		let args = FormatRule.blankLinesBetweenScopes(.on).cliArguments
 		#expect(args == ["--enable", "blankLinesBetweenScopes"])
 	}
 }
