@@ -14,12 +14,12 @@ private struct BlockCommentsTests {
 
 	@Test
 	private func `blockComments .disable 返空陣列`() {
-		#expect(FormatRule.blockComments(rule: .disable).cliArguments.isEmpty)
+		#expect(FormatRule.blockComments(.off).cliArguments.isEmpty)
 	}
 
 	@Test
 	private func `blockComments .enable 展開 --enable blockComments`() {
-		let args = FormatRule.blockComments(rule: .enable).cliArguments
+		let args = FormatRule.blockComments(.on).cliArguments
 		#expect(args == ["--enable", "blockComments"])
 	}
 }
