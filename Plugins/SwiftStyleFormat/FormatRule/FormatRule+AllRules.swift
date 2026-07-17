@@ -31,7 +31,7 @@ extension FormatRule {
 		.blankLinesBetweenChainedFunctions(.on),
 		.blankLinesBetweenImports(.on),
 		.blankLinesBetweenScopes(.on),
-		.blockComments(rule: .enable),
+		.blockComments(.on),
 		.braces(rule: .enable),
 		.conditionalAssignment(rule: .enable),
 		.consecutiveBlankLines(rule: .enable),

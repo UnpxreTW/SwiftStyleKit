@@ -268,6 +268,18 @@ extension FormatRule {
 	public static func blankLinesBetweenScopes(_ state: OffToken) -> FormatRule {
 		._storage(.blankLinesBetweenScopes(rule: .disable))
 	}
+
+	// MARK: blockComments
+
+	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	public static func blockComments(_ state: OnToken) -> FormatRule {
+		._storage(.blockComments(rule: .enable))
+	}
+
+	/// 停用（不可帶 option）
+	public static func blockComments(_ state: OffToken) -> FormatRule {
+		._storage(.blockComments(rule: .disable))
+	}
 }
 
 // swiftlint:enable line_length
