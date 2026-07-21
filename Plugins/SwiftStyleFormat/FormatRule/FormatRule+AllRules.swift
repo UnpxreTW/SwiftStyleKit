@@ -32,7 +32,7 @@ extension FormatRule {
 		.blankLinesBetweenImports(.on),
 		.blankLinesBetweenScopes(.on),
 		.blockComments(.on),
-		.braces(rule: .enable),
+		.braces(.on),
 		.conditionalAssignment(rule: .enable),
 		.consecutiveBlankLines(rule: .enable),
 		.consecutiveSpaces(rule: .enable),
