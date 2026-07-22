@@ -14,19 +14,13 @@ private struct ConditionalAssignmentTests {
 
 	@Test
 	private func `conditionalAssignment .disable 返空陣列`() {
-		let args = FormatRule.conditionalAssignment(rule: .disable).cliArguments
-		#expect(args.isEmpty)
-	}
-
-	@Test
-	private func `conditionalAssignment .disable + mode（option 被忽略）返空陣列`() {
-		let args = FormatRule.conditionalAssignment(rule: .disable, mode: .afterProperty).cliArguments
+		let args = FormatRule.conditionalAssignment(.off).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
 	private func `conditionalAssignment .enable（mode 預設 .always）展開 --enable + --conditionalAssignment always`() {
-		let args = FormatRule.conditionalAssignment(rule: .enable).cliArguments
+		let args = FormatRule.conditionalAssignment(.on).cliArguments
 		#expect(args == [
 			"--enable", "conditionalAssignment",
 			"--conditionalAssignment", "always"
@@ -35,7 +29,7 @@ private struct ConditionalAssignmentTests {
 
 	@Test
 	private func `conditionalAssignment .enable mode .afterProperty 展開 --conditionalAssignment after-property`() {
-		let args = FormatRule.conditionalAssignment(rule: .enable, mode: .afterProperty).cliArguments
+		let args = FormatRule.conditionalAssignment(.on, mode: .afterProperty).cliArguments
 		#expect(args == [
 			"--enable", "conditionalAssignment",
 			"--conditionalAssignment", "after-property"
