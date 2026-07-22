@@ -298,6 +298,24 @@ extension FormatRule {
 	public static func braces(_ state: OffToken, allman: Toggle = .disable) -> FormatRule {
 		fatalError("unavailable")
 	}
+
+	// MARK: conditionalAssignment
+
+	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	public static func conditionalAssignment(_ state: OnToken, mode: ConditionalAssignmentMode = .always) -> FormatRule {
+		._storage(.conditionalAssignment(rule: .enable, mode: mode))
+	}
+
+	/// 停用（不可帶 option）
+	public static func conditionalAssignment(_ state: OffToken) -> FormatRule {
+		._storage(.conditionalAssignment(rule: .disable))
+	}
+
+	/// `.off` 誤帶 option 的編譯期診斷（命中即報錯、不會被呼叫）
+	@available(*, unavailable, message: ".off 不可帶 option（option 只在 .on 有效）")
+	public static func conditionalAssignment(_ state: OffToken, mode: ConditionalAssignmentMode = .always) -> FormatRule {
+		fatalError("unavailable")
+	}
 }
 
 // swiftlint:enable line_length
