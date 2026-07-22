@@ -300,7 +300,7 @@ let fileHeaderComment = """
 """
 
 /// 寫一行到 stderr。
-func err(_ string: String) {
+func stderrPrint(_ string: String) {
 	FileHandle.standardError.write(Data((string + "\n").utf8))
 }
 
@@ -328,11 +328,11 @@ let tree = Parser.parse(source: source)
 let storageRewriter = StorageRewriter()
 let rewrittenTree = storageRewriter.visit(tree)
 if !storageRewriter.synthesisFailures.isEmpty {
-	err("ERROR: 以下 param 無原始 default 且型別無法安全合成預設（gate）：")
+	stderrPrint("ERROR: 以下 param 無原始 default 且型別無法安全合成預設（gate）：")
 	for failure in storageRewriter.synthesisFailures {
-		err("  \(failure.caseName).\(failure.label): \(failure.type)")
+		stderrPrint("  \(failure.caseName).\(failure.label): \(failure.type)")
 	}
-	err("請在 synthesizedDefault(forType:) 補上該型別、或在 Storage case 給該 param 預設值。")
+	stderrPrint("請在 synthesizedDefault(forType:) 補上該型別、或在 Storage case 給該 param 預設值。")
 	exit(1)
 }
 try rewrittenTree.description.write(toFile: formatRulePath, atomically: true, encoding: .utf8)
@@ -344,10 +344,10 @@ let allCases = collector.cases
 // Storage 為空 → 移除生成檔（避免空 extension）；否則生成工廠
 if allCases.isEmpty {
 	try? FileManager.default.removeItem(atPath: outPath)
-	err("===== CODEGEN REPORT =====")
-	err("Storage 無 case（尚無已遷規則）→ 移除 \(outPath)")
-	err("wrap mode: \(wrapPrefix)")
-	err("==========================")
+	stderrPrint("===== CODEGEN REPORT =====")
+	stderrPrint("Storage 無 case（尚無已遷規則）→ 移除 \(outPath)")
+	stderrPrint("wrap mode: \(wrapPrefix)")
+	stderrPrint("==========================")
 } else {
 	// 先組 body，再依實際內容決定放哪些 swiftlint disable——生成檔逐條長大，小檔時
 	// file_length / line_length / vertical_parameter_alignment 都不觸發，硬放會被
@@ -385,14 +385,14 @@ if allCases.isEmpty {
 	let overloads = fileHeaderComment + disablesHeader + "\n\n" + body + enableFooter
 	try overloads.write(toFile: outPath, atomically: true, encoding: .utf8)
 
-	err("===== CODEGEN REPORT =====")
-	err("Storage cases (已遷): \(allCases.count) ; wrap mode: \(wrapPrefix)")
+	stderrPrint("===== CODEGEN REPORT =====")
+	stderrPrint("Storage cases (已遷): \(allCases.count) ; wrap mode: \(wrapPrefix)")
 	for caseInfo in allCases {
-		err("  \(caseInfo.name)")
+		stderrPrint("  \(caseInfo.name)")
 	}
-	err("[synthesized defaults]")
+	stderrPrint("[synthesized defaults]")
 	for record in storageRewriter.synthesized {
-		err("  \(record.caseName).\(record.label): \(record.type) = \(record.injected)")
+		stderrPrint("  \(record.caseName).\(record.label): \(record.type) = \(record.injected)")
 	}
-	err("==========================")
+	stderrPrint("==========================")
 }
