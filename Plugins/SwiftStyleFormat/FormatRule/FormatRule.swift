@@ -24,11 +24,6 @@
 /// 全部遷完後 FormatRule 會轉成 struct、``Storage`` 改 internal。
 public enum FormatRule {
 
-	/// 依選定風格擺放大括號
-	///
-	/// `allman` 為 `.enable` 時開大括號換行（Allman）、`.disable` 時同行（K&R）。
-	case braces(rule: Flag, allman: Toggle = .disable)
-
 	/// 用 `if` / `switch` 運算式做條件賦值
 	///
 	/// `mode` 為 `.afterProperty` 只改寫新屬性宣告後的賦值、`.always` 連既有
@@ -994,6 +989,11 @@ public enum FormatRule {
 		///
 		/// 規則無 own option；內部自動分辨 DocC 跟一般 block comment、轉成對應 single-line 形式。
 		case blockComments(rule: Flag)
+
+		/// 依選定風格擺放大括號
+		///
+		/// `allman` 為 `.enable` 時開大括號換行（Allman）、`.disable` 時同行（K&R）。
+		case braces(rule: Flag, allman: Toggle = .disable)
 	}
 }
 
