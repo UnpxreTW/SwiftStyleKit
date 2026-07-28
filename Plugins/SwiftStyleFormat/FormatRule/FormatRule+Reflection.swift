@@ -7,11 +7,13 @@
 //  SPDX-License-Identifier: MIT
 
 extension FormatRule {
+
 	/// 將此 rule 展開為 swiftformat CLI 參數
 	public var cliArguments: [String] { command }
 }
 
 extension FormatRule {
+
 	/// 取得當前規則 case 的反射節點。已遷規則包在載體 `_storage(Storage)` 內、往內一層取真正
 	/// 的 Storage case；未遷規則直接是 FormatRule 的 case。force unwrap 安全：每個 case 都帶
 	/// payload（至少 `rule: Flag`），Mirror `children.first` 與其 `label` 必非 nil。
