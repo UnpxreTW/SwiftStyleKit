@@ -850,8 +850,9 @@ public enum FormatRule {
 	/// 對應 swiftformat 全域 option `type-blank-lines`——``blankLinesAtStartOfScope(rule:)``
 	/// 與 ``blankLinesAtEndOfScope(rule:)`` 共讀它（見 swiftformat issue #1745）。無
 	/// ``Flag``：option 不是規則、swiftformat 沒有 `--enable` / `--disable` 之分。
-	/// `mode` 預設 `.preserve`（SwiftStyleKit 選用值）、展開成 `--typeBlankLines preserve`；
-	/// 設為 `nil` 則不展開、由 swiftformat 取上游預設。
+	/// `mode` 簽名預設 `.preserve`、展開成 `--typeBlankLines preserve`；設為 `nil` 則不展開、
+	/// 由 swiftformat 取上游預設。**簽名預設不等於本套件選用值**——實際採用的政策釘在
+	/// ``allRules``（`.startOnly`），自組規則集時請比照，勿把簽名預設當成本套件行為。
 	case typeBlankLines(mode: TypeBlankLines? = .preserve)
 
 	/// 字串 `\(...)` 內插值的換行政策
