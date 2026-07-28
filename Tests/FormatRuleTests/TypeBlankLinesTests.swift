@@ -37,8 +37,26 @@ private struct TypeBlankLinesTests {
 	}
 
 	@Test
-	private func `typeBlankLines 預設（mode 省略 → .preserve）展開 --typeBlankLines preserve`() {
+	private func `typeBlankLines mode .consistent 展開 --typeBlankLines consistent`() {
+		let args = FormatRule.typeBlankLines(mode: .consistent).cliArguments
+		#expect(args == ["--typeBlankLines", "consistent"])
+	}
+
+	@Test
+	private func `typeBlankLines mode .startOnly 展開 kebab-case 的 start-only`() {
+		let args = FormatRule.typeBlankLines(mode: .startOnly).cliArguments
+		#expect(args == ["--typeBlankLines", "start-only"])
+	}
+
+	@Test
+	private func `typeBlankLines mode .endOnly 展開 kebab-case 的 end-only`() {
+		let args = FormatRule.typeBlankLines(mode: .endOnly).cliArguments
+		#expect(args == ["--typeBlankLines", "end-only"])
+	}
+
+	@Test
+	private func `typeBlankLines 預設（mode 省略 → .startOnly）展開 --typeBlankLines start-only`() {
 		let args = FormatRule.typeBlankLines().cliArguments
-		#expect(args == ["--typeBlankLines", "preserve"])
+		#expect(args == ["--typeBlankLines", "start-only"])
 	}
 }
