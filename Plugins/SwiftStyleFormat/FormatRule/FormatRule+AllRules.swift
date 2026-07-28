@@ -19,7 +19,7 @@ extension FormatRule {
 		// 同 entry point 的 API 心智模型統一
 		.assertionFailures(.off),
 		.blankLineAfterImports(.on),
-		// 不啟用：對齂5switch case 緊鄰寫法在 Swift 社群屬主流、規則啟用會插入空行
+		// 不啟用：對齊switch case 緊鄰寫法在 Swift 社群屬主流、規則啟用會插入空行
 		// 改變 case 區塊密度；保留 case 在 enum 內形成「考慮
 		// 過且選擇關閉」的 in-tree 宣告，未來偏好改變只改 allRules 不需重新討論
 		.blankLineAfterSwitchCase(.off),
