@@ -316,6 +316,18 @@ extension FormatRule {
 	public static func conditionalAssignment(_ state: OffToken, mode: ConditionalAssignmentMode = .always) -> FormatRule {
 		fatalError("unavailable")
 	}
+
+	// MARK: consecutiveBlankLines
+
+	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	public static func consecutiveBlankLines(_ state: OnToken) -> FormatRule {
+		._storage(.consecutiveBlankLines(rule: .enable))
+	}
+
+	/// 停用（不可帶 option）
+	public static func consecutiveBlankLines(_ state: OffToken) -> FormatRule {
+		._storage(.consecutiveBlankLines(rule: .disable))
+	}
 }
 
 // swiftlint:enable line_length

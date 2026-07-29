@@ -14,13 +14,13 @@ private struct ConsecutiveBlankLinesTests {
 
 	@Test
 	private func `consecutiveBlankLines .disable 返空陣列`() {
-		let args = FormatRule.consecutiveBlankLines(rule: .disable).cliArguments
+		let args = FormatRule.consecutiveBlankLines(.off).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
 	private func `consecutiveBlankLines .enable 展開 --enable consecutiveBlankLines`() {
-		let args = FormatRule.consecutiveBlankLines(rule: .enable).cliArguments
+		let args = FormatRule.consecutiveBlankLines(.on).cliArguments
 		#expect(args == ["--enable", "consecutiveBlankLines"])
 	}
 }
