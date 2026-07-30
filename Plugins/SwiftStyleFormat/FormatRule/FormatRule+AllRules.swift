@@ -7,6 +7,7 @@
 //  SPDX-License-Identifier: MIT
 
 extension FormatRule {
+
 	/// 此 package 啟用的規則集合
 	public static var allRules: [Self] = [
 		.acronyms(.on),
@@ -216,8 +217,9 @@ extension FormatRule {
 		// blankLineAfterSwitchCase / wrapCaseBodies 同 .disable 同精神（switch 結構由業務決定）
 		.wrapSwitchCases(rule: .disable),
 		.yodaConditions(rule: .enable),
-		// 全域 option（無啟用開關、mode 預設 .preserve）
-		.typeBlankLines(),
+		// 全域 option（無啟用開關）。顯式選 .startOnly——type 宣告開頭留一行空白、結尾不留；
+		// 與 blankLinesAtStartOfScope / blankLinesAtEndOfScope 共讀此值
+		.typeBlankLines(mode: .startOnly),
 		.wrapStringInterpolation()
 	]
 
