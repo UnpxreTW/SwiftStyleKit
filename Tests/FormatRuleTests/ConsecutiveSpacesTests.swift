@@ -14,13 +14,13 @@ private struct ConsecutiveSpacesTests {
 
 	@Test
 	private func `consecutiveSpaces .disable 返空陣列`() {
-		let args = FormatRule.consecutiveSpaces(rule: .disable).cliArguments
+		let args = FormatRule.consecutiveSpaces(.off).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
 	private func `consecutiveSpaces .enable 展開 --enable consecutiveSpaces`() {
-		let args = FormatRule.consecutiveSpaces(rule: .enable).cliArguments
+		let args = FormatRule.consecutiveSpaces(.on).cliArguments
 		#expect(args == ["--enable", "consecutiveSpaces"])
 	}
 }

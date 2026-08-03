@@ -36,7 +36,7 @@ extension FormatRule {
 		.braces(.on),
 		.conditionalAssignment(.on),
 		.consecutiveBlankLines(.on),
-		.consecutiveSpaces(rule: .enable),
+		.consecutiveSpaces(.on),
 		.consistentSwitchCaseSpacing(rule: .enable),
 		.docComments(rule: .enable),
 		.docCommentsBeforeModifiers(rule: .enable),
