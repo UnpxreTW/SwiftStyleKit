@@ -24,9 +24,6 @@
 /// 全部遷完後 FormatRule 會轉成 struct、``Storage`` 改 internal。
 public enum FormatRule {
 
-	/// 連續多個空格收成一個
-	case consecutiveSpaces(rule: Flag)
-
 	/// 讓 `switch` 內各 case 的間距一致
 	case consistentSwitchCaseSpacing(rule: Flag)
 
@@ -995,6 +992,9 @@ public enum FormatRule {
 
 		/// 連續多個空白行收成一個
 		case consecutiveBlankLines(rule: Flag)
+
+		/// 連續多個空格收成一個
+		case consecutiveSpaces(rule: Flag)
 	}
 }
 
