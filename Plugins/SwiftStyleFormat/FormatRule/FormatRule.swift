@@ -24,9 +24,6 @@
 /// 全部遷完後 FormatRule 會轉成 struct、``Storage`` 改 internal。
 public enum FormatRule {
 
-	/// 讓 `switch` 內各 case 的間距一致
-	case consistentSwitchCaseSpacing(rule: Flag)
-
 	/// API 宣告用 doc comment（`///`）、其他用一般註解（`//`）
 	///
 	/// `mode` 為 `.beforeDeclarations` 雙向正規化、`.preserve` 只升級不降級。
@@ -995,6 +992,9 @@ public enum FormatRule {
 
 		/// 連續多個空格收成一個
 		case consecutiveSpaces(rule: Flag)
+
+		/// 讓 `switch` 內各 case 的間距一致
+		case consistentSwitchCaseSpacing(rule: Flag)
 	}
 }
 

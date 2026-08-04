@@ -14,13 +14,13 @@ private struct ConsistentSwitchCaseSpacingTests {
 
 	@Test
 	private func `consistentSwitchCaseSpacing .disable 返空陣列`() {
-		let args = FormatRule.consistentSwitchCaseSpacing(rule: .disable).cliArguments
+		let args = FormatRule.consistentSwitchCaseSpacing(.off).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
 	private func `consistentSwitchCaseSpacing .enable 展開 --enable consistentSwitchCaseSpacing`() {
-		let args = FormatRule.consistentSwitchCaseSpacing(rule: .enable).cliArguments
+		let args = FormatRule.consistentSwitchCaseSpacing(.on).cliArguments
 		#expect(args == ["--enable", "consistentSwitchCaseSpacing"])
 	}
 }
