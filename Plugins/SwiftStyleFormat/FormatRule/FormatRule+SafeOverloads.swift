@@ -340,6 +340,18 @@ extension FormatRule {
 	public static func consecutiveSpaces(_ state: OffToken) -> FormatRule {
 		._storage(.consecutiveSpaces(rule: .disable))
 	}
+
+	// MARK: consistentSwitchCaseSpacing
+
+	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	public static func consistentSwitchCaseSpacing(_ state: OnToken) -> FormatRule {
+		._storage(.consistentSwitchCaseSpacing(rule: .enable))
+	}
+
+	/// 停用（不可帶 option）
+	public static func consistentSwitchCaseSpacing(_ state: OffToken) -> FormatRule {
+		._storage(.consistentSwitchCaseSpacing(rule: .disable))
+	}
 }
 
 // swiftlint:enable line_length
