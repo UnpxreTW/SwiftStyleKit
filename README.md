@@ -96,7 +96,7 @@ CI workflow 已設 job-level `SWIFTSTYLELINT_STRICT: '1'`、本機 export 後 `s
 
 #### 為什麼是 codegen，不是 macro
 
-型別安全靠 `EnableToken` / `DisableToken` 兩個型別把 `.enable` / `.disable` 分流到不同 overload。手寫這批 overload（每條規則 2–3 個、上百條）不現實；但若用 Swift macro 即時展開，會把 swift-syntax 依賴傳染給每一個下游、還可能跟對方的 macro 套件撞版本。所以改用 dev-time codegen：
+型別安全靠 `OnToken` / `OffToken` 兩個型別把 `.on` / `.off` 分流到不同 overload。手寫這批 overload（每條規則 2–3 個、上百條）不現實；但若用 Swift macro 即時展開，會把 swift-syntax 依賴傳染給每一個下游、還可能跟對方的 macro 套件撞版本。所以改用 dev-time codegen：
 
 - swift-syntax 只宣告在 `Tools/FormatRuleCodegen/Package.swift`，主 `Package.swift` 維持零 source 依賴。
 - 產物 `FormatRule+SafeOverloads.swift` 是純 Swift、commit 進庫；下游只看到生成好的 overload，看不到 swift-syntax。
@@ -129,4 +129,4 @@ case 形狀決定生成幾個 overload：
 
 - **option 一律給預設值**：disable overload 不帶任何 option、靠 storage case 的預設值補齊；沒給預設值的 option 會讓 disable overload 缺引數、編不過。少數確實無法給預設的情形，codegen 會合成 `""` / `0` / `[]` / `nil`；遇到無法合成的型別會在報告報錯，不要忽略。
 - **`_` 前綴由 codegen 管理**：storage case 的加前綴與還原都由 codegen 處理、可重複 re-run 不會雙前綴；手寫 case 時不要自己加 `_`。
-- **診斷 overload**：Flag + option 的規則會多生一個 `@available(*, unavailable)` 的 `(rule: DisableToken, option…)` overload，用來在 `.disable` 誤帶 option 時給出客製編譯錯誤訊息，而不是讓 option 被默默忽略。
+- **診斷 overload**：Flag + option 的規則會多生一個 `@available(*, unavailable)` 的 `(_ state: OffToken, option…)` overload，用來在 `.off` 誤帶 option 時給出客製編譯錯誤訊息，而不是讓 option 被默默忽略。
