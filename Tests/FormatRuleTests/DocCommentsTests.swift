@@ -14,19 +14,13 @@ private struct DocCommentsTests {
 
 	@Test
 	private func `docComments .disable 返空陣列`() {
-		let args = FormatRule.docComments(rule: .disable).cliArguments
-		#expect(args.isEmpty)
-	}
-
-	@Test
-	private func `docComments .disable + mode（option 被忽略）返空陣列`() {
-		let args = FormatRule.docComments(rule: .disable, mode: .preserve).cliArguments
+		let args = FormatRule.docComments(.off).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
 	private func `docComments .enable（mode 預設 .beforeDeclarations）展開 --enable + --docComments before-declarations`() {
-		let args = FormatRule.docComments(rule: .enable).cliArguments
+		let args = FormatRule.docComments(.on).cliArguments
 		#expect(args == [
 			"--enable", "docComments",
 			"--docComments", "before-declarations"
@@ -35,7 +29,7 @@ private struct DocCommentsTests {
 
 	@Test
 	private func `docComments .enable mode .preserve 展開 --docComments preserve`() {
-		let args = FormatRule.docComments(rule: .enable, mode: .preserve).cliArguments
+		let args = FormatRule.docComments(.on, mode: .preserve).cliArguments
 		#expect(args == [
 			"--enable", "docComments",
 			"--docComments", "preserve"

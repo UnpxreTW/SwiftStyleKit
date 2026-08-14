@@ -24,11 +24,6 @@
 /// 全部遷完後 FormatRule 會轉成 struct、``Storage`` 改 internal。
 public enum FormatRule {
 
-	/// API 宣告用 doc comment（`///`）、其他用一般註解（`//`）
-	///
-	/// `mode` 為 `.beforeDeclarations` 雙向正規化、`.preserve` 只升級不降級。
-	case docComments(rule: Flag, mode: DocCommentsMode = .beforeDeclarations)
-
 	/// doc comment 移到宣告的修飾詞 / attribute 之前
 	case docCommentsBeforeModifiers(rule: Flag)
 
@@ -995,6 +990,11 @@ public enum FormatRule {
 
 		/// 讓 `switch` 內各 case 的間距一致
 		case consistentSwitchCaseSpacing(rule: Flag)
+
+		/// API 宣告用 doc comment（`///`）、其他用一般註解（`//`）
+		///
+		/// `mode` 為 `.beforeDeclarations` 雙向正規化、`.preserve` 只升級不降級。
+		case docComments(rule: Flag, mode: DocCommentsMode = .beforeDeclarations)
 	}
 }
 
