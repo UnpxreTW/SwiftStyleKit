@@ -38,7 +38,7 @@ extension FormatRule {
 		.consecutiveBlankLines(.on),
 		.consecutiveSpaces(.on),
 		.consistentSwitchCaseSpacing(.on),
-		.docComments(rule: .enable),
+		.docComments(.on),
 		.docCommentsBeforeModifiers(rule: .enable),
 		.duplicateImports(rule: .enable),
 		.elseOnSameLine(rule: .enable),
