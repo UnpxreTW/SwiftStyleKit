@@ -39,7 +39,7 @@ extension FormatRule {
 		.consecutiveSpaces(.on),
 		.consistentSwitchCaseSpacing(.on),
 		.docComments(.on),
-		.docCommentsBeforeModifiers(rule: .enable),
+		.docCommentsBeforeModifiers(.on),
 		.duplicateImports(rule: .enable),
 		.elseOnSameLine(rule: .enable),
 		.emptyBraces(rule: .enable),

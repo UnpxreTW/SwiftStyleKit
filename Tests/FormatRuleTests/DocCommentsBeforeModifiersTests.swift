@@ -14,13 +14,13 @@ private struct DocCommentsBeforeModifiersTests {
 
 	@Test
 	private func `docCommentsBeforeModifiers .disable 返空陣列`() {
-		let args = FormatRule.docCommentsBeforeModifiers(rule: .disable).cliArguments
+		let args = FormatRule.docCommentsBeforeModifiers(.off).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
 	private func `docCommentsBeforeModifiers .enable 展開 --enable docCommentsBeforeModifiers`() {
-		let args = FormatRule.docCommentsBeforeModifiers(rule: .enable).cliArguments
+		let args = FormatRule.docCommentsBeforeModifiers(.on).cliArguments
 		#expect(args == ["--enable", "docCommentsBeforeModifiers"])
 	}
 }

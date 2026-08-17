@@ -370,6 +370,18 @@ extension FormatRule {
 	public static func docComments(_ state: OffToken, mode: DocCommentsMode = .beforeDeclarations) -> FormatRule {
 		fatalError("unavailable")
 	}
+
+	// MARK: docCommentsBeforeModifiers
+
+	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	public static func docCommentsBeforeModifiers(_ state: OnToken) -> FormatRule {
+		._storage(.docCommentsBeforeModifiers(rule: .enable))
+	}
+
+	/// 停用（不可帶 option）
+	public static func docCommentsBeforeModifiers(_ state: OffToken) -> FormatRule {
+		._storage(.docCommentsBeforeModifiers(rule: .disable))
+	}
 }
 
 // swiftlint:enable line_length
