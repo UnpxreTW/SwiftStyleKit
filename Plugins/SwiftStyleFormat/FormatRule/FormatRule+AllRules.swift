@@ -40,7 +40,7 @@ extension FormatRule {
 		.consistentSwitchCaseSpacing(.on),
 		.docComments(.on),
 		.docCommentsBeforeModifiers(.on),
-		.duplicateImports(rule: .enable),
+		.duplicateImports(.on),
 		.elseOnSameLine(rule: .enable),
 		.emptyBraces(rule: .enable),
 		.emptyExtensions(rule: .enable),

@@ -24,9 +24,6 @@
 /// 全部遷完後 FormatRule 會轉成 struct、``Storage`` 改 internal。
 public enum FormatRule {
 
-	/// 移除重複的 import 陳述式
-	case duplicateImports(rule: Flag)
-
 	/// `else` / `catch` / `repeat`-`while` 關鍵字依風格擺位
 	///
 	/// `elsePosition` 管 `else` / `catch`、`guardElse` 管 `guard` 的 `else`。
@@ -995,6 +992,9 @@ public enum FormatRule {
 
 		/// doc comment 移到宣告的修飾詞 / attribute 之前
 		case docCommentsBeforeModifiers(rule: Flag)
+
+		/// 移除重複的 import 陳述式
+		case duplicateImports(rule: Flag)
 	}
 }
 

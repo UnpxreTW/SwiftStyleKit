@@ -14,13 +14,13 @@ private struct DuplicateImportsTests {
 
 	@Test
 	private func `duplicateImports .disable 返空陣列`() {
-		let args = FormatRule.duplicateImports(rule: .disable).cliArguments
+		let args = FormatRule.duplicateImports(.off).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
 	private func `duplicateImports .enable 展開 --enable duplicateImports`() {
-		let args = FormatRule.duplicateImports(rule: .enable).cliArguments
+		let args = FormatRule.duplicateImports(.on).cliArguments
 		#expect(args == ["--enable", "duplicateImports"])
 	}
 }
