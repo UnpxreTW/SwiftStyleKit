@@ -41,7 +41,7 @@ extension FormatRule {
 		.docComments(.on),
 		.docCommentsBeforeModifiers(.on),
 		.duplicateImports(.on),
-		.elseOnSameLine(rule: .enable),
+		.elseOnSameLine(.on),
 		.emptyBraces(rule: .enable),
 		.emptyExtensions(rule: .enable),
 		.enumNamespaces(rule: .enable),
