@@ -42,7 +42,7 @@ extension FormatRule {
 		.docCommentsBeforeModifiers(.on),
 		.duplicateImports(.on),
 		.elseOnSameLine(.on),
-		.emptyBraces(rule: .enable),
+		.emptyBraces(.on),
 		.emptyExtensions(rule: .enable),
 		.enumNamespaces(rule: .enable),
 		.environmentEntry(rule: .enable),
