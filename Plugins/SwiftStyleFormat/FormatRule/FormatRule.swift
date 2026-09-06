@@ -24,9 +24,6 @@
 /// 全部遷完後 FormatRule 會轉成 struct、``Storage`` 改 internal。
 public enum FormatRule {
 
-	/// 移除空大括號內的空白
-	case emptyBraces(rule: Flag, mode: EmptyBracesSpacing = .noSpace)
-
 	/// 移除空的、不宣告 protocol 一致性的 extension
 	case emptyExtensions(rule: Flag)
 
@@ -995,6 +992,9 @@ public enum FormatRule {
 		///
 		/// `elsePosition` 管 `else` / `catch`、`guardElse` 管 `guard` 的 `else`。
 		case elseOnSameLine(rule: Flag, elsePosition: ElsePosition = .sameLine, guardElse: GuardElsePosition = .nextLine)
+
+		/// 移除空大括號內的空白
+		case emptyBraces(rule: Flag, mode: EmptyBracesSpacing = .noSpace)
 	}
 }
 

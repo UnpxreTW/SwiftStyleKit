@@ -14,19 +14,13 @@ private struct EmptyBracesTests {
 
 	@Test
 	private func `emptyBraces .disable 返空陣列`() {
-		let args = FormatRule.emptyBraces(rule: .disable).cliArguments
-		#expect(args.isEmpty)
-	}
-
-	@Test
-	private func `emptyBraces .disable + mode（option 被忽略）返空陣列`() {
-		let args = FormatRule.emptyBraces(rule: .disable, mode: .spaced).cliArguments
+		let args = FormatRule.emptyBraces(.off).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
 	private func `emptyBraces .enable（mode 預設 .noSpace）展開 --enable + --emptyBraces no-space`() {
-		let args = FormatRule.emptyBraces(rule: .enable).cliArguments
+		let args = FormatRule.emptyBraces(.on).cliArguments
 		#expect(args == [
 			"--enable", "emptyBraces",
 			"--emptyBraces", "no-space"
@@ -35,7 +29,7 @@ private struct EmptyBracesTests {
 
 	@Test
 	private func `emptyBraces .enable mode .spaced 展開 --emptyBraces spaced`() {
-		let args = FormatRule.emptyBraces(rule: .enable, mode: .spaced).cliArguments
+		let args = FormatRule.emptyBraces(.on, mode: .spaced).cliArguments
 		#expect(args == [
 			"--enable", "emptyBraces",
 			"--emptyBraces", "spaced"
@@ -44,7 +38,7 @@ private struct EmptyBracesTests {
 
 	@Test
 	private func `emptyBraces .enable mode .linebreak 展開 --emptyBraces linebreak`() {
-		let args = FormatRule.emptyBraces(rule: .enable, mode: .linebreak).cliArguments
+		let args = FormatRule.emptyBraces(.on, mode: .linebreak).cliArguments
 		#expect(args == [
 			"--enable", "emptyBraces",
 			"--emptyBraces", "linebreak"
