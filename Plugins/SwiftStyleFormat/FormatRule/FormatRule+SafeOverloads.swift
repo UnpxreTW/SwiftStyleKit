@@ -433,6 +433,18 @@ extension FormatRule {
 	public static func emptyBraces(_ state: OffToken, mode: EmptyBracesSpacing = .noSpace) -> FormatRule {
 		fatalError("unavailable")
 	}
+
+	// MARK: emptyExtensions
+
+	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	public static func emptyExtensions(_ state: OnToken) -> FormatRule {
+		._storage(.emptyExtensions(rule: .enable))
+	}
+
+	/// 停用（不可帶 option）
+	public static func emptyExtensions(_ state: OffToken) -> FormatRule {
+		._storage(.emptyExtensions(rule: .disable))
+	}
 }
 
 // swiftlint:enable line_length

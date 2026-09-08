@@ -24,9 +24,6 @@
 /// 全部遷完後 FormatRule 會轉成 struct、``Storage`` 改 internal。
 public enum FormatRule {
 
-	/// 移除空的、不宣告 protocol 一致性的 extension
-	case emptyExtensions(rule: Flag)
-
 	/// 只裝靜態成員的型別轉成 `enum` 命名空間
 	///
 	/// `mode` 為 `.always` 連 `final class` 也轉、`.structsOnly` 只轉 `struct`。
@@ -995,6 +992,9 @@ public enum FormatRule {
 
 		/// 移除空大括號內的空白
 		case emptyBraces(rule: Flag, mode: EmptyBracesSpacing = .noSpace)
+
+		/// 移除空的、不宣告 protocol 一致性的 extension
+		case emptyExtensions(rule: Flag)
 	}
 }
 

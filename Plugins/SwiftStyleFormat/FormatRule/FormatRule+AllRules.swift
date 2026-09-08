@@ -43,7 +43,7 @@ extension FormatRule {
 		.duplicateImports(.on),
 		.elseOnSameLine(.on),
 		.emptyBraces(.on),
-		.emptyExtensions(rule: .enable),
+		.emptyExtensions(.on),
 		.enumNamespaces(rule: .enable),
 		.environmentEntry(rule: .enable),
 		.extensionAccessControl(rule: .enable),
