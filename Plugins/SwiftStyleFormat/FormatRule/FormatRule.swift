@@ -24,11 +24,6 @@
 /// 全部遷完後 FormatRule 會轉成 struct、``Storage`` 改 internal。
 public enum FormatRule {
 
-	/// 只裝靜態成員的型別轉成 `enum` 命名空間
-	///
-	/// `mode` 為 `.always` 連 `final class` 也轉、`.structsOnly` 只轉 `struct`。
-	case enumNamespaces(rule: Flag, mode: EnumNamespacesMode = .always)
-
 	/// 把 SwiftUI `EnvironmentValues` 定義改寫成使用 `@Entry` macro
 	///
 	/// `@Entry` macro 需 Swift 6.0+（Xcode 16）、低於 6.0 規則自動 no-op。
@@ -995,6 +990,11 @@ public enum FormatRule {
 
 		/// 移除空的、不宣告 protocol 一致性的 extension
 		case emptyExtensions(rule: Flag)
+
+		/// 只裝靜態成員的型別轉成 `enum` 命名空間
+		///
+		/// `mode` 為 `.always` 連 `final class` 也轉、`.structsOnly` 只轉 `struct`。
+		case enumNamespaces(rule: Flag, mode: EnumNamespacesMode = .always)
 	}
 }
 

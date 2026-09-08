@@ -44,7 +44,7 @@ extension FormatRule {
 		.elseOnSameLine(.on),
 		.emptyBraces(.on),
 		.emptyExtensions(.on),
-		.enumNamespaces(rule: .enable),
+		.enumNamespaces(.on),
 		.environmentEntry(rule: .enable),
 		.extensionAccessControl(rule: .enable),
 		.fileMacro(rule: .enable),
