@@ -14,13 +14,13 @@ private struct EnvironmentEntryTests {
 
 	@Test
 	private func `environmentEntry .disable 返空陣列`() {
-		let args = FormatRule.environmentEntry(rule: .disable).cliArguments
+		let args = FormatRule.environmentEntry(.off).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
 	private func `environmentEntry .enable 展開 --enable environmentEntry`() {
-		let args = FormatRule.environmentEntry(rule: .enable).cliArguments
+		let args = FormatRule.environmentEntry(.on).cliArguments
 		#expect(args == ["--enable", "environmentEntry"])
 	}
 }

@@ -463,6 +463,18 @@ extension FormatRule {
 	public static func enumNamespaces(_ state: OffToken, mode: EnumNamespacesMode = .always) -> FormatRule {
 		fatalError("unavailable")
 	}
+
+	// MARK: environmentEntry
+
+	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	public static func environmentEntry(_ state: OnToken) -> FormatRule {
+		._storage(.environmentEntry(rule: .enable))
+	}
+
+	/// 停用（不可帶 option）
+	public static func environmentEntry(_ state: OffToken) -> FormatRule {
+		._storage(.environmentEntry(rule: .disable))
+	}
 }
 
 // swiftlint:enable line_length
