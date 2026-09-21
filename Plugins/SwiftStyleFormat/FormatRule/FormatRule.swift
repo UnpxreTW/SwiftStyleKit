@@ -24,11 +24,6 @@
 /// 全部遷完後 FormatRule 會轉成 struct、``Storage`` 改 internal。
 public enum FormatRule {
 
-	/// 設定 extension 的存取控制修飾詞擺位
-	///
-	/// `mode` 為 `.onExtension` 放在 `extension` 上、`.onDeclarations` 下放到成員。
-	case extensionAccessControl(rule: Flag, mode: ExtensionACLPlacement = .onDeclarations)
-
 	/// 套用統一的檔案標頭
 	///
 	/// `header` 為標頭內容（`strip` / `ignore` / 模板文字），`dateFormat`、`timeZone`
@@ -995,6 +990,11 @@ public enum FormatRule {
 		///
 		/// `@Entry` macro 需 Swift 6.0+（Xcode 16）、低於 6.0 規則自動 no-op。
 		case environmentEntry(rule: Flag)
+
+		/// 設定 extension 的存取控制修飾詞擺位
+		///
+		/// `mode` 為 `.onExtension` 放在 `extension` 上、`.onDeclarations` 下放到成員。
+		case extensionAccessControl(rule: Flag, mode: ExtensionACLPlacement = .onDeclarations)
 	}
 }
 
