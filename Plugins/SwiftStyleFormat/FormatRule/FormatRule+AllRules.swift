@@ -46,7 +46,7 @@ extension FormatRule {
 		.emptyExtensions(.on),
 		.enumNamespaces(.on),
 		.environmentEntry(.on),
-		.extensionAccessControl(rule: .enable),
+		.extensionAccessControl(.on),
 		.fileMacro(rule: .enable),
 		.genericExtensions(rule: .enable),
 		.headerFileName(rule: .enable),

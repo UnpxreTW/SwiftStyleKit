@@ -14,19 +14,13 @@ private struct ExtensionAccessControlTests {
 
 	@Test
 	private func `extensionAccessControl .disable 返空陣列`() {
-		let args = FormatRule.extensionAccessControl(rule: .disable).cliArguments
-		#expect(args.isEmpty)
-	}
-
-	@Test
-	private func `extensionAccessControl .disable + mode（option 被忽略）返空陣列`() {
-		let args = FormatRule.extensionAccessControl(rule: .disable, mode: .onExtension).cliArguments
+		let args = FormatRule.extensionAccessControl(.off).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
 	private func `extensionAccessControl .enable（mode 預設 .onDeclarations）展開 --enable + --extensionAcl on-declarations`() {
-		let args = FormatRule.extensionAccessControl(rule: .enable).cliArguments
+		let args = FormatRule.extensionAccessControl(.on).cliArguments
 		#expect(args == [
 			"--enable", "extensionAccessControl",
 			"--extensionAcl", "on-declarations"
@@ -35,7 +29,7 @@ private struct ExtensionAccessControlTests {
 
 	@Test
 	private func `extensionAccessControl .enable mode .onExtension 展開 --extensionAcl on-extension`() {
-		let args = FormatRule.extensionAccessControl(rule: .enable, mode: .onExtension).cliArguments
+		let args = FormatRule.extensionAccessControl(.on, mode: .onExtension).cliArguments
 		#expect(args == [
 			"--enable", "extensionAccessControl",
 			"--extensionAcl", "on-extension"
