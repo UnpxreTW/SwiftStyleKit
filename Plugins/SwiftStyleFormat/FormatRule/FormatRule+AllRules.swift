@@ -37,7 +37,11 @@ extension FormatRule {
 		.conditionalAssignment(.on),
 		.consecutiveBlankLines(.on),
 		.consecutiveSpaces(.on),
-		.consistentSwitchCaseSpacing(.on),
+		// 不啟用：本專案的 switch case 之間統一不留空行，而這條規則會把同一個 switch 內的
+		// case 間距改寫成一致、可能反過來補上空行；與 blankLineAfterSwitchCase 已 .off
+		// 同精神（case 間距由人決定、不機械改寫）。case 留在 enum 內形成「考慮過且選擇
+		// 關閉」的 in-tree 宣告，未來偏好改變只改 allRules 不需重新討論
+		.consistentSwitchCaseSpacing(.off),
 		.docComments(.on),
 		.docCommentsBeforeModifiers(.on),
 		.duplicateImports(.on),
