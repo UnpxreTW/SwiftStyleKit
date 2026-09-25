@@ -11,19 +11,19 @@
 import PackageDescription
 
 let package = Package(
-    name: "FormatRuleCodegen",
-    platforms: [.macOS(.v13)],
-    dependencies: [
-        .package(url: "https://github.com/swiftlang/swift-syntax.git", from: "603.0.0")
-    ],
-    targets: [
-        .executableTarget(
-            name: "FormatRuleCodegen",
-            dependencies: [
-                .product(name: "SwiftSyntax", package: "swift-syntax"),
-                .product(name: "SwiftSyntaxBuilder", package: "swift-syntax"),
-                .product(name: "SwiftParser", package: "swift-syntax")
-            ]
-        )
-    ]
+	name: "FormatRuleCodegen",
+	platforms: [.macOS(.v13)],
+	dependencies: [
+		.package(url: "https://github.com/swiftlang/swift-syntax.git", from: "603.0.0")
+	],
+	targets: [
+		.executableTarget(
+			name: "FormatRuleCodegen",
+			dependencies: [
+				.product(name: "SwiftSyntax", package: "swift-syntax"),
+				.product(name: "SwiftSyntaxBuilder", package: "swift-syntax"),
+				.product(name: "SwiftParser", package: "swift-syntax")
+			]
+		)
+	]
 )

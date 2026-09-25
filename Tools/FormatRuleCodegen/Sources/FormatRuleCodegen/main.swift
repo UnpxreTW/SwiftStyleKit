@@ -17,7 +17,7 @@ import SwiftParser
 import SwiftSyntax
 import SwiftSyntaxBuilder
 
-// MARK: - 流程概述
+// 流程概述
 //
 // 漸進遷移：FormatRule 過渡期維持 enum + 載體 case `_storage(Storage)`，規則逐條搬進巢狀
 // `enum Storage`；**Storage 成員身分即「已遷移」標記**（不需另設帳本）。codegen：
@@ -31,10 +31,17 @@ import SwiftSyntaxBuilder
 //
 // Storage 為空（如地基 PR）→ 不寫生成檔（避免空 extension 被 emptyExtensions 規則處理）。
 
-// MARK: - 模型
+// 模型
+
+// MARK: - Param
 
 /// 單一 case 的一個參數：rule 旗標本身、或某條 option。
 struct Param {
+
+	/// 是否為規則旗標本身（rule: Flag）
+	var isRule: Bool {
+		typeText == "Flag" && label == "rule"
+	}
 
 	/// 參數 label（rule, mode, allman, ...）；unnamed associated value 為空字串
 	let label: String
@@ -44,21 +51,12 @@ struct Param {
 
 	/// 預設值文字（原樣保留、含 multi-line array literal）；無預設為 nil
 	let defaultText: String?
-
-	/// 是否為規則旗標本身（rule: Flag）
-	var isRule: Bool {
-		typeText == "Flag" && label == "rule"
-	}
 }
+
+// MARK: - CaseInfo
 
 /// 從 Storage enum 解析出的單一 case。
 struct CaseInfo {
-
-	/// 規則 case 名（＝ public API 工廠名、＝ swiftformat rule 名）
-	let name: String
-
-	/// case 的所有參數（含 rule 旗標與 extra option）
-	let params: [Param]
 
 	/// 是否含 rule 旗標（globalOption case 無）
 	var hasRule: Bool {
@@ -69,9 +67,17 @@ struct CaseInfo {
 	var extraParams: [Param] {
 		params.filter { !$0.isRule }
 	}
+
+	/// 規則 case 名（＝ public API 工廠名、＝ swiftformat rule 名）
+	let name: String
+
+	/// case 的所有參數（含 rule 旗標與 extra option）
+	let params: [Param]
 }
 
-// MARK: - 找到 enum Storage、走訪 case
+// MARK: - CaseCollector
+
+// 找到 enum Storage、走訪 case
 
 /// 走訪語法樹、把巢狀 `enum Storage` 的每個 case 解析成 CaseInfo（＝已遷移規則）。
 final class CaseCollector: SyntaxVisitor {
@@ -79,10 +85,7 @@ final class CaseCollector: SyntaxVisitor {
 	/// 收集到的所有 Storage case
 	var cases: [CaseInfo] = []
 
-	/// 是否正在 `enum Storage` 內（只收集其 case；FormatRule 直接 case ＝未遷移、不收）。
-	private var inStorage = false
-
-	// 一律下探（巢狀 Storage 是 FormatRule 的 child、不能 skip FormatRule）；進 Storage 才開收集旗標。
+	/// 一律下探（巢狀 Storage 是 FormatRule 的 child、不能 skip FormatRule）；進 Storage 才開收集旗標。
 	override func visit(_ node: EnumDeclSyntax) -> SyntaxVisitorContinueKind {
 		if node.name.text == "Storage" { inStorage = true }
 		return .visitChildren
@@ -113,6 +116,9 @@ final class CaseCollector: SyntaxVisitor {
 		}
 		return .skipChildren
 	}
+
+	/// 是否正在 `enum Storage` 內（只收集其 case；FormatRule 直接 case ＝未遷移、不收）。
+	private var inStorage = false
 }
 
 // MARK: - 合成預設（讓 .off overload 可省略全部 option）
@@ -127,6 +133,8 @@ func synthesizedDefault(forType typeText: String) -> String? {
 	default: return nil
 	}
 }
+
+// MARK: - SynthRecord
 
 /// 一筆「被合成預設」的紀錄。
 struct SynthRecord {
@@ -144,6 +152,8 @@ struct SynthRecord {
 	let injected: String
 }
 
+// MARK: - SynthFailure
+
 /// 一筆「無法安全合成預設」的紀錄（gate）。
 struct SynthFailure {
 
@@ -157,6 +167,8 @@ struct SynthFailure {
 	let type: String
 }
 
+// MARK: - StorageRewriter
+
 /// 用 SyntaxRewriter 對 `enum Storage` 的 case 補缺 default、保留所有 doc comment / trivia。
 final class StorageRewriter: SyntaxRewriter {
 
@@ -166,10 +178,7 @@ final class StorageRewriter: SyntaxRewriter {
 	/// 無法安全合成預設的 param 紀錄（gate）
 	var synthesisFailures: [SynthFailure] = []
 
-	/// 是否正在 `enum Storage` 內（只改寫其 case）。
-	private var inStorage = false
-
-	// 一律下探以抵達巢狀 Storage；進 Storage 才開改寫旗標、避免動到 FormatRule 直接 case。
+	/// 一律下探以抵達巢狀 Storage；進 Storage 才開改寫旗標、避免動到 FormatRule 直接 case。
 	override func visit(_ node: EnumDeclSyntax) -> DeclSyntax {
 		guard node.name.text == "Storage" else { return super.visit(node) }
 		inStorage = true
@@ -194,7 +203,10 @@ final class StorageRewriter: SyntaxRewriter {
 				synthesisFailures.append(SynthFailure(caseName: caseName, label: label, type: typeText))
 				continue
 			}
-			let synthExpr = ExprSyntax("\(raw: synth)")
+			// 顯式寫出型別、並停 propertyTypes：該規則會把這行改成 `: ExprSyntax = .init(…)`，
+			// 而 `.init` 會選到 `ExprSyntax.init(validating:)`、編不過；勿「精簡」掉這兩行。
+			// swiftformat:disable:next propertyTypes
+			let synthExpr: ExprSyntax = ExprSyntax("\(raw: synth)")
 			newParams[index] = param.with(
 				\.defaultValue,
 				InitializerClauseSyntax(
@@ -208,6 +220,9 @@ final class StorageRewriter: SyntaxRewriter {
 		node.parameterClause = paramClause
 		return node
 	}
+
+	/// 是否正在 `enum Storage` 內（只改寫其 case）。
+	private var inStorage = false
 }
 
 // MARK: - 簽名與 body 片段
@@ -244,9 +259,11 @@ func renderOverloads(_ caseInfo: CaseInfo) -> String {
 	guard caseInfo.hasRule else {
 		// 全域 option：無 rule、單一 passthrough（mode 預設保留）
 		let signature = renderOptionParams(caseInfo).joined(separator: ", ")
-		let args = caseInfo.extraParams.map { param in
+		let args = caseInfo.extraParams
+		.map { param in
 			param.label.isEmpty ? "value" : "\(param.label): \(param.label)"
-		}.joined(separator: ", ")
+		}
+		.joined(separator: ", ")
 		return """
 		\t/// 全域 option（無 rule Flag）：直接 passthrough，無 on/off 之分
 		\tpublic static func \(caseInfo.name)(\(signature)) -> FormatRule {
@@ -306,11 +323,13 @@ func stderrPrint(_ string: String) {
 
 // MARK: - 主流程
 
-let arguments = CommandLine.arguments
+// 顯式型別手寫：propertyTypes 會推成 `CommandLine`，實際回傳 `[String]`；勿「精簡」掉標註
+let arguments: [String] = CommandLine.arguments
 guard arguments.count >= 3 else {
 	FileHandle.standardError.write(Data("usage: FormatRuleCodegen <FormatRule.swift path> <output dir>\n".utf8))
 	exit(2)
 }
+
 let formatRulePath = arguments[1]
 let outDir = arguments[2]
 let outPath = "\(outDir)/FormatRule+SafeOverloads.swift"
@@ -319,13 +338,15 @@ guard let source = try? String(contentsOfFile: formatRulePath, encoding: .utf8) 
 	FileHandle.standardError.write(Data("cannot read \(formatRulePath)\n".utf8))
 	exit(1)
 }
+
 // 偵測 FormatRule 是否已 flip 成 struct → 決定工廠 body 形（載體 vs init）
 wrapPrefix = source.contains("struct FormatRule") ? ".init" : "._storage"
 
-let tree = Parser.parse(source: source)
+// 顯式型別手寫：propertyTypes 會推成 `Parser`，實際回傳 `SourceFileSyntax`；勿「精簡」掉標註
+let tree: SourceFileSyntax = Parser.parse(source: source)
 
 // Storage 就地改寫（補缺 default）、寫回原檔
-let storageRewriter = StorageRewriter()
+let storageRewriter: StorageRewriter = .init()
 let rewrittenTree = storageRewriter.visit(tree)
 if !storageRewriter.synthesisFailures.isEmpty {
 	stderrPrint("ERROR: 以下 param 無原始 default 且型別無法安全合成預設（gate）：")
@@ -335,9 +356,10 @@ if !storageRewriter.synthesisFailures.isEmpty {
 	stderrPrint("請在 synthesizedDefault(forType:) 補上該型別、或在 Storage case 給該 param 預設值。")
 	exit(1)
 }
+
 try rewrittenTree.description.write(toFile: formatRulePath, atomically: true, encoding: .utf8)
 
-let collector = CaseCollector(viewMode: .sourceAccurate)
+let collector: CaseCollector = .init(viewMode: .sourceAccurate)
 collector.walk(rewrittenTree)
 let allCases = collector.cases
 
