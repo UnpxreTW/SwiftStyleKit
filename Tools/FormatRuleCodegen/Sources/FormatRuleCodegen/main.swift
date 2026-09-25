@@ -290,9 +290,9 @@ func renderOverloads(_ caseInfo: CaseInfo) -> String {
 	let diagnosticParams = (["_ state: OffToken"] + renderOptionParams(caseInfo)).joined(separator: ", ")
 	let diagnosticOverload = """
 	\t/// `.off` 誤帶 option 的編譯期診斷（命中即報錯、不會被呼叫）
-	\t@available(*, unavailable, message: \".off 不可帶 option（option 只在 .on 有效）\")
+	\t@available(*, unavailable, message: ".off 不可帶 option（option 只在 .on 有效）")
 	\tpublic static func \(caseInfo.name)(\(diagnosticParams)) -> FormatRule {
-	\t\tfatalError(\"unavailable\")
+	\t\tfatalError("unavailable")
 	\t}
 	"""
 	return [onOverload, offOverload, diagnosticOverload].joined(separator: "\n\n")
