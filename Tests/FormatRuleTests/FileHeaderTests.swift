@@ -14,13 +14,13 @@ private struct FileHeaderTests {
 
 	@Test
 	private func `fileHeader .disable 返空陣列`() {
-		let args = FormatRule.fileHeader(.off).cliArguments
+		let args: [String] = FormatRule.fileHeader(.off).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
 	private func `fileHeader .enable 展開 --enable + header / dateFormat / timeZone`() {
-		let args = FormatRule.fileHeader(
+		let args: [String] = FormatRule.fileHeader(
 			.on,
 			header: "// {file}",
 			dateFormat: "iso",
@@ -37,7 +37,7 @@ private struct FileHeaderTests {
 
 	@Test
 	private func `fileHeader .enable 省略 option 時展開 swiftformat 的工具預設`() {
-		let args = FormatRule.fileHeader(.on).cliArguments
+		let args: [String] = FormatRule.fileHeader(.on).cliArguments
 		#expect(args == [
 			"--enable", "fileHeader",
 			"--header", "ignore",
