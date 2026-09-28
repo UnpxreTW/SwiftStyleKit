@@ -167,7 +167,7 @@ struct SwiftStyleFormat: CommandPlugin {
 			license: inputs.license
 		)
 		let rule: FormatRule = .fileHeader(
-			rule: .enable,
+			.on,
 			header: header,
 			dateFormat: "system",
 			timeZone: "system"
