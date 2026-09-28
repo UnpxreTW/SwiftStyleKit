@@ -203,9 +203,9 @@ final class StorageRewriter: SyntaxRewriter {
 				synthesisFailures.append(SynthFailure(caseName: caseName, label: label, type: typeText))
 				continue
 			}
-			// 顯式寫出型別、並停 propertyTypes：該規則會把這行改成 `: ExprSyntax = .init(…)`，
-			// 而 `.init` 會選到 `ExprSyntax.init(validating:)`、編不過；勿「精簡」掉這兩行。
-			// swiftformat:disable:next propertyTypes
+			// 顯式寫出型別、並停 propertyTypes 與 redundantType：兩條都會把這行改成
+			// `: ExprSyntax = .init(…)`，而 `.init` 會選到 `ExprSyntax.init(validating:)`、編不過；勿「精簡」掉這兩行。
+			// swiftformat:disable:next propertyTypes redundantType
 			let synthExpr: ExprSyntax = ExprSyntax("\(raw: synth)")
 			newParams[index] = param.with(
 				\.defaultValue,
@@ -323,7 +323,7 @@ func stderrPrint(_ string: String) {
 
 // MARK: - 主流程
 
-// 顯式型別手寫：propertyTypes 會推成 `CommandLine`，實際回傳 `[String]`；勿「精簡」掉標註
+/// 顯式型別手寫：propertyTypes 會推成 `CommandLine`，實際回傳 `[String]`；勿「精簡」掉標註
 let arguments: [String] = CommandLine.arguments
 guard arguments.count >= 3 else {
 	FileHandle.standardError.write(Data("usage: FormatRuleCodegen <FormatRule.swift path> <output dir>\n".utf8))
@@ -342,7 +342,7 @@ guard let source = try? String(contentsOfFile: formatRulePath, encoding: .utf8) 
 // 偵測 FormatRule 是否已 flip 成 struct → 決定工廠 body 形（載體 vs init）
 wrapPrefix = source.contains("struct FormatRule") ? ".init" : "._storage"
 
-// 顯式型別手寫：propertyTypes 會推成 `Parser`，實際回傳 `SourceFileSyntax`；勿「精簡」掉標註
+/// 顯式型別手寫：propertyTypes 會推成 `Parser`，實際回傳 `SourceFileSyntax`；勿「精簡」掉標註
 let tree: SourceFileSyntax = Parser.parse(source: source)
 
 // Storage 就地改寫（補缺 default）、寫回原檔

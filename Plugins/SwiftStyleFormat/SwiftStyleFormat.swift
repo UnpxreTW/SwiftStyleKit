@@ -31,19 +31,25 @@ struct SwiftStyleFormat: CommandPlugin {
 		let tool = try context.tool(named: "swiftformat")
 		let inputs = headerInputs(directory: context.package.directory, headerSPDXOverride: headerSPDX.value)
 		try requireHolder(inputs)
+		var formatted: Set<String> = []
 		for target in targets {
 			guard let module = target as? SourceModuleTarget else { continue }
-			let injected: [String] = [
-				"--disable", "all",
-				"--swiftversion", "6.2",
-				"--symlinks", "follow"
-			] + FormatRule.allToCommand + headerArguments(targetName: module.name, inputs: inputs)
+			formatted.formUnion(module.sourceFiles.map { resolvedPath($0.path.string) })
 			try runSwiftFormat(
 				executable: tool.path,
 				paths: [module.directory.string],
-				arguments: injected + remaining
+				arguments: packageArguments(targetName: module.name, inputs: inputs) + remaining
 			)
 		}
+		// 指定 --target 時只處理該 target，不擴及外掛原始碼與 manifest
+		guard selectedTargets.isEmpty else { return }
+		try formatUnmanagedSources(
+			context: context,
+			formatted: formatted,
+			executable: tool.path,
+			inputs: inputs,
+			remaining: remaining
+		)
 	}
 
 	// MARK: Private
@@ -167,6 +173,97 @@ struct SwiftStyleFormat: CommandPlugin {
 			timeZone: "system"
 		)
 		return rule.cliArguments
+	}
+
+	/// 為單一目標組出注入的 swiftformat 參數（規則集 + 該目標的檔頭規則）
+	private func packageArguments(targetName: String, inputs: HeaderInputs) -> [String] {
+		let injected: [String] = [
+			"--disable", "all",
+			"--swiftversion", "6.2",
+			"--symlinks", "follow"
+		]
+		return injected + FormatRule.allToCommand + headerArguments(targetName: targetName, inputs: inputs)
+	}
+
+	/// 格式化套件自有、但不屬於任何 source module 的 Swift 檔：外掛與輔助工具的原始碼，以及套件 manifest
+	///
+	/// `PluginContext.package.targets` 不含 plugin target，其原始碼因此取不到對應的 `SourceModuleTarget`。
+	/// 改以 `Plugins/`、`Tools/` 下的第一層子目錄為單位走訪，子目錄名即檔頭的目標名；manifest 另成一組、
+	/// 目標名取套件名。`formatted` 是 source module 已處理過的實體路徑，用於剔除經 symlink 重複出現的同一顆檔
+	/// （否則同一檔會被套上兩個不同的目標名檔頭）。
+	private func formatUnmanagedSources(
+		context: PluginContext,
+		formatted: Set<String>,
+		executable: Path,
+		inputs: HeaderInputs,
+		remaining: [String]
+	) throws {
+		let manager: FileManager = .default
+		let root: String = context.package.directory.string
+		for group in ["Plugins", "Tools"] {
+			let groupRoot: String = root + "/" + group
+			guard isDirectory(groupRoot) else { continue }
+			let units: [String] = ((try? manager.contentsOfDirectory(atPath: groupRoot)) ?? []).sorted()
+			for unit in units {
+				let unitRoot: String = groupRoot + "/" + unit
+				guard isDirectory(unitRoot) else { continue }
+				let files: [String] = swiftFiles(in: unitRoot) { !isManifest($0) }
+					.filter { !formatted.contains(resolvedPath($0)) }
+				guard !files.isEmpty else { continue }
+				try runSwiftFormat(
+					executable: executable,
+					paths: files,
+					arguments: packageArguments(targetName: unit, inputs: inputs) + remaining
+				)
+			}
+		}
+		let manifests: [String] = swiftFiles(in: root) { isManifest($0) }
+		guard !manifests.isEmpty else { return }
+		try runSwiftFormat(
+			executable: executable,
+			paths: manifests,
+			arguments: packageArguments(targetName: context.package.displayName, inputs: inputs) + remaining
+		)
+	}
+
+	/// 判斷檔名是否為套件 manifest（含版本化 manifest）
+	private func isManifest(_ fileName: String) -> Bool {
+		fileName == "Package.swift" || (fileName.hasPrefix("Package@swift-") && fileName.hasSuffix(".swift"))
+	}
+
+	/// 走訪目錄下符合條件的 `.swift` 檔；跳過隱藏目錄、bundle 內容與建置產物目錄
+	private func swiftFiles(in directory: String, where isMatch: (String) -> Bool) -> [String] {
+		guard isDirectory(directory) else { return [] }
+		let skipped: Set<String> = ["DerivedData", "Derived", ".build"]
+		guard
+			let walker = FileManager.default.enumerator(
+				at: URL(fileURLWithPath: directory),
+				includingPropertiesForKeys: [.isRegularFileKey],
+				options: [.skipsHiddenFiles, .skipsPackageDescendants]
+			)
+		else { return [] }
+		var found: [String] = []
+		for case let url as URL in walker {
+			if url.hasDirectoryPath {
+				if skipped.contains(url.lastPathComponent) { walker.skipDescendants() }
+				continue
+			}
+			guard url.pathExtension == "swift", isMatch(url.lastPathComponent) else { continue }
+			found.append(url.path)
+		}
+		return found.sorted()
+	}
+
+	/// 路徑是否為目錄（symlink 亦照其指向判定）
+	private func isDirectory(_ path: String) -> Bool {
+		var isDirectory: ObjCBool = false
+		let exists: Bool = FileManager.default.fileExists(atPath: path, isDirectory: &isDirectory)
+		return exists && isDirectory.boolValue
+	}
+
+	/// 解開 symlink 後的實體路徑——同一顆檔經不同路徑出現時用於去重
+	private func resolvedPath(_ path: String) -> String {
+		URL(fileURLWithPath: path).resolvingSymlinksInPath().path
 	}
 
 	private func runSwiftFormat(executable: Path, paths: [String], arguments: [String]) throws {
