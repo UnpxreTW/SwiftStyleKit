@@ -273,7 +273,7 @@ func renderOverloads(_ caseInfo: CaseInfo) -> String {
 	}
 	let onSignature = (["_ state: OnToken"] + renderOptionParams(caseInfo)).joined(separator: ", ")
 	let onOverload = """
-	\t/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	\t/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	\tpublic static func \(caseInfo.name)(\(onSignature)) -> FormatRule {
 	\t\t\(wrapBody(caseInfo.name, renderStorageArgs(caseInfo, ruleArg: ".enable", withOptions: true)))
 	\t}

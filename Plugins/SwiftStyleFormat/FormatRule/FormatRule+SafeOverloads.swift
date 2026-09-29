@@ -22,7 +22,7 @@ extension FormatRule {
 
 	// MARK: acronyms
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func acronyms(_ state: OnToken, _ value: String = FormatRule.defaultAcronyms) -> FormatRule {
 		._storage(.acronyms(rule: .enable, value))
 	}
@@ -40,7 +40,7 @@ extension FormatRule {
 
 	// MARK: blankLineAfterSwitchCase
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func blankLineAfterSwitchCase(_ state: OnToken, mode: BlankLineAfterSwitchCaseMode? = nil) -> FormatRule {
 		._storage(.blankLineAfterSwitchCase(rule: .enable, mode: mode))
 	}
@@ -58,7 +58,7 @@ extension FormatRule {
 
 	// MARK: andOperator
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func andOperator(_ state: OnToken) -> FormatRule {
 		._storage(.andOperator(rule: .enable))
 	}
@@ -70,7 +70,7 @@ extension FormatRule {
 
 	// MARK: anyObjectProtocol
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func anyObjectProtocol(_ state: OnToken) -> FormatRule {
 		._storage(.anyObjectProtocol(rule: .enable))
 	}
@@ -82,7 +82,7 @@ extension FormatRule {
 
 	// MARK: applicationMain
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func applicationMain(_ state: OnToken) -> FormatRule {
 		._storage(.applicationMain(rule: .enable))
 	}
@@ -94,7 +94,7 @@ extension FormatRule {
 
 	// MARK: assertionFailures
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func assertionFailures(_ state: OnToken) -> FormatRule {
 		._storage(.assertionFailures(rule: .enable))
 	}
@@ -106,7 +106,7 @@ extension FormatRule {
 
 	// MARK: blankLineAfterImports
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func blankLineAfterImports(_ state: OnToken) -> FormatRule {
 		._storage(.blankLineAfterImports(rule: .enable))
 	}
@@ -118,7 +118,7 @@ extension FormatRule {
 
 	// MARK: preferContains
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func preferContains(_ state: OnToken) -> FormatRule {
 		._storage(.preferContains(rule: .enable))
 	}
@@ -130,7 +130,7 @@ extension FormatRule {
 
 	// MARK: preferFirstWhere
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func preferFirstWhere(_ state: OnToken) -> FormatRule {
 		._storage(.preferFirstWhere(rule: .enable))
 	}
@@ -142,7 +142,7 @@ extension FormatRule {
 
 	// MARK: preferFlatMap
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func preferFlatMap(_ state: OnToken) -> FormatRule {
 		._storage(.preferFlatMap(rule: .enable))
 	}
@@ -154,7 +154,7 @@ extension FormatRule {
 
 	// MARK: preferMinOverSorted
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func preferMinOverSorted(_ state: OnToken) -> FormatRule {
 		._storage(.preferMinOverSorted(rule: .enable))
 	}
@@ -166,7 +166,7 @@ extension FormatRule {
 
 	// MARK: redundantSwiftUIGroup
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func redundantSwiftUIGroup(_ state: OnToken) -> FormatRule {
 		._storage(.redundantSwiftUIGroup(rule: .enable))
 	}
@@ -178,7 +178,7 @@ extension FormatRule {
 
 	// MARK: blankLinesAfterGuardStatements
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func blankLinesAfterGuardStatements(_ state: OnToken, lineBetweenGuards: Toggle = .disable) -> FormatRule {
 		._storage(.blankLinesAfterGuardStatements(rule: .enable, lineBetweenGuards: lineBetweenGuards))
 	}
@@ -196,7 +196,7 @@ extension FormatRule {
 
 	// MARK: blankLinesAroundMark
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func blankLinesAroundMark(_ state: OnToken, lineAfterMarks: Toggle = .enable) -> FormatRule {
 		._storage(.blankLinesAroundMark(rule: .enable, lineAfterMarks: lineAfterMarks))
 	}
@@ -214,7 +214,7 @@ extension FormatRule {
 
 	// MARK: blankLinesAtEndOfScope
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func blankLinesAtEndOfScope(_ state: OnToken) -> FormatRule {
 		._storage(.blankLinesAtEndOfScope(rule: .enable))
 	}
@@ -226,7 +226,7 @@ extension FormatRule {
 
 	// MARK: blankLinesAtStartOfScope
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func blankLinesAtStartOfScope(_ state: OnToken) -> FormatRule {
 		._storage(.blankLinesAtStartOfScope(rule: .enable))
 	}
@@ -238,7 +238,7 @@ extension FormatRule {
 
 	// MARK: blankLinesBetweenChainedFunctions
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func blankLinesBetweenChainedFunctions(_ state: OnToken) -> FormatRule {
 		._storage(.blankLinesBetweenChainedFunctions(rule: .enable))
 	}
@@ -250,7 +250,7 @@ extension FormatRule {
 
 	// MARK: blankLinesBetweenImports
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func blankLinesBetweenImports(_ state: OnToken) -> FormatRule {
 		._storage(.blankLinesBetweenImports(rule: .enable))
 	}
@@ -262,7 +262,7 @@ extension FormatRule {
 
 	// MARK: blankLinesBetweenScopes
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func blankLinesBetweenScopes(_ state: OnToken) -> FormatRule {
 		._storage(.blankLinesBetweenScopes(rule: .enable))
 	}
@@ -274,7 +274,7 @@ extension FormatRule {
 
 	// MARK: blockComments
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func blockComments(_ state: OnToken) -> FormatRule {
 		._storage(.blockComments(rule: .enable))
 	}
@@ -286,7 +286,7 @@ extension FormatRule {
 
 	// MARK: braces
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func braces(_ state: OnToken, allman: Toggle = .disable) -> FormatRule {
 		._storage(.braces(rule: .enable, allman: allman))
 	}
@@ -304,7 +304,7 @@ extension FormatRule {
 
 	// MARK: conditionalAssignment
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func conditionalAssignment(_ state: OnToken, mode: ConditionalAssignmentMode = .always) -> FormatRule {
 		._storage(.conditionalAssignment(rule: .enable, mode: mode))
 	}
@@ -322,7 +322,7 @@ extension FormatRule {
 
 	// MARK: consecutiveBlankLines
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func consecutiveBlankLines(_ state: OnToken) -> FormatRule {
 		._storage(.consecutiveBlankLines(rule: .enable))
 	}
@@ -334,7 +334,7 @@ extension FormatRule {
 
 	// MARK: consecutiveSpaces
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func consecutiveSpaces(_ state: OnToken) -> FormatRule {
 		._storage(.consecutiveSpaces(rule: .enable))
 	}
@@ -346,7 +346,7 @@ extension FormatRule {
 
 	// MARK: consistentSwitchCaseSpacing
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func consistentSwitchCaseSpacing(_ state: OnToken) -> FormatRule {
 		._storage(.consistentSwitchCaseSpacing(rule: .enable))
 	}
@@ -358,7 +358,7 @@ extension FormatRule {
 
 	// MARK: docComments
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func docComments(_ state: OnToken, mode: DocCommentsMode = .beforeDeclarations) -> FormatRule {
 		._storage(.docComments(rule: .enable, mode: mode))
 	}
@@ -376,7 +376,7 @@ extension FormatRule {
 
 	// MARK: docCommentsBeforeModifiers
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func docCommentsBeforeModifiers(_ state: OnToken) -> FormatRule {
 		._storage(.docCommentsBeforeModifiers(rule: .enable))
 	}
@@ -388,7 +388,7 @@ extension FormatRule {
 
 	// MARK: duplicateImports
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func duplicateImports(_ state: OnToken) -> FormatRule {
 		._storage(.duplicateImports(rule: .enable))
 	}
@@ -400,7 +400,7 @@ extension FormatRule {
 
 	// MARK: elseOnSameLine
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func elseOnSameLine(_ state: OnToken, elsePosition: ElsePosition = .sameLine, guardElse: GuardElsePosition = .nextLine) -> FormatRule {
 		._storage(.elseOnSameLine(rule: .enable, elsePosition: elsePosition, guardElse: guardElse))
 	}
@@ -418,7 +418,7 @@ extension FormatRule {
 
 	// MARK: emptyBraces
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func emptyBraces(_ state: OnToken, mode: EmptyBracesSpacing = .noSpace) -> FormatRule {
 		._storage(.emptyBraces(rule: .enable, mode: mode))
 	}
@@ -436,7 +436,7 @@ extension FormatRule {
 
 	// MARK: emptyExtensions
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func emptyExtensions(_ state: OnToken) -> FormatRule {
 		._storage(.emptyExtensions(rule: .enable))
 	}
@@ -448,7 +448,7 @@ extension FormatRule {
 
 	// MARK: enumNamespaces
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func enumNamespaces(_ state: OnToken, mode: EnumNamespacesMode = .always) -> FormatRule {
 		._storage(.enumNamespaces(rule: .enable, mode: mode))
 	}
@@ -466,7 +466,7 @@ extension FormatRule {
 
 	// MARK: environmentEntry
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func environmentEntry(_ state: OnToken) -> FormatRule {
 		._storage(.environmentEntry(rule: .enable))
 	}
@@ -478,7 +478,7 @@ extension FormatRule {
 
 	// MARK: extensionAccessControl
 
-	/// 啟用 + 帶 option（option 預設＝原 SSK 簽名預設）
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
 	public static func extensionAccessControl(_ state: OnToken, mode: ExtensionACLPlacement = .onDeclarations) -> FormatRule {
 		._storage(.extensionAccessControl(rule: .enable, mode: mode))
 	}
@@ -491,6 +491,24 @@ extension FormatRule {
 	/// `.off` 誤帶 option 的編譯期診斷（命中即報錯、不會被呼叫）
 	@available(*, unavailable, message: ".off 不可帶 option（option 只在 .on 有效）")
 	public static func extensionAccessControl(_ state: OffToken, mode: ExtensionACLPlacement = .onDeclarations) -> FormatRule {
+		fatalError("unavailable")
+	}
+
+	// MARK: fileHeader
+
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
+	public static func fileHeader(_ state: OnToken, header: String = "ignore", dateFormat: String = "system", timeZone: String = "system") -> FormatRule {
+		._storage(.fileHeader(rule: .enable, header: header, dateFormat: dateFormat, timeZone: timeZone))
+	}
+
+	/// 停用（不可帶 option）
+	public static func fileHeader(_ state: OffToken) -> FormatRule {
+		._storage(.fileHeader(rule: .disable))
+	}
+
+	/// `.off` 誤帶 option 的編譯期診斷（命中即報錯、不會被呼叫）
+	@available(*, unavailable, message: ".off 不可帶 option（option 只在 .on 有效）")
+	public static func fileHeader(_ state: OffToken, header: String = "ignore", dateFormat: String = "system", timeZone: String = "system") -> FormatRule {
 		fatalError("unavailable")
 	}
 }
