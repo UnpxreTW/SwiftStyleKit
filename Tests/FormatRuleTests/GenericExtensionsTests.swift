@@ -14,19 +14,19 @@ private struct GenericExtensionsTests {
 
 	@Test
 	private func `genericExtensions .disable 返空陣列`() {
-		let args = FormatRule.genericExtensions(rule: .disable, genericTypes: "Foo<Bar>").cliArguments
+		let args = FormatRule.genericExtensions(.off).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
 	private func `genericExtensions .enable（genericTypes 預設 nil）只展開 --enable`() {
-		let args = FormatRule.genericExtensions(rule: .enable).cliArguments
+		let args = FormatRule.genericExtensions(.on).cliArguments
 		#expect(args == ["--enable", "genericExtensions"])
 	}
 
 	@Test
 	private func `genericExtensions .enable genericTypes 有值展開 --genericTypes`() {
-		let args = FormatRule.genericExtensions(rule: .enable, genericTypes: "LinkedList<Element>").cliArguments
+		let args = FormatRule.genericExtensions(.on, genericTypes: "LinkedList<Element>").cliArguments
 		#expect(args == [
 			"--enable", "genericExtensions",
 			"--genericTypes", "LinkedList<Element>"

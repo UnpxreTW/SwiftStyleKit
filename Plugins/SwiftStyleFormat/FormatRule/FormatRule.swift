@@ -24,12 +24,6 @@
 /// 全部遷完後 FormatRule 會轉成 struct、``Storage`` 改 internal。
 public enum FormatRule {
 
-	/// 用角括號泛型語法改寫型別約束式 extension
-	///
-	/// `genericTypes` 為分號分隔的自訂泛型型別清單（如 `"LinkedList<Element>"`）、讓規則
-	/// 認得自訂型別；`nil` 則只處理內建型別。角括號 extension 語法需 Swift 5.7+。
-	case genericExtensions(rule: Flag, genericTypes: String? = nil)
-
 	/// 確保 header 註解裡的檔名與實際檔名相符
 	case headerFileName(rule: Flag)
 
@@ -995,6 +989,12 @@ public enum FormatRule {
 		/// `mode` 選 `.file` 或 `.fileID`。Swift 6 language mode 起兩者行為相同、規則於低於
 		/// Swift 6 時自動 no-op；`#filePath` 不受影響。
 		case fileMacro(rule: Flag, mode: FileMacro = .fileID)
+
+		/// 用角括號泛型語法改寫型別約束式 extension
+		///
+		/// `genericTypes` 為分號分隔的自訂泛型型別清單（如 `"LinkedList<Element>"`）、讓規則
+		/// 認得自訂型別；`nil` 則只處理內建型別。角括號 extension 語法需 Swift 5.7+。
+		case genericExtensions(rule: Flag, genericTypes: String? = nil)
 	}
 }
 
