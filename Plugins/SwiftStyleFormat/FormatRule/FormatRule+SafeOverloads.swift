@@ -511,6 +511,24 @@ extension FormatRule {
 	public static func fileHeader(_ state: OffToken, header: String = "ignore", dateFormat: String = "system", timeZone: String = "system") -> FormatRule {
 		fatalError("unavailable")
 	}
+
+	// MARK: fileMacro
+
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
+	public static func fileMacro(_ state: OnToken, mode: FileMacro = .fileID) -> FormatRule {
+		._storage(.fileMacro(rule: .enable, mode: mode))
+	}
+
+	/// 停用（不可帶 option）
+	public static func fileMacro(_ state: OffToken) -> FormatRule {
+		._storage(.fileMacro(rule: .disable))
+	}
+
+	/// `.off` 誤帶 option 的編譯期診斷（命中即報錯、不會被呼叫）
+	@available(*, unavailable, message: ".off 不可帶 option（option 只在 .on 有效）")
+	public static func fileMacro(_ state: OffToken, mode: FileMacro = .fileID) -> FormatRule {
+		fatalError("unavailable")
+	}
 }
 
 // swiftlint:enable line_length

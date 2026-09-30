@@ -24,12 +24,6 @@
 /// 全部遷完後 FormatRule 會轉成 struct、``Storage`` 改 internal。
 public enum FormatRule {
 
-	/// 統一偏好 `#file` 或 `#fileID`
-	///
-	/// `mode` 選 `.file` 或 `.fileID`。Swift 6 language mode 起兩者行為相同、規則於低於
-	/// Swift 6 時自動 no-op；`#filePath` 不受影響。
-	case fileMacro(rule: Flag, mode: FileMacro = .fileID)
-
 	/// 用角括號泛型語法改寫型別約束式 extension
 	///
 	/// `genericTypes` 為分號分隔的自訂泛型型別清單（如 `"LinkedList<Element>"`）、讓規則
@@ -995,6 +989,12 @@ public enum FormatRule {
 		/// `header` 為標頭內容（`strip` / `ignore` / 模板文字），`dateFormat`、`timeZone`
 		/// 供模板日期 token 使用。此規則不在 `allRules`——標頭內容隨專案而異、由 plugin 執行期組裝。
 		case fileHeader(rule: Flag, header: String = "ignore", dateFormat: String = "system", timeZone: String = "system")
+
+		/// 統一偏好 `#file` 或 `#fileID`
+		///
+		/// `mode` 選 `.file` 或 `.fileID`。Swift 6 language mode 起兩者行為相同、規則於低於
+		/// Swift 6 時自動 no-op；`#filePath` 不受影響。
+		case fileMacro(rule: Flag, mode: FileMacro = .fileID)
 	}
 }
 
