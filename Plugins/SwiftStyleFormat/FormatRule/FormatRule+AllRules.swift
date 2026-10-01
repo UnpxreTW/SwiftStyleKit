@@ -52,7 +52,7 @@ extension FormatRule {
 		.environmentEntry(.on),
 		.extensionAccessControl(.on),
 		.fileMacro(.on),
-		.genericExtensions(rule: .enable),
+		.genericExtensions(.on),
 		.headerFileName(rule: .enable),
 		.hoistAwait(rule: .enable),
 		.hoistPatternLet(rule: .enable),

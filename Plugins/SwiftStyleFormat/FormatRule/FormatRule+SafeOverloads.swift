@@ -529,6 +529,24 @@ extension FormatRule {
 	public static func fileMacro(_ state: OffToken, mode: FileMacro = .fileID) -> FormatRule {
 		fatalError("unavailable")
 	}
+
+	// MARK: genericExtensions
+
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
+	public static func genericExtensions(_ state: OnToken, genericTypes: String? = nil) -> FormatRule {
+		._storage(.genericExtensions(rule: .enable, genericTypes: genericTypes))
+	}
+
+	/// 停用（不可帶 option）
+	public static func genericExtensions(_ state: OffToken) -> FormatRule {
+		._storage(.genericExtensions(rule: .disable))
+	}
+
+	/// `.off` 誤帶 option 的編譯期診斷（命中即報錯、不會被呼叫）
+	@available(*, unavailable, message: ".off 不可帶 option（option 只在 .on 有效）")
+	public static func genericExtensions(_ state: OffToken, genericTypes: String? = nil) -> FormatRule {
+		fatalError("unavailable")
+	}
 }
 
 // swiftlint:enable line_length
