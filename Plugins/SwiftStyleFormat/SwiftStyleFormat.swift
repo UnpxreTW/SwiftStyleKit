@@ -66,27 +66,34 @@ struct SwiftStyleFormat: CommandPlugin {
 		let description: String
 	}
 
-	/// 檔頭組裝所需的解析結果（授權型別 + 各來源的版權持有人）
+	/// 檔頭組裝所需的解析結果（授權型別 + 各來源的版權持有人 + 實際搜尋過的目錄）
 	private struct HeaderInputs {
 
 		let license: FileHeaderBuilder.LicenseInfo
 		let licenseHolder: String?
 		let noticeHolder: String?
 		let authors: [String]
+
+		/// 實際搜尋過的目錄（由近到遠）；找不到 `LICENSE` 時列進錯誤訊息
+		fileprivate let searchedDirectories: [String]
 	}
 
-	/// 解析專案根目錄的授權與版權來源檔，組出檔頭所需輸入
+	/// 就近解析授權與版權來源檔，組出檔頭所需輸入
 	///
+	/// `LICENSE`、`NOTICE`、`AUTHORS` 各自從 `directory` 起逐層往上找，停在最外層含
+	/// `Package.swift` 的目錄（見 `FileHeaderBuilder.headerSourceDirectories(from:)`）。
 	/// `headerSPDXOverride` 存在時跳過 `LICENSE` 的授權自動辨識、直接以指定 SPDX ID
 	/// 視為已辨識授權（持有人來源檔照常解析）；用於辨識不到的授權與 `LicenseRef-*`
 	/// 自訂授權的逃生梯。
 	private func headerInputs(directory: Path, headerSPDXOverride: String? = nil) -> HeaderInputs {
-		let (license, licenseHolder) = licenseInfo(directory: directory)
+		let directories: [String] = FileHeaderBuilder.headerSourceDirectories(from: directory.string)
+		let (license, licenseHolder) = licenseInfo(directories: directories)
 		return HeaderInputs(
 			license: headerSPDXOverride.map { .recognized(name: $0, spdxID: $0) } ?? license,
 			licenseHolder: licenseHolder,
-			noticeHolder: noticeHolder(directory: directory),
-			authors: readAuthors(directory: directory)
+			noticeHolder: noticeHolder(directories: directories),
+			authors: readAuthors(directories: directories),
+			searchedDirectories: directories
 		)
 	}
 
@@ -106,7 +113,14 @@ struct SwiftStyleFormat: CommandPlugin {
 	/// 報錯擋下，不產出零版權行的殘缺檔頭（FSL 官方模板以 we/us 指稱授權人、
 	/// 易漏填 Notice 段）
 	/// 缺版權持有人時 throw（SwiftPM 印錯誤 + 非零失敗，比 `Diagnostics.error` + return 可靠）
+	///
+	/// 搜尋範圍內找不到 `LICENSE`、又未指定 `--header-spdx` 時同樣 throw——此時只組得出
+	/// 沒有持有人、沒有授權行的檔頭，寫進原始碼只會留下殘缺內容。
 	private func requireHolder(_ inputs: HeaderInputs) throws {
+		if case .missing = inputs.license {
+			let searched: String = inputs.searchedDirectories.joined(separator: "、")
+			throw HeaderError(description: "找不到 LICENSE（已搜尋：\(searched)）：請在 package 目錄或其上層提供 LICENSE、或以 --header-spdx 指定授權")
+		}
 		guard case let .recognized(_, spdxID) = inputs.license else { return }
 		let noHolder = inputs.licenseHolder == nil && inputs.authors.isEmpty
 		if spdxID.hasPrefix("FSL-1.1"), noHolder {
@@ -121,39 +135,42 @@ struct SwiftStyleFormat: CommandPlugin {
 		}
 	}
 
-	/// 找專案根目錄的 `LICENSE`，解析授權類型與版權持有人（持有人型授權的來源）
-	private func licenseInfo(directory: Path) -> (license: FileHeaderBuilder.LicenseInfo, holder: String?) {
-		for name in ["LICENSE", "LICENSE.md", "LICENSE.txt"] {
-			let url: URL = .init(fileURLWithPath: directory.string + "/" + name)
-			guard let text = try? String(contentsOf: url, encoding: .utf8) else { continue }
-			// 顯式型別手寫：propertyTypes 會推成 `FileHeaderBuilder`，實際回傳 `String?`；勿「精簡」掉標註
-			let holder: String? = FileHeaderBuilder.copyrightHolder(in: text)
-			if let license = FileHeaderBuilder.recognizeLicense(in: text) {
-				return (.recognized(name: license.name, spdxID: license.spdxID), holder)
-			}
-			return (.unrecognized, holder)
+	/// 就近找 `LICENSE`，解析授權類型與版權持有人（持有人型授權的來源）
+	private func licenseInfo(directories: [String]) -> (license: FileHeaderBuilder.LicenseInfo, holder: String?) {
+		guard
+			let text: String = FileHeaderBuilder.nearestSourceText(
+				fileNames: FileHeaderBuilder.licenseFileNames,
+				in: directories
+			)
+		else { return (.missing, nil) }
+		// 顯式型別手寫：propertyTypes 會推成 `FileHeaderBuilder`，實際回傳 `String?`；勿「精簡」掉標註
+		let holder: String? = FileHeaderBuilder.copyrightHolder(in: text)
+		if let license: (name: String, spdxID: String) = FileHeaderBuilder.recognizeLicense(in: text) {
+			return (.recognized(name: license.name, spdxID: license.spdxID), holder)
 		}
-		return (.missing, nil)
+		return (.unrecognized, holder)
 	}
 
-	/// 找專案根目錄的 `NOTICE` 並解析版權持有人（Apache-2.0 的來源）
-	private func noticeHolder(directory: Path) -> String? {
-		for name in ["NOTICE", "NOTICE.md", "NOTICE.txt"] {
-			let url: URL = .init(fileURLWithPath: directory.string + "/" + name)
-			guard let text = try? String(contentsOf: url, encoding: .utf8) else { continue }
-			return FileHeaderBuilder.copyrightHolder(in: text)
-		}
-		return nil
+	/// 就近找 `NOTICE` 並解析版權持有人（Apache-2.0 的來源）
+	private func noticeHolder(directories: [String]) -> String? {
+		guard
+			let text: String = FileHeaderBuilder.nearestSourceText(
+				fileNames: FileHeaderBuilder.noticeFileNames,
+				in: directories
+			)
+		else { return nil }
+		return FileHeaderBuilder.copyrightHolder(in: text)
 	}
 
-	/// 找專案根目錄的 `AUTHORS` 並抓出版權持有人清單（MPL-2.0 的來源）
-	private func readAuthors(directory: Path) -> [String] {
-		for name in ["AUTHORS", "AUTHORS.md", "AUTHORS.txt"] {
-			let url: URL = .init(fileURLWithPath: directory.string + "/" + name)
-			guard let text = try? String(contentsOf: url, encoding: .utf8) else { continue }
-			return FileHeaderBuilder.authors(in: text)
-		}
-		return []
+	/// 就近找 `AUTHORS` 並抓出版權持有人清單（MPL-2.0 的來源）
+	private func readAuthors(directories: [String]) -> [String] {
+		guard
+			let text: String = FileHeaderBuilder.nearestSourceText(
+				fileNames: FileHeaderBuilder.authorsFileNames,
+				in: directories
+			)
+		else { return [] }
+		return FileHeaderBuilder.authors(in: text)
 	}
 
 	/// 為單一 target 組出 `fileHeader` 規則的 CLI 參數
