@@ -547,6 +547,18 @@ extension FormatRule {
 	public static func genericExtensions(_ state: OffToken, genericTypes: String? = nil) -> FormatRule {
 		fatalError("unavailable")
 	}
+
+	// MARK: headerFileName
+
+	/// 啟用 + 帶 option（option 預設＝Storage case 所載預設）
+	public static func headerFileName(_ state: OnToken) -> FormatRule {
+		._storage(.headerFileName(rule: .enable))
+	}
+
+	/// 停用（不可帶 option）
+	public static func headerFileName(_ state: OffToken) -> FormatRule {
+		._storage(.headerFileName(rule: .disable))
+	}
 }
 
 // swiftlint:enable line_length
