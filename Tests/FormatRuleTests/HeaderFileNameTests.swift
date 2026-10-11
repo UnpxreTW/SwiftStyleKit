@@ -14,11 +14,11 @@ private struct HeaderFileNameTests {
 
 	@Test
 	private func `headerFileName .disable 返空陣列`() {
-		#expect(FormatRule.headerFileName(rule: .disable).cliArguments.isEmpty)
+		#expect(FormatRule.headerFileName(.off).cliArguments.isEmpty)
 	}
 
 	@Test
 	private func `headerFileName .enable 展開 --enable headerFileName`() {
-		#expect(FormatRule.headerFileName(rule: .enable).cliArguments == ["--enable", "headerFileName"])
+		#expect(FormatRule.headerFileName(.on).cliArguments == ["--enable", "headerFileName"])
 	}
 }

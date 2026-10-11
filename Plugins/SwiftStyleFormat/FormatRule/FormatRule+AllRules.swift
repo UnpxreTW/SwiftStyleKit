@@ -53,7 +53,7 @@ extension FormatRule {
 		.extensionAccessControl(.on),
 		.fileMacro(.on),
 		.genericExtensions(.on),
-		.headerFileName(rule: .enable),
+		.headerFileName(.on),
 		.hoistAwait(rule: .enable),
 		.hoistPatternLet(rule: .enable),
 		.hoistTry(rule: .enable),
