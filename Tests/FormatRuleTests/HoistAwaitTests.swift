@@ -14,19 +14,19 @@ private struct HoistAwaitTests {
 
 	@Test
 	private func `hoistAwait .disable 返空陣列`() {
-		let args = FormatRule.hoistAwait(rule: .disable, asyncCapturing: "foo").cliArguments
+		let args = FormatRule.hoistAwait(.off).cliArguments
 		#expect(args.isEmpty)
 	}
 
 	@Test
 	private func `hoistAwait .enable（asyncCapturing 預設 nil）只展開 --enable`() {
-		let args = FormatRule.hoistAwait(rule: .enable).cliArguments
+		let args = FormatRule.hoistAwait(.on).cliArguments
 		#expect(args == ["--enable", "hoistAwait"])
 	}
 
 	@Test
 	private func `hoistAwait .enable asyncCapturing 有值展開 --asyncCapturing`() {
-		let args = FormatRule.hoistAwait(rule: .enable, asyncCapturing: "withChecked").cliArguments
+		let args = FormatRule.hoistAwait(.on, asyncCapturing: "withChecked").cliArguments
 		#expect(args == [
 			"--enable", "hoistAwait",
 			"--asyncCapturing", "withChecked"
