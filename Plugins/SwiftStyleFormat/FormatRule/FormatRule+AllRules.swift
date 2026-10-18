@@ -54,7 +54,7 @@ extension FormatRule {
 		.fileMacro(.on),
 		.genericExtensions(.on),
 		.headerFileName(.on),
-		.hoistAwait(rule: .enable),
+		.hoistAwait(.on),
 		.hoistPatternLet(rule: .enable),
 		.hoistTry(rule: .enable),
 		// indent: .tab——縮排的視覺寬度交給讀者決定，對視力需求不同的

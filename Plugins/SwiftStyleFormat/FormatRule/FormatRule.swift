@@ -24,12 +24,6 @@
 /// 全部遷完後 FormatRule 會轉成 struct、``Storage`` 改 internal。
 public enum FormatRule {
 
-	/// 把行內 `await` 移到表達式開頭
-	///
-	/// `asyncCapturing` 為帶 async `@autoclosure` 參數的函式清單、其呼叫點的 `await`
-	/// 不外搬；`nil` 表無此類函式。需 Swift 5.5+。
-	case hoistAwait(rule: Flag, asyncCapturing: String? = nil)
-
 	/// 重新擺放 pattern 裡的 `let` / `var` binding
 	///
 	/// `mode` 為 `.hoist` 把 `let` 一次提到 pattern 最前、`.inline` 讓每個 binding 各自帶 `let`。
@@ -995,6 +989,12 @@ public enum FormatRule {
 
 		/// 確保 header 註解裡的檔名與實際檔名相符
 		case headerFileName(rule: Flag)
+
+		/// 把行內 `await` 移到表達式開頭
+		///
+		/// `asyncCapturing` 為帶 async `@autoclosure` 參數的函式清單、其呼叫點的 `await`
+		/// 不外搬；`nil` 表無此類函式。需 Swift 5.5+。
+		case hoistAwait(rule: Flag, asyncCapturing: String? = nil)
 	}
 }
 
